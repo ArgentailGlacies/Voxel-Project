@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<geometry>
+	<pos_x>
+		<vertices>
+			<vertex position="1, 0, 0" normal="1, 0, 0" uv="0, 0, 0" />
+			<vertex position="1, 1, 0" normal="1, 0, 0" uv="1, 0, 0" />
+			<vertex position="1, 1, 1" normal="1, 0, 0" uv="1, 1, 0" />
+			<vertex position="1, 0, 1" normal="1, 0, 0" uv="0, 1, 0" />
+		</vertices>
+		<faces>
+			<face indices="0, 1, 2, 3" />
+		</faces>
+	</pos_x>
+	
+	<neg_x>
+		<vertices>
+			<vertex position="0, 1, 0" normal="-1, 0, 0" uv="0, 0, 0" />
+			<vertex position="0, 0, 0" normal="-1, 0, 0" uv="1, 0, 0" />
+			<vertex position="0, 0, 1" normal="-1, 0, 0" uv="1, 1, 0" />
+			<vertex position="0, 1, 1" normal="-1, 0, 0" uv="0, 1, 0" />
+		</vertices>
+		<faces>
+			<face indices="0, 1, 2, 3" />
+		</faces>
+	</neg_x>
+	
+	<pos_y>
+		<vertices>
+			<vertex position="0, 1, 1" normal="0, 1, 0" uv="0, 1, 0" />
+			<vertex position="1, 1, 1" normal="0, 1, 0" uv="1, 1, 0" />
+			<vertex position="1, 1, 0" normal="0, 1, 0" uv="1, 0, 0" />
+			<vertex position="0, 1, 0" normal="0, 1, 0" uv="0, 0, 0" />
+		</vertices>
+		<faces>
+			<face indices="0, 1, 2, 3" />
+		</faces>
+	</pos_y>
+	
+	<neg_y>
+		<vertices>
+			<vertex position="1, 0, 1" normal="0, -1, 0" uv="0, 1, 0" />
+			<vertex position="0, 0, 1" normal="0, -1, 0" uv="1, 1, 0" />
+			<vertex position="0, 0, 0" normal="0, -1, 0" uv="1, 0, 0" />
+			<vertex position="1, 0, 0" normal="0, -1, 0" uv="0, 0, 0" />
+		</vertices>
+		<faces>
+			<face indices="0, 1, 2, 3" />
+		</faces>
+	</neg_y>
+	
+	<pos_z>
+		<vertices>
+			<vertex position="0, 1, 1" normal="0, 0, 1" uv="0, 0, 0" />
+			<vertex position="0, 0, 1" normal="0, 0, 1" uv="1, 0, 0" />
+			<vertex position="1, 0, 1" normal="0, 0, 1" uv="1, 1, 0" />
+			<vertex position="1, 1, 1" normal="0, 0, 1" uv="0, 1, 0" />
+		</vertices>
+		<faces>
+			<face indices="0, 1, 2, 3" />
+		</faces>
+	</pos_z>
+	
+	<neg_z>
+		<vertices>
+			<vertex position="0, 0, 0" normal="0, 0, -1" uv="0, 1, 0" />
+			<vertex position="0, 1, 0" normal="0, 0, -1" uv="1, 1, 0" />
+			<vertex position="1, 1, 0" normal="0, 0, -1" uv="1, 0, 0" />
+			<vertex position="1, 0, 0" normal="0, 0, -1" uv="0, 0, 0" />
+		</vertices>
+		<faces>
+			<face indices="0, 1, 2, 3" />
+		</faces>
+	</neg_z>
+</geometry>

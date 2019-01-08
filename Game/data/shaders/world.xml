@@ -1,0 +1,3 @@
+<?xml version="1.0" ?>
+<shader type="fragment" file="data/shaders/world.fs" />
+<shader type="vertex" file="data/shaders/world.vs" />

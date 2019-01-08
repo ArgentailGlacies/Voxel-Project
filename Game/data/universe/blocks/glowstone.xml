@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<variant>
+	<light emit="31, 31, 31, 0" />
+	<model path="cube.xml" />
+</variant>

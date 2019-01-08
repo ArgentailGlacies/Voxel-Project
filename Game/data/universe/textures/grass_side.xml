@@ -1,0 +1,3 @@
+<?xml version="1.0"?>
+<texture path="data/gfx/blocks/grass.png" />
+<connection type="connect-vertical" count="64" blocks="dirt, grass" />

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<variant>
+	<model path="cube.xml" />
+	<texture pos_z="stone.xml" neg_z="stone.xml" sides="stone_side.xml" />
+</variant>
+<variant name="andesite">
+	<model path="cube.xml" />
+	<texture pos_z="stone_andesite.xml" neg_z="stone_andesite.xml" sides="stone_andesite_side.xml" />
+</variant>
+<variant name="granite">
+	<model path="cube.xml" />
+	<texture pos_z="stone_granite.xml" neg_z="stone_granite.xml" sides="stone_granite_side.xml" />
+</variant>

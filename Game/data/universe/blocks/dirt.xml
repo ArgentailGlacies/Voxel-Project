@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<variant>
+	<model path="cube.xml" />
+	<texture pos_z="dirt.xml" neg_z="dirt.xml" sides="dirt_side.xml" />
+</variant>

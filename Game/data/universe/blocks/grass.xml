@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<variant>
+	<model path="cube.xml" />
+	<texture pos_z="grass.xml" neg_z="dirt.xml" sides="grass_side.xml" />
+</variant>

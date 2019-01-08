@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<variant>
+	<light absorb="0, 0, 0, 0" />
+	<texture all="air.xml" />
+	<occlude all="false" />
+</variant>

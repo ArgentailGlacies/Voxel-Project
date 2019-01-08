@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<block name="dirt" id="1" />
+<block name="glowstone" id="2" />
+<block name="grass" id="3" />
+<block name="stone" id="4" />
+<block name="stone:andesite" id="5" />
+<block name="stone:granite" id="6" />

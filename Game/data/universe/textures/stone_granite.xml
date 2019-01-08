@@ -1,0 +1,3 @@
+<?xml version="1.0"?>
+<texture path="data/gfx/blocks/stone_granite.png" />
+<connection type="random" offset="128" count="64" />
