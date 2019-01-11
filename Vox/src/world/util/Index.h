@@ -58,9 +58,9 @@ namespace vox
 	}
 	template<typename T>
 	constexpr Index toIndex(
-		const glm::tvec3<T>& pos,
-		const glm::tvec3<T>& offset,
-		const glm::tvec3<T>& size)
+		const glm::tvec3<T> & pos,
+		const glm::tvec3<T> & offset,
+		const glm::tvec3<T> & size)
 	{
 		const auto delta = pos - offset;
 		return (delta.z * size.y + delta.y) * size.x + delta.x;
