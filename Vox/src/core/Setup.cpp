@@ -19,7 +19,7 @@ void core::setupAssets(AssetRegistry & assets, const util::Folder & data, const 
 	setupLoader<SpriteLoader, Sprite>(assets, data.folder(res::path::SPRITES), "xml");
 
 	// Building assets from code
-	setupBuilder<vox::BlockTextureAtlasBuilder, core::Texture>(assets, res::asset::BLOCK_TEXTURE_ATLAS);
+	setupBuilder<vox::BlockTextureAtlasBuilder, Texture>(assets, res::asset::BLOCK_TEXTURE_ATLAS);
 }
 
 void core::setupComponents(ECS & ecs)
