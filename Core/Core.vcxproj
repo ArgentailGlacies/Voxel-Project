@@ -29,6 +29,7 @@
   <ItemGroup>
     <ClCompile Include="src\allegro\Allegro.cpp" />
     <ClCompile Include="src\allegro\Sprite.cpp" />
+    <ClCompile Include="src\allegro\SpriteFactory.cpp" />
     <ClCompile Include="src\asset\AssetUtil.cpp" />
     <ClCompile Include="src\core\MainLoop.cpp" />
     <ClCompile Include="src\ecs\EntityRegistry.cpp" />

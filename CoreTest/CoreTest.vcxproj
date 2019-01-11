@@ -187,6 +187,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\allegro\AllegroTest.cpp" />
+    <ClCompile Include="src\allegro\SpriteFactoryTest.cpp" />
     <ClCompile Include="src\allegro\SpriteTest.cpp" />
     <ClCompile Include="src\asset\AssetRegistryTest.cpp" />
     <ClCompile Include="src\asset\AssetTest.cpp" />

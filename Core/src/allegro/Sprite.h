@@ -21,14 +21,13 @@ namespace core
 			glm::vec2 m_pos = {};		// Position of the frame in the sprite sheet.
 			glm::vec2 m_size = {};		// Size of the frame in the sprite sheet.
 			glm::vec2 m_center = {};	// Center position of the frame, relative to frame.
-
 			ALLEGRO_COLOR m_tint = {};	// Color multiplier of frame when rendering.
 		};
 
 		Sprite() = default;
 		Sprite(const Sprite &) = delete;
 		Sprite(Sprite &&) = default;
-		~Sprite() = default;
+		~Sprite() { clear(); }
 
 		Sprite & operator=(const Sprite &) = delete;
 		Sprite & operator=(Sprite &&) = delete;
@@ -70,14 +69,6 @@ namespace core
 			@return True iff the frame is part of the sprite.
 		*/
 		bool hasFrame(const std::string & name) const;
-		/**
-			Retrieves the frame with the given name. If the frame does not exist, it will be
-			created.
-
-			@param name The name of the frame to obtain.
-			@return The frame with the specified name.
-		*/
-		Frame & getFrame(const std::string & name);
 
 		/**
 			@return The size of the entire sprite sheet.
@@ -111,23 +102,26 @@ namespace core
 			Draws the entire sprite sheet at the specified position.
 
 			@param pos The position on the screen where the sprite should be drawn.
+			@param flags The flags determining how the sprite should be rendered.
 		*/
-		void draw(const glm::vec2 & pos) const;
+		void draw(const glm::vec2 & pos, int flags = 0) const;
 		/**
 			Draws the entire sprite sheet at the specified position, with the specified size.
 
 			@param pos The position on the screen where the sprite should be drawn.
 			@param size The size the sprite should have on screen.
+			@param flags The flags determining how the sprite should be rendered.
 		*/
-		void draw(const glm::vec2 & pos, const glm::vec2 & size) const;
+		void draw(const glm::vec2 & pos, const glm::vec2 & size, int flags = 0) const;
 
 		/**
 			Draws the frame of the specified name at the specified position.
 
 			@param frame The frame which should be drawn.
 			@param pos The position on the screen where the frame should be drawn.
+			@param flags The flags determining how the frame should be rendered.
 		*/
-		void draw(const std::string & frame, const glm::vec2 & pos) const;
+		void draw(const std::string & frame, const glm::vec2 & pos, int flags = 0) const;
 		/**
 			Draws the frame of the specified name at the specified position, with the specified
 			size.
@@ -135,10 +129,23 @@ namespace core
 			@param frame The frame which should be drawn.
 			@param pos The position on the screen where the frame should be drawn.
 			@param size The size the frame should have on screen.
+			@param flags The flags determining how the frame should be rendered.
 		*/
-		void draw(const std::string & frame, const glm::vec2 & pos, const glm::vec2 & size) const;
+		void draw(const std::string & frame, const glm::vec2 & pos, const glm::vec2 & size, int flags = 0) const;
+
+		// ...
+
+		/**
+			@return The underlying Allegro bitmap which is used by this sprite.
+		*/
+		inline auto * getHandle() const { return m_handle; }
 
 	private:
+		/**
+			Deletes the sprite handle if any sprite handle is currently loaded.
+		*/
+		void clear();
+
 		std::unordered_map<std::string, Frame> m_frames;
 
 		ALLEGRO_BITMAP * m_handle = nullptr;
