@@ -2,6 +2,8 @@
 #include "StateEntry.h"
 
 #include "core/Engine.h"
+#include "event/EventBus.h"
+#include "event/Events.h"
 #include "scene/Camera.h"
 #include "scene/Scene.h"
 #include "world/Universe.h"
@@ -11,6 +13,8 @@
 
 void game::StateEntry::initialize(core::Engine & engine)
 {
+	m_listener = engine.getEventBus().add<core::DisplayClose>([&engine](auto & event) { engine.stop(); });
+
 	auto & camera = engine.getScene().getCamera(core::Scene::DEFAULT_CAMERA);
 	camera.setPosition({ 50.0f, 50.0f, 20.0f });
 	camera.lookTowards({ 0.0f, 0.0f, 5.0f });

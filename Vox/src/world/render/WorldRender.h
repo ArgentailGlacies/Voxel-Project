@@ -41,8 +41,8 @@ namespace vox
 		core::Scene & m_scene;
 		core::SceneEntry m_root;
 
-		ChunkMesher m_mesher;
 		ChunkRenderStorage m_chunks;
+		ChunkMesher m_mesher;
 
 		core::Listener m_chunkCreated;
 		core::Listener m_chunkDestroyed;

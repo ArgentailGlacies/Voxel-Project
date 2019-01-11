@@ -97,12 +97,12 @@ namespace vox
 		const util::Folder m_data;
 		core::Scene & m_scene;
 
-		mutable std::unordered_map<std::string, World> m_worlds;
-		mutable std::unordered_map<std::string, WorldRender> m_renders;
-
 		BlockRegistry m_blockRegistry;
 		BlockRenderRegistry m_blockRenderRegistry;
 
 		core::Asset<core::Texture>::Reference m_textureAtlas;
+
+		mutable std::unordered_map<std::string, World> m_worlds;
+		mutable std::unordered_map<std::string, WorldRender> m_renders;
 	};
 }
