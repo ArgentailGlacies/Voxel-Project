@@ -56,10 +56,10 @@ namespace core::allegro
 			Assert::AreEqual({ 0.0f, 0.0f }, sprite->getSize("bar"));
 			Assert::AreEqual({ 0.0f, 0.0f }, sprite->getPos("bar"));
 			Assert::AreEqual({ 0.0f, 0.0f }, sprite->getCenter("bar"));
-			Assert::AreEqual(0.0f, sprite->getTint("bar").r, 0.001f);
-			Assert::AreEqual(0.0f, sprite->getTint("bar").g, 0.001f);
-			Assert::AreEqual(0.0f, sprite->getTint("bar").b, 0.001f);
-			Assert::AreEqual(0.0f, sprite->getTint("bar").a, 0.001f);
+			Assert::AreEqual(1.0f, sprite->getTint("bar").r, 0.001f);
+			Assert::AreEqual(1.0f, sprite->getTint("bar").g, 0.001f);
+			Assert::AreEqual(1.0f, sprite->getTint("bar").b, 0.001f);
+			Assert::AreEqual(1.0f, sprite->getTint("bar").a, 0.001f);
 		}
 	};
 }

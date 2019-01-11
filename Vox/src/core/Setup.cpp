@@ -1,6 +1,7 @@
 
 #include "Setup.h"
 
+#include "allegro/SpriteFactory.h"
 #include "asset/AssetUtil.h"
 #include "core/Resources.h"
 #include "ecs/ECS.h"
@@ -15,6 +16,7 @@ void core::setupAssets(AssetRegistry & assets, const util::Folder & data, const 
 {
 	// Loading up assets from data folder
 	setupLoader<ProgramLoader, Program>(assets, data.folder(res::path::SHADERS), "xml", ubos);
+	setupLoader<SpriteLoader, Sprite>(assets, data.folder(res::path::SPRITES), "xml");
 
 	// Building assets from code
 	setupBuilder<vox::BlockTextureAtlasBuilder, core::Texture>(assets, res::asset::BLOCK_TEXTURE_ATLAS);

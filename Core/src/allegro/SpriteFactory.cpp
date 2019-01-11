@@ -35,7 +35,7 @@ std::unique_ptr<core::Sprite> core::SpriteLoader::load(const util::File & file)
 		const auto attrPos = vec2.parse(node.attribute(ATTR_POS).as_string());
 		const auto attrSize = vec2.parse(node.attribute(ATTR_SIZE).as_string());
 		const auto attrCenter = vec2.parse(node.attribute(ATTR_CENTER).as_string());
-		const auto attrTint = vec4.parse(node.attribute(ATTR_TINT).as_string());
+		const auto attrTint = vec4.parse(node.attribute(ATTR_TINT).as_string(), glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
 
 		Sprite::Frame frame;
 		frame.m_pos = attrPos;

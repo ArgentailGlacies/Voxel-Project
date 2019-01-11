@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<bitmap path="data/gfx/sprites/gui/main_menu/quit_game.png" />
+<frames>
+	<inactive         pos="0, 0" size="128, 32" />
+	<inactive_hovered pos="0, 0" size="128, 32" tint="0.8, 0.8, 0.8, 1.0" />
+	<inactive_clicked pos="0, 0" size="128, 32" tint="0.6, 0.6, 0.6, 1.0" />
+	<inactive_locked  pos="0, 0" size="128, 32" tint="0.5, 0.5, 0.5, 0.5" />
+	<active           pos="0, 0" size="128, 32" />
+	<active_hovered   pos="0, 0" size="128, 32" tint="0.8, 0.8, 0.8, 1.0" />
+	<active_clicked   pos="0, 0" size="128, 32" tint="0.6, 0.6, 0.6, 1.0" />
+	<active_locked    pos="0, 0" size="128, 32" tint="0.5, 0.5, 0.5, 0.5" />
+</frames>

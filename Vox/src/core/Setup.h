@@ -17,6 +17,7 @@ namespace core
 
 		Assets which are loaded:
 		- Shader programs (/shaders/*.xml)
+		- Sprites (/sprites/*.xml)
 
 		@param assets The registry containing all assets available in the engine.
 		@param data The root data folder containing all game data.
