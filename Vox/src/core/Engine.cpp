@@ -108,6 +108,7 @@ void core::Engine::render(float pf)
 util::Folder core::Engine::getDataFolder() const { return "data"; }
 
 core::AssetRegistry & core::Engine::getAssets() { return m_impl->m_assets; }
+core::Display & core::Engine::getDisplay() { return m_impl->m_display; }
 core::ECS & core::Engine::getECS() { return m_impl->m_ecs; }
 core::EventBus & core::Engine::getEventBus() { return m_impl->m_bus; }
 core::Scene & core::Engine::getScene() { return m_impl->m_scene; }
