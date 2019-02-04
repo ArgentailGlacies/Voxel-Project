@@ -85,14 +85,14 @@ namespace util::math
 			Assert::AreEqual(-4, ceil(-4.9f));
 		}
 
-		TEST_METHOD(MathOperatorsSqr)
+		TEST_METHOD(MathOperators_sqr)
 		{
 			Assert::AreEqual(9, sqr(-3));
 			Assert::AreEqual(0.25f, sqr(0.5f));
 			Assert::AreEqual({ 25.0, 0.0, 4.0 }, sqr(glm::dvec3{ 5.0, 0.0, 2.0 }));
 		}
 
-		TEST_METHOD(MathOperatorsSqrt)
+		TEST_METHOD(MathOperators_sqrt)
 		{
 			Assert::AreEqual(3, sqrt(9));
 			Assert::AreEqual(4.5f, sqrt(20.25f));
