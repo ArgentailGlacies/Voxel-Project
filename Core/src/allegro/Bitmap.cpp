@@ -27,6 +27,13 @@ core::Bitmap & core::Bitmap::operator=(Bitmap && other)
 	return *this;
 }
 
+glm::vec2 core::Bitmap::getSize() const
+{
+	if (m_handle == nullptr)
+		return glm::vec2{};
+	return glm::vec2{ al_get_bitmap_width(m_handle), al_get_bitmap_height(m_handle) };
+}
+
 void core::Bitmap::clear()
 {
 	if (m_handle != nullptr)
@@ -42,15 +49,17 @@ core::Bitmap core::Bitmap::child(const glm::ivec2 & pos, const glm::ivec2 & size
 	return child;
 }
 
-void core::Bitmap::create(unsigned int width, unsigned int height)
+bool core::Bitmap::create(unsigned int width, unsigned int height)
 {
 	clear();
 	m_handle = al_create_bitmap(width, height);
+	return m_handle != nullptr;
 }
-void core::Bitmap::load(const util::File & file)
+bool core::Bitmap::load(const util::File & file)
 {
 	clear();
 	m_handle = al_load_bitmap(file.path().c_str());
+	return m_handle != nullptr;
 }
 void core::Bitmap::save(const util::File & file)
 {
@@ -60,18 +69,25 @@ void core::Bitmap::save(const util::File & file)
 
 // ...
 
+void core::Bitmap::draw(const glm::vec2 & pos, const glm::vec4 & tint) const
+{
+	if (m_handle != nullptr)
+		al_draw_tinted_bitmap(m_handle, color(tint), pos.x, pos.y, 0);
+}
 void core::Bitmap::draw(const glm::vec2 & pos, const glm::vec2 & size, const glm::vec4 & tint) const
 {
 	if (m_handle != nullptr)
 		al_draw_tinted_scaled_bitmap(m_handle, color(tint), 0.0f, 0.0f, size.x, size.y, pos.x, pos.y, size.x, size.y, 0);
 }
-void core::Bitmap::draw(const glm::vec4 & source, const glm::vec2& center, const glm::vec4 & target, const glm::vec4 & tint) const
+void core::Bitmap::draw(
+	const glm::vec2 & sourcePos, const glm::vec2 & sourceSize, const glm::vec2 & center,
+	const glm::vec2 & targetPos, const glm::vec2 & targetSize, const glm::vec4 & tint
+) const
 {
 	if (m_handle != nullptr)
 		al_draw_tinted_scaled_rotated_bitmap_region(
-			m_handle, source.x, source.y, source.z, source.w, color(tint),
-			center.x, center.y, target.x, target.y, target.z / source.z, target.w / source.w,
-			0.0f, 0
+			m_handle, sourcePos.x, sourcePos.y, sourceSize.x, sourceSize.y, color(tint), center.x, center.y,
+			targetPos.x, targetPos.y, targetSize.x / sourceSize.x, targetSize.y / sourceSize.y, 0.0f, 0
 		);
 }
 

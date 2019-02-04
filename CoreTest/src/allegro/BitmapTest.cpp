@@ -44,9 +44,8 @@ namespace core::allegro
 		TEST_METHOD(Bitmap_create)
 		{
 			Bitmap bitmap;
-			bitmap.create(32, 32);
 
-			Assert::IsNotNull(bitmap.handle());
+			Assert::IsTrue(bitmap.create(32, 32));
 		}
 		TEST_METHOD(Bitmap_load)
 		{
@@ -55,9 +54,7 @@ namespace core::allegro
 			bitmap.save(m_fileA);
 			bitmap.clear();
 
-			Assert::IsNull(bitmap.handle());
-			bitmap.load(m_fileA);
-			Assert::IsNotNull(bitmap.handle());
+			Assert::IsTrue(bitmap.load(m_fileA));
 		}
 		TEST_METHOD(Bitmap_save)
 		{

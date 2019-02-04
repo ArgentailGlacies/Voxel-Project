@@ -1,9 +1,10 @@
 #pragma once
 
+#include "allegro/Bitmap.h"
 #include "io/File.h"
 
-#include <allegro5/bitmap.h>
 #include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 #include <string>
 #include <unordered_map>
 
@@ -21,13 +22,13 @@ namespace core
 			glm::vec2 m_pos = {};		// Position of the frame in the sprite sheet.
 			glm::vec2 m_size = {};		// Size of the frame in the sprite sheet.
 			glm::vec2 m_center = {};	// Center position of the frame, relative to frame.
-			ALLEGRO_COLOR m_tint = {};	// Color multiplier of frame when rendering.
+			glm::vec4 m_tint = {};		// Color multiplier of frame when rendering.
 		};
 
 		Sprite() = default;
 		Sprite(const Sprite &) = delete;
 		Sprite(Sprite &&) = default;
-		~Sprite() { clear(); }
+		~Sprite() = default;
 
 		Sprite & operator=(const Sprite &) = delete;
 		Sprite & operator=(Sprite &&) = delete;
@@ -41,7 +42,7 @@ namespace core
 			@param height The height of the new sprite sheet.
 			@return True iff the new sheet was created successfully.
 		*/
-		bool create(unsigned int width, unsigned int height);
+		inline bool create(unsigned int width, unsigned int height) { return m_bitmap.create(width, height); }
 		/**
 			Loads a sprite sheet from the provided file. The old sheet will be discarded if any
 			were present. If the new sheet could not be loaded, the old (if present) will not be
@@ -50,7 +51,7 @@ namespace core
 			@param file The file containing the image data which should be loaded.
 			@return True iff the new sheet was loaded successfully.
 		*/
-		bool load(const util::File & file);
+		inline bool load(const util::File & file) { return m_bitmap.load(file); }
 
 		// ...
 
@@ -73,7 +74,7 @@ namespace core
 		/**
 			@return The size of the entire sprite sheet.
 		*/
-		glm::vec2 getSize() const;
+		inline auto getSize() const { return m_bitmap.getSize(); }
 
 		/**
 			@param frame The specific frame to obtain the position information of.
@@ -94,7 +95,7 @@ namespace core
 			@param frame The specific frame to obtain the tint information of.
 			@return The tint of the frame.
 		*/
-		ALLEGRO_COLOR getTint(const std::string & frame) const;
+		glm::vec4 getTint(const std::string & frame) const;
 
 		// ...
 
@@ -102,26 +103,23 @@ namespace core
 			Draws the entire sprite sheet at the specified position.
 
 			@param pos The position on the screen where the sprite should be drawn.
-			@param flags The flags determining how the sprite should be rendered.
 		*/
-		void draw(const glm::vec2 & pos, int flags = 0) const;
+		void draw(const glm::vec2 & pos) const;
 		/**
 			Draws the entire sprite sheet at the specified position, with the specified size.
 
 			@param pos The position on the screen where the sprite should be drawn.
 			@param size The size the sprite should have on screen.
-			@param flags The flags determining how the sprite should be rendered.
 		*/
-		void draw(const glm::vec2 & pos, const glm::vec2 & size, int flags = 0) const;
+		void draw(const glm::vec2 & pos, const glm::vec2 & size) const;
 
 		/**
 			Draws the frame of the specified name at the specified position.
 
 			@param frame The frame which should be drawn.
 			@param pos The position on the screen where the frame should be drawn.
-			@param flags The flags determining how the frame should be rendered.
 		*/
-		void draw(const std::string & frame, const glm::vec2 & pos, int flags = 0) const;
+		void draw(const std::string & frame, const glm::vec2 & pos) const;
 		/**
 			Draws the frame of the specified name at the specified position, with the specified
 			size.
@@ -129,25 +127,12 @@ namespace core
 			@param frame The frame which should be drawn.
 			@param pos The position on the screen where the frame should be drawn.
 			@param size The size the frame should have on screen.
-			@param flags The flags determining how the frame should be rendered.
 		*/
-		void draw(const std::string & frame, const glm::vec2 & pos, const glm::vec2 & size, int flags = 0) const;
-
-		// ...
-
-		/**
-			@return The underlying Allegro bitmap which is used by this sprite.
-		*/
-		inline auto * getHandle() const { return m_handle; }
+		void draw(const std::string & frame, const glm::vec2 & pos, const glm::vec2 & size) const;
 
 	private:
-		/**
-			Deletes the sprite handle if any sprite handle is currently loaded.
-		*/
-		void clear();
+		Bitmap m_bitmap;
 
 		std::unordered_map<std::string, Frame> m_frames;
-
-		ALLEGRO_BITMAP * m_handle = nullptr;
 	};
 }

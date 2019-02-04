@@ -40,7 +40,6 @@ namespace core::allegro
 			SpriteLoader loader;
 			auto sprite = loader.load("test/sprite.xml");
 
-			Assert::IsNotNull(sprite->getHandle());
 			Assert::AreEqual({ 32.0f, 16.0f }, sprite->getSize());
 
 			Assert::IsTrue(sprite->hasFrame("foo"));

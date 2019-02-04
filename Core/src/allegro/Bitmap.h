@@ -23,6 +23,13 @@ namespace core
 		Bitmap & operator=(Bitmap && other);
 
 		/**
+			@return The size of the bitmap.
+		*/
+		glm::vec2 getSize() const;
+
+		// ...
+
+		/**
 			Constructs a child bitmap from this bitmap. The child will be invalid once the parent
 			bitmap goes out of scope. It is the user's responsibility to ensure that the child
 			bitmap is not used in that situation.
@@ -39,15 +46,17 @@ namespace core
 
 			@param width The width of the bitmap to create.
 			@param height The height of the bitmap to create.
+			@return True iff the bitmap was successfully created.
 		*/
-		void create(unsigned int width, unsigned int height);
+		bool create(unsigned int width, unsigned int height);
 		/**
 			Loads a bitmap from the provided file. The bitmap may be of any file format accepted by
 			Allegro.
 
 			@param file The file containing the bitmap to load.
+			@return True iff the bitmap was successfully loaded.
 		*/
-		void load(const util::File & file);
+		bool load(const util::File & file);
 		/**
 			Saves the bitmap to the provided file. The bitmap may be saved as any file format
 			supported by Allegro.
@@ -104,7 +113,14 @@ namespace core
 		// ...
 
 		/**
-			Renders the entire bitmap using the specified position, size, and tint.
+			Renders the entire bitmap at the specified position with the specified tint.
+
+			@param pos The position the bitmap should be rendered at.
+			@param tint The color muliplier of the bitmap.
+		*/
+		void draw(const glm::vec2 & pos, const glm::vec4 & tint) const;
+		/**
+			Renders the entire bitmap at the specified position with the specified size and tint.
 
 			@param pos The position the bitmap should be rendered at.
 			@param size The desired size the bitmap should be rendered to.
@@ -112,13 +128,17 @@ namespace core
 		*/
 		void draw(const glm::vec2 & pos, const glm::vec2 & size, const glm::vec4 & tint) const;
 		/**
-			Renders part of the bitmap using the specified position, size, center, and tint.
+			Renders part of the bitmap using the specified position, size, and center, at the
+			specified target position and size, with the specified tint.
 
 			@param source The position and size the bitmap should be rendered with.
 			@param target The desired target and size the bitmap should be rendered with.
 			@param tint The color muliplier of the bitmap.
 		*/
-		void draw(const glm::vec4 & source, const glm::vec2 & center, const glm::vec4 & target, const glm::vec4 & tint) const;
+		void draw(
+			const glm::vec2 & sourcePos, const glm::vec2 & sourceSize, const glm::vec2 & center,
+			const glm::vec2 & targetPos, const glm::vec2 & targetSize, const glm::vec4 & tint
+		) const;
 
 		// ...
 
