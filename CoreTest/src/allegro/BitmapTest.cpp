@@ -18,24 +18,24 @@ namespace core::allegro
 
 		TEST_METHOD(Bitmap_ctor)
 		{
-			Bitmap temporary;
-			temporary.create(32, 32);
+			Bitmap temporary{ 32, 32 };
 
 			Bitmap bitmapA;
 			Bitmap bitmapB = temporary;
 			Bitmap bitmapC = std::move(temporary);
+			Bitmap bitmapD = m_fileA;
 
 			Assert::IsNull(bitmapA.handle());
 			Assert::IsNotNull(bitmapB.handle());
 			Assert::IsNotNull(bitmapC.handle());
+			Assert::IsNotNull(bitmapD.handle());
 			Assert::IsFalse(bitmapB.handle() == bitmapC.handle());
 		}
 
 		TEST_METHOD(Bitmap_child)
 		{
-			Bitmap parent, child;
-			parent.create(32, 32);
-			child = parent.child({ 8, 8 }, { 12, 16 });
+			Bitmap parent{ 32, 32 };
+			Bitmap child = parent.child({ 8, 8 }, { 12, 16 });
 
 			Assert::IsNotNull(child.handle());
 			Assert::IsFalse(child.handle() == parent.handle());
@@ -49,8 +49,7 @@ namespace core::allegro
 		}
 		TEST_METHOD(Bitmap_load)
 		{
-			Bitmap bitmap;
-			bitmap.create(32, 32);
+			Bitmap bitmap{ 32, 32 };
 			bitmap.save(m_fileA);
 			bitmap.clear();
 
@@ -58,19 +57,17 @@ namespace core::allegro
 		}
 		TEST_METHOD(Bitmap_save)
 		{
-			Bitmap bitmapA, bitmapB;
-			bitmapA.create(32, 32);
+			Bitmap bitmapA, bitmapB{ 32, 16 };
 			bitmapA.save(m_fileA);
 			bitmapB.save(m_fileB);
 
-			Assert::IsTrue(m_fileA.exists());
-			Assert::IsFalse(m_fileB.exists());
+			Assert::IsFalse(m_fileA.exists());
+			Assert::IsTrue(m_fileB.exists());
 		}
 
 		TEST_METHOD(Bitmap_clear)
 		{
-			Bitmap bitmap;
-			bitmap.create(32, 32);
+			Bitmap bitmap{ 32, 32 };
 			bitmap.clear();
 
 			Assert::IsNull(bitmap.handle());
@@ -80,13 +77,12 @@ namespace core::allegro
 
 		TEST_METHOD(Bitmap_lock)
 		{
-			Bitmap bitmapA, bitmapB;
-			bitmapA.create(32, 32);
+			Bitmap bitmapA, bitmapB{ 32, 24 };
 			
 			const auto regionA = bitmapA.lock(Bitmap::LockMode::READONLY);
 			const auto regionB = bitmapB.lock(Bitmap::LockMode::READONLY);
-			Assert::IsNotNull(regionA.data());
-			Assert::IsNull(regionB.data());
+			Assert::IsNull(regionA.data());
+			Assert::IsNotNull(regionB.data());
 		}
 
 	private:

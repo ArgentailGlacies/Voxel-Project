@@ -33,9 +33,9 @@ namespace vox::world::render
 		TEST_METHOD(BlockTextureAtlas_attachBitmap)
 		{
 			BlockTextureAtlas atlas;
-			const auto handleA = atlas.attach(gsl::make_not_null(al_create_bitmap(32, 32)));
-			const auto handleB = atlas.attach(gsl::make_not_null(al_create_bitmap(96, 64)));
-			const auto handleC = atlas.attach(gsl::make_not_null(al_create_bitmap(64, 32)));
+			const auto handleA = atlas.attach(core::Bitmap{ 32, 32 });
+			const auto handleB = atlas.attach(core::Bitmap{ 96, 64 });
+			const auto handleC = atlas.attach(core::Bitmap{ 64, 32 });
 
 			Assert::AreEqual(0u, handleA);
 			Assert::AreEqual(1u, handleB);
@@ -46,7 +46,7 @@ namespace vox::world::render
 		TEST_METHOD(BlockTextureAtlas_build)
 		{
 			BlockTextureAtlas atlas;
-			atlas.attach(gsl::make_not_null(al_create_bitmap(32, 32)));
+			atlas.attach(core::Bitmap{ 32, 32 });
 			atlas.build();
 		}
 
@@ -55,13 +55,8 @@ namespace vox::world::render
 		{
 			util::Folder{ "test_files" }.create();
 			
-			ALLEGRO_BITMAP * bitmap;
-			bitmap = al_create_bitmap(32, 32);
-			al_save_bitmap("test_files/bitmapA.png", bitmap);
-			al_destroy_bitmap(bitmap);
-			bitmap = al_create_bitmap(32, 32);
-			al_save_bitmap("test_files/bitmapB.png", bitmap);
-			al_destroy_bitmap(bitmap);
+			core::Bitmap{ 32, 32 }.save("test_files/bitmapA.png");
+			core::Bitmap{ 32, 32 }.save("test_files/bitmapB.png");
 		}
 		void deinitialize()
 		{

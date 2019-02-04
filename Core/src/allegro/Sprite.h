@@ -74,7 +74,7 @@ namespace core
 		/**
 			@return The size of the entire sprite sheet.
 		*/
-		inline auto getSize() const { return m_bitmap.getSize(); }
+		inline auto getSize() const { return glm::vec2{ m_bitmap.getSize() }; }
 
 		/**
 			@param frame The specific frame to obtain the position information of.

@@ -2,6 +2,7 @@
 #include "Bitmap.h"
 
 #include <allegro5/allegro.h>
+#include <plog/Log.h>
 
 namespace
 {
@@ -27,11 +28,11 @@ core::Bitmap & core::Bitmap::operator=(Bitmap && other)
 	return *this;
 }
 
-glm::vec2 core::Bitmap::getSize() const
+glm::ivec2 core::Bitmap::getSize() const
 {
 	if (m_handle == nullptr)
-		return glm::vec2{};
-	return glm::vec2{ al_get_bitmap_width(m_handle), al_get_bitmap_height(m_handle) };
+		return glm::ivec2{};
+	return glm::ivec2{ al_get_bitmap_width(m_handle), al_get_bitmap_height(m_handle) };
 }
 
 void core::Bitmap::clear()
@@ -57,6 +58,11 @@ bool core::Bitmap::create(unsigned int width, unsigned int height)
 }
 bool core::Bitmap::load(const util::File & file)
 {
+	if (!file.exists())
+		LOG_WARNING << "Attempted to load non-existing bitmap '" + file.path() << "'";
+	else
+		LOG_INFO << "Loading bitmap '" << file.path() << "'...";
+
 	clear();
 	m_handle = al_load_bitmap(file.path().c_str());
 	return m_handle != nullptr;

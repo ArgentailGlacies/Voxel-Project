@@ -15,6 +15,8 @@ namespace core
 	{
 	public:
 		Bitmap() = default;
+		Bitmap(const util::File & file) { load(file); }
+		Bitmap(unsigned int width, unsigned int height) { create(width, height); }
 		Bitmap(const Bitmap & other) { *this = other; }
 		Bitmap(Bitmap && other) { *this = std::move(other); }
 		~Bitmap() { clear(); }
@@ -25,7 +27,7 @@ namespace core
 		/**
 			@return The size of the bitmap.
 		*/
-		glm::vec2 getSize() const;
+		glm::ivec2 getSize() const;
 
 		// ...
 
