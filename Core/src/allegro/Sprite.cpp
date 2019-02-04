@@ -33,14 +33,6 @@ glm::vec4 core::Sprite::getTint(const std::string & frame) const
 	return it == m_frames.end() ? glm::vec4{} : it->second.m_tint;
 }
 
-void core::Sprite::draw(const glm::vec2 & pos) const
-{
-	m_bitmap.draw(pos, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
-}
-void core::Sprite::draw(const glm::vec2 & pos, const glm::vec2 & size) const
-{
-	m_bitmap.draw(pos, size, glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
-}
 void core::Sprite::draw(const std::string & frame, const glm::vec2 & pos) const
 {
 	if (!hasFrame(frame))

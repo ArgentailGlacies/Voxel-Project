@@ -100,20 +100,6 @@ namespace core
 		// ...
 
 		/**
-			Draws the entire sprite sheet at the specified position.
-
-			@param pos The position on the screen where the sprite should be drawn.
-		*/
-		void draw(const glm::vec2 & pos) const;
-		/**
-			Draws the entire sprite sheet at the specified position, with the specified size.
-
-			@param pos The position on the screen where the sprite should be drawn.
-			@param size The size the sprite should have on screen.
-		*/
-		void draw(const glm::vec2 & pos, const glm::vec2 & size) const;
-
-		/**
 			Draws the frame of the specified name at the specified position.
 
 			@param frame The frame which should be drawn.
