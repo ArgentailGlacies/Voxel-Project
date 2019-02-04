@@ -46,19 +46,13 @@ namespace core::allegro
 			Assert::AreEqual({ 16.0f, 16.0f }, sprite->getSize("foo"));
 			Assert::AreEqual({ 4.0f, 0.0f }, sprite->getPos("foo"));
 			Assert::AreEqual({ 8.0f, 8.0f }, sprite->getCenter("foo"));
-			Assert::AreEqual(0.25f, sprite->getTint("foo").r, 0.001f);
-			Assert::AreEqual(0.50f, sprite->getTint("foo").g, 0.001f);
-			Assert::AreEqual(0.75f, sprite->getTint("foo").b, 0.001f);
-			Assert::AreEqual(1.00f, sprite->getTint("foo").a, 0.001f);
+			Assert::AreEqual({ 0.25f, 0.5f, 0.75f, 1.0f }, sprite->getTint("foo"));
 
 			Assert::IsTrue(sprite->hasFrame("bar"));
 			Assert::AreEqual({ 0.0f, 0.0f }, sprite->getSize("bar"));
 			Assert::AreEqual({ 0.0f, 0.0f }, sprite->getPos("bar"));
 			Assert::AreEqual({ 0.0f, 0.0f }, sprite->getCenter("bar"));
-			Assert::AreEqual(1.0f, sprite->getTint("bar").r, 0.001f);
-			Assert::AreEqual(1.0f, sprite->getTint("bar").g, 0.001f);
-			Assert::AreEqual(1.0f, sprite->getTint("bar").b, 0.001f);
-			Assert::AreEqual(1.0f, sprite->getTint("bar").a, 0.001f);
+			Assert::AreEqual({ 1.0f, 1.0f, 1.0f, 1.0f }, sprite->getTint("bar"));
 		}
 	};
 }
