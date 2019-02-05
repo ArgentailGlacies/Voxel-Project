@@ -1,10 +1,10 @@
 #pragma once
 
-#include <gsl/pointers>
+#include "allegro/EventSource.h"
+
 #include <unordered_set>
 
 struct ALLEGRO_EVENT_QUEUE;
-struct ALLEGRO_EVENT_SOURCE;
 
 namespace core
 {
@@ -22,13 +22,13 @@ namespace core
 		EventQueue & operator=(const EventQueue &) = delete;
 		EventQueue & operator=(EventQueue &&) = delete;
 
-		void add(gsl::not_null<ALLEGRO_EVENT_SOURCE*> source);
+		void add(EventSourcePtr source);
 
 		void process() const;
 
 	private:
 		const EventBus & m_bus;
 
-		gsl::not_null<ALLEGRO_EVENT_QUEUE*> m_handle;
+		ALLEGRO_EVENT_QUEUE * m_handle;
 	};
 }

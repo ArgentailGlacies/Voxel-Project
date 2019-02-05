@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ui/Keyboard.h"
 #include "ui/Mouse.h"
 
 #include <glm/vec2.hpp>
@@ -43,7 +44,7 @@ namespace core
 	struct KeyPress
 	{
 		/* The key pressed by the user. */
-		const int m_key;
+		const KeyboardKey m_key;
 		/* The key modifiers currently active (ie. shift, control, etc). */
 		const unsigned int m_modifiers;
 	};
@@ -53,7 +54,7 @@ namespace core
 	struct KeyRelease
 	{
 		/* The key released by the user. */
-		const int m_key;
+		const KeyboardKey m_key;
 		/* The key modifiers currently active (ie. shift, control, etc). */
 		const unsigned int m_modifiers;
 	};

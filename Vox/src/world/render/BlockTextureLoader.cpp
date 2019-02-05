@@ -9,7 +9,6 @@
 #include "world/util/Limits.h"
 #include "world/util/Side.h"
 
-#include <allegro5/allegro.h>
 #include <glm/gtx/hash.hpp>
 #include <plog/Log.h>
 

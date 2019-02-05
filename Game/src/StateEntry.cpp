@@ -7,15 +7,14 @@
 #include "scene/Camera.h"
 #include "scene/Scene.h"
 #include "ui/Display.h"
+#include "ui/Keyboard.h"
+#include "ui/Mouse.h"
 #include "util/MathOperations.h"
 #include "util/MathTrigonometry.h"
 #include "world/Universe.h"
 #include "world/World.h"
 #include "world/BlockRegistry.h"
 #include "world/Query.h"
-
-#include <allegro5/allegro.h>
-#include <allegro5/keycodes.h>
 
 void game::StateEntry::initialize(core::Engine & engine)
 {
@@ -37,30 +36,30 @@ void game::StateEntry::initialize(core::Engine & engine)
 	});
 	m_keyPressListener = engine.getEventBus().add<core::KeyPress>([this](auto & event)
 	{
-		if (event.m_key == ALLEGRO_KEY_W)
+		if (event.m_key == core::KeyboardKey::W)
 			m_keyForward = true;
-		else if (event.m_key == ALLEGRO_KEY_S)
+		else if (event.m_key == core::KeyboardKey::S)
 			m_keyBack = true;
-		else if (event.m_key == ALLEGRO_KEY_A)
+		else if (event.m_key == core::KeyboardKey::A)
 			m_keyLeft = true;
-		else if (event.m_key == ALLEGRO_KEY_D)
+		else if (event.m_key == core::KeyboardKey::D)
 			m_keyRight = true;
-		else if (event.m_key == ALLEGRO_KEY_LSHIFT)
+		else if (event.m_key == core::KeyboardKey::LSHIFT)
 			m_keyBoost = true;
-		else if (event.m_key == ALLEGRO_KEY_SPACE)
-			al_set_mouse_xy(m_display->handle(), m_display->getSize().x / 2, m_display->getSize().y / 2);
+		else if (event.m_key == core::KeyboardKey::SPACE)
+			setMousePosition(*m_display, m_display->getSize() / 2u);
 	});
 	m_keyReleaseListener = engine.getEventBus().add<core::KeyRelease>([this](auto & event)
 	{
-		if (event.m_key == ALLEGRO_KEY_W)
+		if (event.m_key == core::KeyboardKey::W)
 			m_keyForward = false;
-		else if (event.m_key == ALLEGRO_KEY_S)
+		else if (event.m_key == core::KeyboardKey::S)
 			m_keyBack = false;
-		else if (event.m_key == ALLEGRO_KEY_A)
+		else if (event.m_key == core::KeyboardKey::A)
 			m_keyLeft = false;
-		else if (event.m_key == ALLEGRO_KEY_D)
+		else if (event.m_key == core::KeyboardKey::D)
 			m_keyRight = false;
-		else if (event.m_key == ALLEGRO_KEY_LSHIFT)
+		else if (event.m_key == core::KeyboardKey::LSHIFT)
 			m_keyBoost = false;
 	});
 

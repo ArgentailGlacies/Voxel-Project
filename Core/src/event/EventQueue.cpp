@@ -3,7 +3,6 @@
 
 #include "event/EventBus.h"
 #include "event/Events.h"
-#include "ui/Mouse.h"
 
 #include <allegro5/display.h>
 #include <allegro5/events.h>
@@ -11,7 +10,11 @@
 
 namespace
 {
-	auto allegroMouseButtonToEnum(unsigned int button)
+	inline auto allegroKeyboardKeyToEnum(unsigned int key)
+	{
+		return static_cast<core::KeyboardKey>(key);
+	}
+	inline auto allegroMouseButtonToEnum(unsigned int button)
 	{
 		static const core::MouseButton ALLEGRO_TO_ENUM[] =
 		{
@@ -33,7 +36,7 @@ core::EventQueue::~EventQueue()
 	al_destroy_event_queue(m_handle);
 }
 
-void core::EventQueue::add(gsl::not_null<ALLEGRO_EVENT_SOURCE*> source)
+void core::EventQueue::add(EventSourcePtr source)
 {
 	al_register_event_source(m_handle, source);
 }
@@ -70,10 +73,10 @@ void core::EventQueue::process() const
 			break;
 
 		case ALLEGRO_EVENT_KEY_DOWN:
-			m_bus.post(KeyPress{ event.keyboard.keycode, event.keyboard.modifiers });
+			m_bus.post(KeyPress{ allegroKeyboardKeyToEnum(event.keyboard.keycode), event.keyboard.modifiers });
 			break;
 		case ALLEGRO_EVENT_KEY_UP:
-			m_bus.post(KeyRelease{ event.keyboard.keycode, event.keyboard.modifiers });
+			m_bus.post(KeyRelease{ allegroKeyboardKeyToEnum(event.keyboard.keycode), event.keyboard.modifiers });
 			break;
 		case ALLEGRO_EVENT_KEY_CHAR:
 			m_bus.post(KeyUnichar{ event.keyboard.unichar });

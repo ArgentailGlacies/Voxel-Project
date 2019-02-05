@@ -29,6 +29,7 @@
   <ItemGroup>
     <ClCompile Include="src\allegro\Allegro.cpp" />
     <ClCompile Include="src\allegro\Bitmap.cpp" />
+    <ClCompile Include="src\allegro\EventSource.cpp" />
     <ClCompile Include="src\allegro\Sprite.cpp" />
     <ClCompile Include="src\allegro\SpriteFactory.cpp" />
     <ClCompile Include="src\asset\AssetUtil.cpp" />
@@ -59,10 +60,12 @@
     <ClCompile Include="src\script\Script.cpp" />
     <ClCompile Include="src\state\StateManager.cpp" />
     <ClCompile Include="src\ui\Display.cpp" />
+    <ClCompile Include="src\ui\Mouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\allegro\Allegro.h" />
     <ClInclude Include="src\allegro\Bitmap.h" />
+    <ClInclude Include="src\allegro\EventSource.h" />
     <ClInclude Include="src\allegro\Sprite.h" />
     <ClInclude Include="src\allegro\SpriteFactory.h" />
     <ClInclude Include="src\asset\Asset.h" />
@@ -113,6 +116,7 @@
     <ClInclude Include="src\state\State.h" />
     <ClInclude Include="src\state\StateManager.h" />
     <ClInclude Include="src\ui\Display.h" />
+    <ClInclude Include="src\ui\Keyboard.h" />
     <ClInclude Include="src\ui\Mouse.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 
+#include "allegro/Bitmap.h"
 #include "io/Folder.h"
 #include "world/BlockRegistry.h"
 #include "world/data/BlockLoader.h"
@@ -7,8 +8,6 @@
 #include "world/render/BlockRenderRegistry.h"
 #include "world/render/BlockTextureAtlas.h"
 #include "world/util/Side.h"
-
-#include <allegro5/bitmap_io.h>
 
 #include "CppUnitTest.h"
 
@@ -168,11 +167,10 @@ namespace vox::world::render
 			</geometry>
 			)");
 
-			ALLEGRO_BITMAP * bitmap = al_create_bitmap(32, 32);
-			al_save_bitmap("test/bitmapA.png", bitmap);
-			al_save_bitmap("test/bitmapB.png", bitmap);
-			al_save_bitmap("test/bitmapC.png", bitmap);
-			al_destroy_bitmap(bitmap);
+			core::Bitmap bitmap{ 32, 32 };
+			bitmap.save("test/bitmapA.png");
+			bitmap.save("test/bitmapB.png");
+			bitmap.save("test/bitmapC.png");
 		}
 		void deinitialize()
 		{

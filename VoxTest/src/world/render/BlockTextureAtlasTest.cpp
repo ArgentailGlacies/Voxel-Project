@@ -2,8 +2,6 @@
 #include "io/Folder.h"
 #include "world/render/BlockTextureAtlas.h"
 
-#include <allegro5/bitmap_io.h>
-
 #include "CppUnitTest.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

@@ -1,7 +1,6 @@
 
 #include "BlockTextureAtlas.h"
 
-#include <allegro5/allegro.h>
 #include <plog/Log.h>
 
 vox::BlockTextureAtlas::BlockTextureAtlas() noexcept

@@ -2,6 +2,7 @@
 #include "Engine.h"
 
 #include "allegro/Allegro.h"
+#include "allegro/EventSource.h"
 #include "asset/AssetRegistry.h"
 #include "core/MainLoop.h"
 #include "core/Resources.h"
@@ -16,8 +17,6 @@
 #include "ui/Display.h"
 
 #include "world/Universe.h"
-
-#include <allegro5/allegro.h>
 
 #include "world/Query.h"
 
@@ -64,9 +63,9 @@ core::Engine::Impl::Impl(Engine & engine) :
 	m_scene(m_assets, m_display, m_ubos),
 	m_universe(engine.getDataFolder().folder(res::path::UNIVERSE), m_scene)
 {
-	m_queue.add(gsl::make_not_null(al_get_display_event_source(m_display.handle())));
-	m_queue.add(gsl::make_not_null(al_get_keyboard_event_source()));
-	m_queue.add(gsl::make_not_null(al_get_mouse_event_source()));
+	m_queue.add(getDisplayEventSource(m_display));
+	m_queue.add(getKeyboardEventSource());
+	m_queue.add(getMouseEventSource());
 }
 
 // ...
