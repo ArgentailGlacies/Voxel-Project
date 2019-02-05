@@ -21,15 +21,15 @@ namespace core::allegro
 			Bitmap temporary{ 32, 32 };
 
 			Bitmap bitmapA;
-			Bitmap bitmapB = temporary;
+			//Bitmap bitmapB = temporary;
 			Bitmap bitmapC = std::move(temporary);
 			Bitmap bitmapD = m_fileA;
 
 			Assert::IsNull(bitmapA.handle());
-			Assert::IsNotNull(bitmapB.handle());
+			//Assert::IsNotNull(bitmapB.handle());
 			Assert::IsNotNull(bitmapC.handle());
 			Assert::IsNotNull(bitmapD.handle());
-			Assert::IsFalse(bitmapB.handle() == bitmapC.handle());
+			//Assert::IsFalse(bitmapB.handle() == bitmapC.handle());
 		}
 
 		TEST_METHOD(Bitmap_child)

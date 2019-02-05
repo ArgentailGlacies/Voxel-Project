@@ -15,13 +15,13 @@ namespace
 	}
 }
 
-core::Bitmap & core::Bitmap::operator=(const Bitmap & other)
+/*core::Bitmap & core::Bitmap::operator=(const Bitmap & other)
 {
 	clear();
 	if (other.m_handle != nullptr)
 		m_handle = al_clone_bitmap(other.m_handle);
 	return *this;
-}
+}*/
 core::Bitmap & core::Bitmap::operator=(Bitmap && other)
 {
 	std::swap(m_handle, other.m_handle);

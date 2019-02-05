@@ -17,11 +17,11 @@ namespace core
 		Bitmap() = default;
 		Bitmap(const util::File & file) { load(file); }
 		Bitmap(unsigned int width, unsigned int height) { create(width, height); }
-		Bitmap(const Bitmap & other) { *this = other; }
+		Bitmap(const Bitmap &) = delete;
 		Bitmap(Bitmap && other) { *this = std::move(other); }
 		~Bitmap() { clear(); }
 
-		Bitmap & operator=(const Bitmap & other);
+		Bitmap & operator=(const Bitmap &) = delete;
 		Bitmap & operator=(Bitmap && other);
 
 		/**
