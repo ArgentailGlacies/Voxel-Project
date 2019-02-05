@@ -69,6 +69,8 @@ bool core::Bitmap::load(const util::File & file)
 }
 void core::Bitmap::save(const util::File & file)
 {
+	LOG_INFO << "Saving bitmap '" << file.path() << "'...";
+
 	if (m_handle != nullptr)
 		al_save_bitmap(file.path().c_str(), m_handle);
 }
