@@ -10,10 +10,15 @@ namespace core::allegro
 	TEST_CLASS(BitmapTest)
 	{
 	public:
+		BitmapTest()
+		{
+			Bitmap{ 32, 24 }.save(m_fileC);
+		}
 		~BitmapTest()
 		{
 			m_fileA.erase();
 			m_fileB.erase();
+			m_fileC.erase();
 		}
 
 		TEST_METHOD(Bitmap_ctor)
@@ -21,15 +26,12 @@ namespace core::allegro
 			Bitmap temporary{ 32, 32 };
 
 			Bitmap bitmapA;
-			//Bitmap bitmapB = temporary;
-			Bitmap bitmapC = std::move(temporary);
-			Bitmap bitmapD = m_fileA;
+			Bitmap bitmapB = std::move(temporary);
+			Bitmap bitmapC = m_fileC;
 
 			Assert::IsNull(bitmapA.handle());
-			//Assert::IsNotNull(bitmapB.handle());
+			Assert::IsNotNull(bitmapB.handle());
 			Assert::IsNotNull(bitmapC.handle());
-			Assert::IsNotNull(bitmapD.handle());
-			//Assert::IsFalse(bitmapB.handle() == bitmapC.handle());
 		}
 
 		TEST_METHOD(Bitmap_child)
@@ -88,5 +90,6 @@ namespace core::allegro
 	private:
 		const util::File m_fileA = "test_bitmap_file_a.png";
 		const util::File m_fileB = "test_bitmap_file_b.png";
+		const util::File m_fileC = "test_bitmap_file_c.png";
 	};
 }
