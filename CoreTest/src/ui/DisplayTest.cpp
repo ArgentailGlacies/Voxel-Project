@@ -22,7 +22,7 @@ namespace core::ui
 		}
 		TEST_METHOD(Display_getSize)
 		{
-			Assert::AreEqual(glm::uvec2{ 320u, 240u }, display().getSize());
+			Assert::AreEqual({ 320, 240 }, display().getSize());
 		}
 		TEST_METHOD(Display_getAspectRatio)
 		{

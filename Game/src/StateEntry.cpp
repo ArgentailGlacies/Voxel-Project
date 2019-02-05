@@ -47,7 +47,7 @@ void game::StateEntry::initialize(core::Engine & engine)
 		else if (event.m_key == core::KeyboardKey::LSHIFT)
 			m_keyBoost = true;
 		else if (event.m_key == core::KeyboardKey::SPACE)
-			setMousePosition(*m_display, m_display->getSize() / 2u);
+			setMousePosition(*m_display, m_display->getSize() / 2);
 	});
 	m_keyReleaseListener = engine.getEventBus().add<core::KeyRelease>([this](auto & event)
 	{
