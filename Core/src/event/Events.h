@@ -17,6 +17,12 @@ namespace core
 			@return True iff the event has not yet been consumed.
 		*/
 		inline bool consume() { const auto state = m_consumed; m_consumed = true; return !state; }
+		/**
+			Checks whether the event has been consumed or not.
+
+			@return True iff the event has not yet been consumed.
+		*/
+		inline bool isConsumed() const { return m_consumed; }
 
 	private:
 		bool m_consumed = false;
