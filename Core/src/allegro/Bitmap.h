@@ -34,7 +34,7 @@ namespace core
 		/**
 			Constructs a child bitmap from this bitmap. The child will be invalid once the parent
 			bitmap goes out of scope. It is the user's responsibility to ensure that the child
-			bitmap is not used in that situation.
+			bitmap is not used once invalidated.
 
 			@param pos The location of the child bitmap in the parent bitmap.
 			@param size The size of the child bitmap.
@@ -135,11 +135,14 @@ namespace core
 
 			@param source The position and size the bitmap should be rendered with.
 			@param target The desired target and size the bitmap should be rendered with.
+			@param center The anchor the bitmap rotates around.
 			@param tint The color muliplier of the bitmap.
+			@param angle The rotation of the bitmap, in degrees.
 		*/
 		void draw(
 			const glm::vec2 & sourcePos, const glm::vec2 & sourceSize, const glm::vec2 & center,
-			const glm::vec2 & targetPos, const glm::vec2 & targetSize, const glm::vec4 & tint
+			const glm::vec2 & targetPos, const glm::vec2 & targetSize, const glm::vec4 & tint,
+			float angle = 0.0f
 		) const;
 
 		// ...

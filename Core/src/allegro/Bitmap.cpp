@@ -82,13 +82,14 @@ void core::Bitmap::draw(const glm::vec2 & pos, const glm::vec2 & size, const glm
 }
 void core::Bitmap::draw(
 	const glm::vec2 & sourcePos, const glm::vec2 & sourceSize, const glm::vec2 & center,
-	const glm::vec2 & targetPos, const glm::vec2 & targetSize, const glm::vec4 & tint
+	const glm::vec2 & targetPos, const glm::vec2 & targetSize, const glm::vec4 & tint,
+	float angle
 ) const
 {
 	if (m_handle != nullptr)
 		al_draw_tinted_scaled_rotated_bitmap_region(
 			m_handle, sourcePos.x, sourcePos.y, sourceSize.x, sourceSize.y, color(tint), center.x, center.y,
-			targetPos.x, targetPos.y, targetSize.x / sourceSize.x, targetSize.y / sourceSize.y, 0.0f, 0
+			targetPos.x, targetPos.y, targetSize.x / sourceSize.x, targetSize.y / sourceSize.y, angle, 0
 		);
 }
 
