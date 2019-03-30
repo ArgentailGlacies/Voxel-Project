@@ -2,9 +2,6 @@
 
 #include "gui/Widget.h"
 
-#include <functional>
-#include <vector>
-
 namespace core
 {
 	namespace gui
