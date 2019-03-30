@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+
+<!--
+
+ALL
+  Header:
+   - name		The name of the widget, must be present
+   - type		The type of the widget, must be present
+
+BUTTON
+BUTTON_CHECKBOX
+BUTTON_RADIO
+  Actions:
+   - click  	Invoked whenever the user first clicks the widget
+   - hold		  Invoked whenever the user has clicked the widget but not yet released
+   - release	Invoked whenever the user releases the widget
+  Sprites:
+   - icon     The icon of the button
+   
+PANEL
+  Sprites:
+   - background   The visible background of the panel
+
+
+
+
+Sprites:
+ - background	The sprite displayed in the background of the widget
+ - foreground	The sprite displayed in the foreground of the widget
+
+-->
+
+<widget name="some_window" type="panel">
+	<action click="" />
+	<action hold="" />
+	<action release="" />
+	<sprite background="" />
+	<sprite foreground="" />
+	<widget name="child" type="button" />
+</widget>

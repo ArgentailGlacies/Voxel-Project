@@ -39,6 +39,7 @@
     <ClCompile Include="src\event\EventBus.cpp" />
     <ClCompile Include="src\event\EventListener.cpp" />
     <ClCompile Include="src\event\EventQueue.cpp" />
+    <ClCompile Include="src\gui\Processor.cpp" />
     <ClCompile Include="src\opengl\Attribute.cpp" />
     <ClCompile Include="src\opengl\Mesh.cpp" />
     <ClCompile Include="src\opengl\OpenGL.cpp" />
@@ -87,7 +88,9 @@
     <ClInclude Include="src\event\EventQueue.h" />
     <ClInclude Include="src\event\Events.h" />
     <ClInclude Include="src\gui\Gui.h" />
+    <ClInclude Include="src\gui\Processor.h" />
     <ClInclude Include="src\gui\Widget.h" />
+    <ClInclude Include="src\gui\WidgetType.h" />
     <ClInclude Include="src\opengl\Attribute.h" />
     <ClInclude Include="src\opengl\Enums.h" />
     <ClInclude Include="src\opengl\Mesh.h" />

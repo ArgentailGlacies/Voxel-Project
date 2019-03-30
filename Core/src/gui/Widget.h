@@ -1,7 +1,9 @@
 #pragma once
 
+#include <functional>
 #include <glm/vec2.hpp>
 #include <string>
+#include <vector>
 #include <unordered_set>
 
 namespace core
@@ -13,16 +15,20 @@ namespace core
 	struct Widget
 	{
 		/**
+			All widgets are processed by one or more processors. Each processor perform one specific
+			operation on the widget, writing data to it if necessary.
+		*/
+		using Processor = std::function<void(Widget&)>;
+
+		/**
 			The border determines how far away at minimum another widget must be to the current
 			widget. If two widgets are connected, the actual border will be the greatest border
 			value along the edge which they share.
 		*/
 		struct Border
 		{
-			float m_left = 0.0f;
-			float m_right = 0.0f;
-			float m_top = 0.0f;
-			float m_bottom = 0.0f;
+			float m_inner = 0.0f;
+			float m_outer = 0.0f;
 		};
 
 		/**
@@ -60,9 +66,11 @@ namespace core
 
 		// ...
 
+		std::string m_type;
+		std::vector<Processor> m_processors;
+
 		BoundingBox m_bbox;
-		Border m_inner;
-		Border m_outer;
+		Border m_border;
 		Link m_link;
 		Relation m_family;
 		Relation m_group;
