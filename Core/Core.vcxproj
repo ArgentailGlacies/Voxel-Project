@@ -91,6 +91,7 @@
     <ClInclude Include="src\gui\Gui.h" />
     <ClInclude Include="src\gui\GuiData.h" />
     <ClInclude Include="src\gui\Processor.h" />
+    <ClInclude Include="src\gui\Renderer.h" />
     <ClInclude Include="src\gui\Widget.h" />
     <ClInclude Include="src\gui\WidgetType.h" />
     <ClInclude Include="src\opengl\Attribute.h" />

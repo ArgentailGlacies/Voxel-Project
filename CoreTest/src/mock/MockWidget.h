@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gui/GuiData.h"
 #include "gui/Widget.h"
 
 #include <glm/vec2.hpp>
@@ -13,7 +14,9 @@ namespace core
 	*/
 	inline auto mockWidget(const glm::vec2 & pos, const glm::vec2 & size)
 	{
-		auto widget = std::make_unique<Widget>();
+		static GuiData guiData;
+
+		auto widget = std::make_unique<Widget>(guiData);
 		widget->m_bbox.m_pos = pos;
 		widget->m_bbox.m_size = size;
 		return widget;
