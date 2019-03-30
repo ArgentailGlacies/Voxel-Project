@@ -4,7 +4,7 @@
 
 ALL
   Header:
-   - name		The name of the widget, must be present
+   - name		The name of the widget, optional
    - type		The type of the widget, must be present
 
 BUTTON
