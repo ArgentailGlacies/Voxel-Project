@@ -208,6 +208,7 @@
     <ClCompile Include="src\event\EventContainerTest.cpp" />
     <ClCompile Include="src\event\EventListenerTest.cpp" />
     <ClCompile Include="src\event\EventQueueTest.cpp" />
+    <ClCompile Include="src\event\EventTest.cpp" />
     <ClCompile Include="src\gui\GuiData.cpp" />
     <ClCompile Include="src\gui\ProcessorTest.cpp" />
     <ClCompile Include="src\Main.cpp" />

@@ -7,6 +7,23 @@
 
 namespace core
 {
+	class Consumable
+	{
+	public:
+		/**
+			Marks the event as consumed. An event may only be consumed exactly once. If the event
+			has not yet been consumed, true is returned.
+
+			@return True iff the event has not yet been consumed.
+		*/
+		inline bool consume() { const auto state = m_consumed; m_consumed = true; return !state; }
+
+	private:
+		bool m_consumed = false;
+	};
+
+	// ...
+
 	/**
 		Dispatched when the user closes the display. Usually this happens when the user clicks the
 		close button on the window, or uses a keyboard shortcut to close the window.
@@ -41,8 +58,10 @@ namespace core
 	/**
 		Dispatched when the user pressed a key on the keyboard. See 'allegro5/keycodes.h'.
 	*/
-	struct KeyPress
+	struct KeyPress : public Consumable
 	{
+		KeyPress(KeyboardKey key, unsigned int modifiers) : m_key(key), m_modifiers(modifiers) {}
+
 		/* The key pressed by the user. */
 		const KeyboardKey m_key;
 		/* The key modifiers currently active (ie. shift, control, etc). */
@@ -51,8 +70,10 @@ namespace core
 	/**
 		Dispatched when the user released a key on the keyboard. See 'allegro5/keycodes.h'.
 	*/
-	struct KeyRelease
+	struct KeyRelease : public Consumable
 	{
+		KeyRelease(KeyboardKey key, unsigned int modifiers) : m_key(key), m_modifiers(modifiers) {}
+
 		/* The key released by the user. */
 		const KeyboardKey m_key;
 		/* The key modifiers currently active (ie. shift, control, etc). */
@@ -62,8 +83,10 @@ namespace core
 		Dispatched when the user inputs a character. Usually this happens when the user press a key
 		on their keyboard.
 	*/
-	struct KeyUnichar
+	struct KeyUnichar : public Consumable
 	{
+		KeyUnichar(int codepoint) : m_codepoint(codepoint) {}
+
 		/* The character entered by the user. */
 		const int m_codepoint;
 	};
@@ -84,8 +107,11 @@ namespace core
 		Dispatched when a mouse button is pressed. Usually this happens when the user clicks
 		somewhere within the current window.
 	*/
-	struct MousePress
+	struct MousePress : public Consumable
 	{
+		MousePress(MouseButton button, const glm::vec2 & position, const glm::vec2 & scroll, float pressure)
+			: m_button(button), m_position(position), m_scroll(scroll), m_pressure(pressure) {}
+
 		/* The mouse button which was clicked */
 		const MouseButton m_button;
 		/* Where in the window the cursor was clicked */
@@ -99,8 +125,11 @@ namespace core
 		Dispatched when a mouse button is released. Usually this happens after the user clicks
 		somewhere within the current window.
 	*/
-	struct MouseRelease
+	struct MouseRelease : public Consumable
 	{
+		MouseRelease(MouseButton button, const glm::vec2 & position, const glm::vec2 & scroll, float pressure)
+			: m_button(button), m_position(position), m_scroll(scroll), m_pressure(pressure) {}
+
 		/* The mouse button which was released */
 		const MouseButton m_button;
 		/* Where in the window the cursor was released */
@@ -114,8 +143,11 @@ namespace core
 		Dispatched when the cursor moves. Usually this happens when the user physically moves their
 		computer mouse.
 	*/
-	struct MouseMove
+	struct MouseMove : public Consumable
 	{
+		MouseMove(const glm::vec2 & position, const glm::vec2 & positionDelta, const glm::vec2 & scroll, const glm::vec2 & scrollDelta)
+			: m_position(position), m_positionDelta(positionDelta), m_scroll(scroll), m_scrollDelta(scrollDelta) {}
+
 		/* The new position of the cursor in the window */
 		const glm::vec2 m_position;
 		/* The change in position of the cursor in the window */
