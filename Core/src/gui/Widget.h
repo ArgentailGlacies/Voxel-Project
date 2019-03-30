@@ -18,7 +18,7 @@ namespace core
 			All widgets are processed by one or more processors. Each processor perform one specific
 			operation on the widget, writing data to it if necessary.
 		*/
-		using Processor = std::function<void(Widget&)>;
+		using Processor = std::function<void(Widget &)>;
 
 		/**
 			The border determines how far away at minimum another widget must be to the current
@@ -71,8 +71,8 @@ namespace core
 
 		BoundingBox m_bbox;
 		Border m_border;
-		Link m_link;
 		Relation m_family;
 		Relation m_group;
+		Link m_link;
 	};
 }

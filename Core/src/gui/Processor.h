@@ -14,7 +14,7 @@ namespace core
 			processors of the children will be executed in the exact same order as the processors
 			are registered.
 		*/
-		void updateChildren(Widget& widget);
+		void updateChildren(Widget & widget);
 
 		/**
 			Computes and assigns the new position of the widget. The position will be relative to
@@ -26,7 +26,7 @@ namespace core
 
 			@param widget The widget which should have its position recalculated.
 		*/
-		void updatePosition(Widget& widget);
+		void updatePosition(Widget & widget);
 		/**
 			Computes and assigns the new size of the widget. The size will always be computed to be
 			the smallest possible value. The user may define a smallest possible value, otherwise
@@ -34,6 +34,6 @@ namespace core
 
 			@param widget The widget which should have its size recalculated.
 		*/
-		void updateSize(Widget& widget);
+		void updateSize(Widget & widget);
 	}
 }

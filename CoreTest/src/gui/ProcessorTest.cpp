@@ -19,8 +19,8 @@ namespace core::gui
 			auto parent = mockWidget({}, {});
 			auto widgetA = mockWidget(*parent, {}, {});
 			auto widgetB = mockWidget(*parent, {}, {});
-			widgetA->m_processors.push_back([&updateA](Widget& widget) { updateA = true; });
-			widgetA->m_processors.push_back([&updateB](Widget& widget) { updateB = true; });
+			widgetA->m_processors.push_back([&updateA](Widget & widget) { updateA = true; });
+			widgetA->m_processors.push_back([&updateB](Widget & widget) { updateB = true; });
 
 			gui::updateChildren(*parent);
 
