@@ -14,9 +14,7 @@ namespace core
 	*/
 	inline auto mockWidget(const glm::vec2 & pos, const glm::vec2 & size)
 	{
-		static GuiData guiData;
-
-		auto widget = std::make_unique<Widget>(guiData);
+		auto widget = std::make_unique<Widget>();
 		widget->m_bbox.m_pos = pos;
 		widget->m_bbox.m_size = size;
 		return widget;
@@ -28,7 +26,7 @@ namespace core
 	inline auto mockWidget(Widget & parent, const glm::vec2 & pos, const glm::vec2 & size)
 	{
 		auto widget = mockWidget(pos, size);
-		parent.m_family.m_members.emplace(widget.get());
+		parent.m_family.m_members.push_back(widget.get());
 		widget->m_family.m_leader = &parent;
 		return widget;
 	}

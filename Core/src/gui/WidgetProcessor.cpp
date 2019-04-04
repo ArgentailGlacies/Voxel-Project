@@ -1,11 +1,11 @@
 
-#include "Processor.h"
+#include "WidgetProcessor.h"
 
 #include "util/MathOperations.h"
 
 void core::gui::updateChildren(Widget & widget)
 {
-	for (auto * child : widget.m_family.m_members)
+	for (auto & child : widget.m_family.m_members)
 	{
 		for (const auto & processor : child->m_processors)
 			processor(*child);
@@ -33,7 +33,7 @@ void core::gui::updatePosition(Widget & widget)
 void core::gui::updateSize(Widget & widget)
 {
 	auto min = widget.m_bbox.m_minSize;
-	for (const auto * child : widget.m_family.m_members)
+	for (const auto & child : widget.m_family.m_members)
 	{
 		// Children are inside parents
 		const auto border = util::max(widget.m_border.m_inner, child->m_border.m_outer);

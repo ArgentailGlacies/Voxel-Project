@@ -15,14 +15,6 @@ namespace core
 		*/
 		const std::string BUTTON = "button";
 		/**
-			Toggles state when activated.
-		*/
-		const std::string BUTTON_CHECKBOX = "button-checkbox";
-		/**
-			Toggles state when activated, deactivates all other buttons in the group.
-		*/
-		const std::string BUTTON_RADIO = "button-radio";
-		/**
 			Displays a simple text.
 		*/
 		const std::string LABEL = "label";

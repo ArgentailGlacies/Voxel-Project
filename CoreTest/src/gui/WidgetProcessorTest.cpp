@@ -1,5 +1,5 @@
 
-#include "gui/Processor.h"
+#include "gui/WidgetProcessor.h"
 
 #include "mock/MockWidget.h"
 
@@ -9,10 +9,10 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace core::gui
 {
-	TEST_CLASS(ProcessorTest)
+	TEST_CLASS(WidgetProcessorTest)
 	{
 	public:
-		TEST_METHOD(Processor_updateChildren)
+		TEST_METHOD(WidgetProcessor_updateChildren)
 		{
 			bool updateA = false, updateB = false;
 
@@ -28,7 +28,7 @@ namespace core::gui
 			Assert::IsTrue(updateB);
 		}
 
-		TEST_METHOD(Processor_updatePosition)
+		TEST_METHOD(WidgetProcessor_updatePosition)
 		{
 			auto parent = mockWidget({ 40.0f, 40.0f }, { 320.0f, 240.0f });
 			auto widgetA = mockWidget(*parent, {}, { 50.0f, 60.0f });
@@ -45,7 +45,7 @@ namespace core::gui
 			Assert::AreEqual({ 45.0f, 45.0f }, widgetA->m_bbox.m_pos);
 			Assert::AreEqual({ 60.0f, 107.0f }, widgetB->m_bbox.m_pos);
 		}
-		TEST_METHOD(Processor_updateSize)
+		TEST_METHOD(WidgetProcessor_updateSize)
 		{
 			auto parent = mockWidget({ 40.0f, 30.0f }, {});
 			auto widgetA = mockWidget(*parent, { 42.0f, 32.0f }, {});

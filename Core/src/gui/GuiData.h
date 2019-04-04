@@ -50,7 +50,7 @@ namespace core
 			@param field The field to read from.
 			@return The value of the field, or an empty string if it has not been specified.
 		*/
-		auto getString(const std::string & field) const->std::string;
+		auto getString(const std::string & field) const -> std::string;
 
 	private:
 		std::unordered_map<std::string, bool> m_bools;

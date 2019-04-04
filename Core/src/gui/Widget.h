@@ -1,23 +1,26 @@
 #pragma once
 
+#include "event/EventListener.h"
+
 #include <functional>
 #include <glm/vec2.hpp>
+#include <memory>
 #include <string>
 #include <vector>
-#include <unordered_set>
+#include <unordered_map>
 
 namespace core
 {
 	class GuiData;
 
 	/**
-		All graphical user interface objects are represented as a widget. Unique functionality is
-		appended during GUI loading, determined by the specified type of the widget.
+		All graphical user interface objects are represented as widgets. Unique functionality is
+		appended during GUI loading, determined by the specified type of the widget. Widgets do not
+		implement any logic on their own, and does nothing unless processors or listeners are added.
 	*/
 	struct Widget
 	{
-		Widget() = delete;
-		Widget(GuiData & data) : m_data(data) {}
+		Widget() = default;
 		Widget(const Widget &) = delete;
 		Widget(Widget &&) = delete;
 		~Widget() = default;
@@ -37,7 +40,20 @@ namespace core
 			parts of the widget. The rendering order is the same order as the order the renderers
 			were added, meaning the first renderer renders behind the last added renderer.
 		*/
-		using Renderer = std::function<void(Widget &, const glm::vec2 & offset)>;
+		using Renderer = std::function<void(const Widget &, const glm::vec2 & offset)>;
+
+		/**
+			Binds the widget to a given value of a given type in the overarching gui. If the value
+			is changed, this will be reflected within the widget.
+
+			If the field value changes, the widget will detect this and fire a on change script.
+			If the type is "bool", the widget's activation status will be set to the field value.
+		*/
+		struct Binding
+		{
+			std::string m_field;
+			std::string m_type;
+		};
 
 		/**
 			The border determines how far away at minimum another widget must be to the current
@@ -63,6 +79,16 @@ namespace core
 		};
 
 		/**
+			Represents a relation between a collection of widgets. The grouping may be interpreted
+			in different manners from one widget type to another.
+		*/
+		struct Relation
+		{
+			Widget * m_leader = nullptr;
+			std::vector<Widget *> m_members;
+		};
+
+		/**
 			Two widgets may be connected if they are in the same family (either parent-child, or
 			sibling-sibling). One widget will then connect to the other at the specified location.
 			If the connection is parent-child, the child will be connected inside the parent,
@@ -78,39 +104,37 @@ namespace core
 			Users interacting with widgets may cause the widget to be highlighted or otherwise
 			marked, but not yet committed to an action.
 		*/
-		struct UserState
+		struct State
 		{
 			/* Whether the widget is visible to the user. Hides children if false. */
 			bool m_visible = true;
 			/* Whether the widget is locked for user interaction. Locks children if true. */
 			bool m_locked = false;
-			/* Whether a user is hovering the cursor over the widget. */
-			bool m_hovered = false;
-			/* Whether the user has clicked (but not released) the cursor on the widget. */
-			bool m_selected = false;
-		};
+			/* Whether the widget is marked as active. Does not propagate to children. */
+			bool m_active = false;
 
-		/**
-			Represents a relation between two or more widgets.
-		*/
-		struct Relation
-		{
-			Widget * m_leader = nullptr;
-			std::unordered_set<Widget *> m_members;
+			/* Whether the user is hovering the cursor over the widget. */
+			bool m_hovered = false;
+			/* Whether the user has selected the widget or not. */
+			bool m_selected = false;
 		};
 
 		// ...
 
-		std::string m_type;
 		std::vector<Processor> m_processors;
 		std::vector<Renderer> m_renderers;
-		GuiData & m_data;
+		std::vector<Listener> m_listeners;
 
 		BoundingBox m_bbox;
 		Border m_border;
 		Relation m_family;
 		Relation m_group;
 		Link m_link;
-		UserState m_state;
+		State m_state;
 	};
+
+	/**
+		A collection of widgets require all widgets to be uniquely identified by name.
+	*/
+	using Widgets = std::unordered_map<std::string, Widget>;
 }
