@@ -135,9 +135,6 @@
     <ClCompile Include="src\event\EventTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\GuiTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\GuiDataTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

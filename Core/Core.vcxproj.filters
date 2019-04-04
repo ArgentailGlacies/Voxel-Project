@@ -120,13 +120,13 @@
     <ClCompile Include="src\gui\GuiData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\Gui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\WidgetRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\WidgetProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\WidgetLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

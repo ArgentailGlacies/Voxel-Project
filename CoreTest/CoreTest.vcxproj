@@ -210,7 +210,6 @@
     <ClCompile Include="src\event\EventQueueTest.cpp" />
     <ClCompile Include="src\event\EventTest.cpp" />
     <ClCompile Include="src\gui\GuiDataTest.cpp" />
-    <ClCompile Include="src\gui\GuiTest.cpp" />
     <ClCompile Include="src\gui\WidgetProcessorTest.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\opengl\MeshTest.cpp" />
