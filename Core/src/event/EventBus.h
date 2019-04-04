@@ -44,10 +44,11 @@ namespace core
 			lower priority is invoked first, and higher priorities invoked last. In the case where
 			callbacks have the same priority, the last registered callback is invoked last.
 
+			@param priority The priority of the listener.
 			@param callback The callback to register under the specified event.
 			@return The listener associated with the callback.
 		*/
-		template<typename Event, int priority> Listener add(const Callback<Event> & callback);
+		template<typename Event> Listener add(int priority, const Callback<Event> & callback);
 		/**
 			Registers a new callback on the bus, which will be invoked whenever an event of the
 			specified type is posted. Callbacks registered without a priority will always be
@@ -92,15 +93,15 @@ namespace core
 		{
 			const auto & maps = static_cast<Container<Event>*>(it->second.get())->maps();
 			for (const auto &[_, callbacks] : maps)
-				for (const auto &[_, callback] : callbacks)
-					callback(event);
+			for (const auto &[_, callback] : callbacks)
+				callback(event);
 		}
 		if (const auto it = m_containersConst.find(type); it != m_containersConst.end())
 		{
 			const auto & maps = static_cast<ContainerConst<Event>*>(it->second.get())->maps();
 			for (const auto &[_, callbacks] : maps)
-				for (const auto &[_, callback] : callbacks)
-					callback(event);
+			for (const auto &[_, callback] : callbacks)
+				callback(event);
 		}
 		return event;
 	}
@@ -110,8 +111,8 @@ namespace core
 		return std::move(post(event));
 	}
 
-	template<typename Event, int priority>
-	inline Listener EventBus::add(const Callback<Event> & callback)
+	template<typename Event>
+	inline Listener EventBus::add(int priority, const Callback<Event> & callback)
 	{
 		const auto type = std::type_index{ typeid(Event) };
 		auto it = m_containers.find(type);
