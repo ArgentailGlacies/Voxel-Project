@@ -1,10 +1,32 @@
 
 #include "WidgetLoader.h"
 
+#include "gui/WidgetProcessor.h"
 #include "util/StringParsing.h"
+
+#include <plog/Log.h>
+
+namespace
+{
+	const std::string NODE_WIDGET = "widget";
+}
+
+// ...
 
 void core::WidgetLoader::load(const pugi::xml_node & node)
 {
+	if (const auto data = node.child("border"))
+		loadBorder(data);
+	if (const auto data = node.child("bbox"))
+		loadBoundingBox(data);
+	if (const auto data = node.child("link"))
+		loadLink(data);
+	if (const auto data = node.child("group"))
+		loadGroup(data);
+	if (const auto data = node.child("state"))
+		loadState(data);
+
+	loadChildren(node);
 }
 
 void core::WidgetLoader::loadBorder(const pugi::xml_node & node)
@@ -17,6 +39,22 @@ void core::WidgetLoader::loadBoundingBox(const pugi::xml_node & node)
 	const util::Parser<glm::vec2> parser;
 
 	m_widget.m_bbox.m_minSize = parser.parse(node.attribute("size").as_string());
+}
+void core::WidgetLoader::loadChildren(const pugi::xml_node & node)
+{
+	for (auto child = node.first_child(); child; child = child.next_sibling())
+	{
+		if (NODE_WIDGET != child.name())
+			continue;
+
+		const std::string name = child.attribute("name").as_string();
+		if (name.empty())
+			LOG_WARNING << "Cannot load widget without a name";
+		else if (const auto it = m_widgets.find(name); it != m_widgets.end())
+			LOG_WARNING << "Cannot overwrite existing widget " << name;
+		else
+			WidgetLoader{ m_widgets, m_widgets[name] }.load(child);
+	}
 }
 void core::WidgetLoader::loadLink(const pugi::xml_node & node)
 {
@@ -55,6 +93,9 @@ void core::WidgetLoader::initAsSlider(const pugi::xml_node & node)
 
 void core::WidgetLoader::registerProcessors()
 {
+	m_widget.m_processors.push_back(gui::updatePosition);
+	m_widget.m_processors.push_back(gui::updateChildren);
+	m_widget.m_processors.push_back(gui::updateSize);
 }
 void core::WidgetLoader::registerMouseListeners()
 {
