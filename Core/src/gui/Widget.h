@@ -43,19 +43,6 @@ namespace core
 		using Renderer = std::function<void(const Widget &, const glm::vec2 & offset)>;
 
 		/**
-			Binds the widget to a given value of a given type in the overarching gui. If the value
-			is changed, this will be reflected within the widget.
-
-			If the field value changes, the widget will detect this and fire a on change script.
-			If the type is "bool", the widget's activation status will be set to the field value.
-		*/
-		struct Binding
-		{
-			std::string m_field;
-			std::string m_type;
-		};
-
-		/**
 			The border determines how far away at minimum another widget must be to the current
 			widget. If two widgets are connected, the actual border will be the greatest border
 			value along the edge which they share.

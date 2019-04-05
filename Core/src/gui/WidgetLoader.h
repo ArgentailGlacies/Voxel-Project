@@ -32,8 +32,8 @@ namespace core
 
 		// Injects special functionality for button widgets.
 		
-		void loadButton(const pugi::xml_node & node);
-		void loadSlider(const pugi::xml_node & node);
+		void initAsButton(const pugi::xml_node & node);
+		void initAsSlider(const pugi::xml_node & node);
 
 		// ...
 
