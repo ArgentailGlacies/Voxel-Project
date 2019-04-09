@@ -148,14 +148,17 @@ namespace core::gui
 		{
 			m_loader.registerMouseListeners();
 
-			Assert::AreEqual(0u, m_widget.m_listeners.size());
+			Assert::AreEqual(3u, m_widget.m_listeners.size());
 		}
 
 	private:
 		pugi::xml_document m_doc;
 
+		Script m_script{ "script" };
+		EventBus m_bus;
 		Widgets m_widgets;
 		Widget & m_widget = m_widgets["widget"];
-		WidgetLoader m_loader{ m_widgets, m_widget };
+
+		WidgetLoader m_loader{ m_script, m_bus, m_widgets, m_widget };
 	};
 }

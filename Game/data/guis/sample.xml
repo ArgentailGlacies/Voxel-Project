@@ -41,7 +41,7 @@ Sprites:
   <state visible="true" locked="false" active="false" />
   
   <!-- Widgets may have any number of scripts attached to them, each with different data -->
-  <script type="on_tick" script="" />       <!-- Invoked every tick the widget is active -->
+  <script type="on_tick" script="" />       <!-- Invoked every tick -->
   <script type="on_click" script="" />      <!-- Invoked when the widget is clicked      -->
   <script type="on_toggle" script="" />     <!-- Invoked when the widget toggles state   -->
   <script type="on_activate" script="" />   <!-- Invoked when the widget becomes active  -->

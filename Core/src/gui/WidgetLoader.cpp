@@ -1,6 +1,8 @@
 
 #include "WidgetLoader.h"
 
+#include "gui/Gui.h"
+#include "gui/WidgetListener.h"
 #include "gui/WidgetProcessor.h"
 #include "util/StringParsing.h"
 
@@ -53,21 +55,28 @@ void core::WidgetLoader::loadChildren(const pugi::xml_node & node)
 		else if (const auto it = m_widgets.find(name); it != m_widgets.end())
 			LOG_WARNING << "Cannot overwrite existing widget " << name;
 		else
-			WidgetLoader{ m_widgets, m_widgets[name] }.load(child);
+			WidgetLoader{ m_script, m_bus, m_widgets, m_widgets[name] }.load(child);
 	}
 }
 void core::WidgetLoader::loadLink(const pugi::xml_node & node)
 {
 	const util::Parser<glm::vec2> parser;
-	const auto it = m_widgets.find(node.attribute("target").as_string());
+	const std::string target = node.attribute("target").as_string();
 
-	m_widget.m_link.m_target = it == m_widgets.end() ? nullptr : &it->second;
+	if (target.empty())
+		m_widget.m_link.m_target = m_widget.m_family.m_leader;
+	else if (const auto it = m_widgets.find(target); it == m_widgets.end())
+		LOG_WARNING << "Cannot link to nonexisting widget " << target;
+	else
+		m_widget.m_link.m_target = &it->second;
 	m_widget.m_link.m_ratio = parser.parse(node.attribute("ratio").as_string());
 }
 void core::WidgetLoader::loadGroup(const pugi::xml_node & node)
 {
 	const auto leader = node.attribute("leader").as_string();
-	if (const auto it = m_widgets.find(leader); it != m_widgets.end())
+	if (const auto it = m_widgets.find(leader); it == m_widgets.end())
+		LOG_WARNING << "Cannot form group with nonexisting widget " << leader;
+	else
 	{
 		m_widget.m_group.m_leader = &it->second;
 		m_widget.m_group.m_leader->m_group.m_members.push_back(&m_widget);
@@ -82,15 +91,6 @@ void core::WidgetLoader::loadState(const pugi::xml_node & node)
 
 // ...
 
-void core::WidgetLoader::initAsButton(const pugi::xml_node & node)
-{
-}
-void core::WidgetLoader::initAsSlider(const pugi::xml_node & node)
-{
-}
-
-// ...
-
 void core::WidgetLoader::registerProcessors()
 {
 	m_widget.m_processors.push_back(gui::updatePosition);
@@ -98,5 +98,23 @@ void core::WidgetLoader::registerProcessors()
 	m_widget.m_processors.push_back(gui::updateSize);
 }
 void core::WidgetLoader::registerMouseListeners()
+{
+	m_widget.m_listeners.push_back(m_bus.add<MouseMove>(0,
+		[this](auto & event) { gui::mouseMove(event, m_widget); }
+	));
+	m_widget.m_listeners.push_back(m_bus.add<MousePress>(0,
+		[this](auto & event) { gui::mousePress(event, m_widget); }
+	));
+	m_widget.m_listeners.push_back(m_bus.add<MouseRelease>(0,
+		[this](auto & event) { gui::mouseRelease(m_script, event, m_widget); }
+	));
+}
+
+// ...
+
+void core::WidgetLoader::initAsButton(const pugi::xml_node & node)
+{
+}
+void core::WidgetLoader::initAsSlider(const pugi::xml_node & node)
 {
 }

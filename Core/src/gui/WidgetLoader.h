@@ -1,6 +1,8 @@
 #pragma once
 
+#include "event/EventBus.h"
 #include "gui/Widget.h"
+#include "script/Script.h"
 
 #include <pugixml/pugixml.hpp>
 
@@ -14,7 +16,8 @@ namespace core
 	{
 	public:
 		WidgetLoader() = delete;
-		WidgetLoader(Widgets & widgets, Widget & widget) : m_widgets(widgets), m_widget(widget) {}
+		WidgetLoader(const Script & script, EventBus & bus, Widgets & widgets, Widget & widget)
+			: m_script(script), m_bus(bus), m_widgets(widgets), m_widget(widget) {}
 
 		/**
 			Loads the data stored in the node as a widget node. Will load child widgets as well, if
@@ -39,8 +42,8 @@ namespace core
 		/**
 			Loads up all children of the widget, and loads the childrens' children, recursively.
 
-			<widget name="childA" />
-			<widget name="childB" />
+			<widget name="childA" type="type" />
+			<widget name="childB" type="type" />
 			...
 		*/
 		void loadChildren(const pugi::xml_node & node);
@@ -67,11 +70,6 @@ namespace core
 		void loadState(const pugi::xml_node & node);
 
 		// ...
-		
-		void initAsButton(const pugi::xml_node & node);
-		void initAsSlider(const pugi::xml_node & node);
-
-		// ...
 
 		/**
 			Registers a processor for recalculating widget size, position, and one to update
@@ -80,13 +78,19 @@ namespace core
 		*/
 		void registerProcessors();
 		/**
-			Registers a listener for mouse moving, to update widget hover state.
-			Registers a listener for mouse clicks, to update widget press state.
-			Registers a listener for mouse release, to update widget active state.
+			Registers a listener for mouse move, press and release events in order to properly
+			process widget hover, press and active state.
 		*/
 		void registerMouseListeners();
 
+		// ...
+		
+		void initAsButton(const pugi::xml_node & node);
+		void initAsSlider(const pugi::xml_node & node);
+
 	private:
+		const Script & m_script;
+		EventBus & m_bus;
 		Widgets & m_widgets;
 		Widget & m_widget;
 	};

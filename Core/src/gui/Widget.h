@@ -118,6 +118,8 @@ namespace core
 		Relation m_group;
 		Link m_link;
 		State m_state;
+
+		std::unordered_map<std::string, std::string> m_scripts;
 	};
 
 	/**
