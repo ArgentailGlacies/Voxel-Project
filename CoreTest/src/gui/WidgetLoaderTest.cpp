@@ -14,59 +14,48 @@ namespace core::gui
 	public:
 		TEST_METHOD(WidgetLoader_loadBorder)
 		{
-			auto node = m_doc.append_child("border");
-			node.append_attribute("inner").set_value(3.0f);
-			node.append_attribute("outer").set_value(2.0f);
+			const Widget::Border border = { 3.0f, 2.0f };
 
-			m_loader.loadBorder(node);
+			m_loader.loadBorder(addBorder(m_doc, border));
 
-			Assert::AreEqual(3.0f, m_widget.m_border.m_inner);
-			Assert::AreEqual(2.0f, m_widget.m_border.m_outer);
+			Assert::AreEqual(border.m_inner, m_widget.m_border.m_inner);
+			Assert::AreEqual(border.m_outer, m_widget.m_border.m_outer);
 		}
 		TEST_METHOD(WidgetLoader_loadBoundingBox)
 		{
-			auto node = m_doc.append_child("bbox");
-			node.append_attribute("size").set_value("40, 25.2");
+			const Widget::BoundingBox bbox = { {}, {}, { 40.0f, 25.2f } };
 
-			m_loader.loadBoundingBox(node);
+			m_loader.loadBoundingBox(addBoundingBox(m_doc, bbox));
 
-			Assert::AreEqual({ 0.0f, 0.0f }, m_widget.m_bbox.m_pos);
-			Assert::AreEqual({ 0.0f, 0.0f }, m_widget.m_bbox.m_size);
-			Assert::AreEqual({ 40.0f, 25.2f }, m_widget.m_bbox.m_minSize);
-		}
-		TEST_METHOD(WidgetLoader_loadLink)
-		{
-			auto node = m_doc.append_child("link");
-			node.append_attribute("target").set_value("other");
-			node.append_attribute("ratio").set_value("0.75, 1.0");
-
-			const auto & other = m_widgets["other"];
-			m_loader.loadLink(node);
-
-			Assert::IsTrue(&other == m_widget.m_link.m_target);
-			Assert::AreEqual({ 0.75f, 1.0f }, m_widget.m_link.m_ratio);
+			Assert::AreEqual(bbox.m_pos, m_widget.m_bbox.m_pos);
+			Assert::AreEqual(bbox.m_size, m_widget.m_bbox.m_size);
+			Assert::AreEqual(bbox.m_minSize, m_widget.m_bbox.m_minSize);
 		}
 		TEST_METHOD(WidgetLoader_loadGroup)
 		{
-			auto node = m_doc.append_child("group");
-			node.append_attribute("leader").set_value("other");
+			auto & leader = add("leader");
 
-			const auto & other = m_widgets["other"];
-			m_loader.loadGroup(node);
+			m_loader.loadGroup(addGroup(m_doc, leader));
 
-			Assert::IsTrue(&other == m_widget.m_group.m_leader);
+			Assert::IsTrue(&leader == m_widget.m_group.m_leader);
 			Assert::AreEqual(0u, m_widget.m_group.m_members.size());
-			Assert::IsNull(other.m_link.m_target);
-			Assert::AreEqual(1u, other.m_group.m_members.size());
+			Assert::IsNull(leader.m_link.m_target);
+			Assert::AreEqual(1u, leader.m_group.m_members.size());
+		}
+		TEST_METHOD(WidgetLoader_loadLink)
+		{
+			const Widget::Link link = { &add("target"), { 0.75f, 1.0f } };
+
+			m_loader.loadLink(addLink(m_doc, link));
+
+			Assert::IsTrue(link.m_target == m_widget.m_link.m_target);
+			Assert::AreEqual(link.m_ratio, m_widget.m_link.m_ratio);
 		}
 		TEST_METHOD(WidgetLoader_loadState)
 		{
-			auto node = m_doc.append_child("state");
-			node.append_attribute("visible").set_value(false);
-			node.append_attribute("locked").set_value(true);
-			node.append_attribute("active").set_value(true);
+			const Widget::State state = { false, true, true };
 
-			m_loader.loadState(node);
+			m_loader.loadState(addState(m_doc, state));
 
 			Assert::IsFalse(m_widget.m_state.m_visible);
 			Assert::IsTrue(m_widget.m_state.m_locked);
@@ -136,6 +125,31 @@ namespace core::gui
 			Assert::IsTrue(m_widgets["child"].m_state.m_active);
 		}
 
+		TEST_METHOD(WidgetLoader_loadWidgetHierarchy)
+		{
+			auto parent = addWidget(m_doc, "parent", "panel");
+			auto childA = addWidget(parent, "childA", "panel");
+			auto childB = addWidget(parent, "childB", "button");
+			auto childC = addWidget(childA, "childC", "button");
+
+			m_loader.load(m_doc);
+
+			Assert::AreEqual({ "parent" }, m_widgets["parent"].m_name);
+			Assert::AreEqual({ "childA" }, m_widgets["childA"].m_name);
+			Assert::AreEqual({ "childB" }, m_widgets["childB"].m_name);
+			Assert::AreEqual({ "childC" }, m_widgets["childC"].m_name);
+
+			Assert::AreEqual(2u, m_widgets["parent"].m_family.m_members.size());
+			Assert::AreEqual(1u, m_widgets["childA"].m_family.m_members.size());
+			Assert::AreEqual(0u, m_widgets["childB"].m_family.m_members.size());
+			Assert::AreEqual(0u, m_widgets["childC"].m_family.m_members.size());
+
+			Assert::IsTrue(&m_widget == m_widgets["parent"].m_family.m_leader);
+			Assert::IsTrue(&m_widgets["parent"] == m_widgets["childA"].m_family.m_leader);
+			Assert::IsTrue(&m_widgets["parent"] == m_widgets["childB"].m_family.m_leader);
+			Assert::IsTrue(&m_widgets["childA"] == m_widgets["childC"].m_family.m_leader);
+		}
+
 		// ...
 
 		TEST_METHOD(WidgetLoader_registerProcessors)
@@ -152,6 +166,58 @@ namespace core::gui
 		}
 
 	private:
+		Widget & add(const std::string & name)
+		{
+			m_widgets[name].m_name = name;
+			return m_widgets[name];
+		}
+
+		pugi::xml_node addBorder(pugi::xml_node & widget, const Widget::Border & border)
+		{
+			auto node = widget.append_child("border");
+			node.append_attribute("inner").set_value(border.m_inner);
+			node.append_attribute("outer").set_value(border.m_outer);
+			return node;
+		}
+		pugi::xml_node addBoundingBox(pugi::xml_node & widget, const Widget::BoundingBox & bbox)
+		{
+			const auto str = std::to_string(bbox.m_minSize.x) + ", " + std::to_string(bbox.m_minSize.y);
+			auto node = widget.append_child("bbox");
+			node.append_attribute("size").set_value(str.c_str());
+			return node;
+		}
+		pugi::xml_node addGroup(pugi::xml_node & widget, const Widget & leader)
+		{
+			auto node = widget.append_child("group");
+			node.append_attribute("leader").set_value(leader.m_name.c_str());
+			return node;
+		}
+		pugi::xml_node addLink(pugi::xml_node & widget, const Widget::Link & link)
+		{
+			const auto str = std::to_string(link.m_ratio.x) + ", " + std::to_string(link.m_ratio.y);
+			auto node = widget.append_child("link");
+			node.append_attribute("target").set_value(link.m_target->m_name.c_str());
+			node.append_attribute("ratio").set_value(str.c_str());
+			return node;
+		}
+		pugi::xml_node addState(pugi::xml_node & widget, const Widget::State & state)
+		{
+			auto node = widget.append_child("state");
+			node.append_attribute("visible").set_value(state.m_visible);
+			node.append_attribute("active").set_value(state.m_active);
+			node.append_attribute("locked").set_value(state.m_locked);
+			return node;
+		}
+		pugi::xml_node addWidget(pugi::xml_node & widget, const std::string & name, const std::string & type)
+		{
+			auto node = widget.append_child("widget");
+			node.append_attribute("name").set_value(name.c_str());
+			node.append_attribute("type").set_value(type.c_str());
+			return node;
+		}
+
+		// ...
+
 		pugi::xml_document m_doc;
 
 		Script m_script{ "script" };

@@ -88,7 +88,7 @@ namespace core::gui
 	private:
 		inline void mouseMove(const glm::vec2 & position)
 		{
-			// Execution order: parent, then children in creation order
+			// Execution order: children in reverse creation order, then parent
 			MouseMove event = { position, {}, {}, {} };
 			gui::mouseMove(event, *m_root);
 			gui::mouseMove(event, *m_widgetA);

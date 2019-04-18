@@ -108,6 +108,8 @@ namespace core
 
 		// ...
 
+		std::string m_name;
+
 		std::vector<Processor> m_processors;
 		std::vector<Renderer> m_renderers;
 		std::vector<Listener> m_listeners;

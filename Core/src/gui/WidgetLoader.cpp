@@ -17,6 +17,8 @@ namespace
 
 void core::WidgetLoader::load(const pugi::xml_node & node)
 {
+	m_widget.m_name = node.attribute("name").as_string();
+
 	if (const auto data = node.child("border"))
 		loadBorder(data);
 	if (const auto data = node.child("bbox"))
@@ -28,6 +30,7 @@ void core::WidgetLoader::load(const pugi::xml_node & node)
 	if (const auto data = node.child("state"))
 		loadState(data);
 
+	// Children must be loaded after regular widget data
 	loadChildren(node);
 }
 
@@ -55,7 +58,12 @@ void core::WidgetLoader::loadChildren(const pugi::xml_node & node)
 		else if (const auto it = m_widgets.find(name); it != m_widgets.end())
 			LOG_WARNING << "Cannot overwrite existing widget " << name;
 		else
-			WidgetLoader{ m_script, m_bus, m_widgets, m_widgets[name] }.load(child);
+		{
+			auto & widget = m_widgets[name];
+			widget.m_family.m_leader = &m_widget;
+			m_widget.m_family.m_members.push_back(&widget);
+			WidgetLoader{ m_script, m_bus, m_widgets, widget }.load(child);
+		}
 	}
 }
 void core::WidgetLoader::loadLink(const pugi::xml_node & node)

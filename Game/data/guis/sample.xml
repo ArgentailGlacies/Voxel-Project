@@ -25,35 +25,39 @@ Sprites:
 
 -->
 
-<!--
-  Every widget must be given a unique name and a valid type
--->
-<widget name="some_window" type="panel">
-  <!-- The border represents the minimum distance another widget must have to this widget -->
-  <border inner="3" outer="5" />
-  <!-- The bounding box of a widget is automatically updated, but the minimum size can be set -->
-  <bbox minSize="32, 32" />
-  <!-- Specifies the leader of the group - cannot specify members, only the leader -->
-  <group leader="some_name" />
-  <!-- Links to any existing and named widget, or parent if no target is specified -->
-  <link target="some_name" ratio="1, 0.5" />
-  <!-- Assigns generic state of the widget -->
-  <state visible="true" locked="false" active="false" />
-  
-  <!-- Widgets may have any number of scripts attached to them, each with different data -->
-  <script type="on_tick" script="" />       <!-- Invoked every tick -->
-  <script type="on_click" script="" />      <!-- Invoked when the widget is clicked      -->
-  <script type="on_toggle" script="" />     <!-- Invoked when the widget toggles state   -->
-  <script type="on_activate" script="" />   <!-- Invoked when the widget becomes active  -->
-  
-  <!-- Widgets may have any number of renderers attached to them, each with different data -->
-  <renderer type="panel" sprite="some_background" />
-  <renderer type="button" sprite="some_sprite" />
-  <renderer type="slider" sprite="some_sprite" />
-  <renderer type="label" text="${font=some_font}some text ${widget.value} more text" />
-  
-  <!-- May have any number of child widgets -->
-  <widget name="childA" type="button" />
-  <widget name="childB" type="button" />
-  <widget name="childC" type="button" />
-</widget>
+<widgets>
+  <!-- Every widget must be given a unique name and a valid type -->
+  <widget name="some_window" type="panel">
+    <!-- The border represents the minimum distance another widget must have to this widget -->
+    <border inner="3" outer="5" />
+    <!-- The bounding box of a widget is automatically updated, but the minimum size can be set -->
+    <bbox minSize="32, 32" />
+    <!-- Specifies the leader of the group - cannot specify members, only the leader -->
+    <group leader="some_name" />
+    <!-- Links to any existing and named widget, or parent if no target is specified -->
+    <link target="some_name" ratio="1, 0.5" />
+    <!-- Assigns generic state of the widget -->
+    <state visible="true" locked="false" active="false" />
+
+    <!-- Widgets may have any number of scripts attached to them, each with different data -->
+    <script type="on_tick" script="" />
+    <!-- Invoked every tick -->
+    <script type="on_click" script="" />
+    <!-- Invoked when the widget is clicked      -->
+    <script type="on_toggle" script="" />
+    <!-- Invoked when the widget toggles state   -->
+    <script type="on_activate" script="" />
+    <!-- Invoked when the widget becomes active  -->
+
+    <!-- Widgets may have any number of renderers attached to them, each with different data -->
+    <renderer type="panel" sprite="some_background" />
+    <renderer type="button" sprite="some_sprite" />
+    <renderer type="slider" sprite="some_sprite" />
+    <renderer type="label" text="${font=some_font}some text ${widget.value} more text" />
+
+    <!-- May have any number of child widgets -->
+    <widget name="childA" type="button" />
+    <widget name="childB" type="button" />
+    <widget name="childC" type="button" />
+  </widget>
+</widgets>
