@@ -22,11 +22,15 @@
     <label>
       <renderer text="${font=some_font}some text ${widget.value} more text" />
     </label>
-    <slider>
-      <renderer button_down="some_sprite" button_up="some_sprite" bar="some_sprite"
+    <slider type="horizontal"> <!-- Valid types: horizontal, vertical -->
+      <format type="float" min="0" max="1" center="0.5" /> <!-- Valid types: float, int -->
+      <renderer button_more="some_sprite" button_less="some_sprite" bar="some_sprite"
                 text="${font=some_font}some text ${widget.value} more text" />
       <script action="" />
     </slider>
+    <textbox type="string"> <!-- Valid types: string, bool, int, float -->
+      <renderer text="${font=some_font}some text ${widget.value} more text" />
+    </textbox>
 
     <!-- May have any number of child widgets -->
     <widget name="childA" type="button" />

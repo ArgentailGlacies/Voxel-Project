@@ -55,9 +55,9 @@ namespace core::gui
 		TEST_METHOD(WidgetListener_mouseRelease)
 		{
 			bool r = false, a = false, b = false;
-			m_root->m_callbacks[Widget::CallbackType::BUTTON_ACTION] = [&r]() { r = true; };
-			m_widgetA->m_callbacks[Widget::CallbackType::BUTTON_ACTION] = [&a]() { a = true; };
-			m_widgetB->m_callbacks[Widget::CallbackType::BUTTON_ACTION] = [&b]() { b = true; };
+			//m_root->m_callbacks[Widget::CallbackType::BUTTON_ACTION] = [&r]() { r = true; };
+			//m_widgetA->m_callbacks[Widget::CallbackType::BUTTON_ACTION] = [&a]() { a = true; };
+			//m_widgetB->m_callbacks[Widget::CallbackType::BUTTON_ACTION] = [&b]() { b = true; };
 
 			// Release parent
 			mousePress(m_root->m_bbox.m_pos);

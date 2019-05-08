@@ -164,33 +164,6 @@ namespace core::gui
 			Assert::IsTrue(&m_widgets["childA"] == m_widgets["childC"].m_family.m_leader);
 		}
 
-		// ...
-
-		TEST_METHOD(WidgetLoader_registerProcessors)
-		{
-			m_loader.registerProcessors();
-
-			Assert::AreEqual(3u, m_widget.m_processors.size());
-		}
-		TEST_METHOD(WidgetLoader_registerMouseListeners)
-		{
-			m_loader.registerMouseListeners();
-
-			Assert::AreEqual(3u, m_widget.m_listeners.size());
-		}
-
-		// ...
-
-		TEST_METHOD(WidgetLoader_initAsButton)
-		{
-			auto & node = m_doc.append_child("button");
-
-		}
-		TEST_METHOD(WidgetLoader_initAsSlider)
-		{
-
-		}
-
 	private:
 		Widget & add(const std::string & name)
 		{

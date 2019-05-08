@@ -1,7 +1,5 @@
 #pragma once
 
-#include "event/EventListener.h"
-
 #include <functional>
 #include <glm/vec2.hpp>
 #include <memory>
@@ -29,31 +27,6 @@ namespace core
 		Widget & operator=(Widget &&) = delete;
 
 		// ...
-
-		/**
-			Actions performed by widgets can only be one of a series of predefined types.
-		*/
-		enum class CallbackType
-		{
-			BUTTON_ACTION
-		};
-
-		/**
-			When certain actions are performed (click buttons, moving sliders, etc.), a callback is
-			invoked depending on the action. Each callback will perform some widget-specific action.
-		*/
-		using Callback = std::function<void()>;
-		/**
-			All widgets are processed by one or more processors. Each processor perform one specific
-			operation on the widget, writing data to it if necessary.
-		*/
-		using Processor = std::function<void(Widget &)>;
-		/**
-			Widgets may be rendered by one or more renderers. Each renderer may render different
-			parts of the widget. The rendering order is the same order as the order the renderers
-			were added, meaning the first renderer renders behind the last added renderer.
-		*/
-		using Renderer = std::function<void(const Widget &, const glm::vec2 & offset)>;
 
 		/**
 			The border determines how far away at minimum another widget must be to the current
@@ -123,11 +96,6 @@ namespace core
 
 		std::string m_name;
 		std::string m_type;
-
-		std::unordered_map<CallbackType, Callback> m_callbacks;
-		std::vector<Processor> m_processors;
-		std::vector<Renderer> m_renderers;
-		std::vector<Listener> m_listeners;
 
 		BoundingBox m_bbox;
 		Border m_border;

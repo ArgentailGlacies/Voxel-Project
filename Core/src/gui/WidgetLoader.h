@@ -74,33 +74,6 @@ namespace core
 		*/
 		void loadState(const pugi::xml_node & node);
 
-		// ...
-
-		/**
-			Registers a processor for recalculating widget size, position, and one to update
-			children. Invoking all processors for a widget, should cause all processors for all
-			child widgets to be invoked as well.
-		*/
-		void registerProcessors();
-		/**
-			Registers a listener for mouse move, press and release events in order to properly
-			process widget hover, press and active state.
-		*/
-		void registerMouseListeners();
-
-		// ...
-		
-		/**
-			Initializes the widget as a button instance. The type of the button defaults to a normal
-			button if not specified. Possible tyoes are normal, checkbox and radio.
-
-			<button type="normal">
-				<renderer button="some_sprite" />
-			</button>
-		*/
-		void initAsButton(const pugi::xml_node & node);
-		void initAsSlider(const pugi::xml_node & node);
-
 	private:
 		EventBus & m_bus;
 		Widgets & m_widgets;

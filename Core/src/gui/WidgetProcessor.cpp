@@ -7,8 +7,8 @@ void core::gui::updateChildren(Widget & widget)
 {
 	for (auto & child : widget.m_family.m_members)
 	{
-		for (const auto & processor : child->m_processors)
-			processor(*child);
+		//for (const auto & processor : child->m_processors)
+		//	processor(*child);
 	}
 }
 
