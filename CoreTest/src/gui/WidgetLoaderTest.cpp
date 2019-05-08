@@ -14,10 +14,11 @@ namespace core::gui
 	public:
 		TEST_METHOD(WidgetLoader_loadHeader)
 		{
-			m_loader.loadHeader(addWidget(m_doc, "name", "type"));
+			auto & widget = m_widgets["widget"];
+			m_loader.loadHeader(addWidget(m_doc, "name", "type"), widget);
 
-			Assert::AreEqual({ "name" }, m_widget.m_name);
-			Assert::AreEqual({ "type" }, m_widget.m_type);
+			Assert::AreEqual({ "name" }, widget.m_name);
+			Assert::AreEqual({ "type" }, widget.m_type);
 		}
 		TEST_METHOD(WidgetLoader_loadBorder)
 		{
@@ -25,30 +26,33 @@ namespace core::gui
 			border.m_inner = 2.0f;
 			border.m_outer = 3.0f;
 
-			m_loader.loadBorder(addBorder(m_doc, border));
+			auto & widget = m_widgets["widget"];
+			m_loader.loadBorder(addBorder(m_doc, border), widget);
 
-			Assert::AreEqual(border.m_inner, m_widget.m_border.m_inner);
-			Assert::AreEqual(border.m_outer, m_widget.m_border.m_outer);
+			Assert::AreEqual(border.m_inner, widget.m_border.m_inner);
+			Assert::AreEqual(border.m_outer, widget.m_border.m_outer);
 		}
 		TEST_METHOD(WidgetLoader_loadBoundingBox)
 		{
 			Widget::BoundingBox bbox;
 			bbox.m_minSize = { 40.0f, 25.2f };
 
-			m_loader.loadBoundingBox(addBoundingBox(m_doc, bbox));
+			auto & widget = m_widgets["widget"];
+			m_loader.loadBoundingBox(addBoundingBox(m_doc, bbox), widget);
 
-			Assert::AreEqual(bbox.m_pos, m_widget.m_bbox.m_pos);
-			Assert::AreEqual(bbox.m_size, m_widget.m_bbox.m_size);
-			Assert::AreEqual(bbox.m_minSize, m_widget.m_bbox.m_minSize);
+			Assert::AreEqual(bbox.m_pos, widget.m_bbox.m_pos);
+			Assert::AreEqual(bbox.m_size, widget.m_bbox.m_size);
+			Assert::AreEqual(bbox.m_minSize, widget.m_bbox.m_minSize);
 		}
 		TEST_METHOD(WidgetLoader_loadGroup)
 		{
 			auto & leader = add("leader");
 
-			m_loader.loadGroup(addGroup(m_doc, leader));
+			auto & widget = m_widgets["widget"];
+			m_loader.loadGroup(addGroup(m_doc, leader), widget);
 
-			Assert::IsTrue(&leader == m_widget.m_group.m_leader);
-			Assert::AreEqual(0u, m_widget.m_group.m_members.size());
+			Assert::IsTrue(&leader == widget.m_group.m_leader);
+			Assert::AreEqual(0u, widget.m_group.m_members.size());
 			Assert::IsNull(leader.m_link.m_target);
 			Assert::AreEqual(1u, leader.m_group.m_members.size());
 		}
@@ -58,10 +62,11 @@ namespace core::gui
 			link.m_target = &add("target");
 			link.m_ratio = { 0.75f, 1.0f };
 
-			m_loader.loadLink(addLink(m_doc, link));
+			auto & widget = m_widgets["widget"];
+			m_loader.loadLink(addLink(m_doc, link), widget);
 
-			Assert::IsTrue(link.m_target == m_widget.m_link.m_target);
-			Assert::AreEqual(link.m_ratio, m_widget.m_link.m_ratio);
+			Assert::IsTrue(link.m_target == widget.m_link.m_target);
+			Assert::AreEqual(link.m_ratio, widget.m_link.m_ratio);
 		}
 		TEST_METHOD(WidgetLoader_loadState)
 		{
@@ -70,30 +75,32 @@ namespace core::gui
 			state.m_active = true;
 			state.m_locked = true;
 
-			m_loader.loadState(addState(m_doc, state));
+			auto & widget = m_widgets["widget"];
+			m_loader.loadState(addState(m_doc, state), widget);
 
-			Assert::AreEqual(state.m_visible, m_widget.m_state.m_visible);
-			Assert::AreEqual(state.m_active, m_widget.m_state.m_locked);
-			Assert::AreEqual(state.m_locked, m_widget.m_state.m_active);
+			Assert::AreEqual(state.m_visible, widget.m_state.m_visible);
+			Assert::AreEqual(state.m_active, widget.m_state.m_locked);
+			Assert::AreEqual(state.m_locked, widget.m_state.m_active);
 		}
 
 		TEST_METHOD(WidgetLoader_loadDefaultValues)
 		{
 			auto node = m_doc.append_child("widget");
 			
-			m_loader.load(node);
+			auto & widget = m_widgets["widget"];
+			m_loader.load(node, widget);
 
-			Assert::AreEqual(0.0f, m_widget.m_border.m_inner);
-			Assert::AreEqual(0.0f, m_widget.m_border.m_outer);
-			Assert::AreEqual({ 0.0f, 0.0f }, m_widget.m_bbox.m_pos);
-			Assert::AreEqual({ 0.0f, 0.0f }, m_widget.m_bbox.m_size);
-			Assert::AreEqual({ 0.0f, 0.0f }, m_widget.m_bbox.m_minSize);
-			Assert::IsNull(m_widget.m_link.m_target);
-			Assert::AreEqual({ 0.0f, 0.0f }, m_widget.m_link.m_ratio);
-			Assert::IsNull(m_widget.m_group.m_leader);
-			Assert::IsTrue(m_widget.m_state.m_visible);
-			Assert::IsFalse(m_widget.m_state.m_locked);
-			Assert::IsFalse(m_widget.m_state.m_active);
+			Assert::AreEqual(0.0f, widget.m_border.m_inner);
+			Assert::AreEqual(0.0f, widget.m_border.m_outer);
+			Assert::AreEqual({ 0.0f, 0.0f }, widget.m_bbox.m_pos);
+			Assert::AreEqual({ 0.0f, 0.0f }, widget.m_bbox.m_size);
+			Assert::AreEqual({ 0.0f, 0.0f }, widget.m_bbox.m_minSize);
+			Assert::IsNull(widget.m_link.m_target);
+			Assert::AreEqual({ 0.0f, 0.0f }, widget.m_link.m_ratio);
+			Assert::IsNull(widget.m_group.m_leader);
+			Assert::IsTrue(widget.m_state.m_visible);
+			Assert::IsFalse(widget.m_state.m_locked);
+			Assert::IsFalse(widget.m_state.m_active);
 		}
 		TEST_METHOD(WidgetLoader_loadSpecialValues)
 		{
@@ -105,19 +112,20 @@ namespace core::gui
 			node.append_child("state").append_attribute("active").set_value("true");
 
 			const auto & other = m_widgets["other"];
-			m_loader.load(node);
+			auto & widget = m_widgets["widget"];
+			m_loader.load(node, widget);
 
-			Assert::AreEqual(0.0f, m_widget.m_border.m_inner);
-			Assert::AreEqual(2.0f, m_widget.m_border.m_outer);
-			Assert::AreEqual({ 0.0f, 0.0f }, m_widget.m_bbox.m_pos);
-			Assert::AreEqual({ 0.0f, 0.0f }, m_widget.m_bbox.m_size);
-			Assert::AreEqual({ 40.0f, 80.0f }, m_widget.m_bbox.m_minSize);
-			Assert::IsTrue(&other == m_widget.m_link.m_target);
-			Assert::AreEqual({ 0.0f, 0.0f }, m_widget.m_link.m_ratio);
-			Assert::IsTrue(&other == m_widget.m_group.m_leader);
-			Assert::IsTrue(m_widget.m_state.m_visible);
-			Assert::IsFalse(m_widget.m_state.m_locked);
-			Assert::IsTrue(m_widget.m_state.m_active);
+			Assert::AreEqual(0.0f, widget.m_border.m_inner);
+			Assert::AreEqual(2.0f, widget.m_border.m_outer);
+			Assert::AreEqual({ 0.0f, 0.0f }, widget.m_bbox.m_pos);
+			Assert::AreEqual({ 0.0f, 0.0f }, widget.m_bbox.m_size);
+			Assert::AreEqual({ 40.0f, 80.0f }, widget.m_bbox.m_minSize);
+			Assert::IsTrue(&other == widget.m_link.m_target);
+			Assert::AreEqual({ 0.0f, 0.0f }, widget.m_link.m_ratio);
+			Assert::IsTrue(&other == widget.m_group.m_leader);
+			Assert::IsTrue(widget.m_state.m_visible);
+			Assert::IsFalse(widget.m_state.m_locked);
+			Assert::IsTrue(widget.m_state.m_active);
 		}
 
 		TEST_METHOD(WidgetLoader_loadChild)
@@ -133,7 +141,8 @@ namespace core::gui
 
 			m_doc.append_child("widget").append_attribute("name").set_value("other");
 
-			m_loader.loadChildren(m_doc);
+			auto & widget = m_widgets["widget"];
+			m_loader.loadChildren(m_doc, widget);
 			
 			Assert::IsTrue(m_widgets.find("other") != m_widgets.end());
 			Assert::IsTrue(m_widgets.find("child") != m_widgets.end());
@@ -146,7 +155,8 @@ namespace core::gui
 			auto childB = addWidget(parent, "childB", "button");
 			auto childC = addWidget(childA, "childC", "button");
 
-			m_loader.load(m_doc);
+			auto & widget = m_widgets["widget"];
+			m_loader.load(m_doc, widget);
 
 			Assert::AreEqual({ "parent" }, m_widgets["parent"].m_name);
 			Assert::AreEqual({ "childA" }, m_widgets["childA"].m_name);
@@ -158,7 +168,7 @@ namespace core::gui
 			Assert::AreEqual(0u, m_widgets["childB"].m_family.m_members.size());
 			Assert::AreEqual(0u, m_widgets["childC"].m_family.m_members.size());
 
-			Assert::IsTrue(&m_widget == m_widgets["parent"].m_family.m_leader);
+			Assert::IsTrue(&widget == m_widgets["parent"].m_family.m_leader);
 			Assert::IsTrue(&m_widgets["parent"] == m_widgets["childA"].m_family.m_leader);
 			Assert::IsTrue(&m_widgets["parent"] == m_widgets["childB"].m_family.m_leader);
 			Assert::IsTrue(&m_widgets["childA"] == m_widgets["childC"].m_family.m_leader);
@@ -219,10 +229,7 @@ namespace core::gui
 
 		pugi::xml_document m_doc;
 
-		EventBus m_bus;
 		Widgets m_widgets;
-		Widget & m_widget = m_widgets["widget"];
-
-		WidgetLoader m_loader{ m_bus, m_widgets, m_widget };
+		WidgetLoader m_loader{ m_widgets };
 	};
 }

@@ -16,41 +16,41 @@ namespace
 
 // ...
 
-void core::WidgetLoader::load(const pugi::xml_node & node)
+void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 {
-	loadHeader(node);
+	loadHeader(node, widget);
 
 	if (const auto data = node.child("border"))
-		loadBorder(data);
+		loadBorder(data, widget);
 	if (const auto data = node.child("bbox"))
-		loadBoundingBox(data);
+		loadBoundingBox(data, widget);
 	if (const auto data = node.child("link"))
-		loadLink(data);
+		loadLink(data, widget);
 	if (const auto data = node.child("group"))
-		loadGroup(data);
+		loadGroup(data, widget);
 	if (const auto data = node.child("state"))
-		loadState(data);
+		loadState(data, widget);
 
-	loadChildren(node);
+	loadChildren(node, widget);
 }
 
-void core::WidgetLoader::loadHeader(const pugi::xml_node & node)
+void core::WidgetLoader::loadHeader(const pugi::xml_node & node, Widget & widget)
 {
-	m_widget.m_name = node.attribute("name").as_string();
-	m_widget.m_type = node.attribute("type").as_string();
+	widget.m_name = node.attribute("name").as_string();
+	widget.m_type = node.attribute("type").as_string();
 }
-void core::WidgetLoader::loadBorder(const pugi::xml_node & node)
+void core::WidgetLoader::loadBorder(const pugi::xml_node & node, Widget & widget)
 {
-	m_widget.m_border.m_inner = node.attribute("inner").as_float();
-	m_widget.m_border.m_outer = node.attribute("outer").as_float();
+	widget.m_border.m_inner = node.attribute("inner").as_float();
+	widget.m_border.m_outer = node.attribute("outer").as_float();
 }
-void core::WidgetLoader::loadBoundingBox(const pugi::xml_node & node)
+void core::WidgetLoader::loadBoundingBox(const pugi::xml_node & node, Widget & widget)
 {
 	const util::Parser<glm::vec2> parser;
 
-	m_widget.m_bbox.m_minSize = parser.parse(node.attribute("size").as_string());
+	widget.m_bbox.m_minSize = parser.parse(node.attribute("size").as_string());
 }
-void core::WidgetLoader::loadChildren(const pugi::xml_node & node)
+void core::WidgetLoader::loadChildren(const pugi::xml_node & node, Widget & widget)
 {
 	for (auto child = node.first_child(); child; child = child.next_sibling())
 	{
@@ -64,40 +64,40 @@ void core::WidgetLoader::loadChildren(const pugi::xml_node & node)
 			LOG_WARNING << "Cannot overwrite existing widget " << name;
 		else
 		{
-			auto & widget = m_widgets[name];
-			widget.m_family.m_leader = &m_widget;
-			m_widget.m_family.m_members.push_back(&widget);
-			WidgetLoader{ m_bus, m_widgets, widget }.load(child);
+			auto & w = m_widgets[name];
+			w.m_family.m_leader = &widget;
+			widget.m_family.m_members.push_back(&w);
+			load(child, w);
 		}
 	}
 }
-void core::WidgetLoader::loadLink(const pugi::xml_node & node)
+void core::WidgetLoader::loadLink(const pugi::xml_node & node, Widget & widget)
 {
 	const util::Parser<glm::vec2> parser;
 	const std::string target = node.attribute("target").as_string();
 
 	if (target.empty())
-		m_widget.m_link.m_target = m_widget.m_family.m_leader;
+		widget.m_link.m_target = widget.m_family.m_leader;
 	else if (const auto it = m_widgets.find(target); it == m_widgets.end())
 		LOG_WARNING << "Cannot link to nonexisting widget " << target;
 	else
-		m_widget.m_link.m_target = &it->second;
-	m_widget.m_link.m_ratio = parser.parse(node.attribute("ratio").as_string());
+		widget.m_link.m_target = &it->second;
+	widget.m_link.m_ratio = parser.parse(node.attribute("ratio").as_string());
 }
-void core::WidgetLoader::loadGroup(const pugi::xml_node & node)
+void core::WidgetLoader::loadGroup(const pugi::xml_node & node, Widget & widget)
 {
 	const auto leader = node.attribute("leader").as_string();
 	if (const auto it = m_widgets.find(leader); it == m_widgets.end())
 		LOG_WARNING << "Cannot form group with nonexisting widget " << leader;
 	else
 	{
-		m_widget.m_group.m_leader = &it->second;
-		m_widget.m_group.m_leader->m_group.m_members.push_back(&m_widget);
+		widget.m_group.m_leader = &it->second;
+		widget.m_group.m_leader->m_group.m_members.push_back(&widget);
 	}
 }
-void core::WidgetLoader::loadState(const pugi::xml_node & node)
+void core::WidgetLoader::loadState(const pugi::xml_node & node, Widget & widget)
 {
-	m_widget.m_state.m_visible = node.attribute("visible").as_bool(true);
-	m_widget.m_state.m_locked = node.attribute("locked").as_bool();
-	m_widget.m_state.m_active = node.attribute("active").as_bool();
+	widget.m_state.m_visible = node.attribute("visible").as_bool(true);
+	widget.m_state.m_locked = node.attribute("locked").as_bool();
+	widget.m_state.m_active = node.attribute("active").as_bool();
 }
