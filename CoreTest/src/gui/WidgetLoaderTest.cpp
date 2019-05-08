@@ -12,9 +12,18 @@ namespace core::gui
 	TEST_CLASS(WidgetLoaderTest)
 	{
 	public:
+		TEST_METHOD(WidgetLoader_loadHeader)
+		{
+			m_loader.loadHeader(addWidget(m_doc, "name", "type"));
+
+			Assert::AreEqual({ "name" }, m_widget.m_name);
+			Assert::AreEqual({ "type" }, m_widget.m_type);
+		}
 		TEST_METHOD(WidgetLoader_loadBorder)
 		{
-			const Widget::Border border = { 3.0f, 2.0f };
+			Widget::Border border;
+			border.m_inner = 2.0f;
+			border.m_outer = 3.0f;
 
 			m_loader.loadBorder(addBorder(m_doc, border));
 
@@ -23,7 +32,8 @@ namespace core::gui
 		}
 		TEST_METHOD(WidgetLoader_loadBoundingBox)
 		{
-			const Widget::BoundingBox bbox = { {}, {}, { 40.0f, 25.2f } };
+			Widget::BoundingBox bbox;
+			bbox.m_minSize = { 40.0f, 25.2f };
 
 			m_loader.loadBoundingBox(addBoundingBox(m_doc, bbox));
 
@@ -44,7 +54,9 @@ namespace core::gui
 		}
 		TEST_METHOD(WidgetLoader_loadLink)
 		{
-			const Widget::Link link = { &add("target"), { 0.75f, 1.0f } };
+			Widget::Link link;
+			link.m_target = &add("target");
+			link.m_ratio = { 0.75f, 1.0f };
 
 			m_loader.loadLink(addLink(m_doc, link));
 
@@ -53,13 +65,16 @@ namespace core::gui
 		}
 		TEST_METHOD(WidgetLoader_loadState)
 		{
-			const Widget::State state = { false, true, true };
+			Widget::State state;
+			state.m_visible = false;
+			state.m_active = true;
+			state.m_locked = true;
 
 			m_loader.loadState(addState(m_doc, state));
 
-			Assert::IsFalse(m_widget.m_state.m_visible);
-			Assert::IsTrue(m_widget.m_state.m_locked);
-			Assert::IsTrue(m_widget.m_state.m_active);
+			Assert::AreEqual(state.m_visible, m_widget.m_state.m_visible);
+			Assert::AreEqual(state.m_active, m_widget.m_state.m_locked);
+			Assert::AreEqual(state.m_locked, m_widget.m_state.m_active);
 		}
 
 		TEST_METHOD(WidgetLoader_loadDefaultValues)
@@ -124,7 +139,6 @@ namespace core::gui
 			Assert::IsTrue(m_widgets.find("child") != m_widgets.end());
 			Assert::IsTrue(m_widgets["child"].m_state.m_active);
 		}
-
 		TEST_METHOD(WidgetLoader_loadWidgetHierarchy)
 		{
 			auto parent = addWidget(m_doc, "parent", "panel");
@@ -163,6 +177,18 @@ namespace core::gui
 			m_loader.registerMouseListeners();
 
 			Assert::AreEqual(3u, m_widget.m_listeners.size());
+		}
+
+		// ...
+
+		TEST_METHOD(WidgetLoader_initAsButton)
+		{
+			auto & node = m_doc.append_child("button");
+
+		}
+		TEST_METHOD(WidgetLoader_initAsSlider)
+		{
+
 		}
 
 	private:
@@ -220,11 +246,10 @@ namespace core::gui
 
 		pugi::xml_document m_doc;
 
-		Script m_script{ "script" };
 		EventBus m_bus;
 		Widgets m_widgets;
 		Widget & m_widget = m_widgets["widget"];
 
-		WidgetLoader m_loader{ m_script, m_bus, m_widgets, m_widget };
+		WidgetLoader m_loader{ m_bus, m_widgets, m_widget };
 	};
 }

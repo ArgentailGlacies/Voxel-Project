@@ -1,59 +1,32 @@
 <?xml version="1.0" ?>
 
-<!--
-
-BUTTON
-BUTTON_CHECKBOX
-BUTTON_RADIO
-  Actions:
-   - click  	Invoked whenever the user first clicks the widget
-   - hold		  Invoked whenever the user has clicked the widget but not yet released
-   - release	Invoked whenever the user releases the widget
-  Sprites:
-   - icon     The icon of the button
-   
-PANEL
-  Sprites:
-   - background   The visible background of the panel
-
-
-
-
-Sprites:
- - background	The sprite displayed in the background of the widget
- - foreground	The sprite displayed in the foreground of the widget
-
--->
-
 <widgets>
-  <!-- Every widget must be given a unique name and a valid type -->
-  <widget name="some_window" type="panel">
+  <!-- Every widget must be given a unique name -->
+  <widget name="some_widget">
     <!-- The border represents the minimum distance another widget must have to this widget -->
     <border inner="3" outer="5" />
     <!-- The bounding box of a widget is automatically updated, but the minimum size can be set -->
-    <bbox minSize="32, 32" />
+    <bbox size="32, 32" />
     <!-- Specifies the leader of the group - cannot specify members, only the leader -->
     <group leader="some_name" />
-    <!-- Links to any existing and named widget, or parent if no target is specified -->
+    <!-- Links to any existing widget, or parent if no target is specified -->
     <link target="some_name" ratio="1, 0.5" />
     <!-- Assigns generic state of the widget -->
     <state visible="true" locked="false" active="false" />
 
-    <!-- Widgets may have any number of scripts attached to them, each with different data -->
-    <script type="on_tick" script="" />
-    <!-- Invoked every tick -->
-    <script type="on_click" script="" />
-    <!-- Invoked when the widget is clicked      -->
-    <script type="on_toggle" script="" />
-    <!-- Invoked when the widget toggles state   -->
-    <script type="on_activate" script="" />
-    <!-- Invoked when the widget becomes active  -->
-
-    <!-- Widgets may have any number of renderers attached to them, each with different data -->
-    <renderer type="panel" sprite="some_background" />
-    <renderer type="button" sprite="some_sprite" />
-    <renderer type="slider" sprite="some_sprite" />
-    <renderer type="label" text="${font=some_font}some text ${widget.value} more text" />
+    <!-- May specify at most one type property -->
+    <button type="checkbox"> <!-- Valid types: normal, checkbox, radio -->
+      <renderer button="some_sprite" />
+      <script action="" />
+    </button>
+    <label>
+      <renderer text="${font=some_font}some text ${widget.value} more text" />
+    </label>
+    <slider>
+      <renderer button_down="some_sprite" button_up="some_sprite" bar="some_sprite"
+                text="${font=some_font}some text ${widget.value} more text" />
+      <script action="" />
+    </slider>
 
     <!-- May have any number of child widgets -->
     <widget name="childA" type="button" />

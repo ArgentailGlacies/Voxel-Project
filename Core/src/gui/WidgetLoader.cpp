@@ -4,6 +4,7 @@
 #include "gui/Gui.h"
 #include "gui/WidgetListener.h"
 #include "gui/WidgetProcessor.h"
+#include "gui/WidgetRenderer.h"
 #include "util/StringParsing.h"
 
 #include <plog/Log.h>
@@ -17,7 +18,7 @@ namespace
 
 void core::WidgetLoader::load(const pugi::xml_node & node)
 {
-	m_widget.m_name = node.attribute("name").as_string();
+	loadHeader(node);
 
 	if (const auto data = node.child("border"))
 		loadBorder(data);
@@ -30,10 +31,14 @@ void core::WidgetLoader::load(const pugi::xml_node & node)
 	if (const auto data = node.child("state"))
 		loadState(data);
 
-	// Children must be loaded after regular widget data
 	loadChildren(node);
 }
 
+void core::WidgetLoader::loadHeader(const pugi::xml_node & node)
+{
+	m_widget.m_name = node.attribute("name").as_string();
+	m_widget.m_type = node.attribute("type").as_string();
+}
 void core::WidgetLoader::loadBorder(const pugi::xml_node & node)
 {
 	m_widget.m_border.m_inner = node.attribute("inner").as_float();
@@ -62,7 +67,7 @@ void core::WidgetLoader::loadChildren(const pugi::xml_node & node)
 			auto & widget = m_widgets[name];
 			widget.m_family.m_leader = &m_widget;
 			m_widget.m_family.m_members.push_back(&widget);
-			WidgetLoader{ m_script, m_bus, m_widgets, widget }.load(child);
+			WidgetLoader{ m_bus, m_widgets, widget }.load(child);
 		}
 	}
 }
@@ -114,7 +119,7 @@ void core::WidgetLoader::registerMouseListeners()
 		[this](auto & event) { gui::mousePress(event, m_widget); }
 	));
 	m_widget.m_listeners.push_back(m_bus.add<MouseRelease>(0,
-		[this](auto & event) { gui::mouseRelease(m_script, event, m_widget); }
+		[this](auto & event) { gui::mouseRelease(event, m_widget); }
 	));
 }
 
@@ -122,6 +127,27 @@ void core::WidgetLoader::registerMouseListeners()
 
 void core::WidgetLoader::initAsButton(const pugi::xml_node & node)
 {
+	const std::string type = node.attribute("type").as_string("normal");
+	const std::string action = node.child("script").attribute("action").as_string();
+
+	// Load button renderer
+
+
+	// Load button action
+	if (type == "normal")
+	{
+
+	}
+	else if (type == "checkbox")
+	{
+
+	}
+	else if (type == "radio")
+	{
+
+	}
+	else
+		LOG_WARNING << "Unknown button type " << type;
 }
 void core::WidgetLoader::initAsSlider(const pugi::xml_node & node)
 {

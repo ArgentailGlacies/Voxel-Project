@@ -22,9 +22,9 @@ void core::gui::mousePress(MousePress & event, Widget & widget)
 {
 	widget.m_state.m_selected = widget.m_state.m_hovered && event.consume();
 }
-void core::gui::mouseRelease(const Script & script, MouseRelease & event, Widget & widget)
+void core::gui::mouseRelease(MouseRelease & event, Widget & widget)
 {
 	if (widget.m_state.m_selected && isInside(event.m_position, widget.m_bbox) && event.consume())
-		script.execute(widget.m_scripts["on_click"]);
+		widget.m_callbacks[Widget::CallbackType::BUTTON_ACTION]();
 	widget.m_state.m_selected = false;
 }

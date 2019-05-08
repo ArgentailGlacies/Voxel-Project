@@ -31,6 +31,19 @@ namespace core
 		// ...
 
 		/**
+			Actions performed by widgets can only be one of a series of predefined types.
+		*/
+		enum class CallbackType
+		{
+			BUTTON_ACTION
+		};
+
+		/**
+			When certain actions are performed (click buttons, moving sliders, etc.), a callback is
+			invoked depending on the action. Each callback will perform some widget-specific action.
+		*/
+		using Callback = std::function<void()>;
+		/**
 			All widgets are processed by one or more processors. Each processor perform one specific
 			operation on the widget, writing data to it if necessary.
 		*/
@@ -109,7 +122,9 @@ namespace core
 		// ...
 
 		std::string m_name;
+		std::string m_type;
 
+		std::unordered_map<CallbackType, Callback> m_callbacks;
 		std::vector<Processor> m_processors;
 		std::vector<Renderer> m_renderers;
 		std::vector<Listener> m_listeners;
@@ -120,8 +135,6 @@ namespace core
 		Relation m_group;
 		Link m_link;
 		State m_state;
-
-		std::unordered_map<std::string, std::string> m_scripts;
 	};
 
 	/**

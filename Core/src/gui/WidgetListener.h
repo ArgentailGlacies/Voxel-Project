@@ -17,8 +17,8 @@ namespace core
 		*/
 		void mouseMove(MouseMove & event, Widget & widget);
 		/**
-			Updates a widget's selected state. If the widget is hovered, the event can be consumed
-			to select the widget.
+			Updates a widget's selected state. If the widget is hovered, the event is consumed to
+			select the widget.
 
 			@param event The event which should be processed.
 			@param widget The widget which should be updated.
@@ -26,12 +26,11 @@ namespace core
 		void mousePress(MousePress & event, Widget & widget);
 		/**
 			Updates the widget's selected state. If the widget was selected and hovered, the event
-			can be consumed to execute the widget's on_click event.
+			is consumed to execute the widget's on_click event.
 
-			@param script The script which should be executed.
 			@param event The event which should be processed.
 			@param widget The widget which should be updated.
 		*/
-		void mouseRelease(const Script & script, MouseRelease & event, Widget & widget);
+		void mouseRelease(MouseRelease & event, Widget & widget);
 	}
 }

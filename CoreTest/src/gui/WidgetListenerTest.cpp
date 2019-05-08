@@ -2,7 +2,6 @@
 #include "gui/WidgetListener.h"
 
 #include "mock/MockWidget.h"
-#include "script/ScriptUtil.h"
 
 #include <pugixml/pugixml.hpp>
 
@@ -55,34 +54,33 @@ namespace core::gui
 		}
 		TEST_METHOD(WidgetListener_mouseRelease)
 		{
-			Script script{ "script" };
-			script.execute("var r = false; var a = false; var b = false;");
-			m_root->m_scripts["on_click"] = "r = true;";
-			m_widgetA->m_scripts["on_click"] = "a = true;";
-			m_widgetB->m_scripts["on_click"] = "b = true;";
+			bool r = false, a = false, b = false;
+			m_root->m_callbacks[Widget::CallbackType::BUTTON_ACTION] = [&r]() { r = true; };
+			m_widgetA->m_callbacks[Widget::CallbackType::BUTTON_ACTION] = [&a]() { a = true; };
+			m_widgetB->m_callbacks[Widget::CallbackType::BUTTON_ACTION] = [&b]() { b = true; };
 
 			// Release parent
 			mousePress(m_root->m_bbox.m_pos);
-			mouseRelease(script, m_root->m_bbox.m_pos);
+			mouseRelease(m_root->m_bbox.m_pos);
 			Assert::IsFalse(m_root->m_state.m_selected);
 			Assert::IsFalse(m_widgetA->m_state.m_selected);
 
 			// Release child
 			mousePress(m_widgetA->m_bbox.m_pos);
-			mouseRelease(script, m_widgetA->m_bbox.m_pos);
+			mouseRelease(m_widgetA->m_bbox.m_pos);
 			Assert::IsFalse(m_root->m_state.m_selected);
 			Assert::IsFalse(m_widgetA->m_state.m_selected);
 
 			// Release child while selected, but not while hovering
 			mousePress(m_widgetB->m_bbox.m_pos);
 			Assert::IsTrue(m_widgetB->m_state.m_selected);
-			mouseRelease(script, {});
+			mouseRelease({});
 			Assert::IsFalse(m_widgetB->m_state.m_selected);
 
 			// Root and widgetA did something, widgetB did not
-			Assert::IsTrue(util::get<bool>(script, "r"));
-			Assert::IsTrue(util::get<bool>(script, "a"));
-			Assert::IsFalse(util::get<bool>(script, "b"));
+			Assert::IsTrue(r);
+			Assert::IsTrue(a);
+			Assert::IsFalse(b);
 		}
 
 	private:
@@ -105,13 +103,13 @@ namespace core::gui
 			gui::mousePress(event, *m_widgetA);
 			gui::mousePress(event, *m_root);
 		}
-		inline void mouseRelease(Script & script, const glm::vec2 & position)
+		inline void mouseRelease(const glm::vec2 & position)
 		{
 			// Execution order: children in reverse creation order, then parent
 			MouseRelease event = { MouseButton::LEFT, position, {}, 0.0f };
-			gui::mouseRelease(script, event, *m_widgetB);
-			gui::mouseRelease(script, event, *m_widgetA);
-			gui::mouseRelease(script, event, *m_root);
+			gui::mouseRelease(event, *m_widgetB);
+			gui::mouseRelease(event, *m_widgetA);
+			gui::mouseRelease(event, *m_root);
 		}
 
 		std::unique_ptr<Widget> m_root = mockWidget({}, { 80.0f, 60.0f });

@@ -2,7 +2,6 @@
 
 #include "event/EventBus.h"
 #include "gui/Widget.h"
-#include "script/Script.h"
 
 #include <pugixml/pugixml.hpp>
 
@@ -16,8 +15,8 @@ namespace core
 	{
 	public:
 		WidgetLoader() = delete;
-		WidgetLoader(const Script & script, EventBus & bus, Widgets & widgets, Widget & widget)
-			: m_script(script), m_bus(bus), m_widgets(widgets), m_widget(widget) {}
+		WidgetLoader(EventBus & bus, Widgets & widgets, Widget & widget)
+			: m_bus(bus), m_widgets(widgets), m_widget(widget) {}
 
 		/**
 			Loads the data stored in the node as a widget node. Will load child widgets as well, if
@@ -27,6 +26,12 @@ namespace core
 		*/
 		void load(const pugi::xml_node & node);
 
+		/**
+			Loads up core widget data such as name and type.
+
+			<widget name="widget" type="panel" />
+		*/
+		void loadHeader(const pugi::xml_node & node);
 		/**
 			Loads up the inner and outer border of a widget.
 
@@ -85,11 +90,18 @@ namespace core
 
 		// ...
 		
+		/**
+			Initializes the widget as a button instance. The type of the button defaults to a normal
+			button if not specified. Possible tyoes are normal, checkbox and radio.
+
+			<button type="normal">
+				<renderer button="some_sprite" />
+			</button>
+		*/
 		void initAsButton(const pugi::xml_node & node);
 		void initAsSlider(const pugi::xml_node & node);
 
 	private:
-		const Script & m_script;
 		EventBus & m_bus;
 		Widgets & m_widgets;
 		Widget & m_widget;
