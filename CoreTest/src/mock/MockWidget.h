@@ -14,9 +14,9 @@ namespace core
 	*/
 	inline auto mockWidget(const glm::vec2 & pos, const glm::vec2 & size)
 	{
-		auto widget = std::make_unique<Widget>();
-		widget->m_bbox.m_pos = pos;
-		widget->m_bbox.m_size = size;
+		Widget widget;
+		widget.m_bbox.m_pos = pos;
+		widget.m_bbox.m_size = size;
 		return widget;
 	}
 	/**
@@ -26,8 +26,8 @@ namespace core
 	inline auto mockWidget(Widget & parent, const glm::vec2 & pos, const glm::vec2 & size)
 	{
 		auto widget = mockWidget(pos, size);
-		parent.m_family.m_members.push_back(widget.get());
-		widget->m_family.m_leader = &parent;
+		parent.m_family.m_children.push_back(widget);
+		widget.m_family.m_parent = &parent;
 		return widget;
 	}
 	/**
@@ -37,8 +37,8 @@ namespace core
 	inline auto mockWidget(Widget & target, const glm::vec2 & ratio, const glm::vec2 & pos, const glm::vec2 & size)
 	{
 		auto widget = mockWidget(pos, size);
-		widget->m_link.m_target = &target;
-		widget->m_link.m_ratio = ratio;
+		widget.m_link.m_target = &target;
+		widget.m_link.m_ratio = ratio;
 		return widget;
 	}
 }

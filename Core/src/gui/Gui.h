@@ -1,8 +1,6 @@
 #pragma once
 
-#include "event/Events.h"
 #include "gui/GuiData.h"
-#include "gui/Widget.h"
 
 namespace core
 {
@@ -20,6 +18,5 @@ namespace core
 
 	private:
 		GuiData m_data;
-		Widgets m_widgets;
 	};
 }

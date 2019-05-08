@@ -3,6 +3,7 @@
 #include "gui/Widget.h"
 
 #include <pugixml/pugixml.hpp>
+#include <unordered_map>
 
 namespace core
 {
@@ -13,9 +14,6 @@ namespace core
 	class WidgetLoader
 	{
 	public:
-		WidgetLoader() = delete;
-		WidgetLoader(Widgets & widgets) : m_widgets(widgets) {}
-
 		/**
 			Loads the data stored in the node as a widget node. Will load child widgets as well, if
 			any are specified in the node.
@@ -25,14 +23,6 @@ namespace core
 		*/
 		void load(const pugi::xml_node & node, Widget & widget);
 
-		/**
-			Loads up core widget data such as name and type.
-			<widget name="widget" type="panel" />
-
-			@param node The xml node containing widget data.
-			@param widget The widget which should be loaded.
-		*/
-		void loadHeader(const pugi::xml_node & node, Widget & widget);
 		/**
 			Loads up the inner and outer border of a widget.
 			<border inner="2" outer="3" />
@@ -88,6 +78,6 @@ namespace core
 		void loadState(const pugi::xml_node & node, Widget & widget);
 
 	private:
-		Widgets & m_widgets;
+		std::unordered_map<std::string, Widget *> m_widgets;
 	};
 }

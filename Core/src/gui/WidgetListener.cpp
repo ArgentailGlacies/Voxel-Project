@@ -15,7 +15,7 @@ namespace
 void core::gui::mouseMove(MouseMove & event, Widget & widget)
 {
 	widget.m_state.m_hovered = isInside(event.m_position, widget.m_bbox);
-	if (const auto * parent = widget.m_family.m_leader)
+	if (const auto * parent = widget.m_family.m_parent)
 		widget.m_state.m_hovered &= parent->m_state.m_hovered;
 }
 void core::gui::mousePress(MousePress & event, Widget & widget)

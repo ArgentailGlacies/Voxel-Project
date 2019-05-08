@@ -1,10 +1,6 @@
 
 #include "WidgetLoader.h"
 
-#include "gui/Gui.h"
-#include "gui/WidgetListener.h"
-#include "gui/WidgetProcessor.h"
-#include "gui/WidgetRenderer.h"
 #include "util/StringParsing.h"
 
 #include <plog/Log.h>
@@ -18,7 +14,17 @@ namespace
 
 void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 {
-	loadHeader(node, widget);
+	// Can only store widgets with unique names
+	const std::string name = node.attribute("name").as_string();
+	if (name.empty())
+		LOG_WARNING << "Cannot load widget without a name";
+	else if (const auto it = m_widgets.find(name); it != m_widgets.end())
+		LOG_WARNING << "Cannot overwrite existing widget " << name;
+	else
+		m_widgets[node.attribute("name").as_string()] = &widget;
+
+	// Must load widget children before loading dataa
+	loadChildren(node, widget);
 
 	if (const auto data = node.child("border"))
 		loadBorder(data, widget);
@@ -30,15 +36,8 @@ void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 		loadGroup(data, widget);
 	if (const auto data = node.child("state"))
 		loadState(data, widget);
-
-	loadChildren(node, widget);
 }
 
-void core::WidgetLoader::loadHeader(const pugi::xml_node & node, Widget & widget)
-{
-	widget.m_name = node.attribute("name").as_string();
-	widget.m_type = node.attribute("type").as_string();
-}
 void core::WidgetLoader::loadBorder(const pugi::xml_node & node, Widget & widget)
 {
 	widget.m_border.m_inner = node.attribute("inner").as_float();
@@ -52,23 +51,22 @@ void core::WidgetLoader::loadBoundingBox(const pugi::xml_node & node, Widget & w
 }
 void core::WidgetLoader::loadChildren(const pugi::xml_node & node, Widget & widget)
 {
+	// Create all children
 	for (auto child = node.first_child(); child; child = child.next_sibling())
 	{
 		if (NODE_WIDGET != child.name())
 			continue;
 
-		const std::string name = child.attribute("name").as_string();
-		if (name.empty())
-			LOG_WARNING << "Cannot load widget without a name";
-		else if (const auto it = m_widgets.find(name); it != m_widgets.end())
-			LOG_WARNING << "Cannot overwrite existing widget " << name;
-		else
-		{
-			auto & w = m_widgets[name];
-			w.m_family.m_leader = &widget;
-			widget.m_family.m_members.push_back(&w);
-			load(child, w);
-		}
+		load(child, widget.m_family.m_children.emplace_back());
+	}
+
+	// Must assign child's parent, and since children may be invalidated, grandchildrens' parents
+	// must also be reassigned
+	for (auto & child : widget.m_family.m_children)
+	{
+		child.m_family.m_parent = &widget;
+		for (auto & grandChild : child.m_family.m_children)
+			grandChild.m_family.m_parent = &child;
 	}
 }
 void core::WidgetLoader::loadLink(const pugi::xml_node & node, Widget & widget)
@@ -77,11 +75,11 @@ void core::WidgetLoader::loadLink(const pugi::xml_node & node, Widget & widget)
 	const std::string target = node.attribute("target").as_string();
 
 	if (target.empty())
-		widget.m_link.m_target = widget.m_family.m_leader;
+		widget.m_link.m_target = widget.m_family.m_parent;
 	else if (const auto it = m_widgets.find(target); it == m_widgets.end())
 		LOG_WARNING << "Cannot link to nonexisting widget " << target;
 	else
-		widget.m_link.m_target = &it->second;
+		widget.m_link.m_target = it->second;
 	widget.m_link.m_ratio = parser.parse(node.attribute("ratio").as_string());
 }
 void core::WidgetLoader::loadGroup(const pugi::xml_node & node, Widget & widget)
@@ -91,7 +89,7 @@ void core::WidgetLoader::loadGroup(const pugi::xml_node & node, Widget & widget)
 		LOG_WARNING << "Cannot form group with nonexisting widget " << leader;
 	else
 	{
-		widget.m_group.m_leader = &it->second;
+		widget.m_group.m_leader = it->second;
 		widget.m_group.m_leader->m_group.m_members.push_back(&widget);
 	}
 }

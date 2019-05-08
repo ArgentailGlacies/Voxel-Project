@@ -1,11 +1,8 @@
 #pragma once
 
-#include <functional>
 #include <glm/vec2.hpp>
-#include <memory>
 #include <string>
 #include <vector>
-#include <unordered_map>
 
 namespace core
 {
@@ -18,16 +15,6 @@ namespace core
 	*/
 	struct Widget
 	{
-		Widget() = default;
-		Widget(const Widget &) = delete;
-		Widget(Widget &&) = delete;
-		~Widget() = default;
-
-		Widget & operator=(const Widget &) = delete;
-		Widget & operator=(Widget &&) = delete;
-
-		// ...
-
 		/**
 			The border determines how far away at minimum another widget must be to the current
 			widget. If two widgets are connected, the actual border will be the greatest border
@@ -52,10 +39,20 @@ namespace core
 		};
 
 		/**
+			One widget may own multiple child widgets, where each child widget is a whole widget in
+			their own regards.
+		*/
+		struct Family
+		{
+			Widget * m_parent = nullptr;
+			std::vector<Widget> m_children;
+		};
+
+		/**
 			Represents a relation between a collection of widgets. The grouping may be interpreted
 			in different manners from one widget type to another.
 		*/
-		struct Relation
+		struct Group
 		{
 			Widget * m_leader = nullptr;
 			std::vector<Widget *> m_members;
@@ -94,19 +91,11 @@ namespace core
 
 		// ...
 
-		std::string m_name;
-		std::string m_type;
-
 		BoundingBox m_bbox;
 		Border m_border;
-		Relation m_family;
-		Relation m_group;
+		Family m_family;
+		Group m_group;
 		Link m_link;
 		State m_state;
 	};
-
-	/**
-		A collection of widgets require all widgets to be uniquely identified by name.
-	*/
-	using Widgets = std::unordered_map<std::string, Widget>;
 }
