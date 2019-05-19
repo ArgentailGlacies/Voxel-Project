@@ -1,12 +1,22 @@
 #pragma once
 
+#include "event/EventListener.h"
+
+#include <functional>
 #include <glm/vec2.hpp>
+#include <memory>
 #include <string>
 #include <vector>
 
 namespace core
 {
 	class GuiData;
+	struct Widget;
+
+	using Processor = std::function<void(Widget &)>;
+	using Renderer = std::function<void(Widget &, const glm::vec2 &)>;
+
+	// ...
 
 	/**
 		All graphical user interface objects are represented as widgets. Unique functionality is
@@ -15,6 +25,14 @@ namespace core
 	*/
 	struct Widget
 	{
+		Widget() noexcept = default;
+		Widget(const Widget &) = delete;
+		Widget(Widget &&) noexcept = default;
+		~Widget() noexcept = default;
+
+		Widget & operator=(const Widget &) = delete;
+		Widget & operator=(Widget &&) noexcept = default;
+
 		/**
 			The border determines how far away at minimum another widget must be to the current
 			widget. If two widgets are connected, the actual border will be the greatest border
@@ -39,13 +57,13 @@ namespace core
 		};
 
 		/**
-			One widget may own multiple child widgets, where each child widget is a whole widget in
+			One widget may own multiple child widgets, where each child widget is a normal widget in
 			their own regards.
 		*/
 		struct Family
 		{
 			Widget * m_parent = nullptr;
-			std::vector<Widget> m_children;
+			std::vector<std::unique_ptr<Widget>> m_children;
 		};
 
 		/**
@@ -66,7 +84,7 @@ namespace core
 		*/
 		struct Link
 		{
-			Widget * m_target = nullptr;
+			const Widget * m_target = nullptr;
 			glm::vec2 m_ratio = {};
 		};
 
@@ -90,6 +108,10 @@ namespace core
 		};
 
 		// ...
+
+		std::vector<Processor> m_processors;
+		std::vector<Renderer> m_renderers;
+		std::vector<Listener> m_listeners;
 
 		BoundingBox m_bbox;
 		Border m_border;

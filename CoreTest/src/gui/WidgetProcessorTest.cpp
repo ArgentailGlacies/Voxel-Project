@@ -14,25 +14,27 @@ namespace core::gui
 	public:
 		TEST_METHOD(WidgetProcessor_updateChildren)
 		{
-			bool updateA = false, updateB = false;
+			int updateA = 0;
+			int updateB = 0;
 
 			auto parent = mockWidget({}, {});
-			auto widgetA = mockWidget(parent, {}, {});
-			auto widgetB = mockWidget(parent, {}, {});
-			//widgetA->m_processors.push_back([&updateA](Widget & widget) { updateA = true; });
-			//widgetA->m_processors.push_back([&updateB](Widget & widget) { updateB = true; });
+			auto & widgetA = mockWidget(parent, {}, {});
+			auto & widgetB = mockWidget(parent, {}, {});
+			widgetA.m_processors.push_back([&updateA](Widget & widget) { updateA++; });
+			widgetA.m_processors.push_back([&updateA](Widget & widget) { updateA++; });
+			widgetB.m_processors.push_back([&updateB](Widget & widget) { updateB++; });
 
 			gui::updateChildren(parent);
 
-			Assert::IsTrue(updateA);
-			Assert::IsTrue(updateB);
+			Assert::AreEqual(2, updateA);
+			Assert::AreEqual(1, updateB);
 		}
 
 		TEST_METHOD(WidgetProcessor_updatePosition)
 		{
 			auto parent = mockWidget({ 40.0f, 40.0f }, { 320.0f, 240.0f });
-			auto widgetA = mockWidget(parent, {}, { 50.0f, 60.0f });
-			auto widgetB = mockWidget(widgetA, { 0.5f, 1.0f }, {}, { 20.0f, 50.0f });
+			auto & widgetA = mockWidget(parent, {}, { 50.0f, 60.0f });
+			auto & widgetB = mockWidget(widgetA, { 0.5f, 1.0f }, {}, { 20.0f, 50.0f });
 			parent.m_border.m_inner = 5.0f;
 			widgetA.m_border.m_outer = 1.0f;
 			widgetB.m_border.m_outer = 2.0f;
@@ -48,8 +50,8 @@ namespace core::gui
 		TEST_METHOD(WidgetProcessor_updateSize)
 		{
 			auto parent = mockWidget({ 40.0f, 30.0f }, {});
-			auto widgetA = mockWidget(parent, { 42.0f, 32.0f }, {});
-			auto widgetB = mockWidget(parent, { 87.0f, 35.0f }, {});
+			auto & widgetA = mockWidget(parent, { 42.0f, 32.0f }, {});
+			auto & widgetB = mockWidget(parent, { 87.0f, 35.0f }, {});
 			parent.m_border.m_inner = 2.0f;
 			widgetA.m_bbox.m_minSize = { 40.0f, 20.0f };
 			widgetB.m_bbox.m_minSize = { 30.0f, 40.0f };

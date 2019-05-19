@@ -23,9 +23,7 @@ void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 	else
 		m_widgets[node.attribute("name").as_string()] = &widget;
 
-	// Must load widget children before loading dataa
-	loadChildren(node, widget);
-
+	// Must load normal data before children
 	if (const auto data = node.child("border"))
 		loadBorder(data, widget);
 	if (const auto data = node.child("bbox"))
@@ -36,6 +34,7 @@ void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 		loadGroup(data, widget);
 	if (const auto data = node.child("state"))
 		loadState(data, widget);
+	loadChildren(node, widget);
 }
 
 void core::WidgetLoader::loadBorder(const pugi::xml_node & node, Widget & widget)
@@ -51,22 +50,14 @@ void core::WidgetLoader::loadBoundingBox(const pugi::xml_node & node, Widget & w
 }
 void core::WidgetLoader::loadChildren(const pugi::xml_node & node, Widget & widget)
 {
-	// Create all children
 	for (auto child = node.first_child(); child; child = child.next_sibling())
 	{
 		if (NODE_WIDGET != child.name())
 			continue;
 
-		load(child, widget.m_family.m_children.emplace_back());
-	}
-
-	// Must assign child's parent, and since children may be invalidated, grandchildrens' parents
-	// must also be reassigned
-	for (auto & child : widget.m_family.m_children)
-	{
-		child.m_family.m_parent = &widget;
-		for (auto & grandChild : child.m_family.m_children)
-			grandChild.m_family.m_parent = &child;
+		auto & ptr = widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
+		ptr->m_family.m_parent = &widget;
+		load(child, *ptr);
 	}
 }
 void core::WidgetLoader::loadLink(const pugi::xml_node & node, Widget & widget)

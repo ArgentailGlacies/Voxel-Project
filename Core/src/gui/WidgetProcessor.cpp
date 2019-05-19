@@ -7,8 +7,8 @@ void core::gui::updateChildren(Widget & widget)
 {
 	for (auto & child : widget.m_family.m_children)
 	{
-		//for (const auto & processor : child->m_processors)
-		//	processor(*child);
+		for (const auto & processor : child->m_processors)
+			processor(*child);
 	}
 }
 
@@ -36,9 +36,9 @@ void core::gui::updateSize(Widget & widget)
 	for (const auto & child : widget.m_family.m_children)
 	{
 		// Children are inside parents
-		const auto border = util::max(widget.m_border.m_inner, child.m_border.m_outer);
-		const auto offset = child.m_bbox.m_pos - widget.m_bbox.m_pos;
-		min = util::max(min, offset + child.m_bbox.m_size + border);
+		const auto border = util::max(widget.m_border.m_inner, child->m_border.m_outer);
+		const auto offset = child->m_bbox.m_pos - widget.m_bbox.m_pos;
+		min = util::max(min, offset + child->m_bbox.m_size + border);
 	}
 	widget.m_bbox.m_size = min;
 }

@@ -145,19 +145,19 @@ namespace core::gui
 			Widget p;
 			m_loader.load(parent, p);
 
-			Widget & a = p.m_family.m_children[0];
-			Widget & b = p.m_family.m_children[1];
-			Widget & c = a.m_family.m_children[0];
+			auto & a = p.m_family.m_children[0];
+			auto & b = p.m_family.m_children[1];
+			auto & c = a->m_family.m_children[0];
 
 			Assert::AreEqual(2u, p.m_family.m_children.size());
-			Assert::AreEqual(1u, a.m_family.m_children.size());
-			Assert::AreEqual(0u, b.m_family.m_children.size());
-			Assert::AreEqual(0u, c.m_family.m_children.size());
+			Assert::AreEqual(1u, a->m_family.m_children.size());
+			Assert::AreEqual(0u, b->m_family.m_children.size());
+			Assert::AreEqual(0u, c->m_family.m_children.size());
 
 			Assert::IsNull(p.m_family.m_parent);
-			Assert::IsTrue(&p == a.m_family.m_parent);
-			Assert::IsTrue(&p == b.m_family.m_parent);
-			Assert::IsTrue(&a == c.m_family.m_parent);
+			Assert::IsTrue(&p == a->m_family.m_parent);
+			Assert::IsTrue(&p == b->m_family.m_parent);
+			Assert::IsTrue(a.get() == c->m_family.m_parent);
 		}
 
 	private:
