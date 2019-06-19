@@ -1,5 +1,6 @@
 #pragma once
 
+#include "event/EventBus.h"
 #include "event/Events.h"
 #include "gui/Widget.h"
 #include "script/Script.h"
@@ -26,11 +27,12 @@ namespace core
 		void mousePress(MousePress & event, Widget & widget);
 		/**
 			Updates the widget's selected state. If the widget was selected and hovered, the event
-			is consumed to execute the widget's on_click event.
+			is consumed to post a widget click event on the provided bus.
 
+			@param bus The bus the widget click event should be posted on.
 			@param event The event which should be processed.
 			@param widget The widget which should be updated.
 		*/
-		void mouseRelease(MouseRelease & event, Widget & widget);
+		void mouseRelease(const EventBus & bus, MouseRelease & event, Widget & widget);
 	}
 }

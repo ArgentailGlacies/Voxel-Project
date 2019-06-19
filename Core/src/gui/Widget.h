@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 namespace core
 {
@@ -25,14 +26,6 @@ namespace core
 	*/
 	struct Widget
 	{
-		Widget() noexcept = default;
-		Widget(const Widget &) = delete;
-		Widget(Widget &&) noexcept = default;
-		~Widget() noexcept = default;
-
-		Widget & operator=(const Widget &) = delete;
-		Widget & operator=(Widget &&) noexcept = default;
-
 		/**
 			The border determines how far away at minimum another widget must be to the current
 			widget. If two widgets are connected, the actual border will be the greatest border
@@ -112,6 +105,7 @@ namespace core
 		std::vector<Processor> m_processors;
 		std::vector<Renderer> m_renderers;
 		std::vector<Listener> m_listeners;
+		std::unordered_map<std::string, std::string> m_scripts;
 
 		BoundingBox m_bbox;
 		Border m_border;

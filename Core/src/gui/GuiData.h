@@ -1,5 +1,8 @@
 #pragma once
 
+#include "event/EventBus.h"
+#include "script/Script.h"
+
 #include <string>
 #include <unordered_map>
 
@@ -8,6 +11,8 @@ namespace core
 	class GuiData
 	{
 	public:
+		GuiData(const std::string & name) : m_script(name) {}
+
 		/**
 			Assigns a bool value to the specified field. Any old value will be overwritten.
 
@@ -52,9 +57,19 @@ namespace core
 		*/
 		auto getString(const std::string & field) const -> std::string;
 
+		// ...
+
+		inline auto & getBus() { return m_bus; }
+		inline const auto & getBus() const { return m_bus; }
+		inline auto & getScript() { return m_script; }
+		inline const auto & getScript() const { return m_script; }
+
 	private:
 		std::unordered_map<std::string, bool> m_bools;
 		std::unordered_map<std::string, float> m_floats;
 		std::unordered_map<std::string, std::string> m_strings;
+
+		EventBus m_bus;
+		Script m_script;
 	};
 }

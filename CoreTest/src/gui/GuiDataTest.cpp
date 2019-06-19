@@ -12,7 +12,7 @@ namespace core::gui
 	public:
 		TEST_METHOD(GuiData_bools)
 		{
-			GuiData data;
+			GuiData data{ "gui" };
 			data.setBool("foo", true);
 			data.setBool("bar", false);
 
@@ -22,7 +22,7 @@ namespace core::gui
 		}
 		TEST_METHOD(GuiData_floats)
 		{
-			GuiData data;
+			GuiData data{ "gui" };
 			data.setFloat("foo", 3.14f);
 			data.setFloat("bar", -42.0f);
 
@@ -32,7 +32,7 @@ namespace core::gui
 		}
 		TEST_METHOD(GuiData_strings)
 		{
-			GuiData data;
+			GuiData data{ "gui" };
 			data.setString("foo", "Hello");
 			data.setString("bar", "World!");
 
@@ -42,7 +42,7 @@ namespace core::gui
 		}
 		TEST_METHOD(GuiData_noFieldConflicts)
 		{
-			GuiData data;
+			GuiData data{ "gui" };
 			data.setBool("field", true);
 			data.setFloat("field", 11.1f);
 			data.setString("field", "text");

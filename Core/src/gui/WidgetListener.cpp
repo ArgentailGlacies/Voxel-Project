@@ -1,6 +1,8 @@
 
 #include "WidgetListener.h"
 
+#include "gui/GuiEvents.h"
+
 namespace
 {
 	inline bool isInside(const glm::vec2 & pos, const core::Widget::BoundingBox & bbox)
@@ -8,7 +10,7 @@ namespace
 		return
 			pos.x >= bbox.m_pos.x && pos.x < bbox.m_pos.x + bbox.m_size.x &&
 			pos.y >= bbox.m_pos.y && pos.y < bbox.m_pos.y + bbox.m_size.y
-		;
+			;
 	}
 }
 
@@ -22,9 +24,9 @@ void core::gui::mousePress(MousePress & event, Widget & widget)
 {
 	widget.m_state.m_selected = widget.m_state.m_hovered && event.consume();
 }
-void core::gui::mouseRelease(MouseRelease & event, Widget & widget)
+void core::gui::mouseRelease(const EventBus & bus, MouseRelease & event, Widget & widget)
 {
 	if (widget.m_state.m_selected && isInside(event.m_position, widget.m_bbox) && event.consume())
-		; // widget.m_callbacks[Widget::CallbackType::BUTTON_ACTION]();
+		bus.post(WidgetActivate{ widget });
 	widget.m_state.m_selected = false;
 }

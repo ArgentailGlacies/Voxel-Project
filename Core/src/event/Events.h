@@ -41,7 +41,7 @@ namespace core
 	*/
 	struct DisplayResize
 	{
-		/* The new size of the display. */
+		// The new size of the display.
 		const glm::ivec2 m_size;
 	};
 	/**
@@ -68,9 +68,9 @@ namespace core
 	{
 		KeyPress(KeyboardKey key, unsigned int modifiers) : m_key(key), m_modifiers(modifiers) {}
 
-		/* The key pressed by the user. */
+		// The key pressed by the user.
 		const KeyboardKey m_key;
-		/* The key modifiers currently active (ie. shift, control, etc). */
+		// The key modifiers currently active (ie. shift, control, etc).
 		const unsigned int m_modifiers;
 	};
 	/**
@@ -80,9 +80,9 @@ namespace core
 	{
 		KeyRelease(KeyboardKey key, unsigned int modifiers) : m_key(key), m_modifiers(modifiers) {}
 
-		/* The key released by the user. */
+		// The key released by the user.
 		const KeyboardKey m_key;
-		/* The key modifiers currently active (ie. shift, control, etc). */
+		// The key modifiers currently active (ie. shift, control, etc).
 		const unsigned int m_modifiers;
 	};
 	/**
@@ -93,7 +93,7 @@ namespace core
 	{
 		KeyUnichar(int codepoint) : m_codepoint(codepoint) {}
 
-		/* The character entered by the user. */
+		// The character entered by the user.
 		const int m_codepoint;
 	};
 
@@ -118,13 +118,13 @@ namespace core
 		MousePress(MouseButton button, const glm::vec2 & position, const glm::vec2 & scroll, float pressure)
 			: m_button(button), m_position(position), m_scroll(scroll), m_pressure(pressure) {}
 
-		/* The mouse button which was clicked */
+		// The mouse button which was clicked.
 		const MouseButton m_button;
-		/* Where in the window the cursor was clicked */
+		// Where in the window the cursor was clicked.
 		const glm::vec2 m_position;
-		/* The current scroll position on the mouse when the button was clicked */
+		// The current scroll position on the mouse when the button was clicked.
 		const glm::vec2 m_scroll;
-		/* How hard the user clicked the button (range [0, 1]) */
+		// How hard the user clicked the button (range [0, 1]).
 		const float m_pressure;
 	};
 	/**
@@ -136,13 +136,13 @@ namespace core
 		MouseRelease(MouseButton button, const glm::vec2 & position, const glm::vec2 & scroll, float pressure)
 			: m_button(button), m_position(position), m_scroll(scroll), m_pressure(pressure) {}
 
-		/* The mouse button which was released */
+		// The mouse button which was released.
 		const MouseButton m_button;
-		/* Where in the window the cursor was released */
+		// Where in the window the cursor was released.
 		const glm::vec2 m_position;
-		/* The current scroll position on the mouse when the button was released */
+		// The current scroll position on the mouse when the button was released.
 		const glm::vec2 m_scroll;
-		/* How hard the user clicked the button (range [0, 1]) */
+		// How hard the user clicked the button (range [0, 1]).
 		const float m_pressure;
 	};
 	/**
@@ -154,13 +154,13 @@ namespace core
 		MouseMove(const glm::vec2 & position, const glm::vec2 & positionDelta, const glm::vec2 & scroll, const glm::vec2 & scrollDelta)
 			: m_position(position), m_positionDelta(positionDelta), m_scroll(scroll), m_scrollDelta(scrollDelta) {}
 
-		/* The new position of the cursor in the window */
+		// The new position of the cursor in the window.
 		const glm::vec2 m_position;
-		/* The change in position of the cursor in the window */
+		// The change in position of the cursor in the window.
 		const glm::vec2 m_positionDelta;
-		/* The new scroll position of the cursor in the window */
+		// The new scroll position of the cursor in the window.
 		const glm::vec2 m_scroll;
-		/* The change in scroll position of the cursor in the window */
+		// The change in scroll position of the cursor in the window.
 		const glm::vec2 m_scrollDelta;
 	};
 }

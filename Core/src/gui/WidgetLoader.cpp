@@ -1,6 +1,8 @@
 
 #include "WidgetLoader.h"
 
+#include "gui/GuiEvents.h"
+#include "gui/WidgetListener.h"
 #include "util/StringParsing.h"
 
 #include <plog/Log.h>
@@ -23,7 +25,7 @@ void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 	else
 		m_widgets[node.attribute("name").as_string()] = &widget;
 
-	// Must load normal data before children
+	// Must load normal data and specialization before children
 	if (const auto data = node.child("border"))
 		loadBorder(data, widget);
 	if (const auto data = node.child("bbox"))
@@ -34,19 +36,12 @@ void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 		loadGroup(data, widget);
 	if (const auto data = node.child("state"))
 		loadState(data, widget);
+	loadSpecialization(node, widget);
 	loadChildren(node, widget);
 }
 
-void core::WidgetLoader::loadBorder(const pugi::xml_node & node, Widget & widget)
+void core::WidgetLoader::loadSpecialization(const pugi::xml_node & node, Widget & widget)
 {
-	widget.m_border.m_inner = node.attribute("inner").as_float();
-	widget.m_border.m_outer = node.attribute("outer").as_float();
-}
-void core::WidgetLoader::loadBoundingBox(const pugi::xml_node & node, Widget & widget)
-{
-	const util::Parser<glm::vec2> parser;
-
-	widget.m_bbox.m_minSize = parser.parse(node.attribute("size").as_string());
 }
 void core::WidgetLoader::loadChildren(const pugi::xml_node & node, Widget & widget)
 {
@@ -59,6 +54,18 @@ void core::WidgetLoader::loadChildren(const pugi::xml_node & node, Widget & widg
 		ptr->m_family.m_parent = &widget;
 		load(child, *ptr);
 	}
+}
+
+void core::WidgetLoader::loadBorder(const pugi::xml_node & node, Widget & widget)
+{
+	widget.m_border.m_inner = node.attribute("inner").as_float();
+	widget.m_border.m_outer = node.attribute("outer").as_float();
+}
+void core::WidgetLoader::loadBoundingBox(const pugi::xml_node & node, Widget & widget)
+{
+	const util::Parser<glm::vec2> parser;
+
+	widget.m_bbox.m_minSize = parser.parse(node.attribute("size").as_string());
 }
 void core::WidgetLoader::loadLink(const pugi::xml_node & node, Widget & widget)
 {
@@ -89,4 +96,41 @@ void core::WidgetLoader::loadState(const pugi::xml_node & node, Widget & widget)
 	widget.m_state.m_visible = node.attribute("visible").as_bool(true);
 	widget.m_state.m_locked = node.attribute("locked").as_bool();
 	widget.m_state.m_active = node.attribute("active").as_bool();
+}
+
+// ...
+
+void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget)
+{
+	registerStandardListeners(widget);
+
+	widget.m_scripts["action"] = node.child("script").attribute("action").as_string();
+
+	widget.m_listeners.push_back(m_data.getBus().add<WidgetActivate>(
+		[this](auto & event) { m_data.getScript().execute(event.m_widget.m_scripts["action"]); }
+	));
+}
+void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget)
+{
+}
+void core::WidgetLoader::loadLabel(const pugi::xml_node & node, Widget & widget)
+{
+}
+void core::WidgetLoader::loadTextbox(const pugi::xml_node & node, Widget & widget)
+{
+}
+
+// ...
+
+void core::WidgetLoader::registerStandardListeners(Widget & widget)
+{
+	widget.m_listeners.push_back(m_data.getBus().add<MouseMove>(0,
+		[&widget](auto & event) { gui::mouseMove(event, widget); }
+	));
+	widget.m_listeners.push_back(m_data.getBus().add<MousePress>(0,
+		[&widget](auto & event) { gui::mousePress(event, widget); }
+	));
+	widget.m_listeners.push_back(m_data.getBus().add<MouseRelease>(0,
+		[this, &widget](auto & event) { gui::mouseRelease(m_data.getBus(), event, widget); }
+	));
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gui/GuiData.h"
 #include "gui/Widget.h"
 
 #include <pugixml/pugixml.hpp>
@@ -14,6 +15,9 @@ namespace core
 	class WidgetLoader
 	{
 	public:
+		WidgetLoader() = delete;
+		WidgetLoader(GuiData & data) noexcept : m_data(data) {}
+
 		/**
 			Loads the data stored in the node as a widget node. Will load child widgets as well, if
 			any are specified in the node.
@@ -22,6 +26,23 @@ namespace core
 			@param widget The widget which should be loaded.
 		*/
 		void load(const pugi::xml_node & node, Widget & widget);
+
+		/**
+			Loads up all data which makes the widget unique and specialized to perform its task.
+
+			@param node The xml node containing widget data.
+			@param widget The widget which should be loaded.
+		*/
+		void loadSpecialization(const pugi::xml_node & node, Widget & widget);
+		/**
+			Loads up all children of the widget, and loads the childrens' children, recursively.
+			<widget name="childA" type="type" />
+			<widget name="childB" type="type" />
+
+			@param node The xml node containing widget data.
+			@param widget The widget which should be loaded.
+		*/
+		void loadChildren(const pugi::xml_node & node, Widget & widget);
 
 		/**
 			Loads up the inner and outer border of a widget.
@@ -39,16 +60,6 @@ namespace core
 			@param widget The widget which should be loaded.
 		*/
 		void loadBoundingBox(const pugi::xml_node & node, Widget & widget);
-		/**
-			Loads up all children of the widget, and loads the childrens' children, recursively.
-			<widget name="childA" type="type" />
-			<widget name="childB" type="type" />
-
-			@param node The xml node containing widget data.
-			@param widget The widget which should be loaded.
-			...
-		*/
-		void loadChildren(const pugi::xml_node & node, Widget & widget);
 		/**
 			Loads a link between this widget and a different widget. The position of this widget
 			will be specified in terms of the position of the link target position and the anchor
@@ -77,7 +88,24 @@ namespace core
 		*/
 		void loadState(const pugi::xml_node & node, Widget & widget);
 
+		// ...
+
+		void loadButton(const pugi::xml_node & node, Widget & widget);
+		void loadSlider(const pugi::xml_node & node, Widget & widget);
+		void loadLabel(const pugi::xml_node & node, Widget & widget);
+		void loadTextbox(const pugi::xml_node & node, Widget & widget);
+
 	private:
+		/**
+			Registers listeners which are used in all specialized widgets, such as mouse movement
+			and clicking.
+
+			@param widget The widget which should have the listeners added to it.
+		*/
+		void registerStandardListeners(Widget & widget);
+
+		GuiData & m_data;
+
 		std::unordered_map<std::string, Widget *> m_widgets;
 	};
 }

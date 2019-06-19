@@ -1,6 +1,9 @@
 
 #include "gui/WidgetLoader.h"
 
+#include "event/Events.h"
+#include "mock/MockWidget.h"
+
 #include <pugixml/pugixml.hpp>
 
 #include "Common.h"
@@ -160,6 +163,17 @@ namespace core::gui
 			Assert::IsTrue(a.get() == c->m_family.m_parent);
 		}
 
+		// ...
+
+		TEST_METHOD(WidgetLoader_loadNormalButton)
+		{
+			Widget widget = mockWidget({ 10.0f, 10.0f }, { 30.0f, 10.0f });
+			m_loader.loadButton(addButton(m_doc, "normal", "def foo() {}"), widget);
+
+			simulateMouseClick({ 15.0f, 15.0f });
+			Assert::IsTrue(m_data.getScript().execute("foo();"));
+		}
+
 	private:
 		pugi::xml_node addBorder(pugi::xml_node & widget, const Widget::Border & border)
 		{
@@ -204,11 +218,27 @@ namespace core::gui
 			node.append_attribute("type").set_value(type.c_str());
 			return node;
 		}
+		
+		pugi::xml_node addButton(pugi::xml_node & widget, const std::string & type, const std::string & script)
+		{
+			auto node = widget.append_child("button");
+			node.append_attribute("type").set_value(type.c_str());
+			node.append_child("script").append_attribute("action").set_value(script.c_str());
+			return node;
+		}
+
+		void simulateMouseClick(const glm::vec2 & position)
+		{
+			m_data.getBus().post(MouseMove{ position, {}, {}, {} });
+			m_data.getBus().post(MousePress{ MouseButton::LEFT, position, {}, 0.0f });
+			m_data.getBus().post(MouseRelease{ MouseButton::LEFT, position, {}, 0.0f });
+		}
 
 		// ...
 
 		pugi::xml_document m_doc;
 
-		WidgetLoader m_loader;
+		GuiData m_data{ "gui" };
+		WidgetLoader m_loader{ m_data };
 	};
 }
