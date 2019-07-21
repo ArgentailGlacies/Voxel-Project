@@ -10,6 +10,28 @@
 namespace
 {
 	const std::string NODE_WIDGET = "widget";
+
+	/**
+		Assigns the bool state in the global widget state field.
+	*/
+	void setState(const core::Script & script, bool state)
+	{
+		script.execute(core::GuiData::STATE_BOOL + " = " + (state ? "true" : "false") + ";");
+	}
+	/**
+		Assigns the float state in the global widget state field.
+	*/
+	void setState(const core::Script & script, float state)
+	{
+		script.execute(core::GuiData::STATE_BOOL + " = " + std::to_string(state) + ";");
+	}
+	/**
+		Assigns the string state in the global widget state field.
+	*/
+	void setState(const core::Script & script, const std::string & state)
+	{
+		script.execute(core::GuiData::STATE_BOOL + " = \"" + util::replaceAll(state, "\"", "\\\"") + "\";");
+	}
 }
 
 // ...
@@ -40,9 +62,6 @@ void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 	loadChildren(node, widget);
 }
 
-void core::WidgetLoader::loadSpecialization(const pugi::xml_node & node, Widget & widget)
-{
-}
 void core::WidgetLoader::loadChildren(const pugi::xml_node & node, Widget & widget)
 {
 	for (auto child = node.first_child(); child; child = child.next_sibling())
@@ -100,15 +119,60 @@ void core::WidgetLoader::loadState(const pugi::xml_node & node, Widget & widget)
 
 // ...
 
+void core::WidgetLoader::loadSpecialization(const pugi::xml_node& node, Widget& widget)
+{
+}
+
 void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget)
 {
+	const std::string type = node.attribute("type").as_string("generic");
+	const std::string action = node.child("script").attribute("action").as_string();
+
+	const auto & script = m_data.getScript();
+	widget.m_scripts["action"] = action;
+
+	CallbackConst<WidgetActivate> callback = [](const WidgetActivate &) {};
+	if (type == "generic")
+	{
+		callback = [&widget, &script](const WidgetActivate & event) {
+			if (&event.m_widget != &widget)
+				return;
+
+			setState(script, true);
+			script.execute(widget.m_scripts["action"]);
+		};
+	}
+	else if (type == "checkbox")
+	{
+		callback = [&widget, &script](const WidgetActivate & event) {
+			if (&event.m_widget != &widget)
+				return;
+
+			widget.m_value.m_bool = !widget.m_value.m_bool;
+
+			setState(script, widget.m_value.m_bool);
+			script.execute(widget.m_scripts["action"]);
+		};
+	}
+	else if (type == "radio")
+	{
+		callback = [&widget, &script](const WidgetActivate & event) {
+			if (&event.m_widget != &widget)
+				return;
+
+			for (auto & w : widget.m_group.m_leader->m_group.m_members)
+				w->m_value.m_bool = false;
+			widget.m_value.m_bool = true;
+
+			setState(script, true);
+			script.execute(widget.m_scripts["action"]);
+		};
+	}
+	else
+		LOG_WARNING << "Unknown button type " << type;
+
 	registerStandardListeners(widget);
-
-	widget.m_scripts["action"] = node.child("script").attribute("action").as_string();
-
-	widget.m_listeners.push_back(m_data.getBus().add<WidgetActivate>(
-		[this](auto & event) { m_data.getScript().execute(event.m_widget.m_scripts["action"]); }
-	));
+	widget.m_listeners.push_back(m_data.getBus().add<WidgetActivate>(callback));
 }
 void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget)
 {

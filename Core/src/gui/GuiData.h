@@ -11,7 +11,16 @@ namespace core
 	class GuiData
 	{
 	public:
-		GuiData(const std::string & name) : m_script(name) {}
+		/* Represents the name of the global storing the current widget's boolean state */
+		static const std::string STATE_BOOL;
+		/* Represents the name of the global storing the current widget's floating point state */
+		static const std::string STATE_FLOAT;
+		/* Represents the name of the global storing the current widget's textual state */
+		static const std::string STATE_STRING;
+
+		// ...
+
+		GuiData(const std::string & name);
 
 		/**
 			Assigns a bool value to the specified field. Any old value will be overwritten.

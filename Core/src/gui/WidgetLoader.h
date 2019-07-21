@@ -28,13 +28,6 @@ namespace core
 		void load(const pugi::xml_node & node, Widget & widget);
 
 		/**
-			Loads up all data which makes the widget unique and specialized to perform its task.
-
-			@param node The xml node containing widget data.
-			@param widget The widget which should be loaded.
-		*/
-		void loadSpecialization(const pugi::xml_node & node, Widget & widget);
-		/**
 			Loads up all children of the widget, and loads the childrens' children, recursively.
 			<widget name="childA" type="type" />
 			<widget name="childB" type="type" />
@@ -89,6 +82,14 @@ namespace core
 		void loadState(const pugi::xml_node & node, Widget & widget);
 
 		// ...
+
+		/**
+			Loads up all data which makes the widget unique and specialized to perform its task.
+
+			@param node The xml node containing widget data.
+			@param widget The widget which should be loaded.
+		*/
+		void loadSpecialization(const pugi::xml_node& node, Widget& widget);
 
 		void loadButton(const pugi::xml_node & node, Widget & widget);
 		void loadSlider(const pugi::xml_node & node, Widget & widget);

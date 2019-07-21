@@ -3,6 +3,7 @@
 
 #include "event/Events.h"
 #include "mock/MockWidget.h"
+#include "script/ScriptUtil.h"
 
 #include <pugixml/pugixml.hpp>
 
@@ -165,13 +166,43 @@ namespace core::gui
 
 		// ...
 
-		TEST_METHOD(WidgetLoader_loadNormalButton)
+		TEST_METHOD(WidgetLoader_loadGenericButton)
 		{
 			Widget widget = mockWidget({ 10.0f, 10.0f }, { 30.0f, 10.0f });
-			m_loader.loadButton(addButton(m_doc, "normal", "def foo() {}"), widget);
+			m_loader.loadButton(addButton(m_doc, "generic", "def foo() {}"), widget);
 
 			simulateMouseClick({ 15.0f, 15.0f });
 			Assert::IsTrue(m_data.getScript().execute("foo();"));
+		}
+		TEST_METHOD(WidgetLoader_loadCheckboxButton)
+		{
+			Widget widget = mockWidget({ 10.0f, 10.0f }, { 30.0f, 10.0f });
+			m_loader.loadButton(addButton(m_doc, "checkbox", "def foo() {}"), widget);
+
+			simulateMouseClick({ 15.0f, 15.0f });
+			Assert::IsTrue(m_data.getScript().execute("foo();"));
+			Assert::AreEqual(true, util::get<bool>(m_data.getScript(), GuiData::STATE_BOOL));
+
+			simulateMouseClick({ 15.0f, 15.0f });
+			Assert::AreEqual(false, util::get<bool>(m_data.getScript(), GuiData::STATE_BOOL));
+		}
+		TEST_METHOD(WidgetLoader_loadRadioButton)
+		{
+			Widget widgetA = mockWidget({ 10.0f, 10.0f }, { 30.0f, 10.0f });
+			Widget widgetB = mockWidget({ 40.0f, 10.0f }, { 30.0f, 10.0f });
+			widgetA.m_group.m_members.push_back(&widgetA);
+			widgetA.m_group.m_members.push_back(&widgetB);
+			widgetA.m_group.m_leader = &widgetA;
+			widgetB.m_group.m_leader = &widgetA;
+			m_data.getScript().execute("global foo = 0;");
+			m_loader.loadButton(addButton(m_doc, "radio", "foo = 1;"), widgetA);
+			m_loader.loadButton(addButton(m_doc, "radio", "foo = 2;"), widgetB);
+
+			simulateMouseClick({ 15.0f, 15.0f });
+			Assert::AreEqual(1, util::get<int>(m_data.getScript(), "foo"));
+
+			simulateMouseClick({ 45.0f, 15.0f });
+			Assert::AreEqual(2, util::get<int>(m_data.getScript(), "foo"));
 		}
 
 	private:

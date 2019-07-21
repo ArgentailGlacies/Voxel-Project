@@ -1,6 +1,19 @@
 
 #include "GuiData.h"
 
+const std::string core::GuiData::STATE_BOOL = "STATE_BOOL";
+const std::string core::GuiData::STATE_FLOAT = "STATE_FLOAT";
+const std::string core::GuiData::STATE_STRING = "STATE_STRING";
+
+// ...
+
+core::GuiData::GuiData(const std::string & name) : m_script(name)
+{
+	m_script.execute("global " + STATE_BOOL + " = false;");
+	m_script.execute("global " + STATE_FLOAT + " = 0.0f;");
+	m_script.execute("global " + STATE_STRING + " = \"\";");
+}
+
 auto core::GuiData::getBool(const std::string & field) const -> bool
 {
 	const auto it = m_bools.find(field);

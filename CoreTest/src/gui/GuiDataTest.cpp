@@ -10,6 +10,15 @@ namespace core::gui
 	TEST_CLASS(GuiDataTest)
 	{
 	public:
+		TEST_METHOD(GuiData_ctor)
+		{
+			GuiData data{ "gui" };
+			
+			Assert::IsTrue(data.getScript().execute(GuiData::STATE_BOOL));
+			Assert::IsTrue(data.getScript().execute(GuiData::STATE_FLOAT));
+			Assert::IsTrue(data.getScript().execute(GuiData::STATE_STRING));
+		}
+
 		TEST_METHOD(GuiData_bools)
 		{
 			GuiData data{ "gui" };

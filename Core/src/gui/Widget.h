@@ -11,7 +11,6 @@
 
 namespace core
 {
-	class GuiData;
 	struct Widget;
 
 	using Processor = std::function<void(Widget &)>;
@@ -100,6 +99,21 @@ namespace core
 			bool m_selected = false;
 		};
 
+		/**
+			When a widget is activated by the user, it may change its internal value to reflect that
+			user input. A checkbox will toggle its boolean value, a slider its float value, a
+			textbox its string value, etc.
+		*/
+		struct Value
+		{
+			/* The boolean value of the widget */
+			bool m_bool = false;
+			/* The floating point value of the widget */
+			float m_float = 0.0f;
+			/* The textual value of the widget */
+			std::string m_string = "";
+		};
+
 		// ...
 
 		std::vector<Processor> m_processors;
@@ -113,5 +127,6 @@ namespace core
 		Group m_group;
 		Link m_link;
 		State m_state;
+		Value m_value;
 	};
 }
