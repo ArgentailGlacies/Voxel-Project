@@ -1,6 +1,8 @@
 
 #include "GuiRegistry.h"
 
+#include "gui/GuiLoader.h"
+
 core::GuiRegistry::GuiRegistry(EventBus & bus, Scene & scene)
 	: m_scene(scene)
 {
@@ -8,9 +10,17 @@ core::GuiRegistry::GuiRegistry(EventBus & bus, Scene & scene)
 
 bool core::GuiRegistry::open(const util::File & file)
 {
-	return false;
+	if (!file.exists() || m_guis.find(file) != m_guis.end())
+		return false;
+
+	m_guis.emplace(file, file.name()).first->second.load(file);
+	return true;
 }
 bool core::GuiRegistry::close(const util::File & file)
 {
-	return false;
+	if (m_guis.find(file) == m_guis.end())
+		return false;
+
+	m_guis.erase(file);
+	return true;
 }

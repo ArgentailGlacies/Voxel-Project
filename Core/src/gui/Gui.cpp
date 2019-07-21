@@ -1,6 +1,13 @@
 
 #include "Gui.h"
 
+#include "gui/GuiLoader.h"
+
+void core::Gui::load(const util::File & file)
+{
+	GuiLoader{ m_data, m_root }.load(file);
+}
+
 void core::Gui::render() const
 {
 	render(m_root, glm::vec2{});

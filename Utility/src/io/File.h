@@ -87,3 +87,12 @@ namespace util
 		std::string m_path;
 	};
 }
+
+namespace std
+{
+	template<>
+	struct hash<util::File>
+	{
+		inline size_t operator()(const util::File & file) const { return hash<string>{}(file.path()); }
+	};
+}

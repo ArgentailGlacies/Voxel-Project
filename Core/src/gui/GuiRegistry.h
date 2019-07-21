@@ -41,7 +41,7 @@ namespace core
 	private:
 		Scene & m_scene;
 
-		std::unordered_map<std::string, Gui> m_guis;
-		std::unordered_map<std::string, SceneEntry> m_nodes;
+		std::unordered_map<util::File, Gui> m_guis;
+		std::unordered_map<util::File, SceneEntry> m_nodes;
 	};
 }

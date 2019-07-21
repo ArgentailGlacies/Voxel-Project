@@ -2,12 +2,23 @@
 
 #include "gui/GuiData.h"
 #include "gui/Widget.h"
+#include "io/File.h"
 
 namespace core
 {
 	class Gui
 	{
 	public:
+		Gui() = delete;
+		Gui(const std::string & name) : m_data(name) {}
+
+		/**
+			Loads the gui data from the specified file.
+
+			@param file The file containing the gui data.
+		*/
+		void load(const util::File & file);
+
 		/**
 			Renders all underlying widgets to the screen.
 		*/

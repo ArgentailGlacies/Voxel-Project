@@ -1,6 +1,8 @@
 
 #include "io/File.h"
 
+#include <unordered_map>
+
 #include "CppUnitTest.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -94,6 +96,21 @@ namespace util::io
 			file.write(data + data);
 
 			Assert::AreEqual({ "Foo\nBar\n\nHi!\n" }, file.parse());
+		}
+
+		// ...
+
+		TEST_METHOD(File_hashmapKey)
+		{
+			const File fileA = "foo";
+			const File fileB = "bar";
+
+			std::unordered_map<File, int> map;
+			map[fileA] = 1;
+			map[fileB] = 2;
+
+			Assert::AreEqual(2, map[fileB]);
+			Assert::AreEqual(1, map[fileA]);
 		}
 	};
 }
