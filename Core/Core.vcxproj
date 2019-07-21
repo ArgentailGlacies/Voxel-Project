@@ -39,8 +39,10 @@
     <ClCompile Include="src\event\EventBus.cpp" />
     <ClCompile Include="src\event\EventListener.cpp" />
     <ClCompile Include="src\event\EventQueue.cpp" />
+    <ClCompile Include="src\gui\Gui.cpp" />
     <ClCompile Include="src\gui\GuiData.cpp" />
     <ClCompile Include="src\gui\GuiLoader.cpp" />
+    <ClCompile Include="src\gui\GuiRegistry.cpp" />
     <ClCompile Include="src\gui\WidgetListener.cpp" />
     <ClCompile Include="src\gui\WidgetLoader.cpp" />
     <ClCompile Include="src\gui\WidgetProcessor.cpp" />
@@ -95,6 +97,7 @@
     <ClInclude Include="src\gui\Gui.h" />
     <ClInclude Include="src\gui\GuiData.h" />
     <ClInclude Include="src\gui\GuiEvents.h" />
+    <ClInclude Include="src\gui\GuiRegistry.h" />
     <ClInclude Include="src\gui\WidgetListener.h" />
     <ClInclude Include="src\gui\WidgetProcessor.h" />
     <ClInclude Include="src\gui\WidgetRenderer.h" />

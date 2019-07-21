@@ -14,7 +14,7 @@ namespace core
 	struct Widget;
 
 	using Processor = std::function<void(Widget &)>;
-	using Renderer = std::function<void(Widget &, const glm::vec2 &)>;
+	using Renderer = std::function<void(const Widget &, const glm::vec2 &)>;
 
 	// ...
 

@@ -2,7 +2,6 @@
 
 #include "gui/GuiData.h"
 #include "gui/Widget.h"
-#include "gui/WidgetLoader.h"
 #include "io/File.h"
 
 #include <pugixml/pugixml.hpp>
@@ -13,7 +12,7 @@ namespace core
 	{
 	public:
 		GuiLoader() = delete;
-		GuiLoader(GuiData & data, Widget & root) : m_data(data), m_root(root), m_loader(data) {}
+		GuiLoader(GuiData & data, Widget & root) : m_data(data), m_root(root) {}
 
 		/**
 			Loads a graphical user interface from the specified file. If the file does not exist,
@@ -32,6 +31,5 @@ namespace core
 	private:
 		GuiData & m_data;
 		Widget & m_root;
-		WidgetLoader m_loader;
 	};
 }

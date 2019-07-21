@@ -203,7 +203,7 @@ namespace core
 			throw std::invalid_argument("Entry " + std::to_string(entry) + " does not exist");
 		auto * node = dynamic_cast<Type *>(m_nodes[entry].get());
 		if (node == nullptr)
-			throw std::invalid_argument("Entry " + std::to_string(entry) + " is has wrong type");
+			throw std::invalid_argument("Entry " + std::to_string(entry) + " has wrong type");
 		return *node;
 	}
 }
