@@ -114,7 +114,6 @@ void core::WidgetLoader::loadState(const pugi::xml_node & node, Widget & widget)
 {
 	widget.m_state.m_visible = node.attribute("visible").as_bool(true);
 	widget.m_state.m_locked = node.attribute("locked").as_bool();
-	widget.m_state.m_active = node.attribute("active").as_bool();
 }
 
 // ...

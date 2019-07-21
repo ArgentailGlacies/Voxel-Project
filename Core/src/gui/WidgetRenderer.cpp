@@ -11,7 +11,7 @@ namespace
 	*/
 	std::string getSpriteFrame(const core::Widget & widget)
 	{
-		if (widget.m_state.m_active)
+		if (widget.m_value.m_bool)
 		{
 			if (widget.m_state.m_locked)
 				return "active_locked";

@@ -67,15 +67,13 @@ namespace core::gui
 		{
 			Widget::State state;
 			state.m_visible = false;
-			state.m_active = true;
 			state.m_locked = true;
 
 			Widget widget;
 			m_loader.loadState(addState(m_doc, state), widget);
 
 			Assert::AreEqual(state.m_visible, widget.m_state.m_visible);
-			Assert::AreEqual(state.m_active, widget.m_state.m_locked);
-			Assert::AreEqual(state.m_locked, widget.m_state.m_active);
+			Assert::AreEqual(state.m_locked, widget.m_state.m_locked);
 		}
 
 		TEST_METHOD(WidgetLoader_loadDefaultValues)
@@ -95,7 +93,6 @@ namespace core::gui
 			Assert::IsNull(widget.m_group.m_leader);
 			Assert::IsTrue(widget.m_state.m_visible);
 			Assert::IsFalse(widget.m_state.m_locked);
-			Assert::IsFalse(widget.m_state.m_active);
 		}
 		TEST_METHOD(WidgetLoader_loadSpecialValues)
 		{
@@ -104,7 +101,6 @@ namespace core::gui
 			node.append_child("bbox").append_attribute("size").set_value("40, 80");
 			node.append_child("group").append_attribute("leader").set_value("other");
 			node.append_child("link").append_attribute("target").set_value("other");
-			node.append_child("state").append_attribute("active").set_value("true");
 
 			Widget widget, other;
 			m_loader.load(addWidget(m_doc, "other", "panel"), other);
@@ -120,7 +116,6 @@ namespace core::gui
 			Assert::IsTrue(&other == widget.m_group.m_leader);
 			Assert::IsTrue(widget.m_state.m_visible);
 			Assert::IsFalse(widget.m_state.m_locked);
-			Assert::IsTrue(widget.m_state.m_active);
 		}
 
 		TEST_METHOD(WidgetLoader_loadChild)
@@ -182,9 +177,11 @@ namespace core::gui
 			simulateMouseClick({ 15.0f, 15.0f });
 			Assert::IsTrue(m_data.getScript().execute("foo();"));
 			Assert::AreEqual(true, util::get<bool>(m_data.getScript(), GuiData::STATE_BOOL));
+			Assert::IsTrue(widget.m_value.m_bool);
 
 			simulateMouseClick({ 15.0f, 15.0f });
 			Assert::AreEqual(false, util::get<bool>(m_data.getScript(), GuiData::STATE_BOOL));
+			Assert::IsFalse(widget.m_value.m_bool);
 		}
 		TEST_METHOD(WidgetLoader_loadRadioButton)
 		{
@@ -200,9 +197,13 @@ namespace core::gui
 
 			simulateMouseClick({ 15.0f, 15.0f });
 			Assert::AreEqual(1, util::get<int>(m_data.getScript(), "foo"));
+			Assert::IsTrue(widgetA.m_value.m_bool);
+			Assert::IsFalse(widgetB.m_value.m_bool);
 
 			simulateMouseClick({ 45.0f, 15.0f });
 			Assert::AreEqual(2, util::get<int>(m_data.getScript(), "foo"));
+			Assert::IsFalse(widgetA.m_value.m_bool);
+			Assert::IsTrue(widgetB.m_value.m_bool);
 		}
 
 	private:
@@ -238,7 +239,6 @@ namespace core::gui
 		{
 			auto node = widget.append_child("state");
 			node.append_attribute("visible").set_value(state.m_visible);
-			node.append_attribute("active").set_value(state.m_active);
 			node.append_attribute("locked").set_value(state.m_locked);
 			return node;
 		}

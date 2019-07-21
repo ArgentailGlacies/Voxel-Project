@@ -90,8 +90,6 @@ namespace core
 			bool m_visible = true;
 			/* Whether the widget is locked for user interaction. Locks children if true. */
 			bool m_locked = false;
-			/* Whether the widget is marked as active. Does not propagate to children. */
-			bool m_active = false;
 
 			/* Whether the user is hovering the cursor over the widget. */
 			bool m_hovered = false;

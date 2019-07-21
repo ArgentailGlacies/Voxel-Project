@@ -12,10 +12,10 @@
     <!-- Links to any existing widget, or parent if no target is specified -->
     <link target="some_name" ratio="1, 0.5" />
     <!-- Assigns generic state of the widget -->
-    <state visible="true" locked="false" active="false" />
+    <state visible="true" locked="false" />
 
     <!-- May specify at most one type property -->
-    <button type="checkbox"> <!-- Valid types: normal, checkbox, radio -->
+    <button type="checkbox"> <!-- Valid types: generic, checkbox, radio -->
       <renderer button="some_sprite" />
       <script action="" />
     </button>
