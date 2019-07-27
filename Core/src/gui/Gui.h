@@ -23,11 +23,22 @@ namespace core
 		void load(const util::File & file, const AssetRegistry & assets);
 
 		/**
+			Performs one tick on all widgets in the gui.
+		*/
+		void process();
+		/**
 			Renders all underlying widgets to the screen.
 		*/
 		void render() const;
 
 	private:
+		/**
+			Updates the widget and all its underlying children. The widget's position and size will
+			be recalculated based on the position and size of the parent and children.
+
+			@param widget The widget which should be updated.
+		*/
+		void process(Widget & widget);
 		/**
 			Renders the specific widget at the specified offset. The offset should be the position
 			of the parent widget on the screen, unless the rendering explicitly requires rendering

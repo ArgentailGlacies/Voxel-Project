@@ -4,6 +4,7 @@
 #include "core/Engine.h"
 #include "event/EventBus.h"
 #include "event/Events.h"
+#include "gui/GuiRegistry.h"
 #include "scene/Camera.h"
 #include "scene/Scene.h"
 #include "ui/Display.h"
@@ -19,6 +20,9 @@
 void game::StateEntry::initialize(core::Engine & engine)
 {
 	m_display = &engine.getDisplay();
+
+	// Create a test gui
+	engine.getGuiRegistry().open(engine.getDataFolder().file("guis/test.xml"));
 
 	// Move camera into sensible starting location
 	m_camera = &engine.getScene().getCamera(core::Scene::DEFAULT_CAMERA);

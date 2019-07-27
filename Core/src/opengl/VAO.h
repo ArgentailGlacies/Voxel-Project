@@ -15,6 +15,7 @@ namespace core
 
 		bool bind() const;
 		bool unbind() const;
+		static bool reset();
 
 		inline auto handle() const { return m_handle; }
 

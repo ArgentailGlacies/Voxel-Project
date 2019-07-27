@@ -17,8 +17,11 @@ bool core::GuiRegistry::open(const util::File & file)
 	auto gui = std::make_unique<Gui>(file.name());
 	gui->load(file, m_assets);
 
-	m_nodes[file] = m_scene.createRender("", "", [gui = gui.get()]() { gui->render(); }, m_root);
+	auto node = m_scene.createRender("", "", [gui = gui.get()]() { gui->render(); }, m_root);
+	m_scene.setFullscreenLayer(node, FullscreenLayer::GUI);
+
 	m_guis[file] = std::move(gui);
+	m_nodes[file] = node;
 	return true;
 }
 bool core::GuiRegistry::close(const util::File & file)
@@ -28,7 +31,13 @@ bool core::GuiRegistry::close(const util::File & file)
 
 	m_scene.detach(m_nodes[file], m_root);
 
-	m_nodes.erase(file);
 	m_guis.erase(file);
+	m_nodes.erase(file);
 	return true;
+}
+
+void core::GuiRegistry::process()
+{
+	for (auto & [_, gui] : m_guis)
+		gui->process();
 }

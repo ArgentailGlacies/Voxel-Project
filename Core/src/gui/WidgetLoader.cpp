@@ -122,6 +122,8 @@ void core::WidgetLoader::loadState(const pugi::xml_node & node, Widget & widget)
 
 void core::WidgetLoader::loadSpecialization(const pugi::xml_node& node, Widget& widget)
 {
+	if (const auto data = node.child("button"))
+		loadButton(data, widget);
 }
 
 void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget)

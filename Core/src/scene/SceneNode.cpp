@@ -88,6 +88,7 @@ void core::RenderNode::schedule(ScheduleContext & context) const
 {
 	// By this point, transformation nodes have calculated the depth value. Rendering nodes must
 	// ensure that their viewport, translucency and material values are properly set.
+	context.key.setFullscreenLayer(m_fullscreenLayer);
 	context.key.setViewportLayer(m_viewportLayer);
 	context.key.setTranslucency(m_translucency);
 	context.key.setProgram(m_program.empty() ? 0 : m_program->handle());

@@ -41,6 +41,11 @@ namespace core
 		*/
 		bool close(const util::File & file);
 
+		/**
+			Performs an update on all guis that have been opened thus far.
+		*/
+		void process();
+
 	private:
 		const AssetRegistry & m_assets;
 		Scene & m_scene;

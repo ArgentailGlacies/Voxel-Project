@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+
+<widgets>
+  <widget name="foo">
+    <border inner="3" outer="5" />
+    <bbox size="128, 32" />
+
+    <button type="checkbox">
+      <renderer button="gui/main_menu/editor" />
+    </button>
+  </widget>
+</widgets>

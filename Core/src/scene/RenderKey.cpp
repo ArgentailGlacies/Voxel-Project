@@ -32,6 +32,7 @@ core::RenderKey::Data core::RenderKey::compile() const
 {
 	Data data = 0;
 
+	data |= (static_cast<Data>(m_fullscreenLayer) << BIT_FULLSCREEN_LAYER) & MASK_FULLSCREEN_LAYER;
 	data |= (static_cast<Data>(m_viewport) << BIT_VIEWPORT) & MASK_VIEWPORT;
 	data |= (static_cast<Data>(m_viewportLayer) << BIT_VIEWPORT_LAYER) & MASK_VIEWPORT_LAYER;
 	data |= (static_cast<Data>(m_translucency) << BIT_TRANSLUCENCY) & MASK_TRANSLUCENCY;

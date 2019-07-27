@@ -47,6 +47,10 @@ bool core::VBO::unbind() const
 {
 	return setBoundHandle(m_type, 0u);
 }
+bool core::VBO::reset(BufferType type)
+{
+	return setBoundHandle(type, 0u);
+}
 
 bool core::VBO::reserve(unsigned int bytes, const void * data) const
 {

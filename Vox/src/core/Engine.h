@@ -10,6 +10,7 @@ namespace core
 	class Display;
 	class ECS;
 	class EventBus;
+	class GuiRegistry;
 	class Scene;
 	class StateManager;
 	class UBORegistry;
@@ -44,6 +45,7 @@ namespace core
 		Display & getDisplay();
 		ECS & getECS();
 		EventBus & getEventBus();
+		GuiRegistry & getGuiRegistry();
 		Scene & getScene();
 		StateManager & getStates();
 		UBORegistry & getUBOs();

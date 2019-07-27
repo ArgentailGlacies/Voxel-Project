@@ -58,6 +58,11 @@ bool core::Program::unbind() const
 	std::lock_guard guard{ mutex };
 	return setBoundHandle(0u);
 }
+bool core::Program::reset()
+{
+	std::lock_guard guard{ mutex };
+	return setBoundHandle(0u);
+}
 
 bool core::Program::attach(const Shader & shader) const
 {
