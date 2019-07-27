@@ -3,9 +3,9 @@
 
 #include "gui/GuiLoader.h"
 
-void core::Gui::load(const util::File & file)
+void core::Gui::load(const util::File & file, const AssetRegistry & assets)
 {
-	GuiLoader{ m_data, m_root }.load(file);
+	GuiLoader{ assets, m_data, m_root }.load(file);
 }
 
 void core::Gui::render() const

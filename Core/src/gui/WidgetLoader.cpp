@@ -1,8 +1,10 @@
 
 #include "WidgetLoader.h"
 
+#include "asset/AssetRegistry.h"
 #include "gui/GuiEvents.h"
 #include "gui/WidgetListener.h"
+#include "gui/WidgetRenderer.h"
 #include "util/StringParsing.h"
 
 #include <plog/Log.h>
@@ -126,6 +128,7 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 {
 	const std::string type = node.attribute("type").as_string("generic");
 	const std::string action = node.child("script").attribute("action").as_string();
+	const std::string sprite = node.child("renderer").attribute("button").as_string();
 
 	const auto & script = m_data.getScript();
 	widget.m_scripts["action"] = action;
@@ -169,6 +172,9 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 	}
 	else
 		LOG_WARNING << "Unknown button type " << type;
+
+	const auto asset = m_assets.get<Sprite>(sprite);
+	widget.m_renderers.push_back(gui::WidgetRendererButton{ asset });
 
 	registerStandardListeners(widget);
 	widget.m_listeners.push_back(m_data.getBus().add<WidgetActivate>(callback));

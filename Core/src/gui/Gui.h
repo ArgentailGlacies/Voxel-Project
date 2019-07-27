@@ -6,6 +6,8 @@
 
 namespace core
 {
+	class AssetRegistry;
+
 	class Gui
 	{
 	public:
@@ -16,8 +18,9 @@ namespace core
 			Loads the gui data from the specified file.
 
 			@param file The file containing the gui data.
+			@param assets All registered assets within the system.
 		*/
-		void load(const util::File & file);
+		void load(const util::File & file, const AssetRegistry & assets);
 
 		/**
 			Renders all underlying widgets to the screen.

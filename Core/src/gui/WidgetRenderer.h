@@ -9,13 +9,13 @@ namespace core
 	namespace gui
 	{
 		/**
-			Renders a simple sprite at the positio of the widget. The sprite will be scaled to fill
+			Renders a simple sprite at the position of the widget. The sprite will be scaled to fill
 			the entire space covered by the widget's bounding box.
 		*/
-		class WidgetRendererSprite
+		class WidgetRendererButton
 		{
 		public:
-			WidgetRendererSprite(Asset<Sprite>::Reference sprite) : m_sprite(sprite) {}
+			WidgetRendererButton(Asset<Sprite>::Reference sprite) : m_sprite(sprite) {}
 
 			inline void operator()(const Widget & widget, const glm::vec2 & offset) const { render(widget, offset); }
 

@@ -8,6 +8,8 @@
 
 namespace core
 {
+	class AssetRegistry;
+
 	/**
 		The widget loader loads a widget and its entire family from a specific node. All widgets
 		will be given their processors, renders, and listeners as well.
@@ -16,7 +18,9 @@ namespace core
 	{
 	public:
 		WidgetLoader() = delete;
-		WidgetLoader(GuiData & data) noexcept : m_data(data) {}
+		WidgetLoader(const AssetRegistry & assets, GuiData & data) noexcept
+			: m_assets(assets), m_data(data)
+		{}
 
 		/**
 			Loads the data stored in the node as a widget node. Will load child widgets as well, if
@@ -89,7 +93,7 @@ namespace core
 			@param node The xml node containing widget data.
 			@param widget The widget which should be loaded.
 		*/
-		void loadSpecialization(const pugi::xml_node& node, Widget& widget);
+		void loadSpecialization(const pugi::xml_node & node, Widget & widget);
 
 		void loadButton(const pugi::xml_node & node, Widget & widget);
 		void loadSlider(const pugi::xml_node & node, Widget & widget);
@@ -105,6 +109,7 @@ namespace core
 		*/
 		void registerStandardListeners(Widget & widget);
 
+		const AssetRegistry & m_assets;
 		GuiData & m_data;
 
 		std::unordered_map<std::string, Widget *> m_widgets;

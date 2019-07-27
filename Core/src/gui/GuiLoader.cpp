@@ -18,5 +18,5 @@ void core::GuiLoader::load(const util::File & file)
 }
 void core::GuiLoader::load(const pugi::xml_document & doc)
 {
-	WidgetLoader{ m_data }.load(doc.child("widgets"), m_root);
+	WidgetLoader{ m_assets, m_data }.load(doc.child("widgets"), m_root);
 }

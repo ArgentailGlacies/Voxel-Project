@@ -5,11 +5,14 @@
 #include "io/File.h"
 #include "scene/Scene.h"
 
+#include <memory>
 #include <string>
 #include <unordered_map>
 
 namespace core
 {
+	class AssetRegistry;
+
 	/**
 		The gui registry is responsible for creating, closing and generally managing the different
 		graphical user interfaces. Each interface is created with a priority, where the interface
@@ -19,7 +22,7 @@ namespace core
 	{
 	public:
 		GuiRegistry() = delete;
-		GuiRegistry(EventBus & bus, Scene & scene);
+		GuiRegistry(const AssetRegistry & assets, EventBus & bus, Scene & scene);
 
 		/**
 			Opens the gui stored in the specified file if it is not already open. If the gui has
@@ -39,9 +42,11 @@ namespace core
 		bool close(const util::File & file);
 
 	private:
+		const AssetRegistry & m_assets;
 		Scene & m_scene;
 
-		std::unordered_map<util::File, Gui> m_guis;
+		std::unordered_map<util::File, std::unique_ptr<Gui>> m_guis;
 		std::unordered_map<util::File, SceneEntry> m_nodes;
+		SceneEntry m_root;
 	};
 }

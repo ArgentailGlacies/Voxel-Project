@@ -2,6 +2,7 @@
 #include "gui/WidgetLoader.h"
 
 #include "event/Events.h"
+#include "mock/MockAssetRegistry.h"
 #include "mock/MockWidget.h"
 #include "script/ScriptUtil.h"
 
@@ -269,7 +270,8 @@ namespace core::gui
 
 		pugi::xml_document m_doc;
 
+		AssetRegistry m_assets = mockAssetRegistry();
 		GuiData m_data{ "gui" };
-		WidgetLoader m_loader{ m_data };
+		WidgetLoader m_loader{ m_assets, m_data };
 	};
 }

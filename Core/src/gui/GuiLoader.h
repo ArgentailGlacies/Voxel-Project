@@ -1,5 +1,6 @@
 #pragma once
 
+#include "asset/AssetRegistry.h"
 #include "gui/GuiData.h"
 #include "gui/Widget.h"
 #include "io/File.h"
@@ -12,7 +13,9 @@ namespace core
 	{
 	public:
 		GuiLoader() = delete;
-		GuiLoader(GuiData & data, Widget & root) : m_data(data), m_root(root) {}
+		GuiLoader(const AssetRegistry & assets, GuiData & data, Widget & root)
+			: m_assets(assets), m_data(data), m_root(root)
+		{}
 
 		/**
 			Loads a graphical user interface from the specified file. If the file does not exist,
@@ -29,6 +32,7 @@ namespace core
 		void load(const pugi::xml_document & doc);
 
 	private:
+		const AssetRegistry & m_assets;
 		GuiData & m_data;
 		Widget & m_root;
 	};

@@ -3,6 +3,7 @@
 
 #include "io/File.h"
 #include "io/Folder.h"
+#include "mock/MockAssetRegistry.h"
 
 #include <pugixml/pugixml.hpp>
 
@@ -20,7 +21,7 @@ namespace core::gui
 
 		TEST_METHOD(GuiLoader_load)
 		{
-			GuiLoader loader{ m_data, m_root };
+			GuiLoader loader{ m_assets, m_data, m_root };
 			loader.load("test_files/gui.xml");
 
 			Assert::AreEqual(1u, m_root.m_family.m_children.size());
@@ -41,6 +42,7 @@ namespace core::gui
 			util::Folder{ "test_files" }.erase(true);
 		}
 
+		AssetRegistry m_assets = mockAssetRegistry();
 		GuiData m_data{ "gui" };
 		Widget m_root;
 	};
