@@ -3,6 +3,7 @@
 
 #include "asset/AssetRegistry.h"
 #include "gui/Gui.h"
+#include "gui/GuiData.h"
 #include "gui/GuiEvents.h"
 #include "gui/WidgetListener.h"
 #include "gui/WidgetRenderer.h"
@@ -13,28 +14,6 @@
 namespace
 {
 	const std::string NODE_WIDGET = "widget";
-
-	/**
-		Assigns the bool state in the global widget state field.
-	*/
-	void setState(const core::Script & script, bool state)
-	{
-		script.execute(core::Gui::STATE_BOOL + " = " + (state ? "true" : "false") + ";");
-	}
-	/**
-		Assigns the float state in the global widget state field.
-	*/
-	void setState(const core::Script & script, float state)
-	{
-		script.execute(core::Gui::STATE_FLOAT + " = " + std::to_string(state) + ";");
-	}
-	/**
-		Assigns the string state in the global widget state field.
-	*/
-	void setState(const core::Script & script, const std::string & state)
-	{
-		script.execute(core::Gui::STATE_STRING + " = \"" + util::replaceAll(state, "\"", "\\\"") + "\";");
-	}
 }
 
 // ...
@@ -144,7 +123,7 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 			if (&event.m_widget != &widget)
 				return;
 
-			setState(script, true);
+			gui::setState(script, true);
 			script.execute(widget.m_scripts["action"]);
 		};
 	}
@@ -156,7 +135,7 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 
 			widget.m_value.m_bool = !widget.m_value.m_bool;
 
-			setState(script, widget.m_value.m_bool);
+			gui::setState(script, widget.m_value.m_bool);
 			script.execute(widget.m_scripts["action"]);
 		};
 	}
@@ -170,15 +149,14 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 				w->m_value.m_bool = false;
 			widget.m_value.m_bool = true;
 
-			setState(script, true);
+			gui::setState(script, true);
 			script.execute(widget.m_scripts["action"]);
 		};
 	}
 	else
 		LOG_WARNING << "Unknown button type " << type;
 
-	const auto asset = m_assets.get<Sprite>(sprite);
-	widget.m_renderers.push_back(gui::WidgetRendererButton{ asset });
+	widget.m_renderers.push_back(gui::WidgetRendererButton{ m_assets.get<Sprite>(sprite) });
 	widget.m_listeners.push_back(m_bus.add<WidgetActivate>(callback));
 }
 void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget)

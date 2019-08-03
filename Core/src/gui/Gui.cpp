@@ -1,24 +1,17 @@
 
 #include "Gui.h"
 
+#include "gui/GuiData.h"
 #include "gui/WidgetLoader.h"
 #include "gui/WidgetProcessor.h"
 
 #include <plog/Log.h>
 #include <pugixml/pugixml.hpp>
 
-const std::string core::Gui::STATE_BOOL = "STATE_BOOL";
-const std::string core::Gui::STATE_FLOAT = "STATE_FLOAT";
-const std::string core::Gui::STATE_STRING = "STATE_STRING";
-
-// ...
-
 core::Gui::Gui(const util::File & file, const AssetRegistry & assets)
 	: m_script(file.path())
 {
-	m_script.execute("global " + STATE_BOOL + " = false;");
-	m_script.execute("global " + STATE_FLOAT + " = 0.0f;");
-	m_script.execute("global " + STATE_STRING + " = \"\";");
+	gui::initializeScript(m_script);
 
 	load(file, assets);
 }

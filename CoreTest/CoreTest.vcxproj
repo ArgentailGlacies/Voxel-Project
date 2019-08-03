@@ -210,6 +210,7 @@
     <ClCompile Include="src\event\EventListenerTest.cpp" />
     <ClCompile Include="src\event\EventQueueTest.cpp" />
     <ClCompile Include="src\event\EventTest.cpp" />
+    <ClCompile Include="src\gui\GuiDataTest.cpp" />
     <ClCompile Include="src\gui\GuiRegistryTest.cpp" />
     <ClCompile Include="src\gui\WidgetListenerTest.cpp" />
     <ClCompile Include="src\gui\WidgetLoaderTest.cpp" />

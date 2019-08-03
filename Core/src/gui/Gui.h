@@ -12,15 +12,6 @@ namespace core
 	class Gui
 	{
 	public:
-		/* Represents the name of the global storing the current widget's boolean state */
-		static const std::string STATE_BOOL;
-		/* Represents the name of the global storing the current widget's floating point state */
-		static const std::string STATE_FLOAT;
-		/* Represents the name of the global storing the current widget's textual state */
-		static const std::string STATE_STRING;
-
-		// ...
-
 		Gui() = delete;
 		Gui(const util::File & file, const AssetRegistry & assets);
 
