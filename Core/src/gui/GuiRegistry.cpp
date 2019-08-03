@@ -2,7 +2,6 @@
 #include "GuiRegistry.h"
 
 #include "event/Events.h"
-#include "gui/GuiLoader.h"
 
 #include <limits>
 
@@ -22,9 +21,7 @@ bool core::GuiRegistry::open(const util::File & file)
 	if (!file.exists() || m_guis.find(file) != m_guis.end())
 		return false;
 
-	auto gui = std::make_unique<Gui>(file.name());
-	gui->load(file, m_assets);
-
+	auto gui = std::make_unique<Gui>(file, m_assets);
 	auto node = m_scene.createRender("", "", [gui = gui.get()]() { gui->render(); }, m_root);
 	m_scene.setFullscreenLayer(node, FullscreenLayer::GUI);
 

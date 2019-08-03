@@ -1,8 +1,9 @@
 #pragma once
 
-#include "gui/GuiData.h"
+#include "event/EventBus.h"
 #include "gui/Widget.h"
 #include "io/File.h"
+#include "script/Script.h"
 
 namespace core
 {
@@ -11,18 +12,17 @@ namespace core
 	class Gui
 	{
 	public:
+		/* Represents the name of the global storing the current widget's boolean state */
+		static const std::string STATE_BOOL;
+		/* Represents the name of the global storing the current widget's floating point state */
+		static const std::string STATE_FLOAT;
+		/* Represents the name of the global storing the current widget's textual state */
+		static const std::string STATE_STRING;
+
+		// ...
+
 		Gui() = delete;
-		Gui(const std::string & name) : m_data(name) {}
-
-		inline auto & getBus() const { return m_data.getBus(); }
-
-		/**
-			Loads the gui data from the specified file.
-
-			@param file The file containing the gui data.
-			@param assets All registered assets within the system.
-		*/
-		void load(const util::File & file, const AssetRegistry & assets);
+		Gui(const util::File & file, const AssetRegistry & assets);
 
 		/**
 			Performs one tick on all widgets in the gui.
@@ -33,7 +33,21 @@ namespace core
 		*/
 		void render() const;
 
+		// ...
+
+		inline auto & getBus() { return m_bus; }
+		inline const auto & getBus() const { return m_bus; }
+		inline auto & getScript() { return m_script; }
+		inline const auto & getScript() const { return m_script; }
+
 	private:
+		/**
+			Loads the graphical interface data which is stored in the provided file.
+
+			@param file The file containing all data to load.
+			@param assets All assets registered within the system.
+		*/
+		void load(const util::File & file, const AssetRegistry & assets);
 		/**
 			Updates the widget and all its underlying children. The widget's position and size will
 			be recalculated based on the position and size of the parent and children.
@@ -51,7 +65,8 @@ namespace core
 		*/
 		void render(const Widget & widget, const glm::vec2 & offset) const;
 
-		GuiData m_data;
+		EventBus m_bus;
+		Script m_script;
 		Widget m_root;
 	};
 }

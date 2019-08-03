@@ -1,7 +1,8 @@
 #pragma once
 
-#include "gui/GuiData.h"
+#include "event/EventBus.h"
 #include "gui/Widget.h"
+#include "script/Script.h"
 
 #include <pugixml/pugixml.hpp>
 #include <unordered_map>
@@ -18,8 +19,8 @@ namespace core
 	{
 	public:
 		WidgetLoader() = delete;
-		WidgetLoader(const AssetRegistry & assets, GuiData & data) noexcept
-			: m_assets(assets), m_data(data)
+		WidgetLoader(const AssetRegistry & assets, const Script & script, EventBus & bus) noexcept
+			: m_assets(assets), m_script(script), m_bus(bus)
 		{}
 
 		/**
@@ -110,7 +111,8 @@ namespace core
 		void registerStandardListeners(Widget & widget);
 
 		const AssetRegistry & m_assets;
-		GuiData & m_data;
+		const Script & m_script;
+		EventBus & m_bus;
 
 		std::unordered_map<std::string, Widget *> m_widgets;
 	};

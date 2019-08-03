@@ -1,6 +1,5 @@
 #pragma once
 
-#include "gui/GuiData.h"
 #include "gui/Widget.h"
 
 #include <glm/vec2.hpp>

@@ -2,6 +2,7 @@
 #include "WidgetLoader.h"
 
 #include "asset/AssetRegistry.h"
+#include "gui/Gui.h"
 #include "gui/GuiEvents.h"
 #include "gui/WidgetListener.h"
 #include "gui/WidgetRenderer.h"
@@ -18,21 +19,21 @@ namespace
 	*/
 	void setState(const core::Script & script, bool state)
 	{
-		script.execute(core::GuiData::STATE_BOOL + " = " + (state ? "true" : "false") + ";");
+		script.execute(core::Gui::STATE_BOOL + " = " + (state ? "true" : "false") + ";");
 	}
 	/**
 		Assigns the float state in the global widget state field.
 	*/
 	void setState(const core::Script & script, float state)
 	{
-		script.execute(core::GuiData::STATE_FLOAT + " = " + std::to_string(state) + ";");
+		script.execute(core::Gui::STATE_FLOAT + " = " + std::to_string(state) + ";");
 	}
 	/**
 		Assigns the string state in the global widget state field.
 	*/
 	void setState(const core::Script & script, const std::string & state)
 	{
-		script.execute(core::GuiData::STATE_STRING + " = \"" + util::replaceAll(state, "\"", "\\\"") + "\";");
+		script.execute(core::Gui::STATE_STRING + " = \"" + util::replaceAll(state, "\"", "\\\"") + "\";");
 	}
 }
 
@@ -62,6 +63,8 @@ void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 		loadState(data, widget);
 	loadSpecialization(node, widget);
 	loadChildren(node, widget);
+
+	registerStandardListeners(widget);
 }
 
 void core::WidgetLoader::loadChildren(const pugi::xml_node & node, Widget & widget)
@@ -132,13 +135,12 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 	const std::string action = node.child("script").attribute("action").as_string();
 	const std::string sprite = node.child("renderer").attribute("button").as_string();
 
-	const auto & script = m_data.getScript();
 	widget.m_scripts["action"] = action;
 
 	CallbackConst<WidgetActivate> callback = [](const WidgetActivate &) {};
 	if (type == "generic")
 	{
-		callback = [&widget, &script](const WidgetActivate & event) {
+		callback = [&script = m_script, &widget](const WidgetActivate & event) {
 			if (&event.m_widget != &widget)
 				return;
 
@@ -148,7 +150,7 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 	}
 	else if (type == "checkbox")
 	{
-		callback = [&widget, &script](const WidgetActivate & event) {
+		callback = [&script = m_script, &widget](const WidgetActivate & event) {
 			if (&event.m_widget != &widget)
 				return;
 
@@ -160,7 +162,7 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 	}
 	else if (type == "radio")
 	{
-		callback = [&widget, &script](const WidgetActivate & event) {
+		callback = [&script = m_script, &widget](const WidgetActivate & event) {
 			if (&event.m_widget != &widget)
 				return;
 
@@ -177,9 +179,7 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 
 	const auto asset = m_assets.get<Sprite>(sprite);
 	widget.m_renderers.push_back(gui::WidgetRendererButton{ asset });
-
-	registerStandardListeners(widget);
-	widget.m_listeners.push_back(m_data.getBus().add<WidgetActivate>(callback));
+	widget.m_listeners.push_back(m_bus.add<WidgetActivate>(callback));
 }
 void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget)
 {
@@ -195,13 +195,13 @@ void core::WidgetLoader::loadTextbox(const pugi::xml_node & node, Widget & widge
 
 void core::WidgetLoader::registerStandardListeners(Widget & widget)
 {
-	widget.m_listeners.push_back(m_data.getBus().add<MouseMove>(0,
+	widget.m_listeners.push_back(m_bus.add<MouseMove>(0,
 		[&widget](auto & event) { gui::mouseMove(event, widget); }
 	));
-	widget.m_listeners.push_back(m_data.getBus().add<MousePress>(0,
+	widget.m_listeners.push_back(m_bus.add<MousePress>(0,
 		[&widget](auto & event) { gui::mousePress(event, widget); }
 	));
-	widget.m_listeners.push_back(m_data.getBus().add<MouseRelease>(0,
-		[this, &widget](auto & event) { gui::mouseRelease(m_data.getBus(), event, widget); }
+	widget.m_listeners.push_back(m_bus.add<MouseRelease>(0,
+		[&bus = m_bus, &widget](auto & event) { gui::mouseRelease(bus, event, widget); }
 	));
 }

@@ -2,6 +2,7 @@
 #include "gui/WidgetLoader.h"
 
 #include "event/Events.h"
+#include "gui/Gui.h"
 #include "mock/MockAssetRegistry.h"
 #include "mock/MockWidget.h"
 #include "script/ScriptUtil.h"
@@ -168,7 +169,7 @@ namespace core::gui
 			m_loader.loadButton(addButton(m_doc, "generic", "def foo() {}"), widget);
 
 			simulateMouseClick({ 15.0f, 15.0f });
-			Assert::IsTrue(m_data.getScript().execute("foo();"));
+			Assert::IsTrue(m_script.execute("foo();"));
 		}
 		TEST_METHOD(WidgetLoader_loadCheckboxButton)
 		{
@@ -176,12 +177,10 @@ namespace core::gui
 			m_loader.loadButton(addButton(m_doc, "checkbox", "def foo() {}"), widget);
 
 			simulateMouseClick({ 15.0f, 15.0f });
-			Assert::IsTrue(m_data.getScript().execute("foo();"));
-			Assert::AreEqual(true, util::get<bool>(m_data.getScript(), GuiData::STATE_BOOL));
+			Assert::IsTrue(m_script.execute("foo();"));
 			Assert::IsTrue(widget.m_value.m_bool);
 
 			simulateMouseClick({ 15.0f, 15.0f });
-			Assert::AreEqual(false, util::get<bool>(m_data.getScript(), GuiData::STATE_BOOL));
 			Assert::IsFalse(widget.m_value.m_bool);
 		}
 		TEST_METHOD(WidgetLoader_loadRadioButton)
@@ -192,17 +191,17 @@ namespace core::gui
 			widgetA.m_group.m_members.push_back(&widgetB);
 			widgetA.m_group.m_leader = &widgetA;
 			widgetB.m_group.m_leader = &widgetA;
-			m_data.getScript().execute("global foo = 0;");
+			m_script.execute("global foo = 0;");
 			m_loader.loadButton(addButton(m_doc, "radio", "foo = 1;"), widgetA);
 			m_loader.loadButton(addButton(m_doc, "radio", "foo = 2;"), widgetB);
 
 			simulateMouseClick({ 15.0f, 15.0f });
-			Assert::AreEqual(1, util::get<int>(m_data.getScript(), "foo"));
+			Assert::AreEqual(1, util::get<int>(m_script, "foo"));
 			Assert::IsTrue(widgetA.m_value.m_bool);
 			Assert::IsFalse(widgetB.m_value.m_bool);
 
 			simulateMouseClick({ 45.0f, 15.0f });
-			Assert::AreEqual(2, util::get<int>(m_data.getScript(), "foo"));
+			Assert::AreEqual(2, util::get<int>(m_script, "foo"));
 			Assert::IsFalse(widgetA.m_value.m_bool);
 			Assert::IsTrue(widgetB.m_value.m_bool);
 		}
@@ -261,9 +260,9 @@ namespace core::gui
 
 		void simulateMouseClick(const glm::vec2 & position)
 		{
-			m_data.getBus().post(MouseMove{ position, {}, {}, {} });
-			m_data.getBus().post(MousePress{ MouseButton::LEFT, position, {}, 0.0f });
-			m_data.getBus().post(MouseRelease{ MouseButton::LEFT, position, {}, 0.0f });
+			m_bus.post(MouseMove{ position, {}, {}, {} });
+			m_bus.post(MousePress{ MouseButton::LEFT, position, {}, 0.0f });
+			m_bus.post(MouseRelease{ MouseButton::LEFT, position, {}, 0.0f });
 		}
 
 		// ...
@@ -271,7 +270,8 @@ namespace core::gui
 		pugi::xml_document m_doc;
 
 		AssetRegistry m_assets = mockAssetRegistry();
-		GuiData m_data{ "gui" };
-		WidgetLoader m_loader{ m_assets, m_data };
+		EventBus m_bus;
+		Script m_script{ "script" };
+		WidgetLoader m_loader{ m_assets, m_script, m_bus };
 	};
 }
