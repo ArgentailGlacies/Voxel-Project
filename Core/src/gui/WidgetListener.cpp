@@ -24,9 +24,12 @@ void core::gui::mousePress(MousePress & event, Widget & widget)
 {
 	widget.m_state.m_selected = widget.m_state.m_hovered && event.consume();
 }
-void core::gui::mouseRelease(const EventBus & bus, MouseRelease & event, Widget & widget)
+void core::gui::mouseRelease(MouseRelease & event, Widget & widget)
 {
 	if (widget.m_state.m_selected && isInside(event.m_position, widget.m_bbox) && event.consume())
-		bus.post(WidgetActivate{ widget });
+	{
+		for (const auto & action : widget.m_actions)
+			action(widget);
+	}
 	widget.m_state.m_selected = false;
 }

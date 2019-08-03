@@ -18,11 +18,11 @@ namespace core
 		/**
 			Performs one tick on all widgets in the gui.
 		*/
-		void process();
+		inline void process() { process(m_root); }
 		/**
 			Renders all underlying widgets to the screen.
 		*/
-		void render() const;
+		inline void render() const { render(m_root, {}); }
 
 		// ...
 

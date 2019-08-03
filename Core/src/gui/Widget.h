@@ -7,16 +7,10 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <unordered_map>
 
 namespace core
 {
 	struct Widget;
-
-	using Processor = std::function<void(Widget &)>;
-	using Renderer = std::function<void(const Widget &, const glm::vec2 &)>;
-
-	// ...
 
 	/**
 		All graphical user interface objects are represented as widgets. Unique functionality is
@@ -25,6 +19,25 @@ namespace core
 	*/
 	struct Widget
 	{
+		/**
+			An action is performed whenever the widget is activated by the user or by the system in
+			some other manner. Actions may be virtually anything conceivable.
+		*/
+		using Action = std::function<void(Widget & widget)>;
+		/**
+			The widget is ticked every tick, which is when the processors are invoked. Any processor
+			will be able to access the widget's internal data in order to process it.
+		*/
+		using Processor = std::function<void(Widget & widget)>;
+		/**
+			The widget is rendered every frame, which is when the renderers are invoked. All
+			renderers will be invoked in the same order as they were created, where the last will
+			be rendered on top of all other renderers.
+		*/
+		using Renderer = std::function<void(const Widget & widget, const glm::vec2 & offset)>;
+
+		// ...
+
 		/**
 			The border determines how far away at minimum another widget must be to the current
 			widget. If two widgets are connected, the actual border will be the greatest border
@@ -54,7 +67,7 @@ namespace core
 		*/
 		struct Family
 		{
-			Widget * m_parent = nullptr;
+			const Widget * m_parent = nullptr;
 			std::vector<std::unique_ptr<Widget>> m_children;
 		};
 
@@ -114,10 +127,10 @@ namespace core
 
 		// ...
 
+		std::vector<Action> m_actions;
+		std::vector<Listener> m_listeners;
 		std::vector<Processor> m_processors;
 		std::vector<Renderer> m_renderers;
-		std::vector<Listener> m_listeners;
-		std::unordered_map<std::string, std::string> m_scripts;
 
 		BoundingBox m_bbox;
 		Border m_border;

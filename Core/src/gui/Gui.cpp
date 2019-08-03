@@ -11,9 +11,8 @@
 core::Gui::Gui(const util::File & file, const AssetRegistry & assets)
 	: m_script(file.path())
 {
-	gui::initializeScript(m_script);
-
 	load(file, assets);
+	gui::initializeScript(m_script);
 }
 
 void core::Gui::load(const util::File & file, const AssetRegistry & assets)
@@ -27,10 +26,6 @@ void core::Gui::load(const util::File & file, const AssetRegistry & assets)
 		LOG_WARNING << "Failed to load gui " << file.path();
 }
 
-void core::Gui::process()
-{
-	process(m_root);
-}
 void core::Gui::process(Widget & widget)
 {
 	// Move the widget to the correct location on-screen
@@ -42,11 +37,10 @@ void core::Gui::process(Widget & widget)
 
 	// Recalculate the size of the widget
 	gui::updateSize(widget);
-}
 
-void core::Gui::render() const
-{
-	render(m_root, glm::vec2{});
+	// Perform all aspectes of this specific widget
+	for (const auto & processor : widget.m_processors)
+		processor(widget);
 }
 void core::Gui::render(const Widget & widget, const glm::vec2 & offset) const
 {

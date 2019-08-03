@@ -33,6 +33,6 @@ namespace core
 			@param event The event which should be processed.
 			@param widget The widget which should be updated.
 		*/
-		void mouseRelease(const EventBus & bus, MouseRelease & event, Widget & widget);
+		void mouseRelease(MouseRelease & event, Widget & widget);
 	}
 }

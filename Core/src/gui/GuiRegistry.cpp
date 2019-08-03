@@ -8,12 +8,12 @@
 core::GuiRegistry::GuiRegistry(const AssetRegistry & assets, EventBus & bus, Scene & scene)
 	: m_assets(assets), m_scene(scene)
 {
-	m_root = m_scene.createNode(Scene::DEFAULT_CAMERA);
-
 	constexpr auto priority = std::numeric_limits<int>::min();
 	m_mouseMove = bus.add<MouseMove>(priority, [this](auto & event) { processEvent(event); });
 	m_mousePress = bus.add<MousePress>(priority, [this](auto & event) { processEvent(event); });
 	m_mouseRelease = bus.add<MouseRelease>(priority, [this](auto & event) { processEvent(event); });
+
+	m_root = m_scene.createNode(Scene::DEFAULT_CAMERA);
 }
 
 bool core::GuiRegistry::open(const util::File & file)

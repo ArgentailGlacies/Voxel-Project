@@ -2,11 +2,15 @@
 #include "WidgetLoader.h"
 
 #include "asset/AssetRegistry.h"
+#include "event/EventBus.h"
 #include "gui/Gui.h"
 #include "gui/GuiData.h"
 #include "gui/GuiEvents.h"
+#include "gui/WidgetAction.h"
 #include "gui/WidgetListener.h"
+#include "gui/WidgetProcessor.h"
 #include "gui/WidgetRenderer.h"
+#include "script/Script.h"
 #include "util/StringParsing.h"
 
 #include <plog/Log.h>
@@ -27,7 +31,7 @@ void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 	else if (const auto it = m_widgets.find(name); it != m_widgets.end())
 		LOG_WARNING << "Cannot overwrite existing widget " << name;
 	else
-		m_widgets[node.attribute("name").as_string()] = &widget;
+		m_widgets[name] = &widget;
 
 	// Must load normal data and specialization before children
 	if (const auto data = node.child("border"))
@@ -114,50 +118,18 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 	const std::string action = node.child("script").attribute("action").as_string();
 	const std::string sprite = node.child("renderer").attribute("button").as_string();
 
-	widget.m_scripts["action"] = action;
-
-	CallbackConst<WidgetActivate> callback = [](const WidgetActivate &) {};
+	// Load action
 	if (type == "generic")
-	{
-		callback = [&script = m_script, &widget](const WidgetActivate & event) {
-			if (&event.m_widget != &widget)
-				return;
-
-			gui::setState(script, true);
-			script.execute(widget.m_scripts["action"]);
-		};
-	}
+		widget.m_actions.push_back(WidgetActionButton{ m_script, action });
 	else if (type == "checkbox")
-	{
-		callback = [&script = m_script, &widget](const WidgetActivate & event) {
-			if (&event.m_widget != &widget)
-				return;
-
-			widget.m_value.m_bool = !widget.m_value.m_bool;
-
-			gui::setState(script, widget.m_value.m_bool);
-			script.execute(widget.m_scripts["action"]);
-		};
-	}
+		widget.m_actions.push_back(WidgetActionButtonCheckbox{ m_script, action });
 	else if (type == "radio")
-	{
-		callback = [&script = m_script, &widget](const WidgetActivate & event) {
-			if (&event.m_widget != &widget)
-				return;
-
-			for (auto & w : widget.m_group.m_leader->m_group.m_members)
-				w->m_value.m_bool = false;
-			widget.m_value.m_bool = true;
-
-			gui::setState(script, true);
-			script.execute(widget.m_scripts["action"]);
-		};
-	}
+		widget.m_actions.push_back(WidgetActionButtonRadio{ m_script, action });
 	else
 		LOG_WARNING << "Unknown button type " << type;
 
+	// Load renderer
 	widget.m_renderers.push_back(gui::WidgetRendererButton{ m_assets.get<Sprite>(sprite) });
-	widget.m_listeners.push_back(m_bus.add<WidgetActivate>(callback));
 }
 void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget)
 {
@@ -180,6 +152,6 @@ void core::WidgetLoader::registerStandardListeners(Widget & widget)
 		[&widget](auto & event) { gui::mousePress(event, widget); }
 	));
 	widget.m_listeners.push_back(m_bus.add<MouseRelease>(0,
-		[&bus = m_bus, &widget](auto & event) { gui::mouseRelease(bus, event, widget); }
+		[&widget](auto & event) { gui::mouseRelease(event, widget); }
 	));
 }

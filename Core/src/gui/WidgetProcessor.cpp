@@ -1,6 +1,7 @@
 
 #include "WidgetProcessor.h"
 
+#include "gui/Widget.h"
 #include "util/MathOperations.h"
 
 void core::gui::updateChildren(Widget & widget)

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "event/EventBus.h"
 #include "gui/Widget.h"
-#include "script/Script.h"
 
 #include <pugixml/pugixml.hpp>
 #include <unordered_map>
@@ -10,6 +8,8 @@
 namespace core
 {
 	class AssetRegistry;
+	class EventBus;
+	class Script;
 
 	/**
 		The widget loader loads a widget and its entire family from a specific node. All widgets

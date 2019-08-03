@@ -1,11 +1,9 @@
 
 #include "gui/WidgetLoader.h"
 
-#include "event/Events.h"
-#include "gui/Gui.h"
+#include "event/EventBus.h"
 #include "mock/MockAssetRegistry.h"
-#include "mock/MockWidget.h"
-#include "script/ScriptUtil.h"
+#include "script/Script.h"
 
 #include <pugixml/pugixml.hpp>
 
@@ -165,45 +163,27 @@ namespace core::gui
 
 		TEST_METHOD(WidgetLoader_loadGenericButton)
 		{
-			Widget widget = mockWidget({ 10.0f, 10.0f }, { 30.0f, 10.0f });
-			m_loader.loadButton(addButton(m_doc, "generic", "def foo() {}"), widget);
+			Widget widget;
+			m_loader.loadButton(addButton(m_doc, "generic"), widget);
 
-			simulateMouseClick({ 15.0f, 15.0f });
-			Assert::IsTrue(m_script.execute("foo();"));
+			Assert::AreEqual(1u, widget.m_actions.size());
+			Assert::AreEqual(1u, widget.m_renderers.size());
 		}
 		TEST_METHOD(WidgetLoader_loadCheckboxButton)
 		{
-			Widget widget = mockWidget({ 10.0f, 10.0f }, { 30.0f, 10.0f });
-			m_loader.loadButton(addButton(m_doc, "checkbox", "def foo() {}"), widget);
+			Widget widget;
+			m_loader.loadButton(addButton(m_doc, "checkbox"), widget);
 
-			simulateMouseClick({ 15.0f, 15.0f });
-			Assert::IsTrue(m_script.execute("foo();"));
-			Assert::IsTrue(widget.m_value.m_bool);
-
-			simulateMouseClick({ 15.0f, 15.0f });
-			Assert::IsFalse(widget.m_value.m_bool);
+			Assert::AreEqual(1u, widget.m_actions.size());
+			Assert::AreEqual(1u, widget.m_renderers.size());
 		}
 		TEST_METHOD(WidgetLoader_loadRadioButton)
 		{
-			Widget widgetA = mockWidget({ 10.0f, 10.0f }, { 30.0f, 10.0f });
-			Widget widgetB = mockWidget({ 40.0f, 10.0f }, { 30.0f, 10.0f });
-			widgetA.m_group.m_members.push_back(&widgetA);
-			widgetA.m_group.m_members.push_back(&widgetB);
-			widgetA.m_group.m_leader = &widgetA;
-			widgetB.m_group.m_leader = &widgetA;
-			m_script.execute("global foo = 0;");
-			m_loader.loadButton(addButton(m_doc, "radio", "foo = 1;"), widgetA);
-			m_loader.loadButton(addButton(m_doc, "radio", "foo = 2;"), widgetB);
+			Widget widget;
+			m_loader.loadButton(addButton(m_doc, "radio"), widget);
 
-			simulateMouseClick({ 15.0f, 15.0f });
-			Assert::AreEqual(1, util::get<int>(m_script, "foo"));
-			Assert::IsTrue(widgetA.m_value.m_bool);
-			Assert::IsFalse(widgetB.m_value.m_bool);
-
-			simulateMouseClick({ 45.0f, 15.0f });
-			Assert::AreEqual(2, util::get<int>(m_script, "foo"));
-			Assert::IsFalse(widgetA.m_value.m_bool);
-			Assert::IsTrue(widgetB.m_value.m_bool);
+			Assert::AreEqual(1u, widget.m_actions.size());
+			Assert::AreEqual(1u, widget.m_renderers.size());
 		}
 
 	private:
@@ -250,19 +230,11 @@ namespace core::gui
 			return node;
 		}
 		
-		pugi::xml_node addButton(pugi::xml_node & widget, const std::string & type, const std::string & script)
+		pugi::xml_node addButton(pugi::xml_node & widget, const std::string & type)
 		{
 			auto node = widget.append_child("button");
 			node.append_attribute("type").set_value(type.c_str());
-			node.append_child("script").append_attribute("action").set_value(script.c_str());
 			return node;
-		}
-
-		void simulateMouseClick(const glm::vec2 & position)
-		{
-			m_bus.post(MouseMove{ position, {}, {}, {} });
-			m_bus.post(MousePress{ MouseButton::LEFT, position, {}, 0.0f });
-			m_bus.post(MouseRelease{ MouseButton::LEFT, position, {}, 0.0f });
 		}
 
 		// ...
