@@ -70,9 +70,9 @@ void game::StateEntry::initialize(core::Engine & engine)
 	// Write a simple test world
 	auto & blocks = engine.getUniverse().getBlockRegistry();
 	auto & world = engine.getUniverse().createWorld("world");
-	world.write(vox::writeRectangle(blocks["stone"], { -200, -200, 0 }, { 200, 200, 5 }));
-	world.write(vox::writeRectangle(blocks["dirt"], { -200, -200, 6 }, { 200, 200, 7 }));
-	world.write(vox::writeRectangle(blocks["grass"], { -200, -200, 8 }, { 200, 200, 8 }));
+	world.write(vox::writeRectangle(blocks["stone"], { -40, -40, 0 }, { 40, 40, 5 }));
+	world.write(vox::writeRectangle(blocks["dirt"], { -40, -40, 6 }, { 40, 40, 7 }));
+	world.write(vox::writeRectangle(blocks["grass"], { -40, -40, 8 }, { 40, 40, 8 }));
 }
 
 void game::StateEntry::process()

@@ -68,12 +68,6 @@ void core::TransformNode::schedule(ScheduleContext & context) const
 void core::TransformNode::update(ScheduleContext & context) const
 {
 	// Must decompose the model-to-world matrix to be able to compute distance to current camera.
-	/*glm::vec3 translation;
-	glm::quat rotation;
-	glm::vec3 scale;
-	glm::vec3 skew;
-	glm::vec4 perspective;
-	glm::decompose(context.stack.top(), scale, rotation, translation, skew, perspective);*/
 	const glm::vec3 translation = context.stack.top()[3];
 
 	// Distance to camera is difference in world position of model and camera. Depth must not be

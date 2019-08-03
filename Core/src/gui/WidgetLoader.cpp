@@ -25,14 +25,14 @@ namespace
 	*/
 	void setState(const core::Script & script, float state)
 	{
-		script.execute(core::GuiData::STATE_BOOL + " = " + std::to_string(state) + ";");
+		script.execute(core::GuiData::STATE_FLOAT + " = " + std::to_string(state) + ";");
 	}
 	/**
 		Assigns the string state in the global widget state field.
 	*/
 	void setState(const core::Script & script, const std::string & state)
 	{
-		script.execute(core::GuiData::STATE_BOOL + " = \"" + util::replaceAll(state, "\"", "\\\"") + "\";");
+		script.execute(core::GuiData::STATE_STRING + " = \"" + util::replaceAll(state, "\"", "\\\"") + "\";");
 	}
 }
 

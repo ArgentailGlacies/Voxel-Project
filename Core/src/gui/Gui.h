@@ -14,6 +14,8 @@ namespace core
 		Gui() = delete;
 		Gui(const std::string & name) : m_data(name) {}
 
+		inline auto & getBus() const { return m_data.getBus(); }
+
 		/**
 			Loads the gui data from the specified file.
 

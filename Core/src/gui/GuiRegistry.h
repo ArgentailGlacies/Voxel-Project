@@ -1,6 +1,7 @@
 #pragma once
 
 #include "event/EventBus.h"
+#include "event/EventListener.h"
 #include "gui/Gui.h"
 #include "io/File.h"
 #include "scene/Scene.h"
@@ -47,11 +48,30 @@ namespace core
 		void process();
 
 	private:
+		template<typename Event> void processEvent(Event & event);
+
 		const AssetRegistry & m_assets;
 		Scene & m_scene;
+
+		Listener m_mouseMove;
+		Listener m_mousePress;
+		Listener m_mouseRelease;
 
 		std::unordered_map<util::File, std::unique_ptr<Gui>> m_guis;
 		std::unordered_map<util::File, SceneEntry> m_nodes;
 		SceneEntry m_root;
 	};
+}
+
+namespace core
+{
+	template<typename Event>
+	inline void GuiRegistry::processEvent(Event & event)
+	{
+		for (const auto & [_, gui] : m_guis)
+		{
+			if (!event.isConsumed())
+				gui->getBus().post(event);
+		}
+	}
 }
