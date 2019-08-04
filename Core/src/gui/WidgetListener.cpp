@@ -1,8 +1,6 @@
 
 #include "WidgetListener.h"
 
-#include "gui/GuiEvents.h"
-
 namespace
 {
 	inline bool isInside(const glm::vec2 & pos, const core::Widget::BoundingBox & bbox)

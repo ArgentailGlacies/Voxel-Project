@@ -5,7 +5,6 @@
 #include "event/EventBus.h"
 #include "gui/Gui.h"
 #include "gui/GuiData.h"
-#include "gui/GuiEvents.h"
 #include "gui/WidgetAction.h"
 #include "gui/WidgetListener.h"
 #include "gui/WidgetProcessor.h"

@@ -96,7 +96,6 @@
     <ClInclude Include="src\event\Events.h" />
     <ClInclude Include="src\gui\Gui.h" />
     <ClInclude Include="src\gui\GuiData.h" />
-    <ClInclude Include="src\gui\GuiEvents.h" />
     <ClInclude Include="src\gui\GuiRegistry.h" />
     <ClInclude Include="src\gui\WidgetAction.h" />
     <ClInclude Include="src\gui\WidgetListener.h" />

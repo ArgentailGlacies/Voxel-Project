@@ -1,10 +1,7 @@
 
 #include "gui/WidgetListener.h"
 
-#include "gui/GuiEvents.h"
 #include "mock/MockWidget.h"
-
-#include <pugixml/pugixml.hpp>
 
 #include "CppUnitTest.h"
 

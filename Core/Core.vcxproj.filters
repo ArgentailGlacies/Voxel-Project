@@ -320,9 +320,6 @@
     <ClInclude Include="src\gui\WidgetRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\GuiEvents.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\gui\WidgetListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
