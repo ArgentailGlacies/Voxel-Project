@@ -23,7 +23,7 @@
       <renderer text="${font=some_font}some text ${widget.value} more text" />
     </label>
     <slider type="horizontal"> <!-- Valid types: horizontal, vertical -->
-      <format type="float" min="0" max="1" center="0.5" /> <!-- Valid types: float, int -->
+      <data min="0" max="1" center="0.5" step="0.1" />
       <renderer button_more="some_sprite" button_less="some_sprite" button_bar="some_sprite"
                 text="${font=some_font}some text ${widget.value} more text" />
       <script action="" />

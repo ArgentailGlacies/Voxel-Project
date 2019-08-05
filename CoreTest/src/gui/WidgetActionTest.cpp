@@ -60,6 +60,14 @@ namespace core::gui
 			Assert::AreEqual(2, util::get<int>(m_script, "counter"));
 		}
 
+		TEST_METHOD(WidgetActionSlider_invoke)
+		{
+			Widget widget;
+
+			WidgetActionSlider{ m_script, "counter += 1" }(widget);
+			Assert::AreEqual(1, util::get<int>(m_script, "counter"));
+		}
+
 	private:
 		void initialize()
 		{

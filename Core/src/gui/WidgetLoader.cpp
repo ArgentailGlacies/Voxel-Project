@@ -132,6 +132,27 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 }
 void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget)
 {
+	const std::string type = node.attribute("type").as_string("horizontal");
+	const std::string action = node.child("script").attribute("action").as_string();
+
+	WidgetProcessorSlider::Data data;
+	data.m_min = node.child("data").attribute("min").as_float(0.0f);
+	data.m_max = node.child("data").attribute("max").as_float(0.0f);
+	data.m_center = node.child("data").attribute("center").as_float(0.5f * (data.m_min + data.m_max));
+	data.m_step = node.child("data").attribute("step").as_float(0.0f);
+
+	// Load action
+	widget.m_actions.push_back(WidgetActionSlider{ m_script, action });
+
+	// Load processor
+	if (type == "horizontal")
+		widget.m_processors.push_back(WidgetProcessorSlider{ m_bus, data, true });
+	else if (type == "vertical")
+		widget.m_processors.push_back(WidgetProcessorSlider{ m_bus, data, false });
+	else
+		LOG_WARNING << "Unknown slider type " << type;
+
+	// Load renderer
 }
 void core::WidgetLoader::loadLabel(const pugi::xml_node & node, Widget & widget)
 {

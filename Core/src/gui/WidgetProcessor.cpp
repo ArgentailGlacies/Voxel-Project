@@ -1,6 +1,8 @@
 
 #include "WidgetProcessor.h"
 
+#include "event/EventBus.h"
+#include "event/Events.h"
 #include "gui/Widget.h"
 #include "util/MathOperations.h"
 
@@ -42,4 +44,16 @@ void core::gui::updateSize(Widget & widget)
 		min = util::max(min, offset + child->m_bbox.m_size + border);
 	}
 	widget.m_bbox.m_size = min;
+}
+
+// ...
+
+core::WidgetProcessorSlider::WidgetProcessorSlider(EventBus & bus, const Data & data, bool horizontal)
+	: m_data(data), m_horizontal(horizontal)
+{
+	m_mouseMove = bus.add<MouseMove>([](auto & event) {});
+}
+
+void core::WidgetProcessorSlider::operator()(Widget & widget) const
+{
 }

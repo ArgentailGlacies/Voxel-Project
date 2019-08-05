@@ -161,28 +161,22 @@ namespace core::gui
 
 		// ...
 
-		TEST_METHOD(WidgetLoader_loadGenericButton)
+		TEST_METHOD(WidgetLoader_loadButton)
 		{
 			Widget widget;
-			m_loader.loadButton(addButton(m_doc, "generic"), widget);
+			m_loader.loadButton(addButton(m_doc), widget);
 
 			Assert::AreEqual(1u, widget.m_actions.size());
+			Assert::AreEqual(0u, widget.m_processors.size());
 			Assert::AreEqual(1u, widget.m_renderers.size());
 		}
-		TEST_METHOD(WidgetLoader_loadCheckboxButton)
+		TEST_METHOD(WidgetLoader_loadSlider)
 		{
 			Widget widget;
-			m_loader.loadButton(addButton(m_doc, "checkbox"), widget);
+			m_loader.loadSlider(addSlider(m_doc), widget);
 
 			Assert::AreEqual(1u, widget.m_actions.size());
-			Assert::AreEqual(1u, widget.m_renderers.size());
-		}
-		TEST_METHOD(WidgetLoader_loadRadioButton)
-		{
-			Widget widget;
-			m_loader.loadButton(addButton(m_doc, "radio"), widget);
-
-			Assert::AreEqual(1u, widget.m_actions.size());
+			Assert::AreEqual(1u, widget.m_processors.size());
 			Assert::AreEqual(1u, widget.m_renderers.size());
 		}
 
@@ -230,11 +224,13 @@ namespace core::gui
 			return node;
 		}
 		
-		pugi::xml_node addButton(pugi::xml_node & widget, const std::string & type)
+		pugi::xml_node addButton(pugi::xml_node & widget)
 		{
-			auto node = widget.append_child("button");
-			node.append_attribute("type").set_value(type.c_str());
-			return node;
+			return widget.append_child("button");
+		}
+		pugi::xml_node addSlider(pugi::xml_node & widget)
+		{
+			return widget.append_child("slider");
 		}
 
 		// ...
