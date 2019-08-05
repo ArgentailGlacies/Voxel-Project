@@ -167,7 +167,6 @@ namespace core::gui
 			m_loader.loadButton(addButton(m_doc), widget);
 
 			Assert::AreEqual(1u, widget.m_actions.size());
-			Assert::AreEqual(0u, widget.m_processors.size());
 			Assert::AreEqual(1u, widget.m_renderers.size());
 		}
 		TEST_METHOD(WidgetLoader_loadSlider)
@@ -175,9 +174,7 @@ namespace core::gui
 			Widget widget;
 			m_loader.loadSlider(addSlider(m_doc), widget);
 
-			Assert::AreEqual(1u, widget.m_actions.size());
-			Assert::AreEqual(1u, widget.m_processors.size());
-			Assert::AreEqual(1u, widget.m_renderers.size());
+			Assert::AreEqual(3u, widget.m_family.m_children.size());
 		}
 
 	private:

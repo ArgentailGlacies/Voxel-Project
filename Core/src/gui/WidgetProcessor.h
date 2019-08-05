@@ -1,6 +1,10 @@
 #pragma once
 
 #include "event/EventListener.h"
+#include "gui/GuiData.h"
+
+#include <glm/vec2.hpp>
+#include <memory>
 
 namespace core
 {
@@ -47,26 +51,15 @@ namespace core
 	class WidgetProcessorSlider
 	{
 	public:
-		/**
-			The slider's valid values are determined fully be the slider's data structure. The value
-			must be within the range [min, max], where the glider is considered in the middle at the
-			value 'center'. The value must be a multiple of the step size.
-		*/
-		struct Data
-		{
-			float m_min = 0.0f;
-			float m_max = 1.0f;
-			float m_center = 0.5f;
-			float m_step = 0.1f;
-		};
-
-		WidgetProcessorSlider(EventBus & bus, const Data & data, bool horizontal);
+		WidgetProcessorSlider(EventBus & bus, const gui::SliderData & data, bool horizontal) noexcept;
 
 		void operator()(Widget & widget) const;
 
 	private:
-		Listener m_mouseMove;
-		Data m_data;
+		std::shared_ptr<Listener> m_mouseMove; // TODO: Remove this ptr hack
+
 		bool m_horizontal;
+		gui::SliderData m_data;
+		glm::vec2 m_mousePos = {};
 	};
 }

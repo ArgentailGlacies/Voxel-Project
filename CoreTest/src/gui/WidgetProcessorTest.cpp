@@ -1,6 +1,8 @@
 
 #include "gui/WidgetProcessor.h"
 
+#include "event/EventBus.h"
+#include "event/Events.h"
 #include "mock/MockWidget.h"
 
 #include "Common.h"
@@ -65,5 +67,31 @@ namespace core::gui
 			Assert::AreEqual({ 40.0f, 20.0f }, widgetA.m_bbox.m_size);
 			Assert::AreEqual({ 30.0f, 40.0f }, widgetB.m_bbox.m_size);
 		}
+
+		// ...
+
+		TEST_METHOD(WidgetProcessorSlider_invoke)
+		{
+			Widget widget;
+			widget.m_bbox.m_size = { 100.0f, 1.0f };
+			widget.m_state.m_selected = true;
+			WidgetProcessorSlider processor{ m_bus, { 0.0f, 10.0f, 9.0f, 0.1f }, true };
+
+			simulateMove({ 31.0f, 5.0f });
+			processor(widget);
+			Assert::AreEqual(5.6f, widget.m_value.m_float, 0.01f);
+
+			simulateMove({ 70.0f, 5.0f });
+			processor(widget);
+			Assert::AreEqual(9.4f, widget.m_value.m_float, 0.01f);
+		}
+
+	private:
+		void simulateMove(const glm::vec2 & position)
+		{
+			m_bus.post(MouseMove{ position, {}, {}, {} });
+		}
+
+		EventBus m_bus;
 	};
 }

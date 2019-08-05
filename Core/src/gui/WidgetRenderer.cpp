@@ -1,6 +1,8 @@
 
 #include "WidgetRenderer.h"
 
+#include "util/MathOperations.h"
+
 namespace
 {
 	/**
@@ -42,4 +44,38 @@ void core::gui::WidgetRendererButton::render(const Widget & widget, const glm::v
 {
 	if (!m_sprite.empty())
 		m_sprite->draw(getSpriteFrame(widget), widget.m_bbox.m_pos + offset, widget.m_bbox.m_size);
+}
+
+void core::gui::WidgetRendererSlider::render(const Widget & widget, const glm::vec2 & offset) const
+{
+	if (m_sprite.empty())
+		return;
+
+	const float ratio = widget.m_value.m_float < m_data.m_center
+		? 0.5f * (widget.m_value.m_float - m_data.m_min) / (m_data.m_center - m_data.m_min)
+		: 0.5f * (widget.m_value.m_float - m_data.m_center) / (m_data.m_max - m_data.m_center) + 0.5f;
+
+	// Discover which frames to use when rendering sprite
+	const auto leftFrame = "left_" + getSpriteFrame(widget);
+	const auto middleFrame = "middle_" + getSpriteFrame(widget);
+	const auto rightFrame = "right_" + getSpriteFrame(widget);
+	const auto barFrame = "bar_" + getSpriteFrame(widget);
+
+	// Calculate segment locations and sizes
+	const auto min = util::min(widget.m_bbox.m_size.x, widget.m_bbox.m_size.y);
+	const auto max = util::max(widget.m_bbox.m_size.x, widget.m_bbox.m_size.y);
+
+	const glm::vec2 edge = { min, min };
+	const glm::vec2 center = { max - 2.0f * min, min };
+	const glm::vec2 bar = { 0.25f * min, min };
+
+	const glm::vec2 centerPos = { min, 0.0f };
+	const glm::vec2 edgePos = { max - min, 0.0f };
+	const glm::vec2 barPos = { ratio * (max - bar.x), 0.0f };
+
+	// Render segments
+	m_sprite->draw(leftFrame, widget.m_bbox.m_pos, edge);
+	m_sprite->draw(middleFrame, widget.m_bbox.m_pos + centerPos, center);
+	m_sprite->draw(rightFrame, widget.m_bbox.m_pos + edgePos, edge);
+	m_sprite->draw(barFrame, widget.m_bbox.m_pos + barPos, bar);
 }

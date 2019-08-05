@@ -18,6 +18,21 @@ namespace core
 		// ...
 
 		/**
+			The slider's valid values are determined fully be the slider's data structure. The value
+			must be within the range [min, max], where the glider is considered in the middle at the
+			value 'center'. The value must be a multiple of the step size.
+		*/
+		struct SliderData
+		{
+			float m_min = 0.0f;
+			float m_max = 1.0f;
+			float m_center = 0.5f;
+			float m_step = 0.1f;
+		};
+
+		// ...
+
+		/**
 			Initializes the script by assigning all relevant global fields which are required for a
 			gui script to function as intended. The script will after initialization contain global
 			variables holding the state of the last widget click and data referencing which gui the

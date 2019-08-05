@@ -10,6 +10,7 @@
 #include "gui/WidgetProcessor.h"
 #include "gui/WidgetRenderer.h"
 #include "script/Script.h"
+#include "util/MathOperations.h"
 #include "util/StringParsing.h"
 
 #include <plog/Log.h>
@@ -109,6 +110,8 @@ void core::WidgetLoader::loadSpecialization(const pugi::xml_node& node, Widget& 
 {
 	if (const auto data = node.child("button"))
 		loadButton(data, widget);
+	if (const auto data = node.child("slider"))
+		loadSlider(data, widget);
 }
 
 void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget)
@@ -134,25 +137,57 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 {
 	const std::string type = node.attribute("type").as_string("horizontal");
 	const std::string action = node.child("script").attribute("action").as_string();
+	const std::string spriteBar = node.child("renderer").attribute("button_bar").as_string();
+	const std::string spriteIncrement = node.child("renderer").attribute("button_increment").as_string();
+	const std::string spriteDecrement = node.child("renderer").attribute("button_decrement").as_string();
 
-	WidgetProcessorSlider::Data data;
+	gui::SliderData data;
 	data.m_min = node.child("data").attribute("min").as_float(0.0f);
 	data.m_max = node.child("data").attribute("max").as_float(0.0f);
 	data.m_center = node.child("data").attribute("center").as_float(0.5f * (data.m_min + data.m_max));
 	data.m_step = node.child("data").attribute("step").as_float(0.0f);
 
+	// Load children
+	auto & decrement = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
+	auto & increment = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
+	auto & bar = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
+
+	decrement.m_family.m_parent = &widget;
+	increment.m_family.m_parent = &widget;
+	bar.m_family.m_parent = &widget;
+
+	const auto max = util::max(widget.m_bbox.m_minSize.x, widget.m_bbox.m_minSize.y);
+	const auto min = util::min(widget.m_bbox.m_minSize.x, widget.m_bbox.m_minSize.y);
+	increment.m_bbox.m_minSize = { min, min };
+	decrement.m_bbox.m_minSize = { min, min };
+	bar.m_bbox.m_minSize = { max - 2.0f * min, min };
+
+	bar.m_link.m_target = &decrement;
+	bar.m_link.m_ratio = { 1.0f, 0.5f };
+	increment.m_link.m_target = &bar;
+	increment.m_link.m_ratio = { 1.0f, 0.5f };
+
+	registerStandardListeners(bar);
+	registerStandardListeners(increment);
+	registerStandardListeners(decrement);
+
 	// Load action
-	widget.m_actions.push_back(WidgetActionSlider{ m_script, action });
+	bar.m_actions.push_back(WidgetActionSliderBar{ m_script, action });
+	increment.m_actions.push_back(WidgetActionSliderButton{ bar, m_script, action, data, true });
+	decrement.m_actions.push_back(WidgetActionSliderButton{ bar, m_script, action, data, false });
 
 	// Load processor
 	if (type == "horizontal")
-		widget.m_processors.push_back(WidgetProcessorSlider{ m_bus, data, true });
+		bar.m_processors.push_back(WidgetProcessorSlider{ m_bus, data, true });
 	else if (type == "vertical")
-		widget.m_processors.push_back(WidgetProcessorSlider{ m_bus, data, false });
+		bar.m_processors.push_back(WidgetProcessorSlider{ m_bus, data, false });
 	else
 		LOG_WARNING << "Unknown slider type " << type;
 
 	// Load renderer
+	increment.m_renderers.push_back(gui::WidgetRendererButton{ m_assets.get<Sprite>(spriteIncrement) });
+	decrement.m_renderers.push_back(gui::WidgetRendererButton{ m_assets.get<Sprite>(spriteDecrement) });
+	bar.m_renderers.push_back(gui::WidgetRendererSlider{ m_assets.get<Sprite>(spriteBar), data });
 }
 void core::WidgetLoader::loadLabel(const pugi::xml_node & node, Widget & widget)
 {

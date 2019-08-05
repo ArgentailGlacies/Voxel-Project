@@ -10,8 +10,6 @@ namespace core
 
 	class EventBus
 	{
-		friend Listener::~Listener();
-
 	public:
 		EventBus() = default;
 		EventBus(const EventBus &) = delete;
@@ -59,6 +57,13 @@ namespace core
 			@return The listener associated with the callback.
 		*/
 		template<typename Event> Listener add(const CallbackConst<Event> & callback);
+		/**
+			Removes the given listener from the bus, preventing the callback pointed to by the
+			listener from being invoked whenever an event is posted.
+
+			@param listener The listener to remove from the bus.
+		*/
+		void remove(const Listener & listener);
 
 		// ...
 
@@ -75,8 +80,6 @@ namespace core
 
 		template<typename Event> using Container = CallbackContainer<Callback<Event>>;
 		template<typename Event> using ContainerConst = CallbackContainer<CallbackConst<Event>>;
-
-		void remove(const Listener & listener);
 
 		std::unordered_map<std::type_index, CallbackContainerPtr> m_containers;
 		std::unordered_map<std::type_index, CallbackContainerPtr> m_containersConst;

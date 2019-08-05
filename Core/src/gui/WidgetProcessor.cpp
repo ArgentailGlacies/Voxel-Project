@@ -48,12 +48,30 @@ void core::gui::updateSize(Widget & widget)
 
 // ...
 
-core::WidgetProcessorSlider::WidgetProcessorSlider(EventBus & bus, const Data & data, bool horizontal)
+core::WidgetProcessorSlider::WidgetProcessorSlider(EventBus & bus, const gui::SliderData & data, bool horizontal) noexcept
 	: m_data(data), m_horizontal(horizontal)
 {
-	m_mouseMove = bus.add<MouseMove>([](auto & event) {});
+	auto listener = bus.add<MouseMove>([this](auto & event) { m_mousePos = event.m_position; });
+	m_mouseMove = std::make_shared<Listener>(std::move(listener));
 }
 
 void core::WidgetProcessorSlider::operator()(Widget & widget) const
 {
+	if (!widget.m_state.m_selected)
+		return;
+
+	const auto axis = m_horizontal ? 0 : 1;
+	const auto factor = util::max(0.0f, util::min(1.0f,
+		(m_mousePos[axis] - widget.m_bbox.m_pos[axis]) / widget.m_bbox.m_size[axis]
+	));
+
+	// Calculate the slider value
+	if (factor <= 0.5f)
+		widget.m_value.m_float = util::lerp(m_data.m_min, m_data.m_center, 2.0f * factor);
+	else
+		widget.m_value.m_float = util::lerp(m_data.m_center, m_data.m_max, 2.0f * factor - 1.0f);
+
+	// Apply step size calculations
+	if (m_data.m_step > 0.0f)
+		widget.m_value.m_float = m_data.m_step * util::round(widget.m_value.m_float / m_data.m_step);
 }

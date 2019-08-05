@@ -24,7 +24,9 @@
     </label>
     <slider type="horizontal"> <!-- Valid types: horizontal, vertical -->
       <data min="0" max="1" center="0.5" step="0.1" />
-      <renderer button_more="some_sprite" button_less="some_sprite" button_bar="some_sprite"
+      <renderer button_increment="some_sprite"
+                button_decrement="some_sprite"
+                button_bar="some_sprite"
                 text="${font=some_font}some text ${widget.value} more text" />
       <script action="" />
     </slider>
