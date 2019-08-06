@@ -1,7 +1,6 @@
 
 #include "Gui.h"
 
-#include "gui/GuiData.h"
 #include "gui/WidgetLoader.h"
 #include "gui/WidgetProcessor.h"
 
@@ -12,7 +11,6 @@ core::Gui::Gui(const util::File & file, const AssetRegistry & assets)
 	: m_script(file.path())
 {
 	load(file, assets);
-	gui::initializeScript(m_script);
 }
 
 void core::Gui::load(const util::File & file, const AssetRegistry & assets)

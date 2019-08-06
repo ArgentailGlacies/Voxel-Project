@@ -40,7 +40,6 @@
     <ClCompile Include="src\event\EventListener.cpp" />
     <ClCompile Include="src\event\EventQueue.cpp" />
     <ClCompile Include="src\gui\Gui.cpp" />
-    <ClCompile Include="src\gui\GuiData.cpp" />
     <ClCompile Include="src\gui\GuiRegistry.cpp" />
     <ClCompile Include="src\gui\internal\HandlerButton.cpp" />
     <ClCompile Include="src\gui\internal\HandlerSlider.cpp" />
@@ -97,7 +96,6 @@
     <ClInclude Include="src\event\EventQueue.h" />
     <ClInclude Include="src\event\Events.h" />
     <ClInclude Include="src\gui\Gui.h" />
-    <ClInclude Include="src\gui\GuiData.h" />
     <ClInclude Include="src\gui\GuiRegistry.h" />
     <ClInclude Include="src\gui\internal\Handler.h" />
     <ClInclude Include="src\gui\internal\HandlerButton.h" />

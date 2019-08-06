@@ -147,9 +147,6 @@
     <ClCompile Include="src\gui\GuiRegistryTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\GuiDataTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\internal\HandlerButtonTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

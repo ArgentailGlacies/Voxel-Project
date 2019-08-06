@@ -129,9 +129,6 @@
     <ClCompile Include="src\gui\GuiRegistry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\GuiData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\internal\HandlerButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -327,9 +324,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\GuiRegistry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gui\GuiData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\internal\Handler.h">
