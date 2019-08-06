@@ -1,13 +1,7 @@
 #pragma once
 
-#include "event/EventListener.h"
-#include "gui/GuiData.h"
-
-#include <glm/vec2.hpp>
-
 namespace core
 {
-	class EventBus;
 	struct Widget;
 
 	namespace gui
@@ -32,26 +26,4 @@ namespace core
 		*/
 		void updateSize(Widget & widget);
 	}
-
-	// ...
-
-	/**
-		The slider must be able to detect when the user is attempting to drag the glider around.
-		When the user is dragging the glider, the slider must update the widget's state to reflect
-		the current values.
-	*/
-	class WidgetProcessorSlider
-	{
-	public:
-		WidgetProcessorSlider(EventBus & bus, const gui::SliderData & data, bool horizontal) noexcept;
-
-		void process(Widget & widget) const;
-
-	private:
-		Listener m_mouseMove;
-
-		bool m_horizontal;
-		gui::SliderData m_data;
-		glm::vec2 m_mousePos = {};
-	};
 }

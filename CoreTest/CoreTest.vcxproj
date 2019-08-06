@@ -213,7 +213,7 @@
     <ClCompile Include="src\gui\GuiDataTest.cpp" />
     <ClCompile Include="src\gui\GuiRegistryTest.cpp" />
     <ClCompile Include="src\gui\internal\HandlerButtonTest.cpp" />
-    <ClCompile Include="src\gui\WidgetActionTest.cpp" />
+    <ClCompile Include="src\gui\internal\HandlerSliderTest.cpp" />
     <ClCompile Include="src\gui\WidgetListenerTest.cpp" />
     <ClCompile Include="src\gui\WidgetLoaderTest.cpp" />
     <ClCompile Include="src\gui\WidgetProcessorTest.cpp" />

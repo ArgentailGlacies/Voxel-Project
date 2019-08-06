@@ -1,6 +1,7 @@
 
-#include "WidgetRenderer.h"
+#include "RendererSlider.h"
 
+#include "gui/internal/HandlerSlider.h"
 #include "util/MathOperations.h"
 
 namespace
@@ -40,14 +41,15 @@ namespace
 
 // ...
 
-void core::gui::WidgetRendererSlider::render(const Widget & widget, const glm::vec2 & offset) const
+void core::RendererSlider::render(const Widget & widget, const glm::vec2 & offset) const
 {
 	if (m_sprite.empty())
 		return;
+	auto & value = widget.m_family.m_parent->m_value;
 
-	const float ratio = widget.m_value.m_float < m_data.m_center
-		? 0.5f * (widget.m_value.m_float - m_data.m_min) / (m_data.m_center - m_data.m_min)
-		: 0.5f * (widget.m_value.m_float - m_data.m_center) / (m_data.m_max - m_data.m_center) + 0.5f;
+	const float ratio = value.m_float < m_data.m_center
+		? 0.5f * (value.m_float - m_data.m_min) / (m_data.m_center - m_data.m_min)
+		: 0.5f * (value.m_float - m_data.m_center) / (m_data.m_max - m_data.m_center) + 0.5f;
 
 	// Discover which frames to use when rendering sprite
 	const auto leftFrame = "left_" + getSpriteFrame(widget);

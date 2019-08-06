@@ -48,7 +48,7 @@ namespace core
 		*/
 		struct Family
 		{
-			const Widget * m_parent = nullptr;
+			Widget * m_parent = nullptr;
 			std::vector<std::unique_ptr<Widget>> m_children;
 		};
 

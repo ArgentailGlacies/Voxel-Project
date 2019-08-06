@@ -174,6 +174,8 @@ namespace core::gui
 			Widget widget;
 			m_loader.loadSlider(addSlider(m_doc), widget);
 
+			Assert::IsFalse(widget.m_handler == nullptr);
+			Assert::IsTrue(widget.m_renderer == nullptr);
 			Assert::AreEqual(3u, widget.m_family.m_children.size());
 		}
 

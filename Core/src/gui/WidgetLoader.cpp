@@ -6,11 +6,10 @@
 #include "gui/Gui.h"
 #include "gui/GuiData.h"
 #include "gui/internal/HandlerButton.h"
+#include "gui/internal/HandlerSlider.h"
 #include "gui/internal/RendererButton.h"
-#include "gui/WidgetAction.h"
+#include "gui/internal/RendererSlider.h"
 #include "gui/WidgetListener.h"
-#include "gui/WidgetProcessor.h"
-#include "gui/WidgetRenderer.h"
 #include "script/Script.h"
 #include "util/MathOperations.h"
 #include "util/StringParsing.h"
@@ -144,7 +143,7 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	const std::string spriteIncrement = node.child("renderer").attribute("button_increment").as_string();
 	const std::string spriteDecrement = node.child("renderer").attribute("button_decrement").as_string();
 
-	gui::SliderData data;
+	HandlerSlider::Data data;
 	data.m_min = node.child("data").attribute("min").as_float(0.0f);
 	data.m_max = node.child("data").attribute("max").as_float(0.0f);
 	data.m_center = node.child("data").attribute("center").as_float(0.5f * (data.m_min + data.m_max));
@@ -153,12 +152,12 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	const auto horizontal = type == "horizontal";
 
 	// Load children
-	auto & decrement = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 	auto & increment = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
+	auto & decrement = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 	auto & bar = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 
-	decrement.m_family.m_parent = &widget;
 	increment.m_family.m_parent = &widget;
+	decrement.m_family.m_parent = &widget;
 	bar.m_family.m_parent = &widget;
 
 	const auto max = util::max(widget.m_bbox.m_minSize.x, widget.m_bbox.m_minSize.y);
@@ -177,18 +176,18 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	registerStandardListeners(decrement);
 
 	// Load action
-	//bar.m_actions.push_back(WidgetActionSliderBar{ m_script, action });
-	//increment.m_actions.push_back(WidgetActionSliderButton{ bar, m_script, action, data, true });
-	//decrement.m_actions.push_back(WidgetActionSliderButton{ bar, m_script, action, data, false });
+	auto handler = std::make_unique<HandlerSlider>(m_script, action, data);
 
-	//// Load processor
-	//auto ptr = std::make_shared<WidgetProcessorSlider>(m_bus, data, horizontal);
-	//bar.m_processors.push_back([processor = std::move(ptr)](auto & widget) { processor->process(widget); });
+	bar.m_handler = std::make_unique<HandlerSliderBar>(*handler, m_bus);
+	increment.m_handler = std::make_unique<HandlerSliderButton>(*handler, true);
+	decrement.m_handler = std::make_unique<HandlerSliderButton>(*handler, false);
 
-	//// Load renderer
-	//increment.m_renderers.push_back(gui::WidgetRendererButton{ m_assets.get<Sprite>(spriteIncrement) });
-	//decrement.m_renderers.push_back(gui::WidgetRendererButton{ m_assets.get<Sprite>(spriteDecrement) });
-	//bar.m_renderers.push_back(gui::WidgetRendererSlider{ m_assets.get<Sprite>(spriteBar), data });
+	widget.m_handler = std::move(handler);
+
+	// Load renderer
+	bar.m_renderer = std::make_unique<RendererSlider>(data, m_assets.get<Sprite>(spriteBar));
+	increment.m_renderer = std::make_unique<RendererButton>(m_assets.get<Sprite>(spriteIncrement));
+	decrement.m_renderer = std::make_unique<RendererButton>(m_assets.get<Sprite>(spriteDecrement));
 }
 void core::WidgetLoader::loadLabel(const pugi::xml_node & node, Widget & widget)
 {
