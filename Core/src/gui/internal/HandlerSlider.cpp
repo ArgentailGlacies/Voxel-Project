@@ -7,6 +7,18 @@
 #include "script/Script.h"
 #include "util/MathOperations.h"
 
+namespace
+{
+	float calculateFactor(const glm::vec2 & mouse, const glm::vec2 & pos, const glm::vec2 & size, bool horizontal)
+	{
+		const int axis = horizontal ? 0 : 1;
+		const float f = util::max(0.0f, util::min(1.0f, (mouse[axis] - pos[axis]) / size[axis]));
+		return horizontal ? f : 1.0f - f;
+	}
+}
+
+// ...
+
 void core::HandlerSlider::action(Widget & widget)
 {
 	m_script.execute(m_code);
@@ -45,10 +57,7 @@ void core::HandlerSliderBar::process(Widget & widget)
 	auto & value = widget.m_family.m_parent->m_value;
 	auto & data = m_root.m_data;
 
-	const auto axis = m_horizontal ? 0 : 1;
-	const auto factor = util::max(0.0f, util::min(1.0f,
-		(m_mousePosition[axis] - widget.m_bbox.m_pos[axis]) / widget.m_bbox.m_size[axis]
-	));
+	const auto factor = calculateFactor(m_mousePosition, widget.m_bbox.m_pos, widget.m_bbox.m_size, m_horizontal);
 
 	if (factor <= 0.5f)
 		value.m_float = util::lerp(data.m_min, data.m_center, 2.0f * factor);

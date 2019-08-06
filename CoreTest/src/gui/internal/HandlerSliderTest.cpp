@@ -80,12 +80,12 @@ namespace core::gui
 			HandlerSlider root{ m_script, "counter = 5", { 0.0f, 10.0f, 9.0f, 0.1f } };
 			HandlerSliderBar handler{ root, m_bus, false };
 
-			simulateMouseMovement({ 0.0f, 31.0f });
+			simulateMouseMovement({ 0.0f, 69.0f });
 			handler.process(widget);
 			Assert::AreEqual(5.6f, parent.m_value.m_float, 0.01f);
 			Assert::AreEqual(5, util::get<int>(m_script, "counter"));
 
-			simulateMouseMovement({ 0.0f, 92.0f });
+			simulateMouseMovement({ 0.0f, 8.0f });
 			handler.process(widget);
 			Assert::AreEqual(9.8f, parent.m_value.m_float, 0.01f);
 			Assert::AreEqual(5, util::get<int>(m_script, "counter"));
