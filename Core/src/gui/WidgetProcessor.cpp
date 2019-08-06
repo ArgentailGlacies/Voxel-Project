@@ -6,15 +6,6 @@
 #include "gui/Widget.h"
 #include "util/MathOperations.h"
 
-void core::gui::updateChildren(Widget & widget)
-{
-	for (auto & child : widget.m_family.m_children)
-	{
-		for (const auto & processor : child->m_processors)
-			processor(*child);
-	}
-}
-
 void core::gui::updatePosition(Widget & widget)
 {
 	// Positions outside of link targets
@@ -51,11 +42,10 @@ void core::gui::updateSize(Widget & widget)
 core::WidgetProcessorSlider::WidgetProcessorSlider(EventBus & bus, const gui::SliderData & data, bool horizontal) noexcept
 	: m_data(data), m_horizontal(horizontal)
 {
-	auto listener = bus.add<MouseMove>([this](auto & event) { m_mousePos = event.m_position; });
-	m_mouseMove = std::make_shared<Listener>(std::move(listener));
+	m_mouseMove = bus.add<MouseMove>([this](auto & event) { m_mousePos = event.m_position; });
 }
 
-void core::WidgetProcessorSlider::operator()(Widget & widget) const
+void core::WidgetProcessorSlider::process(Widget & widget) const
 {
 	if (!widget.m_state.m_selected)
 		return;

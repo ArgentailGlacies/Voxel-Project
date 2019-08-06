@@ -1,6 +1,8 @@
 #pragma once
 
 #include "event/EventListener.h"
+#include "gui/internal/Handler.h"
+#include "gui/internal/Renderer.h"
 
 #include <functional>
 #include <glm/vec2.hpp>
@@ -10,8 +12,6 @@
 
 namespace core
 {
-	struct Widget;
-
 	/**
 		All graphical user interface objects are represented as widgets. Unique functionality is
 		appended during GUI loading, determined by the specified type of the widget. Widgets do not
@@ -19,25 +19,6 @@ namespace core
 	*/
 	struct Widget
 	{
-		/**
-			An action is performed whenever the widget is activated by the user or by the system in
-			some other manner. Actions may be virtually anything conceivable.
-		*/
-		using Action = std::function<void(Widget & widget)>;
-		/**
-			The widget is ticked every tick, which is when the processors are invoked. Any processor
-			will be able to access the widget's internal data in order to process it.
-		*/
-		using Processor = std::function<void(Widget & widget)>;
-		/**
-			The widget is rendered every frame, which is when the renderers are invoked. All
-			renderers will be invoked in the same order as they were created, where the last will
-			be rendered on top of all other renderers.
-		*/
-		using Renderer = std::function<void(const Widget & widget, const glm::vec2 & offset)>;
-
-		// ...
-
 		/**
 			The border determines how far away at minimum another widget must be to the current
 			widget. If two widgets are connected, the actual border will be the greatest border
@@ -127,10 +108,8 @@ namespace core
 
 		// ...
 
-		std::vector<Action> m_actions;
-		std::vector<Listener> m_listeners;
-		std::vector<Processor> m_processors;
-		std::vector<Renderer> m_renderers;
+		std::unique_ptr<Handler> m_handler;
+		std::unique_ptr<Renderer> m_renderer;
 
 		BoundingBox m_bbox;
 		Border m_border;

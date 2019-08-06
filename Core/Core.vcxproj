@@ -42,6 +42,8 @@
     <ClCompile Include="src\gui\Gui.cpp" />
     <ClCompile Include="src\gui\GuiData.cpp" />
     <ClCompile Include="src\gui\GuiRegistry.cpp" />
+    <ClCompile Include="src\gui\internal\HandlerButton.cpp" />
+    <ClCompile Include="src\gui\internal\RendererButton.cpp" />
     <ClCompile Include="src\gui\WidgetAction.cpp" />
     <ClCompile Include="src\gui\WidgetListener.cpp" />
     <ClCompile Include="src\gui\WidgetLoader.cpp" />
@@ -97,6 +99,10 @@
     <ClInclude Include="src\gui\Gui.h" />
     <ClInclude Include="src\gui\GuiData.h" />
     <ClInclude Include="src\gui\GuiRegistry.h" />
+    <ClInclude Include="src\gui\internal\Handler.h" />
+    <ClInclude Include="src\gui\internal\HandlerButton.h" />
+    <ClInclude Include="src\gui\internal\Renderer.h" />
+    <ClInclude Include="src\gui\internal\RendererButton.h" />
     <ClInclude Include="src\gui\WidgetAction.h" />
     <ClInclude Include="src\gui\WidgetListener.h" />
     <ClInclude Include="src\gui\WidgetProcessor.h" />

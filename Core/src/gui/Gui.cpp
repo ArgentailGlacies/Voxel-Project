@@ -39,14 +39,14 @@ void core::Gui::process(Widget & widget)
 	gui::updateSize(widget);
 
 	// Perform all aspectes of this specific widget
-	for (const auto & processor : widget.m_processors)
-		processor(widget);
+	if (widget.m_handler)
+		widget.m_handler->process(widget);
 }
 void core::Gui::render(const Widget & widget, const glm::vec2 & offset) const
 {
 	// Render all aspects of this specific widget
-	for (const auto & renderer : widget.m_renderers)
-		renderer(widget, offset);
+	if (widget.m_renderer)
+		widget.m_renderer->render(widget, offset);
 
 	// Render all child widgets on top of this widget
 	for (const auto & child : widget.m_family.m_children)

@@ -40,12 +40,6 @@ namespace
 
 // ...
 
-void core::gui::WidgetRendererButton::render(const Widget & widget, const glm::vec2 & offset) const
-{
-	if (!m_sprite.empty())
-		m_sprite->draw(getSpriteFrame(widget), widget.m_bbox.m_pos + offset, widget.m_bbox.m_size);
-}
-
 void core::gui::WidgetRendererSlider::render(const Widget & widget, const glm::vec2 & offset) const
 {
 	if (m_sprite.empty())

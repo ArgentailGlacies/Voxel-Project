@@ -14,24 +14,6 @@ namespace core::gui
 	TEST_CLASS(WidgetProcessorTest)
 	{
 	public:
-		TEST_METHOD(WidgetProcessor_updateChildren)
-		{
-			int updateA = 0;
-			int updateB = 0;
-
-			auto parent = mockWidget({}, {});
-			auto & widgetA = mockWidget(parent, {}, {});
-			auto & widgetB = mockWidget(parent, {}, {});
-			widgetA.m_processors.push_back([&updateA](Widget & widget) { updateA++; });
-			widgetA.m_processors.push_back([&updateA](Widget & widget) { updateA++; });
-			widgetB.m_processors.push_back([&updateB](Widget & widget) { updateB++; });
-
-			gui::updateChildren(parent);
-
-			Assert::AreEqual(2, updateA);
-			Assert::AreEqual(1, updateB);
-		}
-
 		TEST_METHOD(WidgetProcessor_updatePosition)
 		{
 			auto parent = mockWidget({ 40.0f, 40.0f }, { 320.0f, 240.0f });
@@ -78,11 +60,11 @@ namespace core::gui
 			WidgetProcessorSlider processor{ m_bus, { 0.0f, 10.0f, 9.0f, 0.1f }, true };
 
 			simulateMove({ 31.0f, 5.0f });
-			processor(widget);
+			processor.process(widget);
 			Assert::AreEqual(5.6f, widget.m_value.m_float, 0.01f);
 
 			simulateMove({ 70.0f, 5.0f });
-			processor(widget);
+			processor.process(widget);
 			Assert::AreEqual(9.4f, widget.m_value.m_float, 0.01f);
 		}
 

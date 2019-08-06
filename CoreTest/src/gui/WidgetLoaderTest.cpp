@@ -166,8 +166,8 @@ namespace core::gui
 			Widget widget;
 			m_loader.loadButton(addButton(m_doc), widget);
 
-			Assert::AreEqual(1u, widget.m_actions.size());
-			Assert::AreEqual(1u, widget.m_renderers.size());
+			Assert::IsFalse(widget.m_handler == nullptr);
+			Assert::IsFalse(widget.m_renderer == nullptr);
 		}
 		TEST_METHOD(WidgetLoader_loadSlider)
 		{

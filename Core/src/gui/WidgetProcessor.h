@@ -4,7 +4,6 @@
 #include "gui/GuiData.h"
 
 #include <glm/vec2.hpp>
-#include <memory>
 
 namespace core
 {
@@ -13,13 +12,6 @@ namespace core
 
 	namespace gui
 	{
-		/**
-			Executes all processors registered for the children of the specified widget. The
-			processors of the children will be executed in the exact same order as the processors
-			are registered.
-		*/
-		void updateChildren(Widget & widget);
-
 		/**
 			Computes and assigns the new position of the widget. The position will be relative to
 			the link target, if the link is the parent the widget will be inside the parent,
@@ -53,10 +45,10 @@ namespace core
 	public:
 		WidgetProcessorSlider(EventBus & bus, const gui::SliderData & data, bool horizontal) noexcept;
 
-		void operator()(Widget & widget) const;
+		void process(Widget & widget) const;
 
 	private:
-		std::shared_ptr<Listener> m_mouseMove; // TODO: Remove this ptr hack
+		Listener m_mouseMove;
 
 		bool m_horizontal;
 		gui::SliderData m_data;

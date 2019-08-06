@@ -5,6 +5,8 @@
 #include "event/EventBus.h"
 #include "gui/Gui.h"
 #include "gui/GuiData.h"
+#include "gui/internal/HandlerButton.h"
+#include "gui/internal/RendererButton.h"
 #include "gui/WidgetAction.h"
 #include "gui/WidgetListener.h"
 #include "gui/WidgetProcessor.h"
@@ -13,6 +15,7 @@
 #include "util/MathOperations.h"
 #include "util/StringParsing.h"
 
+#include <memory>
 #include <plog/Log.h>
 
 namespace
@@ -122,16 +125,16 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 
 	// Load action
 	if (type == "generic")
-		widget.m_actions.push_back(WidgetActionButton{ m_script, action });
+		widget.m_handler = std::make_unique<HandlerButton>(m_script, action);
 	else if (type == "checkbox")
-		widget.m_actions.push_back(WidgetActionButtonCheckbox{ m_script, action });
+		widget.m_handler = std::make_unique<HandlerButtonCheckbox>(m_script, action);
 	else if (type == "radio")
-		widget.m_actions.push_back(WidgetActionButtonRadio{ m_script, action });
+		widget.m_handler = std::make_unique<HandlerButtonRadio>(m_script, action);
 	else
 		LOG_WARNING << "Unknown button type " << type;
 
 	// Load renderer
-	widget.m_renderers.push_back(gui::WidgetRendererButton{ m_assets.get<Sprite>(sprite) });
+	widget.m_renderer = std::make_unique<RendererButton>(m_assets.get<Sprite>(sprite));
 }
 void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget)
 {
@@ -146,6 +149,8 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	data.m_max = node.child("data").attribute("max").as_float(0.0f);
 	data.m_center = node.child("data").attribute("center").as_float(0.5f * (data.m_min + data.m_max));
 	data.m_step = node.child("data").attribute("step").as_float(0.0f);
+
+	const auto horizontal = type == "horizontal";
 
 	// Load children
 	auto & decrement = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
@@ -172,22 +177,18 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	registerStandardListeners(decrement);
 
 	// Load action
-	bar.m_actions.push_back(WidgetActionSliderBar{ m_script, action });
-	increment.m_actions.push_back(WidgetActionSliderButton{ bar, m_script, action, data, true });
-	decrement.m_actions.push_back(WidgetActionSliderButton{ bar, m_script, action, data, false });
+	//bar.m_actions.push_back(WidgetActionSliderBar{ m_script, action });
+	//increment.m_actions.push_back(WidgetActionSliderButton{ bar, m_script, action, data, true });
+	//decrement.m_actions.push_back(WidgetActionSliderButton{ bar, m_script, action, data, false });
 
-	// Load processor
-	if (type == "horizontal")
-		bar.m_processors.push_back(WidgetProcessorSlider{ m_bus, data, true });
-	else if (type == "vertical")
-		bar.m_processors.push_back(WidgetProcessorSlider{ m_bus, data, false });
-	else
-		LOG_WARNING << "Unknown slider type " << type;
+	//// Load processor
+	//auto ptr = std::make_shared<WidgetProcessorSlider>(m_bus, data, horizontal);
+	//bar.m_processors.push_back([processor = std::move(ptr)](auto & widget) { processor->process(widget); });
 
-	// Load renderer
-	increment.m_renderers.push_back(gui::WidgetRendererButton{ m_assets.get<Sprite>(spriteIncrement) });
-	decrement.m_renderers.push_back(gui::WidgetRendererButton{ m_assets.get<Sprite>(spriteDecrement) });
-	bar.m_renderers.push_back(gui::WidgetRendererSlider{ m_assets.get<Sprite>(spriteBar), data });
+	//// Load renderer
+	//increment.m_renderers.push_back(gui::WidgetRendererButton{ m_assets.get<Sprite>(spriteIncrement) });
+	//decrement.m_renderers.push_back(gui::WidgetRendererButton{ m_assets.get<Sprite>(spriteDecrement) });
+	//bar.m_renderers.push_back(gui::WidgetRendererSlider{ m_assets.get<Sprite>(spriteBar), data });
 }
 void core::WidgetLoader::loadLabel(const pugi::xml_node & node, Widget & widget)
 {
@@ -200,7 +201,7 @@ void core::WidgetLoader::loadTextbox(const pugi::xml_node & node, Widget & widge
 
 void core::WidgetLoader::registerStandardListeners(Widget & widget)
 {
-	widget.m_listeners.push_back(m_bus.add<MouseMove>(0,
+	/*widget.m_listeners.push_back(m_bus.add<MouseMove>(0,
 		[&widget](auto & event) { gui::mouseMove(event, widget); }
 	));
 	widget.m_listeners.push_back(m_bus.add<MousePress>(0,
@@ -208,5 +209,5 @@ void core::WidgetLoader::registerStandardListeners(Widget & widget)
 	));
 	widget.m_listeners.push_back(m_bus.add<MouseRelease>(0,
 		[&widget](auto & event) { gui::mouseRelease(event, widget); }
-	));
+	));*/
 }

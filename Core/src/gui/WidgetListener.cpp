@@ -26,8 +26,8 @@ void core::gui::mouseRelease(MouseRelease & event, Widget & widget)
 {
 	if (widget.m_state.m_selected && isInside(event.m_position, widget.m_bbox) && event.consume())
 	{
-		for (const auto & action : widget.m_actions)
-			action(widget);
+		if (widget.m_handler)
+			widget.m_handler->action(widget);
 	}
 	widget.m_state.m_selected = false;
 }
