@@ -141,9 +141,6 @@
     <ClCompile Include="src\gui\WidgetLoaderTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\WidgetListenerTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\GuiRegistryTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -151,6 +148,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\internal\HandlerSliderTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\internal\ProcessorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

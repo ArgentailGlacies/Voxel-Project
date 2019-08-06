@@ -101,14 +101,6 @@ namespace core
 		void loadTextbox(const pugi::xml_node & node, Widget & widget);
 
 	private:
-		/**
-			Registers listeners which are used in all specialized widgets, such as mouse movement
-			and clicking.
-
-			@param widget The widget which should have the listeners added to it.
-		*/
-		void registerStandardListeners(Widget & widget);
-
 		const AssetRegistry & m_assets;
 		const Script & m_script;
 		EventBus & m_bus;

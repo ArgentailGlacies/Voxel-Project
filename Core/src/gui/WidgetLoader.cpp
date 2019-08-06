@@ -6,8 +6,8 @@
 #include "gui/internal/HandlerSlider.h"
 #include "gui/internal/RendererButton.h"
 #include "gui/internal/RendererSlider.h"
+#include "gui/internal/Processor.h"
 #include "gui/Widget.h"
-#include "gui/WidgetListener.h"
 #include "util/MathOperations.h"
 #include "util/StringParsing.h"
 
@@ -45,8 +45,6 @@ void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 		loadState(data, widget);
 	loadSpecialization(node, widget);
 	loadChildren(node, widget);
-
-	registerStandardListeners(widget);
 }
 
 void core::WidgetLoader::loadChildren(const pugi::xml_node & node, Widget & widget)
@@ -131,6 +129,9 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 
 	// Load renderer
 	widget.m_renderer = std::make_unique<RendererButton>(m_assets.get<Sprite>(sprite));
+
+	// Load processor
+	widget.m_processor = std::make_unique<Processor>(widget, m_bus);
 }
 void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget)
 {
@@ -181,10 +182,6 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 		decrement.m_link.m_ratio = { 0.5f, 1.0f };
 	}
 
-	registerStandardListeners(bar);
-	registerStandardListeners(increment);
-	registerStandardListeners(decrement);
-
 	// Load action
 	auto handler = std::make_unique<HandlerSlider>(m_script, action, data);
 
@@ -198,25 +195,15 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	bar.m_renderer = std::make_unique<RendererSlider>(data, m_assets.get<Sprite>(spriteBar), horizontal);
 	increment.m_renderer = std::make_unique<RendererButton>(m_assets.get<Sprite>(spriteIncrement));
 	decrement.m_renderer = std::make_unique<RendererButton>(m_assets.get<Sprite>(spriteDecrement));
+
+	// Load processor
+	bar.m_processor = std::make_unique<Processor>(bar, m_bus);
+	increment.m_processor = std::make_unique<Processor>(increment, m_bus);
+	decrement.m_processor = std::make_unique<Processor>(decrement, m_bus);
 }
 void core::WidgetLoader::loadLabel(const pugi::xml_node & node, Widget & widget)
 {
 }
 void core::WidgetLoader::loadTextbox(const pugi::xml_node & node, Widget & widget)
 {
-}
-
-// ...
-
-void core::WidgetLoader::registerStandardListeners(Widget & widget)
-{
-	/*widget.m_listeners.push_back(m_bus.add<MouseMove>(0,
-		[&widget](auto & event) { gui::mouseMove(event, widget); }
-	));
-	widget.m_listeners.push_back(m_bus.add<MousePress>(0,
-		[&widget](auto & event) { gui::mousePress(event, widget); }
-	));
-	widget.m_listeners.push_back(m_bus.add<MouseRelease>(0,
-		[&widget](auto & event) { gui::mouseRelease(event, widget); }
-	));*/
 }

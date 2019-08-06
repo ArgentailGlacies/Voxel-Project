@@ -3,6 +3,7 @@
 #include "event/EventListener.h"
 #include "gui/internal/Handler.h"
 #include "gui/internal/Renderer.h"
+#include "gui/internal/Processor.h"
 
 #include <functional>
 #include <glm/vec2.hpp>
@@ -110,6 +111,7 @@ namespace core
 
 		std::unique_ptr<Handler> m_handler;
 		std::unique_ptr<Renderer> m_renderer;
+		std::unique_ptr<Processor> m_processor;
 
 		BoundingBox m_bbox;
 		Border m_border;

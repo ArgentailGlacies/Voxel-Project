@@ -169,6 +169,7 @@ namespace core::gui
 
 			Assert::IsFalse(widget.m_handler == nullptr);
 			Assert::IsFalse(widget.m_renderer == nullptr);
+			Assert::IsFalse(widget.m_processor == nullptr);
 		}
 		TEST_METHOD(WidgetLoader_loadSlider)
 		{
@@ -177,6 +178,7 @@ namespace core::gui
 
 			Assert::IsFalse(widget.m_handler == nullptr);
 			Assert::IsTrue(widget.m_renderer == nullptr);
+			Assert::IsTrue(widget.m_processor == nullptr);
 			Assert::AreEqual(3u, widget.m_family.m_children.size());
 		}
 

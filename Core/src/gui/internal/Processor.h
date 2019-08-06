@@ -1,16 +1,21 @@
 #pragma once
 
-#include "event/EventBus.h"
+#include "event/EventListener.h"
 #include "event/Events.h"
-#include "gui/Widget.h"
-#include "script/Script.h"
 
 namespace core
 {
-	namespace gui
+	class EventBus;
+	struct Widget;
+
+	class Processor
 	{
+	public:
+		Processor(Widget & widget, EventBus & bus);
+
+	private:
 		/**
-			Updates a widget's hover state. If the parent widget is hovered and the mouse is 
+			Updates a widget's hover state. If the parent widget is hovered and the mouse is
 			positioned over the widget, it is marked as hovered, false otherwise.
 
 			@param event The event which should be processed.
@@ -34,5 +39,11 @@ namespace core
 			@param widget The widget which should be updated.
 		*/
 		void mouseRelease(MouseRelease & event, Widget & widget);
-	}
+
+		Widget & m_widget;
+
+		Listener m_mouseMove;
+		Listener m_mousePress;
+		Listener m_mouseRelease;
+	};
 }
