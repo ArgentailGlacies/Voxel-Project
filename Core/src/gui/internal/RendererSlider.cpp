@@ -37,6 +37,16 @@ namespace
 				return "inactive";
 		}
 	}
+
+	/**
+		Retrieves a vector which is constructed from the given x and y coordinate. If the vector is
+		horizontal, the vector's x-axis will be the x-component and the vector's y-axis will be the
+		y-component, and vice versa if horizontal is false.
+	*/
+	glm::vec2 buildVec2(float x, float y, bool horizontal)
+	{
+		return horizontal ? glm::vec2{ x, y } : glm::vec2{ y, x };
+	}
 }
 
 // ...
@@ -61,13 +71,13 @@ void core::RendererSlider::render(const Widget & widget, const glm::vec2 & offse
 	const auto min = util::min(widget.m_bbox.m_size.x, widget.m_bbox.m_size.y);
 	const auto max = util::max(widget.m_bbox.m_size.x, widget.m_bbox.m_size.y);
 
-	const glm::vec2 edge = { min, min };
-	const glm::vec2 center = { max - 2.0f * min, min };
-	const glm::vec2 bar = { 0.25f * min, min };
+	const glm::vec2 edge{ min, min };
+	const glm::vec2 center = buildVec2(max - 2.0f * min, min, m_horizontal);
+	const glm::vec2 bar = buildVec2(0.25f * min, min, m_horizontal);
 
-	const glm::vec2 centerPos = { min, 0.0f };
-	const glm::vec2 edgePos = { max - min, 0.0f };
-	const glm::vec2 barPos = { ratio * (max - bar.x), 0.0f };
+	const glm::vec2 centerPos = buildVec2(min, 0.0f, m_horizontal);
+	const glm::vec2 edgePos = buildVec2(max - min, 0.0f, m_horizontal);
+	const glm::vec2 barPos = buildVec2(ratio * (max - bar.x), 0.0f, m_horizontal);
 
 	// Render segments
 	m_sprite->draw(leftFrame, widget.m_bbox.m_pos, edge);

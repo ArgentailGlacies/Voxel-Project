@@ -1,7 +1,5 @@
 #pragma once
 
-#include "gui/Widget.h"
-
 #include <pugixml/pugixml.hpp>
 #include <unordered_map>
 
@@ -10,6 +8,7 @@ namespace core
 	class AssetRegistry;
 	class EventBus;
 	class Script;
+	struct Widget;
 
 	/**
 		The widget loader loads a widget and its entire family from a specific node. All widgets

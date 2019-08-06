@@ -15,8 +15,8 @@ namespace core
 	class RendererSlider : public Renderer
 	{
 	public:
-		RendererSlider(const HandlerSlider::Data & data, const Asset<Sprite>::Reference & sprite)
-			: m_sprite(sprite), m_data(data)
+		RendererSlider(const HandlerSlider::Data & data, const Asset<Sprite>::Reference & sprite, bool horizontal)
+			: m_sprite(sprite), m_data(data), m_horizontal(horizontal)
 		{}
 
 		virtual void render(const Widget & widget, const glm::vec2 & offset) const override final;
@@ -24,5 +24,6 @@ namespace core
 	private:
 		Asset<Sprite>::Reference m_sprite;
 		HandlerSlider::Data m_data;
+		bool m_horizontal;
 	};
 }

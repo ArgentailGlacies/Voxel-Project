@@ -52,14 +52,14 @@ namespace core::gui
 			Assert::AreEqual(9, util::get<int>(m_script, "counter"));
 		}
 
-		TEST_METHOD(HandlerSliderBar_process)
+		TEST_METHOD(HandlerSliderBar_processHorizontal)
 		{
 			Widget parent, widget;
 			widget.m_family.m_parent = &parent;
 			widget.m_bbox.m_size = { 100.0f, 10.0f };
 			widget.m_state.m_selected = true;
 			HandlerSlider root{ m_script, "counter = 5", { 0.0f, 10.0f, 9.0f, 0.1f } };
-			HandlerSliderBar handler{ root, m_bus };
+			HandlerSliderBar handler{ root, m_bus, true };
 
 			simulateMouseMovement({ 31.0f, 0.0f });
 			handler.process(widget);
@@ -67,6 +67,25 @@ namespace core::gui
 			Assert::AreEqual(5, util::get<int>(m_script, "counter"));
 
 			simulateMouseMovement({ 92.0f, 0.0f });
+			handler.process(widget);
+			Assert::AreEqual(9.8f, parent.m_value.m_float, 0.01f);
+			Assert::AreEqual(5, util::get<int>(m_script, "counter"));
+		}
+		TEST_METHOD(HandlerSliderBar_processVertical)
+		{
+			Widget parent, widget;
+			widget.m_family.m_parent = &parent;
+			widget.m_bbox.m_size = { 10.0f, 100.0f };
+			widget.m_state.m_selected = true;
+			HandlerSlider root{ m_script, "counter = 5", { 0.0f, 10.0f, 9.0f, 0.1f } };
+			HandlerSliderBar handler{ root, m_bus, false };
+
+			simulateMouseMovement({ 0.0f, 31.0f });
+			handler.process(widget);
+			Assert::AreEqual(5.6f, parent.m_value.m_float, 0.01f);
+			Assert::AreEqual(5, util::get<int>(m_script, "counter"));
+
+			simulateMouseMovement({ 0.0f, 92.0f });
 			handler.process(widget);
 			Assert::AreEqual(9.8f, parent.m_value.m_float, 0.01f);
 			Assert::AreEqual(5, util::get<int>(m_script, "counter"));

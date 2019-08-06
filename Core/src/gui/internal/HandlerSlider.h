@@ -68,13 +68,13 @@ namespace core
 	};
 
 	/**
-		The slider button handler is responsible for changing the slider value by a single step in
-		the relevant direction.
+		The slider bar handler is responsible allows the user to click and drag the bar to assign
+		the actual value of the slider.
 	*/
 	class HandlerSliderBar : public Handler
 	{
 	public:
-		HandlerSliderBar(HandlerSlider & root, EventBus & bus);
+		HandlerSliderBar(HandlerSlider & root, EventBus & bus, bool horizontal);
 
 		virtual void action(Widget & widget) override final {}
 		virtual void process(Widget & widget) override final;
@@ -82,6 +82,7 @@ namespace core
 	private:
 		HandlerSlider & m_root;
 		Listener m_listener;
+		bool m_horizontal;
 
 		glm::vec2 m_mousePosition;
 	};

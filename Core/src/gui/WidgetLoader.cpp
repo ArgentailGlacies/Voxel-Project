@@ -2,15 +2,12 @@
 #include "WidgetLoader.h"
 
 #include "asset/AssetRegistry.h"
-#include "event/EventBus.h"
-#include "gui/Gui.h"
-#include "gui/GuiData.h"
 #include "gui/internal/HandlerButton.h"
 #include "gui/internal/HandlerSlider.h"
 #include "gui/internal/RendererButton.h"
 #include "gui/internal/RendererSlider.h"
+#include "gui/Widget.h"
 #include "gui/WidgetListener.h"
-#include "script/Script.h"
 #include "util/MathOperations.h"
 #include "util/StringParsing.h"
 
@@ -164,12 +161,25 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	const auto min = util::min(widget.m_bbox.m_minSize.x, widget.m_bbox.m_minSize.y);
 	increment.m_bbox.m_minSize = { min, min };
 	decrement.m_bbox.m_minSize = { min, min };
-	bar.m_bbox.m_minSize = { max - 2.0f * min, min };
 
-	bar.m_link.m_target = &decrement;
-	bar.m_link.m_ratio = { 1.0f, 0.5f };
-	increment.m_link.m_target = &bar;
-	increment.m_link.m_ratio = { 1.0f, 0.5f };
+	if (horizontal)
+	{
+		bar.m_bbox.m_minSize = { max - 2.0f * min, min };
+
+		bar.m_link.m_target = &decrement;
+		bar.m_link.m_ratio = { 1.0f, 0.5f };
+		increment.m_link.m_target = &bar;
+		increment.m_link.m_ratio = { 1.0f, 0.5f };
+	}
+	else
+	{
+		bar.m_bbox.m_minSize = { min, max - 2.0f * min };
+
+		bar.m_link.m_target = &increment;
+		bar.m_link.m_ratio = { 0.5f, 1.0f };
+		decrement.m_link.m_target = &bar;
+		decrement.m_link.m_ratio = { 0.5f, 1.0f };
+	}
 
 	registerStandardListeners(bar);
 	registerStandardListeners(increment);
@@ -178,14 +188,14 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	// Load action
 	auto handler = std::make_unique<HandlerSlider>(m_script, action, data);
 
-	bar.m_handler = std::make_unique<HandlerSliderBar>(*handler, m_bus);
+	bar.m_handler = std::make_unique<HandlerSliderBar>(*handler, m_bus, horizontal);
 	increment.m_handler = std::make_unique<HandlerSliderButton>(*handler, true);
 	decrement.m_handler = std::make_unique<HandlerSliderButton>(*handler, false);
 
 	widget.m_handler = std::move(handler);
 
 	// Load renderer
-	bar.m_renderer = std::make_unique<RendererSlider>(data, m_assets.get<Sprite>(spriteBar));
+	bar.m_renderer = std::make_unique<RendererSlider>(data, m_assets.get<Sprite>(spriteBar), horizontal);
 	increment.m_renderer = std::make_unique<RendererButton>(m_assets.get<Sprite>(spriteIncrement));
 	decrement.m_renderer = std::make_unique<RendererButton>(m_assets.get<Sprite>(spriteDecrement));
 }

@@ -32,8 +32,8 @@ void core::HandlerSliderButton::action(Widget & widget)
 
 // ...
 
-core::HandlerSliderBar::HandlerSliderBar(HandlerSlider & root, EventBus & bus)
-	: m_root(root)
+core::HandlerSliderBar::HandlerSliderBar(HandlerSlider & root, EventBus & bus, bool horizontal)
+	: m_root(root), m_horizontal(horizontal)
 {
 	m_listener = bus.add<MouseMove>([this](auto & event) { m_mousePosition = event.m_position; });
 }
@@ -45,7 +45,7 @@ void core::HandlerSliderBar::process(Widget & widget)
 	auto & value = widget.m_family.m_parent->m_value;
 	auto & data = m_root.m_data;
 
-	const auto axis = 0;
+	const auto axis = m_horizontal ? 0 : 1;
 	const auto factor = util::max(0.0f, util::min(1.0f,
 		(m_mousePosition[axis] - widget.m_bbox.m_pos[axis]) / widget.m_bbox.m_size[axis]
 	));

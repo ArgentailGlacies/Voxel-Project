@@ -120,9 +120,6 @@
     <ClCompile Include="src\gui\WidgetProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\WidgetLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\WidgetListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -145,6 +142,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\internal\RendererSlider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\WidgetLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

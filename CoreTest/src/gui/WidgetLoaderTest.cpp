@@ -2,6 +2,7 @@
 #include "gui/WidgetLoader.h"
 
 #include "event/EventBus.h"
+#include "gui/Widget.h"
 #include "mock/MockAssetRegistry.h"
 #include "script/Script.h"
 
