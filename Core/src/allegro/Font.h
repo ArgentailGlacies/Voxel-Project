@@ -56,7 +56,7 @@ namespace core
 			@param style The style associated with this font file.
 			@param size The base size for this font file.
 		*/
-		void prepare(const util::File & file, Style style, int size);
+		void prepare(const util::File & file, Style style, float size);
 
 		/**
 			Actually loads the font handle if it has not already been loaded. The handle is loaded
@@ -74,14 +74,6 @@ namespace core
 
 	private:
 		/**
-			Erases any underlying font handles, releasing all used memory. Invoking this method will
-			invalidate all handles which have been loaded previously.
-		*/
-		void clear();
-
-		// ...
-
-		/**
 			Stores the base font data for any given style. The font will be loaded from the given
 			file, with the given base size.
 		*/
@@ -89,7 +81,7 @@ namespace core
 		{
 			util::File m_file;
 
-			int m_size;
+			float m_size = 0.0f;
 		};
 		/**
 			Stores a set of user-specific data pointing to a specific font handle, to avoid loading
@@ -97,12 +89,28 @@ namespace core
 		*/
 		struct Key
 		{
-			Style m_style;
-			Flag m_flag;
+			Style m_style = Style::REGULAR;
+			Flag m_flag = Flag::NORMAL;
 
-			int m_size;
+			int m_size = 0;
+
+			bool operator==(const Key & other) const;
 		};
 		struct Hasher { size_t operator()(const Key & key) const; };
+
+		// ...
+
+		/**
+			Retrieves the key associated with the given style, flag and size. If there is no file
+			associated with the given style, an empty key is retrieved.
+		*/
+		Key getKey(Style style, Flag flag, float size) const;
+
+		/**
+			Erases any underlying font handles, releasing all used memory. Invoking this method will
+			invalidate all handles which have been loaded previously.
+		*/
+		void clear();
 
 		std::unordered_map<Style, Data> m_data;
 		std::unordered_map<Key, Handle, Hasher> m_handles;

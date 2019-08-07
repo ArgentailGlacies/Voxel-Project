@@ -259,6 +259,7 @@
     <ClInclude Include="src\mock\MockAssetRegistry.h" />
     <ClInclude Include="src\mock\MockComponent.h" />
     <ClInclude Include="src\mock\MockComponentRegistry.h" />
+    <ClInclude Include="src\mock\MockFont.h" />
     <ClInclude Include="src\mock\MockGui.h" />
     <ClInclude Include="src\mock\MockSystem.h" />
     <ClInclude Include="src\mock\MockUBORegistry.h" />

@@ -30,7 +30,4 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Xml Include="data\guis\test.xml" />
-  </ItemGroup>
 </Project>

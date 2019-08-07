@@ -185,6 +185,9 @@
     <ClInclude Include="src\mock\MockGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\mock\MockFont.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
