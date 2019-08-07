@@ -4,7 +4,6 @@
 
 #include <glm/vec2.hpp>
 #include <glm/vec4.hpp>
-#include <memory>
 
 struct ALLEGRO_BITMAP;
 struct ALLEGRO_LOCKED_REGION;
@@ -18,11 +17,11 @@ namespace core
 		Bitmap(const util::File & file) { load(file); }
 		Bitmap(unsigned int width, unsigned int height) { create(width, height); }
 		Bitmap(const Bitmap &) = delete;
-		Bitmap(Bitmap && other) { *this = std::move(other); }
+		Bitmap(Bitmap && other) noexcept { *this = std::move(other); }
 		~Bitmap() { clear(); }
 
 		Bitmap & operator=(const Bitmap &) = delete;
-		Bitmap & operator=(Bitmap && other);
+		Bitmap & operator=(Bitmap && other) noexcept;
 
 		/**
 			@return The size of the bitmap.

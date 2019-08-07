@@ -30,6 +30,7 @@
     <ClCompile Include="src\allegro\Allegro.cpp" />
     <ClCompile Include="src\allegro\Bitmap.cpp" />
     <ClCompile Include="src\allegro\EventSource.cpp" />
+    <ClCompile Include="src\allegro\Font.cpp" />
     <ClCompile Include="src\allegro\Sprite.cpp" />
     <ClCompile Include="src\allegro\SpriteFactory.cpp" />
     <ClCompile Include="src\asset\AssetUtil.cpp" />
@@ -75,6 +76,7 @@
     <ClInclude Include="src\allegro\Allegro.h" />
     <ClInclude Include="src\allegro\Bitmap.h" />
     <ClInclude Include="src\allegro\EventSource.h" />
+    <ClInclude Include="src\allegro\Font.h" />
     <ClInclude Include="src\allegro\Sprite.h" />
     <ClInclude Include="src\allegro\SpriteFactory.h" />
     <ClInclude Include="src\asset\Asset.h" />
