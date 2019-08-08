@@ -2,7 +2,9 @@
 
 #include "allegro/Font.h"
 
+#include <allegro5/utf8.h>
 #include <functional>
+#include <glm/vec2.hpp>
 #include <glm/vec4.hpp>
 #include <string>
 #include <vector>
@@ -21,13 +23,14 @@ namespace core
 		using Renderer = std::function<void(const glm::vec2 & pos)>;
 		/**
 			The rendering task should ideally contain a rendering routine which determines how a
-			part of a text element is rendered. The task is guaranteed to fit within its width.
+			part of a text element is rendered. The task is guaranteed to fit within its bounding
+			box.
 		*/
 		struct Task
 		{
 			Renderer m_renderer;
 
-			int width;
+			glm::vec2 m_size;
 		};
 
 		// ...
@@ -54,14 +57,27 @@ namespace core
 	{
 	public:
 		ElementText() = delete;
-		ElementText(Font::Handle handle, const std::string & text, const glm::vec4 & color, bool strikethrough, bool underline);
+		ElementText(Font::Handle font, const std::string & text, const glm::vec4 & color, bool strikethrough, bool underline);
+		~ElementText() noexcept;
 
 		virtual std::vector<Task> split(int position, int width) const override final;
 
 	private:
-		Font::Handle m_handle;
+		/**
+			Checks how much more space is required to progress to the next character from the given
+			character in the text.
 
-		std::string m_text;
+			@param current The current codepoint being examined.
+			@param next The next codepoint in the text.
+			@return The advance to the next the glyph from the current glyph.
+		*/
+		glm::ivec2 getAdvance(int current, int next) const;
+
+		// ...
+
+		Font::Handle m_font;
+		ALLEGRO_USTR * m_text;
+
 		glm::vec4 m_color;
 
 		bool m_strikethrough;

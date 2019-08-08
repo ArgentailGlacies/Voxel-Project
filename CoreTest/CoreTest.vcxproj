@@ -196,6 +196,7 @@
     <ClCompile Include="src\allegro\FontTest.cpp" />
     <ClCompile Include="src\allegro\SpriteFactoryTest.cpp" />
     <ClCompile Include="src\allegro\SpriteTest.cpp" />
+    <ClCompile Include="src\allegro\TextElementTest.cpp" />
     <ClCompile Include="src\asset\AssetRegistryTest.cpp" />
     <ClCompile Include="src\asset\AssetTest.cpp" />
     <ClCompile Include="src\asset\AssetUtilTest.cpp" />

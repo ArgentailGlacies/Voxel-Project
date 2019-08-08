@@ -33,6 +33,7 @@
     <ClCompile Include="src\allegro\Font.cpp" />
     <ClCompile Include="src\allegro\Sprite.cpp" />
     <ClCompile Include="src\allegro\SpriteFactory.cpp" />
+    <ClCompile Include="src\allegro\TextElement.cpp" />
     <ClCompile Include="src\asset\AssetUtil.cpp" />
     <ClCompile Include="src\core\MainLoop.cpp" />
     <ClCompile Include="src\ecs\EntityRegistry.cpp" />
@@ -79,6 +80,8 @@
     <ClInclude Include="src\allegro\Font.h" />
     <ClInclude Include="src\allegro\Sprite.h" />
     <ClInclude Include="src\allegro\SpriteFactory.h" />
+    <ClInclude Include="src\allegro\Text.h" />
+    <ClInclude Include="src\allegro\TextElement.h" />
     <ClInclude Include="src\asset\Asset.h" />
     <ClInclude Include="src\asset\AssetRegistry.h" />
     <ClInclude Include="src\asset\AssetUtil.h" />
