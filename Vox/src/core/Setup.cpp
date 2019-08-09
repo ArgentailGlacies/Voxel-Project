@@ -1,6 +1,7 @@
 
 #include "Setup.h"
 
+#include "allegro/FontFactory.h"
 #include "allegro/SpriteFactory.h"
 #include "asset/AssetUtil.h"
 #include "core/Resources.h"
@@ -15,6 +16,7 @@
 void core::setupAssets(AssetRegistry & assets, const util::Folder & data, const UBORegistry & ubos)
 {
 	// Loading up assets from data folder
+	setupLoader<FontLoader, Font>(assets, data.folder(res::path::FONTS), "xml");
 	setupLoader<ProgramLoader, Program>(assets, data.folder(res::path::SHADERS), "xml", ubos);
 	setupLoader<SpriteLoader, Sprite>(assets, data.folder(res::path::SPRITES), "xml");
 

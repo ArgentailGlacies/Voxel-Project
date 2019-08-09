@@ -15,7 +15,7 @@ namespace
 	}
 }
 
-core::Bitmap & core::Bitmap::operator=(Bitmap && other)
+core::Bitmap & core::Bitmap::operator=(Bitmap && other) noexcept
 {
 	std::swap(m_handle, other.m_handle);
 	return *this;

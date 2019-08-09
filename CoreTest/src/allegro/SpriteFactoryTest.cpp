@@ -1,8 +1,6 @@
 
 #include "allegro/SpriteFactory.h"
 
-#include <allegro5/bitmap_io.h>
-
 #include "Common.h"
 #include "CppUnitTest.h"
 
@@ -16,7 +14,6 @@ namespace core::allegro
 		TEST_CLASS_INITIALIZE(initialize)
 		{
 			util::Folder{ "test" }.create();
-
 			util::File{ "test/sprite.xml" }.write(R"(
 				<bitmap path="test/bitmap.png" />
 				<frames>
@@ -25,10 +22,7 @@ namespace core::allegro
 				</frames>
 				)");
 
-			ALLEGRO_BITMAP * bitmap;
-			bitmap = al_create_bitmap(32, 16);
-			al_save_bitmap("test/bitmap.png", bitmap);
-			al_destroy_bitmap(bitmap);
+			Bitmap{ 32, 16 }.save("test/bitmap.png");
 		}
 		TEST_CLASS_CLEANUP(cleanup)
 		{

@@ -7,7 +7,7 @@ namespace util
 	class File
 	{
 	public:
-		File() = delete;
+		File() = default;
 		File(const char * path) : m_path(path) {}
 		File(const std::string & path) : m_path(path) {}
 

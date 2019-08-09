@@ -193,8 +193,11 @@
   <ItemGroup>
     <ClCompile Include="src\allegro\AllegroTest.cpp" />
     <ClCompile Include="src\allegro\BitmapTest.cpp" />
+    <ClCompile Include="src\allegro\FontFactoryTest.cpp" />
+    <ClCompile Include="src\allegro\FontTest.cpp" />
     <ClCompile Include="src\allegro\SpriteFactoryTest.cpp" />
     <ClCompile Include="src\allegro\SpriteTest.cpp" />
+    <ClCompile Include="src\allegro\TextElementTest.cpp" />
     <ClCompile Include="src\asset\AssetRegistryTest.cpp" />
     <ClCompile Include="src\asset\AssetTest.cpp" />
     <ClCompile Include="src\asset\AssetUtilTest.cpp" />
@@ -258,6 +261,7 @@
     <ClInclude Include="src\mock\MockAssetRegistry.h" />
     <ClInclude Include="src\mock\MockComponent.h" />
     <ClInclude Include="src\mock\MockComponentRegistry.h" />
+    <ClInclude Include="src\mock\MockFont.h" />
     <ClInclude Include="src\mock\MockGui.h" />
     <ClInclude Include="src\mock\MockSystem.h" />
     <ClInclude Include="src\mock\MockUBORegistry.h" />
