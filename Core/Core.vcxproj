@@ -33,6 +33,7 @@
     <ClCompile Include="src\allegro\Font.cpp" />
     <ClCompile Include="src\allegro\Sprite.cpp" />
     <ClCompile Include="src\allegro\SpriteFactory.cpp" />
+    <ClCompile Include="src\allegro\Text.cpp" />
     <ClCompile Include="src\allegro\TextElement.cpp" />
     <ClCompile Include="src\asset\AssetUtil.cpp" />
     <ClCompile Include="src\core\MainLoop.cpp" />

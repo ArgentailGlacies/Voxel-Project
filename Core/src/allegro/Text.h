@@ -23,8 +23,7 @@ namespace core
 	class Text
 	{
 	public:
-		Text() = delete;
-		Text(const AssetRegistry & assets);
+		Text(const AssetRegistry & assets) : m_assets(assets) {}
 
 		// ...
 
