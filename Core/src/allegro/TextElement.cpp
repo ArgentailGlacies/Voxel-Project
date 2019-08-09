@@ -9,6 +9,14 @@
 namespace
 {
 	/**
+		The Allegro color has the same layout as vec4s, and as such may be converted in this manner.
+	*/
+	inline auto & color(const glm::vec4 & tint)
+	{
+		return reinterpret_cast<const ALLEGRO_COLOR &>(tint);
+	}
+
+	/**
 		Checks if the given codepoint is considered whitespace.
 
 		@return True iff the codepoint is considered invisible.
@@ -194,8 +202,23 @@ std::vector<core::Element::Task> core::ElementText::split(int position, int widt
 	while (tokenizer.valid())
 	{
 		const auto token = tokenizer.next();
+		const auto renderer = [this, token](auto & pos) { draw(pos, token.m_index, token.m_end); };
 
-		tasks.push_back(Task{ nullptr, token.m_size });
+		tasks.push_back(Task{ renderer, token.m_size });
 	}
 	return tasks;
+}
+
+void core::ElementText::draw(const glm::vec2 & pos, int start, int end) const
+{
+	int x = 0;
+	for (int i = start; i < end; ++i)
+	{
+		const int curr = al_ustr_get(m_text, i);
+		const int next = al_ustr_get(m_text, i + 1);
+
+		al_draw_glyph(m_font, color(m_color), pos.x + x, pos.y, curr);
+
+		x += al_get_glyph_advance(m_font, curr, next);
+	}
 }
