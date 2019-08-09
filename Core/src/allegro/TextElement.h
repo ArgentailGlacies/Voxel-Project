@@ -63,18 +63,6 @@ namespace core
 		virtual std::vector<Task> split(int position, int width) const override final;
 
 	private:
-		/**
-			Checks how much more space is required to progress to the next character from the given
-			character in the text.
-
-			@param current The current codepoint being examined.
-			@param next The next codepoint in the text.
-			@return The advance to the next the glyph from the current glyph.
-		*/
-		glm::ivec2 getAdvance(int current, int next) const;
-
-		// ...
-
 		Font::Handle m_font;
 		ALLEGRO_USTR * m_text;
 

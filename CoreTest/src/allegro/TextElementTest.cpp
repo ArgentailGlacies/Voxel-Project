@@ -12,45 +12,95 @@ namespace core::allegro
 	TEST_CLASS(TextElementTest)
 	{
 	public:
-		TEST_METHOD(ElementText_split)
+		TEST_METHOD(givenNoLimits_whenSplitting_thenSingleString)
 		{
-			ElementText elementA{ m_font.handle(), "Hello World!", glm::vec4{}, false, false };
-			ElementText elementB{ m_font.handle(), "foo bar", glm::vec4{}, false, false };
-			ElementText elementC{ m_font.handle(), "foo.bar", glm::vec4{}, false, false };
+			const auto tasks = split("Hello World!", 0, std::numeric_limits<int>::max());
 
-			const auto tasksA = elementA.split(0, std::numeric_limits<int>::max());
-			const auto tasksB = elementA.split(0, 60);
-			const auto tasksC = elementB.split(0, 40);
-			const auto tasksD = elementB.split(0, 40);
-			const auto tasksE = elementB.split(0, 25);
-			
-			// Single task when not constrained
-			Assert::AreEqual(1u, tasksA.size());
-			Assert::AreEqual({ 96, 8 }, tasksA[0].m_size);
+			Assert::AreEqual(1u, tasks.size());
+			Assert::AreEqual({ 96, 8 }, tasks[0].m_size);
+		}
 
-			// Splitting when constrained to small space
-			Assert::AreEqual(2u, tasksB.size());
-			Assert::AreEqual({ 40, 8 }, tasksB[0].m_size);
-			Assert::AreEqual({ 48, 8 }, tasksB[1].m_size);
+		TEST_METHOD(givenSimpleLimit_whenSplitting_thenTwoStrings)
+		{
+			const auto tasks = split("Hello World!", 0, 60);
 
-			// Splitting at a space should not render space
-			Assert::AreEqual(2u, tasksC.size());
-			Assert::AreEqual({ 24, 8 }, tasksC[0].m_size);
-			Assert::AreEqual({ 24, 8 }, tasksC[1].m_size);
+			Assert::AreEqual(2u, tasks.size());
+			Assert::AreEqual({ 40, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 48, 8 }, tasks[1].m_size);
+		}
 
-			// Splitting at a non-space should render character
-			Assert::AreEqual(2u, tasksD.size());
-			Assert::AreEqual({ 32, 8 }, tasksD[0].m_size);
-			Assert::AreEqual({ 24, 8 }, tasksD[1].m_size);
+		TEST_METHOD(givenLinebreakCharacter_whenSplitting_thenSplitOnCharacter)
+		{
+			const auto tasks = split("foo.bar", 0, 50);
 
-			// Splitting without linebreak character splits wherever
-			Assert::AreEqual(3u, tasksE.size());
-			Assert::AreEqual({ 24, 8 }, tasksE[0].m_size);
-			Assert::AreEqual({ 8, 8 }, tasksE[1].m_size);
-			Assert::AreEqual({ 24, 8 }, tasksE[2].m_size);
+			Assert::AreEqual(2u, tasks.size());
+			Assert::AreEqual({ 32, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 24, 8 }, tasks[1].m_size);
+		}
+
+		TEST_METHOD(givenStrictSplit_whenSplitting_thenSplitWherePossible)
+		{
+			const auto tasks = split("foo.bar", 0, 25);
+
+			Assert::AreEqual(3u, tasks.size());
+			Assert::AreEqual({ 24, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 8, 8 }, tasks[1].m_size);
+			Assert::AreEqual({ 24, 8 }, tasks[2].m_size);
+		}
+
+		TEST_METHOD(givenImpossibleSpace_whenSplitting_thenSplitOnAllCharacters)
+		{
+			const auto tasks = split("abc", 0, 0);
+
+			Assert::AreEqual(3u, tasks.size());
+			Assert::AreEqual({ 8, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 8, 8 }, tasks[1].m_size);
+			Assert::AreEqual({ 8, 8 }, tasks[2].m_size);
+		}
+
+		TEST_METHOD(givenWhitespaceSplit_whenSplitting_thenNoWhitespace)
+		{
+			const auto tasks = split("foo bar", 0, 25);
+
+			Assert::AreEqual(2u, tasks.size());
+			Assert::AreEqual({ 24, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 24, 8 }, tasks[1].m_size);
+		}
+
+		TEST_METHOD(givenNewline_whenSplitting_thenMultipleLines)
+		{
+			const auto tasks = split("foo\nbar", 0, std::numeric_limits<int>::max());
+
+			Assert::AreEqual(2u, tasks.size());
+			Assert::AreEqual({ 24, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 24, 8 }, tasks[1].m_size);
+		}
+
+		TEST_METHOD(givenMultipleNewlines_whenSplitting_thenMultipleLines)
+		{
+			const auto tasks = split("\n\n", 0, std::numeric_limits<int>::max());
+
+			Assert::AreEqual(2u, tasks.size());
+			Assert::AreEqual({ 0, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 0, 8 }, tasks[1].m_size);
+		}
+
+		TEST_METHOD(givenStartingPosition_whenSplitting_thenCorrectLines)
+		{
+			const auto tasks = split("Hi foo and bar", 80, 100);
+
+			Assert::AreEqual(2u, tasks.size());
+			Assert::AreEqual({ 16, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 88, 8 }, tasks[1].m_size);
 		}
 
 	private:
+		inline std::vector<ElementText::Task> split(const std::string & string, int position, int width)
+		{
+			ElementText element{ m_font.handle(), string, glm::vec4{}, false, false };
+			return element.split(position, width);
+		}
+
 		Font m_font;
 	};
 }

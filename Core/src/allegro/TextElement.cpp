@@ -9,6 +9,22 @@
 namespace
 {
 	/**
+		Checks if the given codepoint is considered whitespace.
+
+		@return True iff the codepoint is considered invisible.
+	*/
+	bool isWhitespace(int codepoint)
+	{
+		switch (codepoint)
+		{
+		case ' ':
+		case '\n':
+			return true;
+		default:
+			return false;
+		}
+	}
+	/**
 		Checks if the given codepoint is allowed to create a natural line break.
 
 		@return True iff the codepoint can be a natural line break.
@@ -17,9 +33,6 @@ namespace
 	{
 		switch (codepoint)
 		{
-		case '\0':
-		case '\n':
-		case ' ':
 		case '.':
 		case ',':
 		case '-':
@@ -31,6 +44,132 @@ namespace
 		default:
 			return false;
 		}
+	}
+
+	// ...
+
+	/**
+		A token represents a small segment of text, and the space required to fully draw the text.
+	*/
+	struct Token
+	{
+		int m_index = 0;
+		int m_end = 0;
+
+		glm::ivec2 m_size{};
+	};
+
+	/**
+		The tokenizer accepts an Allegro font and text, then finds a series of tokens which can be
+		drawn sequentially to fit within a given bounding box.
+	*/
+	class Tokenizer
+	{
+	public:
+		Tokenizer(ALLEGRO_FONT * font, ALLEGRO_USTR * text, int position, int width)
+			: m_font(font), m_text(text), m_position(position), m_width(width)
+		{
+			m_length = al_ustr_length(m_text);
+		}
+
+		/**
+			@return True iff more tokens can be extracted from the element.
+		*/
+		inline bool valid() const { return m_index < m_length; }
+		/**
+			Attempts to retrieve another token from the current index and the current position. The
+			index will be incremented by the length of the token, and the position will always be
+			reset to 0.
+		*/
+		Token next();
+
+	private:
+		/**
+			Checks how much more space is required to progress to the next character from the given
+			character in the text.
+
+			@param current The current codepoint being examined.
+			@param next The next codepoint in the text.
+			@return The advance to the next the glyph from the current glyph.
+		*/
+		glm::ivec2 getAdvance(int current, int next) const;
+
+		// ...
+
+		ALLEGRO_FONT * m_font;
+		ALLEGRO_USTR * m_text;
+
+		int m_width;
+		int m_length;
+		int m_position;
+		int m_index = 0;
+	};
+
+	Token Tokenizer::next()
+	{
+		Token token;
+		token.m_index = m_index;
+		token.m_end = m_length;
+
+		glm::ivec2 size{};
+
+		int index = m_index;
+		for (; index < m_length; ++index)
+		{
+			const int curr = al_ustr_get(m_text, index);
+			const int next = al_ustr_get(m_text, index + 1);
+			const auto advance = getAdvance(curr, next);
+
+			// Must treat newlines in a special manner if they are the first character
+			if (curr == '\n')
+			{
+				size.y = getAdvance(curr, next).y;
+				index++;
+				break;
+			}
+			// If the next character cannot fit, break unless there are no characters added yet
+			if (m_position + advance.x > m_width && index != m_index)
+				break;
+
+			m_position += advance.x;
+			size.x += advance.x;
+			size.y = util::max(size.y, advance.y);
+
+			// If the currect character is allowed to break a line, or is the last character...
+			if (isLinebreak(curr) || next == -1)
+			{
+				token.m_end = index + 1;
+				token.m_size = size;
+			}
+			// If the next character is a whitespace, then it can be skipped if necessary
+			if (isWhitespace(next))
+			{
+				token.m_end = index + 2;
+				token.m_size = size;
+			}
+		}
+
+		// If no size was assigned to the token, use whatever has been found thus far
+		if (token.m_size.x == 0)
+		{
+			token.m_size = size;
+			token.m_end = index;
+		}
+
+		// Must make sure to update the tokenizer state
+		m_index = token.m_end;
+		m_position = 0;
+		return token;
+	}
+
+	glm::ivec2 Tokenizer::getAdvance(int current, int next) const
+	{
+		const int advance = al_get_glyph_advance(m_font, current, next);
+
+		int bby, bbh, _;
+		al_get_glyph_dimensions(m_font, current, &_, &bby, &_, &bbh);
+
+		return glm::ivec2{ advance, bby + bbh };
 	}
 }
 
@@ -51,49 +190,12 @@ std::vector<core::Element::Task> core::ElementText::split(int position, int widt
 {
 	std::vector<Task> tasks;
 
-	Task task;
-
-	glm::ivec2 size{};
-
-	for (int index = 0; al_ustr_next(m_text, &index); )
+	Tokenizer tokenizer{ m_font, m_text, position, width };
+	while (tokenizer.valid())
 	{
-		// Check if the codepoint can result in a natural new line
-		const int currentCodepoint = al_ustr_get(m_text, index - 1);
-		const int nextCodepoint = al_ustr_get(m_text, index);
+		const auto token = tokenizer.next();
 
-		if (isLinebreak(currentCodepoint))
-			task.m_size = size;
-
-		// If not exceeding maximum width, update task size
-		const auto advance = getAdvance(currentCodepoint, nextCodepoint);
-		if (position + advance.x <= width)
-		{
-			position += advance.x;
-			size.x += advance.x;
-			size.y = util::max(size.y, advance.y);
-		}
-		// Create a new task and reset size and position
-		else
-		{
-			position = 0;
-			size.x -= task.m_size.x;
-			size.y = task.m_size.y < size.y ? size.y : 0;
-			tasks.push_back(task);
-		}
+		tasks.push_back(Task{ nullptr, token.m_size });
 	}
-
-	// The last task is not picked up within the algorithm
-	task.m_size = size;
-	tasks.push_back(task);
 	return tasks;
-}
-
-glm::ivec2 core::ElementText::getAdvance(int current, int next) const
-{
-	const int advance = al_get_glyph_advance(m_font, current, next);
-
-	int bby, bbh, _;
-	al_get_glyph_dimensions(m_font, current, &_, &bby, &_, &bbh);
-
-	return glm::ivec2{ advance, bby + bbh };
 }
