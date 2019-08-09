@@ -3,6 +3,7 @@
 
 #include "allegro/TextElement.h"
 #include "asset/AssetRegistry.h"
+#include "util/MathOperations.h"
 
 namespace
 {
@@ -52,4 +53,40 @@ void core::Text::add(const Style & style, const std::string & text)
 
 void core::Text::draw(const glm::vec2 & pos, const glm::vec2 & size) const
 {
+	std::vector<std::vector<Element::Task>> m_tasks;
+
+	// Process all elements to a collection of rows of tasks
+	m_tasks.push_back({});
+
+	int position = 0;
+	for (const auto & element : m_elements)
+	for (const auto & task : element->split(position, size.x))
+	{
+		if (position + task.m_size.x > size.x)
+		{
+			m_tasks.push_back({});
+			position = 0;
+		}
+		position += task.m_size.x;
+		m_tasks.back().push_back(task);
+	}
+
+	// All render tasks may now be performed
+	float y = 0.0f;
+	for (const auto & row : m_tasks)
+	{
+		// Must know the height of the full row before drawing it
+		float height = 0.0f;
+		for (const auto & task : row)
+			height = util::max(height, task.m_size.y);
+
+		// Must track where along the row the tasks should be rendered
+		float x = 0.0f;
+		for (const auto & task : row)
+		{
+			task.m_renderer(pos + glm::vec2{ x, y + height - task.m_size.y });
+			x += task.m_size.x;
+		}
+		y += height;
+	}
 }

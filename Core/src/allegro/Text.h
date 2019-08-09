@@ -36,13 +36,13 @@ namespace core
 			std::string m_font;
 			glm::vec4 m_color = { 0.0f, 0.0f, 0.0f, 1.0f };
 
-			float m_size;
+			float m_size = 1.0f;
 
-			bool m_bold;
-			bool m_italic;
-			bool m_monochrome;
-			bool m_strikethrough;
-			bool m_underline;
+			bool m_bold = false;
+			bool m_italic = false;
+			bool m_monochrome = false;
+			bool m_strikethrough = false;
+			bool m_underline = false;
 		};
 
 		// ...
