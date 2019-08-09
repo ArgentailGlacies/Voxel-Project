@@ -31,6 +31,7 @@
     <ClCompile Include="src\allegro\Bitmap.cpp" />
     <ClCompile Include="src\allegro\EventSource.cpp" />
     <ClCompile Include="src\allegro\Font.cpp" />
+    <ClCompile Include="src\allegro\FontFactory.cpp" />
     <ClCompile Include="src\allegro\Sprite.cpp" />
     <ClCompile Include="src\allegro\SpriteFactory.cpp" />
     <ClCompile Include="src\allegro\Text.cpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="src\allegro\Bitmap.h" />
     <ClInclude Include="src\allegro\EventSource.h" />
     <ClInclude Include="src\allegro\Font.h" />
+    <ClInclude Include="src\allegro\FontFactory.h" />
     <ClInclude Include="src\allegro\Sprite.h" />
     <ClInclude Include="src\allegro\SpriteFactory.h" />
     <ClInclude Include="src\allegro\Text.h" />
@@ -110,6 +112,7 @@
     <ClInclude Include="src\gui\internal\Renderer.h" />
     <ClInclude Include="src\gui\internal\RendererButton.h" />
     <ClInclude Include="src\gui\internal\RendererSlider.h" />
+    <ClInclude Include="src\gui\internal\RendererTextTest.h" />
     <ClInclude Include="src\gui\WidgetProcessor.h" />
     <ClInclude Include="src\gui\Widget.h" />
     <ClInclude Include="src\gui\WidgetLoader.h" />

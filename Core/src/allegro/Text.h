@@ -34,7 +34,7 @@ namespace core
 		struct Style
 		{
 			std::string m_font;
-			glm::vec4 m_color;
+			glm::vec4 m_color = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 			float m_size;
 
