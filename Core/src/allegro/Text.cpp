@@ -40,15 +40,18 @@ namespace
 
 // ...
 
-void core::Text::add(const Style & style, const std::string & text)
+core::Element::Style core::Text::asElementStyle(const Style & style)
 {
 	auto font = m_fonts[style.m_font] = m_assets.get<Font>(style.m_font);
 	if (font.empty())
-		return;
+		return {};
 
-	auto handle = font->handle(getStyle(style.m_bold, style.m_italic), getFlag(style.m_monochrome), style.m_size);
-	auto element = std::make_unique<ElementText>(handle, text, style.m_color, style.m_strikethrough, style.m_underline);
-	m_elements.push_back(std::move(element));
+	Element::Style elementStyle;
+	elementStyle.m_font = font->handle(getStyle(style.m_bold, style.m_italic), getFlag(style.m_monochrome), style.m_size);
+	elementStyle.m_color = style.m_color;
+	elementStyle.m_strikethrough = style.m_strikethrough;
+	elementStyle.m_underline = style.m_underline;
+	return elementStyle;
 }
 
 void core::Text::draw(const glm::vec2 & pos, const glm::vec2 & size) const

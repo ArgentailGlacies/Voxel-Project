@@ -13,31 +13,33 @@ namespace core
 	class RendererTextTest : public Renderer
 	{
 	public:
-		RendererTextTest(const AssetRegistry & assets) : m_text(assets)
+		RendererTextTest(const AssetRegistry & assets, const Widget & widget) : m_text(assets)
 		{
 			Text::Style style;
 			style.m_font = "overlock";
 
+			m_text.addValue(style, widget.m_value.m_float);
+
 			style.m_size = 1.6f;
-			m_text.add(style, "Hello world! ");
+			m_text.addText(style, "Hello world! ");
 
 			style.m_size = 1.0f;
 			style.m_italic = true;
-			m_text.add(style, "We are ");
+			m_text.addText(style, "We are ");
 
 			style.m_size = 1.6;
 			style.m_bold = true;
 			style.m_color = { 1.0f, 0.0f, 0.0f, 1.0f };
-			m_text.add(style, "attempting ");
+			m_text.addText(style, "attempting ");
 
 			style.m_italic = false;
 			style.m_color = { 1.0f, 1.0f, 1.0f, 1.0f };
-			m_text.add(style, "to draw text!");
+			m_text.addText(style, "to draw text!");
 		}
 
 		inline virtual void render(const Widget & widget, const glm::vec2 & offset) const override final
 		{
-			m_text.draw(offset + glm::vec2{ 100.0f, 100.0f }, glm::vec2{ 100, 1000 });
+			m_text.draw(widget.m_bbox.m_pos + offset + glm::vec2{ 100.0f, 100.0f }, glm::vec2{ 500, 1000 });
 		}
 
 	private:

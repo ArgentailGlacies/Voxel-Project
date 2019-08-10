@@ -86,10 +86,30 @@ namespace core::allegro
 			Assert::AreEqual({ 88, 8 }, tasks[1].m_size);
 		}
 
+		TEST_METHOD(ElementValue_split)
+		{
+			int value = 0;
+			ElementValue<int> element{ style(), value };
+
+			value = -3;
+			const auto tasksA = element.split(0, std::numeric_limits<int>::max());
+			value = 172;
+			const auto tasksB = element.split(0, std::numeric_limits<int>::max());
+
+			Assert::AreEqual(1u, tasksA.size());
+			Assert::AreEqual(1u, tasksB.size());
+			Assert::AreEqual({ 16, 8 }, tasksA[0].m_size);
+			Assert::AreEqual({ 24, 8 }, tasksB[0].m_size);
+		}
+
 	private:
+		inline Element::Style style()
+		{
+			return { m_font.handle() };
+		}
 		inline std::vector<ElementText::Task> split(const std::string & string, int position, int width)
 		{
-			ElementText element{ m_font.handle(), string, glm::vec4{}, false, false };
+			ElementText element{ style(), string };
 			return element.split(position, width);
 		}
 

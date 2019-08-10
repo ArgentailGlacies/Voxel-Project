@@ -177,14 +177,14 @@ namespace
 		int bby, bbh, _;
 		al_get_glyph_dimensions(m_font, current, &_, &bby, &_, &bbh);
 
-		return glm::ivec2{ advance, bby + bbh };
+		return glm::ivec2{ advance, bbh };
 	}
 }
 
 // ...
 
-core::ElementText::ElementText(Font::Handle font, const std::string & text, const glm::vec4 & color, bool strikethrough, bool underline)
-	: m_font(font), m_color(color), m_strikethrough(strikethrough), m_underline(underline)
+core::ElementText::ElementText(const Style & style, const std::string & text)
+	: m_style(style)
 {
 	m_text = al_ustr_new(text.c_str());
 }
@@ -198,7 +198,7 @@ std::vector<core::Element::Task> core::ElementText::split(int position, int widt
 {
 	std::vector<Task> tasks;
 
-	Tokenizer tokenizer{ m_font, m_text, position, width };
+	Tokenizer tokenizer{ m_style.m_font, m_text, position, width };
 	while (tokenizer.valid())
 	{
 		const auto token = tokenizer.next();
@@ -217,8 +217,8 @@ void core::ElementText::draw(const glm::vec2 & pos, int start, int end) const
 		const int curr = al_ustr_get(m_text, i);
 		const int next = al_ustr_get(m_text, i + 1);
 
-		al_draw_glyph(m_font, color(m_color), pos.x + x, pos.y, curr);
+		al_draw_glyph(m_style.m_font, color(m_style.m_color), pos.x + x, pos.y, curr);
 
-		x += al_get_glyph_advance(m_font, curr, next);
+		x += al_get_glyph_advance(m_style.m_font, curr, next);
 	}
 }

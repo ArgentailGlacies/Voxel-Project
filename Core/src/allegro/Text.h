@@ -53,7 +53,16 @@ namespace core
 			@param style The style the text should be rendered with.
 			@param text The text which should be rendered.
 		*/
-		void add(const Style & style, const std::string & text);
+		inline void addText(const Style & style, const std::string & text) { add<ElementText>(style, text); }
+		/**
+			Adds a value component with the given style. The value will be converted to a string
+			and properly rendered.
+
+			@param style The style the value should be rendered with.
+			@param value The value which should be rendered.
+		*/
+		template<typename T>
+		inline void addValue(const Style & style, const T & value) { add<ElementValue<T>>(style, value); }
 
 		/**
 			Renders the text at the given position. The text will automatically wrap at wrappable
@@ -69,6 +78,22 @@ namespace core
 		void draw(const glm::vec2 & pos, const glm::vec2 & size) const;
 
 	private:
+		template<typename Element, typename Value>
+		inline void add(const Style & style, const Value & value)
+		{
+			m_elements.push_back(std::make_unique<Element>(asElementStyle(style), value));
+		}
+
+		/**
+			Converts the given input style to a style which is compatible with elements.
+
+			@param style The style to convert to an element style.
+			@return The style as an element style.
+		*/
+		Element::Style asElementStyle(const Style & style);
+
+		// ...
+
 		const AssetRegistry & m_assets;
 
 		std::unordered_map<std::string, Asset<Font>::Reference> m_fonts;

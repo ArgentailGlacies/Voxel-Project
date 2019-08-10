@@ -33,6 +33,19 @@ namespace core
 			glm::vec2 m_size;
 		};
 
+		/**
+			Determines how a particular text element should be rendered. 
+		*/
+		struct Style
+		{
+			Font::Handle m_font = nullptr;
+
+			glm::vec4 m_color = { 0.0f, 0.0f, 0.0f, 1.0f };
+
+			bool m_strikethrough = false;
+			bool m_underline = false;
+		};
+
 		// ...
 
 		/**
@@ -56,8 +69,7 @@ namespace core
 	class ElementText : public Element
 	{
 	public:
-		ElementText() = delete;
-		ElementText(Font::Handle font, const std::string & text, const glm::vec4 & color, bool strikethrough, bool underline);
+		ElementText(const Style & style, const std::string & text);
 		~ElementText() noexcept;
 
 		virtual std::vector<Task> split(int position, int width) const override final;
@@ -75,12 +87,40 @@ namespace core
 
 		// ...
 
-		Font::Handle m_font;
 		ALLEGRO_USTR * m_text;
+		Style m_style;
+	};
 
-		glm::vec4 m_color;
+	/**
+		Takes care of processing a generic value into a format which is accepted by the rendering
+		routine. The text is split according to the same rules as regular text.
+	*/
+	template<typename T>
+	class ElementValue : public Element
+	{
+	public:
+		ElementValue(const Style & style, const T & value)
+			: m_style(style), m_value(value), m_cached(value)
+		{
+			m_text = std::make_unique< ElementText>(m_style, std::to_string(value));
+		}
 
-		bool m_strikethrough;
-		bool m_underline;
+		inline virtual std::vector<Task> split(int position, int width) const override final
+		{
+			if (m_value != m_cached)
+			{
+				m_cached = m_value;
+				m_text = std::make_unique<ElementText>(m_style, std::to_string(m_value));
+			}
+			return m_text ? m_text->split(position, width) : std::vector<Task>{};
+		}
+
+	private:
+		Style m_style;
+
+		const T & m_value;
+		mutable T m_cached;
+
+		mutable std::unique_ptr<ElementText> m_text;
 	};
 }
