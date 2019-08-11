@@ -7,6 +7,8 @@ namespace core
 	class Handler
 	{
 	public:
+		virtual ~Handler() = default;
+
 		/**
 			Invoked whenever the given widget is activated by the user or by the system in some
 			manner.

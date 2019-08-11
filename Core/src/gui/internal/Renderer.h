@@ -9,6 +9,8 @@ namespace core
 	class Renderer
 	{
 	public:
+		virtual ~Renderer() = default;
+
 		/**
 			Invoked every frame to render the given widget. Certain handlers may require a more
 			complicated rendering routine that others.
