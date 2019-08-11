@@ -6,6 +6,8 @@
 #include <functional>
 #include <glm/vec2.hpp>
 #include <glm/vec4.hpp>
+#include <iomanip>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -48,6 +50,8 @@ namespace core
 
 		// ...
 
+		virtual ~Element() = default;
+
 		/**
 			Attempts to split the element into a series of rendering tasks, such that the element
 			can be rendered to fit within the provided with. The initial position must be taken into
@@ -70,7 +74,7 @@ namespace core
 	{
 	public:
 		ElementText(const Style & style, const std::string & text);
-		~ElementText() noexcept;
+		~ElementText();
 
 		virtual std::vector<Task> split(int position, int width) const override final;
 
@@ -95,32 +99,68 @@ namespace core
 		Takes care of processing a generic value into a format which is accepted by the rendering
 		routine. The text is split according to the same rules as regular text.
 	*/
-	template<typename T>
+	template<typename Type>
 	class ElementValue : public Element
 	{
 	public:
-		ElementValue(const Style & style, const T & value)
-			: m_style(style), m_value(value), m_cached(value)
-		{
-			m_text = std::make_unique< ElementText>(m_style, std::to_string(value));
-		}
+		ElementValue(const Style & style, const Type & value, int precision, bool fixed);
 
-		inline virtual std::vector<Task> split(int position, int width) const override final
-		{
-			if (m_value != m_cached)
-			{
-				m_cached = m_value;
-				m_text = std::make_unique<ElementText>(m_style, std::to_string(m_value));
-			}
-			return m_text ? m_text->split(position, width) : std::vector<Task>{};
-		}
+		virtual std::vector<Task> split(int position, int width) const override final;
 
 	private:
+		/**
+			Converts the given value to a string which can be sent to the underlying text element.
+
+			@param value The value which should be converted.
+			@param precision The precisition of floating point numbers.
+			@param fixed Whether all the decimals should be included, even when zero.
+			@return The string representation of the value.
+		*/
+		std::string string(const Type & value, int precision, bool fixed) const;
+
+		// ...
+
 		Style m_style;
 
-		const T & m_value;
-		mutable T m_cached;
+		const Type & m_value;
+		mutable Type m_cached;
 
 		mutable std::unique_ptr<ElementText> m_text;
+
+		int m_precision;
+		bool m_fixed;
 	};
+}
+
+// ...
+
+namespace core
+{
+	template<typename Type>
+	inline ElementValue<Type>::ElementValue(const Style & style, const Type & value, int precision, bool fixed)
+		: m_style(style), m_value(value), m_cached(value), m_precision(precision), m_fixed(fixed)
+	{
+		m_text = std::make_unique<ElementText>(m_style, string(m_value, m_precision, m_fixed));
+	}
+
+	template<typename Type>
+	inline std::string ElementValue<Type>::string(const Type & value, int precision, bool fixed) const
+	{
+		std::stringstream stream;
+		if (fixed)
+			stream << std::fixed << std::setprecision(precision) << value;
+		else
+			stream << std::setprecision(precision) << value;
+		return stream.str();
+	}
+	template<typename Type>
+	inline std::vector<Element::Task> ElementValue<Type>::split(int position, int width) const
+	{
+		if (m_value != m_cached)
+		{
+			m_cached = m_value;
+			m_text = std::make_unique<ElementText>(m_style, string(m_value, m_precision, m_fixed));
+		}
+		return m_text ? m_text->split(position, width) : std::vector<Task>{};
+	}
 }

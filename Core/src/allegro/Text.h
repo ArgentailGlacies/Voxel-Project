@@ -58,11 +58,14 @@ namespace core
 			Adds a value component with the given style. The value will be converted to a string
 			and properly rendered.
 
+			@param <T> The type of the value which should be rendered.
 			@param style The style the value should be rendered with.
 			@param value The value which should be rendered.
+			@param precision The number of decimals used to render floating point values.
+			@param fixed Whether all the decimals should be rendered, even when redundant.
 		*/
 		template<typename T>
-		inline void addValue(const Style & style, const T & value) { add<ElementValue<T>>(style, value); }
+		inline void addValue(const Style & style, const T & value, int precision = 2, bool fixed = false) { add<ElementValue<T>>(style, value, precision, fixed); }
 
 		/**
 			Renders the text at the given position. The text will automatically wrap at wrappable
@@ -78,10 +81,10 @@ namespace core
 		void draw(const glm::vec2 & pos, const glm::vec2 & size) const;
 
 	private:
-		template<typename Element, typename Value>
-		inline void add(const Style & style, const Value & value)
+		template<typename Element, typename ...Param>
+		inline void add(const Style & style, const Param & ...params)
 		{
-			m_elements.push_back(std::make_unique<Element>(asElementStyle(style), value));
+			m_elements.push_back(std::make_unique<Element>(asElementStyle(style), params...));
 		}
 
 		/**

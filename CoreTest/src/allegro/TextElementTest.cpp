@@ -86,10 +86,10 @@ namespace core::allegro
 			Assert::AreEqual({ 88, 8 }, tasks[1].m_size);
 		}
 
-		TEST_METHOD(ElementValue_split)
+		TEST_METHOD(ElementValue_givenInteger_whenSplitting_thenCorrectNumbers)
 		{
 			int value = 0;
-			ElementValue<int> element{ style(), value };
+			ElementValue<int> element{ style(), value, 0, false };
 
 			value = -3;
 			const auto tasksA = element.split(0, std::numeric_limits<int>::max());
@@ -100,6 +100,18 @@ namespace core::allegro
 			Assert::AreEqual(1u, tasksB.size());
 			Assert::AreEqual({ 16, 8 }, tasksA[0].m_size);
 			Assert::AreEqual({ 24, 8 }, tasksB[0].m_size);
+		}
+		TEST_METHOD(ElementValue_givenFloat_whenSplitting_thenCorrectNumbers)
+		{
+			float value = 0.3f;
+
+			const auto tasksA = ElementValue<float>{ style(), value, 3, false }.split(0, std::numeric_limits<int>::max());
+			const auto tasksB = ElementValue<float>{ style(), value, 3, true }.split(0, std::numeric_limits<int>::max());
+
+			Assert::AreEqual(1u, tasksA.size());
+			Assert::AreEqual(1u, tasksB.size());
+			Assert::AreEqual({ 24, 8 }, tasksA[0].m_size);
+			Assert::AreEqual({ 40, 8 }, tasksB[0].m_size);
 		}
 
 	private:

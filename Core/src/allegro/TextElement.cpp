@@ -188,7 +188,7 @@ core::ElementText::ElementText(const Style & style, const std::string & text)
 {
 	m_text = al_ustr_new(text.c_str());
 }
-core::ElementText::~ElementText() noexcept
+core::ElementText::~ElementText()
 {
 	if (m_text != nullptr)
 		al_ustr_free(m_text);
