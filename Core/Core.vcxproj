@@ -46,6 +46,7 @@
     <ClCompile Include="src\gui\Gui.cpp" />
     <ClCompile Include="src\gui\GuiRegistry.cpp" />
     <ClCompile Include="src\gui\internal\HandlerButton.cpp" />
+    <ClCompile Include="src\gui\internal\HandlerLabel.cpp" />
     <ClCompile Include="src\gui\internal\HandlerSlider.cpp" />
     <ClCompile Include="src\gui\internal\Processor.cpp" />
     <ClCompile Include="src\gui\internal\RendererButton.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="src\gui\GuiRegistry.h" />
     <ClInclude Include="src\gui\internal\Handler.h" />
     <ClInclude Include="src\gui\internal\HandlerButton.h" />
+    <ClInclude Include="src\gui\internal\HandlerLabel.h" />
     <ClInclude Include="src\gui\internal\HandlerSlider.h" />
     <ClInclude Include="src\gui\internal\Processor.h" />
     <ClInclude Include="src\gui\internal\Renderer.h" />

@@ -215,6 +215,7 @@
     <ClCompile Include="src\event\EventTest.cpp" />
     <ClCompile Include="src\gui\GuiRegistryTest.cpp" />
     <ClCompile Include="src\gui\internal\HandlerButtonTest.cpp" />
+    <ClCompile Include="src\gui\internal\HandlerLabelTest.cpp" />
     <ClCompile Include="src\gui\internal\HandlerSliderTest.cpp" />
     <ClCompile Include="src\gui\internal\ProcessorTest.cpp" />
     <ClCompile Include="src\gui\WidgetLoaderTest.cpp" />

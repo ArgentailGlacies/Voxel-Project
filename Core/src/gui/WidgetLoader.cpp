@@ -184,7 +184,6 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 
 	// Load action
 	auto handler = std::make_unique<HandlerSlider>(m_script, action, data);
-
 	bar.m_handler = std::make_unique<HandlerSliderBar>(*handler, m_bus, horizontal);
 	increment.m_handler = std::make_unique<HandlerSliderButton>(*handler, true);
 	decrement.m_handler = std::make_unique<HandlerSliderButton>(*handler, false);
