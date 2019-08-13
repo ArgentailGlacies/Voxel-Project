@@ -159,6 +159,9 @@
     <ClCompile Include="src\gui\internal\HandlerLabel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\internal\RendererLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\asset\Asset.h">
@@ -375,6 +378,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\internal\HandlerLabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\internal\RendererLabel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

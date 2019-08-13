@@ -3,9 +3,11 @@
 
 #include "asset/AssetRegistry.h"
 #include "gui/internal/HandlerButton.h"
+#include "gui/internal/HandlerLabel.h"
 #include "gui/internal/HandlerSlider.h"
 #include "gui/internal/Processor.h"
 #include "gui/internal/RendererButton.h"
+#include "gui/internal/RendererLabel.h"
 #include "gui/internal/RendererSlider.h"
 #include "gui/Widget.h"
 #include "util/MathOperations.h"
@@ -107,7 +109,9 @@ void core::WidgetLoader::loadSpecialization(const pugi::xml_node& node, Widget& 
 {
 	if (const auto data = node.child("button"))
 		loadButton(data, widget);
-	if (const auto data = node.child("slider"))
+	else if (const auto data = node.child("label"))
+		loadLabel(data, widget);
+	else if (const auto data = node.child("slider"))
 		loadSlider(data, widget);
 }
 
@@ -202,6 +206,34 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 }
 void core::WidgetLoader::loadLabel(const pugi::xml_node & node, Widget & widget)
 {
+	const util::Parser<glm::vec4> parser;
+	const auto renderer = node.child("renderer");
+
+	const auto dynamic = node.attribute("mutable").as_bool();
+	const std::string action = node.child("script").attribute("action").as_string();
+	const std::string pretext = renderer.attribute("pretext").as_string();
+	const std::string posttext = renderer.attribute("posttext").as_string();
+
+	Text::Style style;
+	style.m_font = renderer.attribute("font").as_string();
+	style.m_size = renderer.attribute("size").as_float(1.0f);
+	style.m_color = parser.parse(renderer.attribute("color").as_string(), glm::vec4{ 0.0f, 0.0f, 0.0f, 1.0f });
+	style.m_bold = renderer.attribute("bold").as_bool();
+	style.m_italic = renderer.attribute("italic").as_bool();
+	style.m_monochrome = renderer.attribute("monochrome").as_bool();
+	style.m_strikethrough = renderer.attribute("strikethrough").as_bool();
+	style.m_underline = renderer.attribute("underline").as_bool();
+
+	// Load action
+	if (dynamic)
+		widget.m_handler = std::make_unique<HandlerLabel>(m_script, action, m_bus, widget);
+
+	// Load renderer
+	widget.m_renderer = std::make_unique<RendererLabel>(m_assets, widget, style, pretext, posttext);
+
+	// Load processor
+	if (dynamic)
+		widget.m_processor = std::make_unique<Processor>(widget, m_bus);
 }
 void core::WidgetLoader::loadTextbox(const pugi::xml_node & node, Widget & widget)
 {

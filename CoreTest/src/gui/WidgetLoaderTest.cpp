@@ -181,6 +181,20 @@ namespace core::gui
 			Assert::IsTrue(widget.m_processor == nullptr);
 			Assert::AreEqual(3u, widget.m_family.m_children.size());
 		}
+		TEST_METHOD(WidgetLoader_loadLabel)
+		{
+			Widget widgetA, widgetB;
+			m_loader.loadLabel(addLabel(m_doc, false), widgetA);
+			m_loader.loadLabel(addLabel(m_doc, true), widgetB);
+
+			Assert::IsTrue(widgetA.m_handler == nullptr);
+			Assert::IsFalse(widgetA.m_renderer == nullptr);
+			Assert::IsTrue(widgetA.m_processor == nullptr);
+
+			Assert::IsFalse(widgetB.m_handler == nullptr);
+			Assert::IsFalse(widgetB.m_renderer == nullptr);
+			Assert::IsFalse(widgetB.m_processor == nullptr);
+		}
 
 	private:
 		pugi::xml_node addBorder(pugi::xml_node & widget, const Widget::Border & border)
@@ -233,6 +247,12 @@ namespace core::gui
 		pugi::xml_node addSlider(pugi::xml_node & widget)
 		{
 			return widget.append_child("slider");
+		}
+		pugi::xml_node addLabel(pugi::xml_node & widget, bool dynamic)
+		{
+			auto node = widget.append_child("label");
+			node.append_attribute("mutable").set_value(dynamic);
+			return node;
 		}
 
 		// ...

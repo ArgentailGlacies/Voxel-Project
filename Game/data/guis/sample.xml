@@ -19,20 +19,19 @@
       <renderer button="some_sprite" />
       <script action="" />
     </button>
-    <label>
-      <renderer text="${font=some_font}some text ${widget.value} more text" />
+    <label mutable="true">
+      <script action="" />
+      <renderer font="some_font" size="1.0" color="0, 0, 0, 1"
+                bold="false" italic="false" underline="false"
+                pretext="some text" posttext="more text" />
     </label>
     <slider type="horizontal"> <!-- Valid types: horizontal, vertical -->
       <data min="0" max="1" center="0.5" step="0.1" />
       <renderer button_increment="some_sprite"
                 button_decrement="some_sprite"
-                button_bar="some_sprite"
-                text="${font=some_font}some text ${widget.value} more text" />
+                button_bar="some_sprite"  />
       <script action="" />
     </slider>
-    <textbox type="string"> <!-- Valid types: string, bool, int, float -->
-      <renderer text="${font=some_font}some text ${widget.value} more text" />
-    </textbox>
 
     <!-- May have any number of child widgets -->
     <widget name="childA" type="button" />

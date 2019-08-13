@@ -12,6 +12,9 @@ core::GuiRegistry::GuiRegistry(const AssetRegistry & assets, EventBus & bus, Sce
 	m_mouseMove = bus.add<MouseMove>(priority, [this](auto & event) { processEvent(event); });
 	m_mousePress = bus.add<MousePress>(priority, [this](auto & event) { processEvent(event); });
 	m_mouseRelease = bus.add<MouseRelease>(priority, [this](auto & event) { processEvent(event); });
+	m_keyPress = bus.add<KeyPress>(priority, [this](auto & event) { processEvent(event); });
+	m_keyRelease = bus.add<KeyRelease>(priority, [this](auto & event) { processEvent(event); });
+	m_keyUnichar = bus.add<KeyUnichar>(priority, [this](auto & event) { processEvent(event); });
 
 	m_root = m_scene.createNode(Scene::DEFAULT_CAMERA);
 }

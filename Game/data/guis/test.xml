@@ -9,6 +9,7 @@
       <renderer button="gui/main_menu/editor" />
     </button>
   </widget>
+  
   <widget name="bar">
     <border outer="3" />
     <bbox size="128, 16" />
@@ -20,9 +21,10 @@
       <data min="0" max="10" center="8" step="0.1" />
     </slider>
   </widget>
+  
   <widget name="baz">
     <border outer="3" />
-    <bbox size="128, 16" />
+    <bbox size="16, 128" />
     <link target="bar" ratio="1, 1" />
     <slider type="vertical">
       <renderer button_increment="gui/generic/arrow_up"
@@ -30,5 +32,13 @@
                 button_bar="gui/generic/slider_vertical" />
       <data min="0" max="10" center="8" step="0.1" />
     </slider>
+  </widget>
+
+  <widget name="lab">
+    <bbox size="100, 60" />
+    <link target="baz" ratio="1, 0.5" />
+    <label mutable="true">
+      <renderer font="overlock" pretext="Hello " posttext=" world!" />
+    </label>
   </widget>
 </widgets>

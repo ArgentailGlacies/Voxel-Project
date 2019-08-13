@@ -56,6 +56,9 @@ namespace core
 		Listener m_mouseMove;
 		Listener m_mousePress;
 		Listener m_mouseRelease;
+		Listener m_keyPress;
+		Listener m_keyRelease;
+		Listener m_keyUnichar;
 		SceneEntry m_root;
 
 		std::unordered_map<util::File, std::unique_ptr<Gui>> m_guis;

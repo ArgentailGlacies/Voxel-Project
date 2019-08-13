@@ -27,7 +27,7 @@ namespace core::gui
 			handler.action(widget);
 			simulateUnichar('b');
 			simulateUnichar('c');
-			simulateKeyboardPress(KeyboardKey::BACKSPACE);
+			simulateUnichar('\b');
 			simulateUnichar('d');
 			simulateMouseClick();
 			simulateUnichar('e');
