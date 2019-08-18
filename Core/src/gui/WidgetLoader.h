@@ -96,9 +96,9 @@ namespace core
 		void loadSpecialization(const pugi::xml_node & node, Widget & widget);
 
 		void loadButton(const pugi::xml_node & node, Widget & widget);
-		void loadSlider(const pugi::xml_node & node, Widget & widget);
 		void loadLabel(const pugi::xml_node & node, Widget & widget);
-		void loadTextbox(const pugi::xml_node & node, Widget & widget);
+		void loadPanel(const pugi::xml_node & node, Widget & widget);
+		void loadSlider(const pugi::xml_node & node, Widget & widget);
 
 	private:
 		const AssetRegistry & m_assets;

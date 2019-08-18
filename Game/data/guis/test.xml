@@ -34,11 +34,19 @@
     </slider>
   </widget>
 
-  <widget name="lab">
-    <bbox size="100, 60" />
-    <link target="baz" ratio="1, 0.5" />
-    <label mutable="true">
-      <renderer font="overlock" pretext="Hello " posttext=" world!" />
-    </label>
+  <widget name="pan">
+    <border inner="3" />
+	<link target="baz" ratio="1, 0.5" />
+    <panel>
+      <renderer background="gui/generic/background" />
+    </panel>
+  
+    <widget name="lab">
+      <bbox size="100, 60" />
+      <label mutable="true">
+        <renderer font="overlock" pretext="Hello " posttext=" world!" />
+      </label>
+    </widget>
   </widget>
+  
 </widgets>

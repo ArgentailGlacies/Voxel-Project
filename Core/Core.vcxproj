@@ -51,6 +51,7 @@
     <ClCompile Include="src\gui\internal\Processor.cpp" />
     <ClCompile Include="src\gui\internal\RendererButton.cpp" />
     <ClCompile Include="src\gui\internal\RendererLabel.cpp" />
+    <ClCompile Include="src\gui\internal\RendererPanel.cpp" />
     <ClCompile Include="src\gui\internal\RendererSlider.cpp" />
     <ClCompile Include="src\gui\WidgetLoader.cpp" />
     <ClCompile Include="src\gui\WidgetProcessor.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="src\gui\internal\Renderer.h" />
     <ClInclude Include="src\gui\internal\RendererButton.h" />
     <ClInclude Include="src\gui\internal\RendererLabel.h" />
+    <ClInclude Include="src\gui\internal\RendererPanel.h" />
     <ClInclude Include="src\gui\internal\RendererSlider.h" />
     <ClInclude Include="src\gui\internal\RendererTextTest.h" />
     <ClInclude Include="src\gui\WidgetProcessor.h" />

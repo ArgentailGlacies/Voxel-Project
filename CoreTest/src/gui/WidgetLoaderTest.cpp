@@ -195,6 +195,15 @@ namespace core::gui
 			Assert::IsFalse(widgetB.m_renderer == nullptr);
 			Assert::IsFalse(widgetB.m_processor == nullptr);
 		}
+		TEST_METHOD(WidgetLoader_loadPanel)
+		{
+			Widget widget;
+			m_loader.loadPanel(addPanel(m_doc), widget);
+
+			Assert::IsTrue(widget.m_handler == nullptr);
+			Assert::IsFalse(widget.m_renderer == nullptr);
+			Assert::IsTrue(widget.m_processor == nullptr);
+		}
 
 	private:
 		pugi::xml_node addBorder(pugi::xml_node & widget, const Widget::Border & border)
@@ -253,6 +262,10 @@ namespace core::gui
 			auto node = widget.append_child("label");
 			node.append_attribute("mutable").set_value(dynamic);
 			return node;
+		}
+		pugi::xml_node addPanel(pugi::xml_node & widget)
+		{
+			return widget.append_child("panel");
 		}
 
 		// ...
