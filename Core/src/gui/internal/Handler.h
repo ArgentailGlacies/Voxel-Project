@@ -9,7 +9,7 @@ namespace core
 	class Handler
 	{
 	public:
-		using Callback = std::function<void()>;
+		using Callback = std::function<void(Widget & widget)>;
 
 		// ...
 

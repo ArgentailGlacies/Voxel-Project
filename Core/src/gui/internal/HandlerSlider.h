@@ -41,6 +41,11 @@ namespace core
 		virtual void action(Widget & widget) override final {}
 		virtual void process(Widget & widget) override final {}
 
+		// ...
+
+		void increment(Widget & widget);
+		void decrement(Widget & widget);
+
 	private:
 		Callback m_callback;
 		Data m_data;

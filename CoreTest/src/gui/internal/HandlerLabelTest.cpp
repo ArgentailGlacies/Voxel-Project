@@ -17,7 +17,7 @@ namespace core::gui
 		TEST_METHOD(HandlerLabel_action)
 		{
 			Widget widget;
-			HandlerLabel handler{ []() {}, m_bus, widget };
+			HandlerLabel handler{ [](Widget &) {}, m_bus, widget };
 
 			simulateUnichar('a');
 			handler.action(widget);

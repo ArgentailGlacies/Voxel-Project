@@ -17,7 +17,7 @@ namespace core::gui
 			int counter = 0;
 
 			Widget widget;
-			HandlerButton handler{ [&counter]() { counter = 7; } };
+			HandlerButton handler{ [&counter](Widget &) { counter = 7; } };
 
 			handler.action(widget);
 			Assert::IsTrue(widget.m_value.m_bool);
@@ -29,7 +29,7 @@ namespace core::gui
 			int counter = 0;
 
 			Widget widget;
-			HandlerButtonCheckbox handler{ [&counter]() { counter++; } };
+			HandlerButtonCheckbox handler{ [&counter](Widget &) { counter++; } };
 
 			handler.action(widget);
 			Assert::IsTrue(widget.m_value.m_bool);
@@ -46,7 +46,7 @@ namespace core::gui
 			Widget widgetA, widgetB;
 			widgetA.m_group.m_members = { &widgetA, &widgetB };
 			widgetA.m_group.m_leader = widgetB.m_group.m_leader = &widgetA;
-			HandlerButtonRadio handler{ [&counter]() { counter++; } };
+			HandlerButtonRadio handler{ [&counter](Widget &) { counter++; } };
 
 			handler.action(widgetA);
 			Assert::IsTrue(widgetA.m_value.m_bool);
