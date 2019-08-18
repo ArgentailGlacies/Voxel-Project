@@ -7,8 +7,6 @@
 
 namespace core
 {
-	class Script;
-
 	/**
 		Labels may be changed by the user in certain cases, for example when the user has selected
 		the label and starts typing on the keyboard. Once the label has been activated, the user can

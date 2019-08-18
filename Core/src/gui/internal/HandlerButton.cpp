@@ -2,7 +2,6 @@
 #include "HandlerButton.h"
 
 #include "gui/Widget.h"
-#include "script/Script.h"
 
 void core::HandlerButton::action(Widget & widget)
 {

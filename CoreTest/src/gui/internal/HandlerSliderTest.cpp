@@ -17,90 +17,97 @@ namespace core::gui
 		TEST_METHOD(HandlerSlider_increment)
 		{
 			Widget widget;
-			HandlerSlider handler{ [](Widget &) {}, { 0.0f, 5.0f, 2.5f, 0.1f } };
+			HandlerSlider handler{ callback(3), { 0.0f, 5.0f, 2.5f, 0.1f } };
 
+			// Incrementing applies callback
 			handler.increment(widget);
-			Assert::Fail();
+			verifyCallback(3);
+
+			// Incrementing rounds values correctly
+			widget.m_value.m_float = 3.14f;
+			handler.increment(widget);
+			Assert::AreEqual(3.2f, widget.m_value.m_float, 0.01f);
+
+			// Incrementing beyond maximum forces to nearest allowed value
+			widget.m_value.m_float = 5.0f;
+			handler.increment(widget);
+			Assert::AreEqual(5.0f, widget.m_value.m_float, 0.01f);
 		}
-
-		TEST_METHOD(HandlerSliderButton_actionIncrement)
+		TEST_METHOD(HandlerSlider_decrement)
 		{
-			int counter = 0;
+			Widget widget;
+			HandlerSlider handler{ callback(9), { 0.0f, 5.0f, 2.5f, 0.1f } };
 
-			Widget parent, widget;
-			parent.m_value.m_float = 3.14f;
-			widget.m_family.m_parent = &parent;
-			HandlerSlider root{ [&counter](Widget &) { counter = 4; }, { 0.0f, 5.0f, 2.5f, 0.1f } };
-			HandlerSliderButton handler{ root, true };
+			// Decrementing applies callback
+			handler.decrement(widget);
+			verifyCallback(9);
 
-			handler.action(widget);
-			Assert::AreEqual(3.2f, parent.m_value.m_float, 0.01f);
-			Assert::AreEqual(4, counter);
-		}
-		TEST_METHOD(HandlerSliderButton_actionDecrement)
-		{
-			int counter = 0;
+			// Decrementing rounds values correctly
+			widget.m_value.m_float = 3.14f;
+			handler.decrement(widget);
+			Assert::AreEqual(3.0f, widget.m_value.m_float, 0.01f);
 
-			Widget parent, widget;
-			parent.m_value.m_float = 0.02f;
-			widget.m_family.m_parent = &parent;
-			HandlerSlider root{ [&counter](Widget &) { counter = 9; }, { 0.0f, 5.0f, 2.5f, 0.1f } };
-			HandlerSliderButton handler{ root, false };
-
-			handler.action(widget);
-			Assert::AreEqual(0.0f, parent.m_value.m_float, 0.01f);
-			Assert::AreEqual(9, counter);
+			// Decrementing beyond minimum forces to nearest allowed value
+			widget.m_value.m_float = 0.0f;
+			handler.decrement(widget);
+			Assert::AreEqual(0.0f, widget.m_value.m_float, 0.01f);
 		}
 
 		TEST_METHOD(HandlerSliderBar_processHorizontal)
 		{
-			int counter = 0;
-
 			Widget parent, widget;
 			widget.m_family.m_parent = &parent;
 			widget.m_bbox.m_size = { 100.0f, 10.0f };
 			widget.m_state.m_selected = true;
-			HandlerSlider root{ [&counter](Widget &) { counter = 5; }, { 0.0f, 10.0f, 9.0f, 0.1f } };
+			HandlerSlider root{ callback(5), { 0.0f, 10.0f, 9.0f, 0.1f } };
 			HandlerSliderBar handler{ root, m_bus, true };
 
 			simulateMouseMovement({ 31.0f, 0.0f });
 			handler.process(widget);
 			Assert::AreEqual(5.6f, parent.m_value.m_float, 0.01f);
-			Assert::AreEqual(5, counter);
+			verifyCallback(5);
 
 			simulateMouseMovement({ 92.0f, 0.0f });
 			handler.process(widget);
 			Assert::AreEqual(9.8f, parent.m_value.m_float, 0.01f);
-			Assert::AreEqual(5, counter);
+			verifyCallback(5);
 		}
 		TEST_METHOD(HandlerSliderBar_processVertical)
 		{
-			int counter = 0;
-
 			Widget parent, widget;
 			widget.m_family.m_parent = &parent;
 			widget.m_bbox.m_size = { 10.0f, 100.0f };
 			widget.m_state.m_selected = true;
-			HandlerSlider root{ [&counter](Widget &) { counter = 5; }, { 0.0f, 10.0f, 9.0f, 0.1f } };
+			HandlerSlider root{ callback(6), { 0.0f, 10.0f, 9.0f, 0.1f } };
 			HandlerSliderBar handler{ root, m_bus, false };
 
 			simulateMouseMovement({ 0.0f, 69.0f });
 			handler.process(widget);
 			Assert::AreEqual(5.6f, parent.m_value.m_float, 0.01f);
-			Assert::AreEqual(5, counter);
+			verifyCallback(6);
 
 			simulateMouseMovement({ 0.0f, 8.0f });
 			handler.process(widget);
 			Assert::AreEqual(9.8f, parent.m_value.m_float, 0.01f);
-			Assert::AreEqual(5, counter);
+			verifyCallback(6);
 		}
 
 	private:
+		Handler::Callback callback(int value)
+		{
+			return [this, value](Widget &) { m_callbackValue = value; };
+		}
+		void verifyCallback(int value)
+		{
+			Assert::AreEqual(value, m_callbackValue);
+		}
+
 		void simulateMouseMovement(const glm::vec2 & position)
 		{
 			m_bus.post(MouseMove{ position, {}, {}, {} });
 		}
 
+		int m_callbackValue = 0;
 		EventBus m_bus;
 	};
 }

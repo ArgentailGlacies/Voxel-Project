@@ -9,7 +9,6 @@
 namespace core
 {
 	class EventBus;
-	class Script;
 
 	/**
 		Sliders are activated whenever the value they are storing is changed. This typically happens
@@ -17,7 +16,6 @@ namespace core
 	*/
 	class HandlerSlider : public Handler
 	{
-		friend class HandlerSliderButton;
 		friend class HandlerSliderBar;
 
 	public:
@@ -43,29 +41,22 @@ namespace core
 
 		// ...
 
+		/**
+			Increments the value in the given widget by one step.
+
+			@param widget The widget which will have its value incremented one step.
+		*/
 		void increment(Widget & widget);
+		/**
+			Decrements the value in the given widget by one step.
+
+			@param widget The widget which will have its value decremented one step.
+		*/
 		void decrement(Widget & widget);
 
 	private:
 		Callback m_callback;
 		Data m_data;
-	};
-
-	/**
-		The slider button handler is responsible for changing the slider value by a single step in
-		the relevant direction.
-	*/
-	class HandlerSliderButton : public Handler
-	{
-	public:
-		HandlerSliderButton(HandlerSlider & root, bool increment) : m_root(root), m_increment(increment) {}
-
-		virtual void action(Widget & widget) override final;
-		virtual void process(Widget & widget) override final {}
-
-	private:
-		HandlerSlider & m_root;
-		bool m_increment;
 	};
 
 	/**

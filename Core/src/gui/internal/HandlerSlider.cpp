@@ -4,7 +4,6 @@
 #include "event/EventBus.h"
 #include "event/Events.h"
 #include "gui/Widget.h"
-#include "script/Script.h"
 #include "util/MathOperations.h"
 
 namespace
@@ -21,27 +20,15 @@ namespace
 
 void core::HandlerSlider::increment(Widget & widget)
 {
+	widget.m_value.m_float = util::min(m_data.m_max, widget.m_value.m_float + m_data.m_step);
+	widget.m_value.m_float = util::round(widget.m_value.m_float, m_data.m_step);
+	m_callback(widget);
 }
 void core::HandlerSlider::decrement(Widget & widget)
 {
-}
-
-// ...
-
-void core::HandlerSliderButton::action(Widget & widget)
-{
-	auto & value = widget.m_family.m_parent->m_value;
-	auto & data = m_root.m_data;
-
-	if (m_increment)
-		value.m_float = util::min(data.m_max, value.m_float + data.m_step);
-	else
-		value.m_float = util::max(data.m_min, value.m_float - data.m_step);
-
-	if (m_root.m_data.m_step > 0.0f)
-		value.m_float = data.m_step * util::round(value.m_float / data.m_step);
-
-	m_root.m_callback(widget);
+	widget.m_value.m_float = util::max(m_data.m_min, widget.m_value.m_float - m_data.m_step);
+	widget.m_value.m_float = util::round(widget.m_value.m_float, m_data.m_step);
+	m_callback(widget);
 }
 
 // ...

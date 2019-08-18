@@ -6,8 +6,6 @@
 
 namespace core
 {
-	class Script;
-
 	/**
 		Whenever a button is activated, it will update the widget state in the script and execute
 		some code. Different buttons may override the action to perform other tasks.
