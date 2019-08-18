@@ -4,8 +4,6 @@
 #include "event/EventBus.h"
 #include "event/Events.h"
 #include "gui/Widget.h"
-#include "script/Script.h"
-#include "script/ScriptUtil.h"
 
 #include "CppUnitTest.h"
 
@@ -16,12 +14,10 @@ namespace core::gui
 	TEST_CLASS(HandlerLabelTest)
 	{
 	public:
-		HandlerLabelTest() { initialize(); }
-
 		TEST_METHOD(HandlerLabel_action)
 		{
 			Widget widget;
-			HandlerLabel handler{ m_script, "", m_bus, widget };
+			HandlerLabel handler{ []() {}, m_bus, widget };
 
 			simulateUnichar('a');
 			handler.action(widget);
@@ -39,10 +35,6 @@ namespace core::gui
 		}
 
 	private:
-		void initialize()
-		{
-			m_script.execute("global counter = 0");
-		}
 		void simulateMouseClick()
 		{
 			m_bus.post(MousePress{ MouseButton::LEFT, {}, {}, 1.0f });
@@ -57,6 +49,5 @@ namespace core::gui
 		}
 
 		EventBus m_bus;
-		Script m_script{ "script" };
 	};
 }

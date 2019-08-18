@@ -179,7 +179,7 @@ namespace core::gui
 			Assert::IsFalse(widget.m_handler == nullptr);
 			Assert::IsTrue(widget.m_renderer == nullptr);
 			Assert::IsTrue(widget.m_processor == nullptr);
-			Assert::AreEqual(3u, widget.m_family.m_children.size());
+			Assert::AreEqual(4u, widget.m_family.m_children.size());
 		}
 		TEST_METHOD(WidgetLoader_loadLabel)
 		{

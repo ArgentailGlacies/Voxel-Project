@@ -10,6 +10,7 @@
 #include "gui/internal/RendererLabel.h"
 #include "gui/internal/RendererSlider.h"
 #include "gui/Widget.h"
+#include "script/Script.h"
 #include "util/MathOperations.h"
 #include "util/StringParsing.h"
 
@@ -19,6 +20,22 @@
 namespace
 {
 	const std::string NODE_WIDGET = "widget";
+
+	/**
+		The script executor is a simple functor object which executes the provided code under the
+		provided script.
+	*/
+	class ScriptExecutor
+	{
+	public:
+		ScriptExecutor(const core::Script & script, const std::string & code) : m_script(script), m_code(code) {}
+
+		inline void operator()() const { m_script.execute(m_code); }
+
+	private:
+		const core::Script & m_script;
+		std::string m_code;
+	};
 }
 
 // ...
@@ -157,10 +174,12 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	auto & increment = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 	auto & decrement = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 	auto & bar = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
+	auto & label = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 
 	increment.m_family.m_parent = &widget;
 	decrement.m_family.m_parent = &widget;
 	bar.m_family.m_parent = &widget;
+	label.m_family.m_parent = &widget;
 
 	const auto max = util::max(widget.m_bbox.m_minSize.x, widget.m_bbox.m_minSize.y);
 	const auto min = util::min(widget.m_bbox.m_minSize.x, widget.m_bbox.m_minSize.y);
@@ -185,6 +204,7 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 		decrement.m_link.m_target = &bar;
 		decrement.m_link.m_ratio = { 0.5f, 1.0f };
 	}
+	label.m_bbox.m_minSize = bar.m_bbox.m_minSize;
 
 	// Load action
 	auto handler = std::make_unique<HandlerSlider>(m_script, action, data);
@@ -226,7 +246,7 @@ void core::WidgetLoader::loadLabel(const pugi::xml_node & node, Widget & widget)
 
 	// Load action
 	if (dynamic)
-		widget.m_handler = std::make_unique<HandlerLabel>(m_script, action, m_bus, widget);
+		widget.m_handler = std::make_unique<HandlerLabel>(ScriptExecutor{ m_script, action }, m_bus, widget);
 
 	// Load renderer
 	widget.m_renderer = std::make_unique<RendererLabel>(m_assets, widget, style, pretext, posttext);

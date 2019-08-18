@@ -7,8 +7,8 @@
 
 #include <allegro5/allegro.h>
 
-core::HandlerLabel::HandlerLabel(const Script & script, const std::string & code, EventBus & bus, Widget & widget)
-	: m_script(script), m_code(code)
+core::HandlerLabel::HandlerLabel(const Action & action, EventBus & bus, Widget & widget)
+	: m_action(action)
 {
 	m_unichar = bus.add<KeyUnichar>(0, [this, &widget](auto & event)
 	{
