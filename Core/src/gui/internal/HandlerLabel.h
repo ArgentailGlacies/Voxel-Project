@@ -3,8 +3,6 @@
 #include "event/EventListener.h"
 #include "gui/internal/Handler.h"
 
-#include <string>
-
 namespace core
 {
 	/**

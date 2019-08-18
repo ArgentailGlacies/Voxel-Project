@@ -27,11 +27,13 @@ namespace core::gui
 			widgetA.m_value.m_float = 3.14f;
 			handler.incrementer(widgetA)(widgetB);
 			Assert::AreEqual(3.2f, widgetA.m_value.m_float, 0.01f);
+			Assert::AreEqual({ "3.20" }, widgetA.m_value.m_string);
 
 			// Incrementing beyond maximum forces to nearest allowed value
 			widgetA.m_value.m_float = 5.0f;
 			handler.incrementer(widgetA)(widgetB);
 			Assert::AreEqual(5.0f, widgetA.m_value.m_float, 0.01f);
+			Assert::AreEqual({ "5.00" }, widgetA.m_value.m_string);
 		}
 		TEST_METHOD(HandlerSlider_decrementer)
 		{
@@ -46,50 +48,93 @@ namespace core::gui
 			widgetA.m_value.m_float = 3.14f;
 			handler.decrementer(widgetA)(widgetB);
 			Assert::AreEqual(3.0f, widgetA.m_value.m_float, 0.01f);
+			Assert::AreEqual({ "3.00" }, widgetA.m_value.m_string);
 
 			// Decrementing beyond minimum forces to nearest allowed value
 			widgetA.m_value.m_float = 0.0f;
 			handler.decrementer(widgetA)(widgetB);
 			Assert::AreEqual(0.0f, widgetA.m_value.m_float, 0.01f);
+			Assert::AreEqual({ "0.00" }, widgetA.m_value.m_string);
 		}
 
+		TEST_METHOD(HandlerSlider_translator)
+		{
+			Widget widgetA, widgetB;
+			HandlerSlider handler{ callback(8), { 0.0f, 5.0f, 2.5f, 0.1f } };
+
+			// Translating applies callback
+			handler.translator(widgetA)(widgetB);
+			verifyCallback(8);
+
+			// Translating valid values work correctly
+			widgetA.m_value.m_string = "4.2";
+			handler.translator(widgetA)(widgetB);
+			Assert::AreEqual(4.2f, widgetA.m_value.m_float, 0.01f);
+
+			// Translating valid values work correctly
+			widgetA.m_value.m_string = "invalid-value";
+			handler.translator(widgetA)(widgetB);
+			Assert::AreEqual(0.0f, widgetA.m_value.m_float, 0.01f);
+		}
+
+		TEST_METHOD(HandlerSlider_slider)
+		{
+			Widget widgetA, widgetB;
+			HandlerSlider handler{ callback(7), { 0.0f, 5.0f, 2.5f, 0.1f } };
+
+			// Slider applies callback
+			handler.slider(widgetA)(widgetB);
+			verifyCallback(7);
+
+			// Slider translates correctly from factor
+			widgetB.m_value.m_float = 0.23f;
+			handler.slider(widgetA)(widgetB);
+			Assert::AreEqual(1.2f, widgetA.m_value.m_float, 0.01f);
+
+			widgetB.m_value.m_float = 0.92f;
+			handler.slider(widgetA)(widgetB);
+			Assert::AreEqual(4.6f, widgetA.m_value.m_float, 0.01f);
+		}
+
+		TEST_METHOD(HandlerSliderBar_callback)
+		{
+			Widget widget;
+			HandlerSliderBar handler{ callback(5), m_bus, true };
+
+			// Does not apply callback when not selected
+			handler.process(widget);
+			verifyCallback(0);
+
+			// Applies callback when selected
+			widget.m_state.m_selected = true;
+			handler.process(widget);
+			verifyCallback(5);
+		}
 		TEST_METHOD(HandlerSliderBar_processHorizontal)
 		{
-			Widget parent, widget;
-			widget.m_family.m_parent = &parent;
-			widget.m_bbox.m_size = { 100.0f, 10.0f };
+			Widget widget;
+			widget.m_bbox.m_pos = { 10.0f, 10.0f };
+			widget.m_bbox.m_size = { 80.0f, 10.0f };
 			widget.m_state.m_selected = true;
-			HandlerSlider root{ callback(5), { 0.0f, 10.0f, 9.0f, 0.1f } };
-			HandlerSliderBar handler{ root, m_bus, true };
+			HandlerSliderBar handler{ callback(5), m_bus, true };
 
+			// Slider bar applies correct factor to widget
 			simulateMouseMovement({ 31.0f, 0.0f });
 			handler.process(widget);
-			Assert::AreEqual(5.6f, parent.m_value.m_float, 0.01f);
-			verifyCallback(5);
-
-			simulateMouseMovement({ 92.0f, 0.0f });
-			handler.process(widget);
-			Assert::AreEqual(9.8f, parent.m_value.m_float, 0.01f);
-			verifyCallback(5);
+			Assert::AreEqual(0.2625f, widget.m_value.m_float, 0.001f);
 		}
 		TEST_METHOD(HandlerSliderBar_processVertical)
 		{
-			Widget parent, widget;
-			widget.m_family.m_parent = &parent;
-			widget.m_bbox.m_size = { 10.0f, 100.0f };
+			Widget widget;
+			widget.m_bbox.m_pos = { 10.0f, 10.0f };
+			widget.m_bbox.m_size = { 10.0f, 80.0f };
 			widget.m_state.m_selected = true;
-			HandlerSlider root{ callback(6), { 0.0f, 10.0f, 9.0f, 0.1f } };
-			HandlerSliderBar handler{ root, m_bus, false };
+			HandlerSliderBar handler{ callback(6), m_bus, false };
 
-			simulateMouseMovement({ 0.0f, 69.0f });
+			// Slider bar applies correct factor to widget
+			simulateMouseMovement({ 0.0f, 31.0f });
 			handler.process(widget);
-			Assert::AreEqual(5.6f, parent.m_value.m_float, 0.01f);
-			verifyCallback(6);
-
-			simulateMouseMovement({ 0.0f, 8.0f });
-			handler.process(widget);
-			Assert::AreEqual(9.8f, parent.m_value.m_float, 0.01f);
-			verifyCallback(6);
+			Assert::AreEqual(0.7375f, widget.m_value.m_float, 0.001f);
 		}
 
 	private:

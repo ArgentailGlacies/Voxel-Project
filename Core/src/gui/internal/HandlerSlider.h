@@ -4,7 +4,6 @@
 #include "gui/internal/Handler.h"
 
 #include <glm/vec2.hpp>
-#include <string>
 
 namespace core
 {
@@ -56,6 +55,21 @@ namespace core
 		*/
 		Callback decrementer(Widget & widget);
 
+		/**
+			Generates a slider bar callback which can be applied to the bar button for the slider.
+			Each invokation will 
+		*/
+		Callback slider(Widget & widget);
+
+		/**
+			Generates a converter callback which can be applied to the slider label. Each invokation
+			will convert the widget's textual value to a floating point value whenever possible. If
+			the conversion could not happen, the value is defaulted to 0.
+
+			@param widget The widget the translator should apply to.
+		*/
+		Callback translator(Widget & widget);
+
 	private:
 		Callback m_callback;
 		Data m_data;
@@ -68,13 +82,13 @@ namespace core
 	class HandlerSliderBar : public Handler
 	{
 	public:
-		HandlerSliderBar(HandlerSlider & root, EventBus & bus, bool horizontal);
+		HandlerSliderBar(const Callback & callback, EventBus & bus, bool horizontal);
 
 		virtual void action(Widget & widget) override final {}
 		virtual void process(Widget & widget) override final;
 
 	private:
-		HandlerSlider & m_root;
+		Callback m_callback;
 		Listener m_listener;
 		bool m_horizontal;
 

@@ -2,8 +2,6 @@
 
 #include "gui/internal/Handler.h"
 
-#include <string>
-
 namespace core
 {
 	/**

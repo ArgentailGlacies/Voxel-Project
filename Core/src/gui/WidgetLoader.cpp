@@ -207,12 +207,15 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 		decrement.m_link.m_ratio = { 0.5f, 1.0f };
 	}
 	label.m_bbox.m_minSize = bar.m_bbox.m_minSize;
+	label.m_link.m_target = &bar;
+	label.m_link.m_ratio = { 0.5f, 0.5f };
 
 	// Load action
 	auto handler = std::make_unique<HandlerSlider>(ScriptExecutor{ m_script, action }, data);
-	bar.m_handler = std::make_unique<HandlerSliderBar>(*handler, m_bus, horizontal);
+	bar.m_handler = std::make_unique<HandlerSliderBar>(handler->slider(widget), m_bus, horizontal);
 	increment.m_handler = std::make_unique<HandlerButton>(handler->incrementer(widget));
 	decrement.m_handler = std::make_unique<HandlerButton>(handler->decrementer(widget));
+	label.m_handler = std::make_unique<HandlerLabel>(handler->translator(widget), m_bus, widget);
 
 	widget.m_handler = std::move(handler);
 
@@ -220,11 +223,13 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	bar.m_renderer = std::make_unique<RendererSlider>(data, m_assets.get<Sprite>(spriteBar), horizontal);
 	increment.m_renderer = std::make_unique<RendererButton>(m_assets.get<Sprite>(spriteIncrement));
 	decrement.m_renderer = std::make_unique<RendererButton>(m_assets.get<Sprite>(spriteDecrement));
+	label.m_renderer = std::make_unique<RendererLabel>(m_assets, widget, Text::Style{ "overlock" }, "", "");
 
 	// Load processor
 	bar.m_processor = std::make_unique<Processor>(bar, m_bus);
 	increment.m_processor = std::make_unique<Processor>(increment, m_bus);
 	decrement.m_processor = std::make_unique<Processor>(decrement, m_bus);
+	label.m_processor = std::make_unique<Processor>(label, m_bus);
 }
 void core::WidgetLoader::loadLabel(const pugi::xml_node & node, Widget & widget)
 {
