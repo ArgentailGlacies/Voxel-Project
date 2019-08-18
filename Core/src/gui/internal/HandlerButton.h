@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gui/internal/Handler.h"
+
 #include <string>
 
 namespace core
@@ -14,14 +15,13 @@ namespace core
 	class HandlerButton : public Handler
 	{
 	public:
-		HandlerButton(const Script & script, const std::string & code) : m_script(script), m_code(code) {}
+		HandlerButton(const Callback & callback) : m_callback(callback) {}
 
 		virtual void action(Widget & widget) override final;
 		virtual void process(Widget & widget) override final {}
 
 	private:
-		const Script & m_script;
-		std::string m_code;
+		Callback m_callback;
 	};
 
 	/**
@@ -31,14 +31,13 @@ namespace core
 	class HandlerButtonCheckbox : public Handler
 	{
 	public:
-		HandlerButtonCheckbox(const Script & script, const std::string & code) : m_script(script), m_code(code) {}
+		HandlerButtonCheckbox(const Callback & callback) : m_callback(callback) {}
 
 		virtual void action(Widget & widget) override final;
 		virtual void process(Widget & widget) override final {}
 
 	private:
-		const Script & m_script;
-		std::string m_code;
+		Callback m_callback;
 	};
 
 	/**
@@ -48,13 +47,12 @@ namespace core
 	class HandlerButtonRadio : public Handler
 	{
 	public:
-		HandlerButtonRadio(const Script & script, const std::string & code) : m_script(script), m_code(code) {}
+		HandlerButtonRadio(const Callback & callback) : m_callback(callback) {}
 
 		virtual void action(Widget & widget) override final;
 		virtual void process(Widget & widget) override final {}
 
 	private:
-		const Script & m_script;
-		std::string m_code;
+		Callback m_callback;
 	};
 }

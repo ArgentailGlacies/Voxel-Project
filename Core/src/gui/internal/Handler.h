@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 namespace core
 {
 	struct Widget;
@@ -7,6 +9,10 @@ namespace core
 	class Handler
 	{
 	public:
+		using Callback = std::function<void()>;
+
+		// ...
+
 		virtual ~Handler() = default;
 
 		/**

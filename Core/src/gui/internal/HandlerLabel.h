@@ -3,7 +3,6 @@
 #include "event/EventListener.h"
 #include "gui/internal/Handler.h"
 
-#include <functional>
 #include <string>
 
 namespace core
@@ -18,11 +17,7 @@ namespace core
 	class HandlerLabel : public Handler
 	{
 	public:
-		using Action = std::function<void()>;
-
-		// ...
-
-		HandlerLabel(const Action & action, EventBus & bus, Widget & widget);
+		HandlerLabel(const Callback & callback, EventBus & bus, Widget & widget);
 
 		virtual void action(Widget & widget) override final { m_active = true; }
 		virtual void process(Widget & widget) override final {}
@@ -44,8 +39,7 @@ namespace core
 
 		// ...
 
-		Action m_action;
-
+		Callback m_callback;
 		Listener m_unichar;
 		Listener m_keyPress;
 		Listener m_mousePress;

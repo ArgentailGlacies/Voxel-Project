@@ -36,17 +36,13 @@ namespace core
 
 		// ...
 
-		HandlerSlider(const Script & script, const std::string & code, const Data & data) 
-			: m_script(script), m_code(code), m_data(data)
-		{}
+		HandlerSlider(const Callback & callback, const Data & data)  : m_callback(callback), m_data(data) {}
 
-		virtual void action(Widget & widget) override final;
+		virtual void action(Widget & widget) override final {}
 		virtual void process(Widget & widget) override final {}
 
 	private:
-		const Script & m_script;
-		std::string m_code;
-
+		Callback m_callback;
 		Data m_data;
 	};
 

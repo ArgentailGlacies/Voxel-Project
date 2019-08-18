@@ -7,8 +7,8 @@
 
 #include <allegro5/allegro.h>
 
-core::HandlerLabel::HandlerLabel(const Action & action, EventBus & bus, Widget & widget)
-	: m_action(action)
+core::HandlerLabel::HandlerLabel(const Callback & callback, EventBus & bus, Widget & widget)
+	: m_callback(callback)
 {
 	m_unichar = bus.add<KeyUnichar>(0, [this, &widget](auto & event)
 	{

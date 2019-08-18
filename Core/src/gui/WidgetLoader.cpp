@@ -139,12 +139,14 @@ void core::WidgetLoader::loadButton(const pugi::xml_node & node, Widget & widget
 	const std::string sprite = node.child("renderer").attribute("button").as_string();
 
 	// Load action
+	const ScriptExecutor callback{ m_script, action };
+
 	if (type == "generic")
-		widget.m_handler = std::make_unique<HandlerButton>(m_script, action);
+		widget.m_handler = std::make_unique<HandlerButton>(callback);
 	else if (type == "checkbox")
-		widget.m_handler = std::make_unique<HandlerButtonCheckbox>(m_script, action);
+		widget.m_handler = std::make_unique<HandlerButtonCheckbox>(callback);
 	else if (type == "radio")
-		widget.m_handler = std::make_unique<HandlerButtonRadio>(m_script, action);
+		widget.m_handler = std::make_unique<HandlerButtonRadio>(callback);
 	else
 		LOG_WARNING << "Unknown button type " << type;
 
@@ -207,7 +209,7 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	label.m_bbox.m_minSize = bar.m_bbox.m_minSize;
 
 	// Load action
-	auto handler = std::make_unique<HandlerSlider>(m_script, action, data);
+	auto handler = std::make_unique<HandlerSlider>(ScriptExecutor{ m_script, action }, data);
 	bar.m_handler = std::make_unique<HandlerSliderBar>(*handler, m_bus, horizontal);
 	increment.m_handler = std::make_unique<HandlerSliderButton>(*handler, true);
 	decrement.m_handler = std::make_unique<HandlerSliderButton>(*handler, false);

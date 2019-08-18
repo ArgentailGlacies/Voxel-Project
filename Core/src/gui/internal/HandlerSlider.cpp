@@ -19,13 +19,6 @@ namespace
 
 // ...
 
-void core::HandlerSlider::action(Widget & widget)
-{
-	m_script.execute(m_code);
-}
-
-// ...
-
 void core::HandlerSliderButton::action(Widget & widget)
 {
 	auto & value = widget.m_family.m_parent->m_value;
@@ -39,7 +32,7 @@ void core::HandlerSliderButton::action(Widget & widget)
 	if (m_root.m_data.m_step > 0.0f)
 		value.m_float = data.m_step * util::round(value.m_float / data.m_step);
 
-	m_root.action(widget);
+	m_root.m_callback();
 }
 
 // ...
@@ -67,5 +60,5 @@ void core::HandlerSliderBar::process(Widget & widget)
 	if (m_root.m_data.m_step > 0.0f)
 		value.m_float = data.m_step * util::round(value.m_float / data.m_step);
 
-	m_root.action(widget);
+	m_root.m_callback();
 }
