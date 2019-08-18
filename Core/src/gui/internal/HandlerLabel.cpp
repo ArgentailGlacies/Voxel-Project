@@ -18,6 +18,7 @@ core::HandlerLabel::HandlerLabel(const Callback & callback, EventBus & bus, Widg
 				pop(widget);
 			else
 				push(widget, event.m_codepoint);
+			m_callback(widget);
 		}
 	});
 	m_keyPress = bus.add<KeyPress>(0, [this, &widget](auto & event)

@@ -18,6 +18,13 @@ namespace
 		const float f = util::max(0.0f, util::min(1.0f, (mouse[axis] - pos[axis]) / size[axis]));
 		return horizontal ? f : 1.0f - f;
 	}
+
+	std::string toString(float value)
+	{
+		std::stringstream stream;
+		stream << std::fixed << std::setprecision(1) << value;
+		return stream.str();
+	}
 }
 
 // ...
@@ -28,10 +35,7 @@ core::Handler::Callback core::HandlerSlider::incrementer(Widget & widget)
 	{
 		widget.m_value.m_float = util::min(m_data.m_max, widget.m_value.m_float + m_data.m_step);
 		widget.m_value.m_float = util::round(widget.m_value.m_float, m_data.m_step);
-
-		std::stringstream stream;
-		stream << std::fixed << std::setprecision(2) << widget.m_value.m_float;
-		widget.m_value.m_string = stream.str();
+		widget.m_value.m_string = toString(widget.m_value.m_float);
 
 		m_callback(widget);
 	};
@@ -42,10 +46,7 @@ core::Handler::Callback core::HandlerSlider::decrementer(Widget & widget)
 	{
 		widget.m_value.m_float = util::max(m_data.m_min, widget.m_value.m_float - m_data.m_step);
 		widget.m_value.m_float = util::round(widget.m_value.m_float, m_data.m_step);
-		
-		std::stringstream stream;
-		stream << std::fixed << std::setprecision(2) << widget.m_value.m_float;
-		widget.m_value.m_string = stream.str();
+		widget.m_value.m_string = toString(widget.m_value.m_float);
 
 		m_callback(widget);
 	};
@@ -60,6 +61,7 @@ core::Handler::Callback core::HandlerSlider::slider(Widget & widget)
 		else
 			widget.m_value.m_float = util::lerp(m_data.m_center, m_data.m_max, 2.0f * other.m_value.m_float - 1.0f);
 		widget.m_value.m_float = util::round(widget.m_value.m_float, m_data.m_step);
+		widget.m_value.m_string = toString(widget.m_value.m_float);
 
 		m_callback(widget);
 	};

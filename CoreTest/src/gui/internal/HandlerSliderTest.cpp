@@ -27,13 +27,13 @@ namespace core::gui
 			widgetA.m_value.m_float = 3.14f;
 			handler.incrementer(widgetA)(widgetB);
 			Assert::AreEqual(3.2f, widgetA.m_value.m_float, 0.01f);
-			Assert::AreEqual({ "3.20" }, widgetA.m_value.m_string);
+			Assert::AreEqual({ "3.2" }, widgetA.m_value.m_string);
 
 			// Incrementing beyond maximum forces to nearest allowed value
 			widgetA.m_value.m_float = 5.0f;
 			handler.incrementer(widgetA)(widgetB);
 			Assert::AreEqual(5.0f, widgetA.m_value.m_float, 0.01f);
-			Assert::AreEqual({ "5.00" }, widgetA.m_value.m_string);
+			Assert::AreEqual({ "5.0" }, widgetA.m_value.m_string);
 		}
 		TEST_METHOD(HandlerSlider_decrementer)
 		{
@@ -48,15 +48,34 @@ namespace core::gui
 			widgetA.m_value.m_float = 3.14f;
 			handler.decrementer(widgetA)(widgetB);
 			Assert::AreEqual(3.0f, widgetA.m_value.m_float, 0.01f);
-			Assert::AreEqual({ "3.00" }, widgetA.m_value.m_string);
+			Assert::AreEqual({ "3.0" }, widgetA.m_value.m_string);
 
 			// Decrementing beyond minimum forces to nearest allowed value
 			widgetA.m_value.m_float = 0.0f;
 			handler.decrementer(widgetA)(widgetB);
 			Assert::AreEqual(0.0f, widgetA.m_value.m_float, 0.01f);
-			Assert::AreEqual({ "0.00" }, widgetA.m_value.m_string);
+			Assert::AreEqual({ "0.0" }, widgetA.m_value.m_string);
 		}
+		TEST_METHOD(HandlerSlider_slider)
+		{
+			Widget widgetA, widgetB;
+			HandlerSlider handler{ callback(7), { 0.0f, 5.0f, 2.5f, 0.1f } };
 
+			// Slider applies callback
+			handler.slider(widgetA)(widgetB);
+			verifyCallback(7);
+
+			// Slider translates correctly from factor
+			widgetB.m_value.m_float = 0.23f;
+			handler.slider(widgetA)(widgetB);
+			Assert::AreEqual(1.2f, widgetA.m_value.m_float, 0.01f);
+			Assert::AreEqual({ "1.2" }, widgetA.m_value.m_string);
+
+			widgetB.m_value.m_float = 0.92f;
+			handler.slider(widgetA)(widgetB);
+			Assert::AreEqual(4.6f, widgetA.m_value.m_float, 0.01f);
+			Assert::AreEqual({ "4.6" }, widgetA.m_value.m_string);
+		}
 		TEST_METHOD(HandlerSlider_translator)
 		{
 			Widget widgetA, widgetB;
@@ -75,25 +94,6 @@ namespace core::gui
 			widgetA.m_value.m_string = "invalid-value";
 			handler.translator(widgetA)(widgetB);
 			Assert::AreEqual(0.0f, widgetA.m_value.m_float, 0.01f);
-		}
-
-		TEST_METHOD(HandlerSlider_slider)
-		{
-			Widget widgetA, widgetB;
-			HandlerSlider handler{ callback(7), { 0.0f, 5.0f, 2.5f, 0.1f } };
-
-			// Slider applies callback
-			handler.slider(widgetA)(widgetB);
-			verifyCallback(7);
-
-			// Slider translates correctly from factor
-			widgetB.m_value.m_float = 0.23f;
-			handler.slider(widgetA)(widgetB);
-			Assert::AreEqual(1.2f, widgetA.m_value.m_float, 0.01f);
-
-			widgetB.m_value.m_float = 0.92f;
-			handler.slider(widgetA)(widgetB);
-			Assert::AreEqual(4.6f, widgetA.m_value.m_float, 0.01f);
 		}
 
 		TEST_METHOD(HandlerSliderBar_callback)

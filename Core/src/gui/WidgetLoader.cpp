@@ -173,15 +173,15 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	const auto horizontal = type == "horizontal";
 
 	// Load children
+	auto & bar = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 	auto & increment = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 	auto & decrement = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
-	auto & bar = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 	auto & label = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 
 	increment.m_family.m_parent = &widget;
 	decrement.m_family.m_parent = &widget;
-	bar.m_family.m_parent = &widget;
 	label.m_family.m_parent = &widget;
+	bar.m_family.m_parent = &widget;
 
 	const auto max = util::max(widget.m_bbox.m_minSize.x, widget.m_bbox.m_minSize.y);
 	const auto min = util::min(widget.m_bbox.m_minSize.x, widget.m_bbox.m_minSize.y);

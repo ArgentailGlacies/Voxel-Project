@@ -16,9 +16,12 @@ namespace core::gui
 	public:
 		TEST_METHOD(HandlerLabel_action)
 		{
-			Widget widget;
-			HandlerLabel handler{ [](Widget &) {}, m_bus, widget };
+			int callback = 0;
 
+			Widget widget;
+			HandlerLabel handler{ [&](Widget &) { callback = 3; }, m_bus, widget };
+
+			// Pressing keys works as expected
 			simulateUnichar('a');
 			handler.action(widget);
 			simulateUnichar('b');
@@ -32,6 +35,9 @@ namespace core::gui
 			simulateUnichar('f');
 
 			Assert::AreEqual({ "bd" }, widget.m_value.m_string);
+
+			// Label applies callback
+			Assert::AreEqual(3, callback);
 		}
 
 	private:
