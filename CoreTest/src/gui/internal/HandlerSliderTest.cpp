@@ -14,43 +14,43 @@ namespace core::gui
 	TEST_CLASS(HandlerSliderTest)
 	{
 	public:
-		TEST_METHOD(HandlerSlider_increment)
+		TEST_METHOD(HandlerSlider_incrementer)
 		{
-			Widget widget;
+			Widget widgetA, widgetB;
 			HandlerSlider handler{ callback(3), { 0.0f, 5.0f, 2.5f, 0.1f } };
 
 			// Incrementing applies callback
-			handler.increment(widget);
+			handler.incrementer(widgetA)(widgetB);
 			verifyCallback(3);
 
 			// Incrementing rounds values correctly
-			widget.m_value.m_float = 3.14f;
-			handler.increment(widget);
-			Assert::AreEqual(3.2f, widget.m_value.m_float, 0.01f);
+			widgetA.m_value.m_float = 3.14f;
+			handler.incrementer(widgetA)(widgetB);
+			Assert::AreEqual(3.2f, widgetA.m_value.m_float, 0.01f);
 
 			// Incrementing beyond maximum forces to nearest allowed value
-			widget.m_value.m_float = 5.0f;
-			handler.increment(widget);
-			Assert::AreEqual(5.0f, widget.m_value.m_float, 0.01f);
+			widgetA.m_value.m_float = 5.0f;
+			handler.incrementer(widgetA)(widgetB);
+			Assert::AreEqual(5.0f, widgetA.m_value.m_float, 0.01f);
 		}
-		TEST_METHOD(HandlerSlider_decrement)
+		TEST_METHOD(HandlerSlider_decrementer)
 		{
-			Widget widget;
+			Widget widgetA, widgetB;
 			HandlerSlider handler{ callback(9), { 0.0f, 5.0f, 2.5f, 0.1f } };
 
 			// Decrementing applies callback
-			handler.decrement(widget);
+			handler.decrementer(widgetA)(widgetB);
 			verifyCallback(9);
 
 			// Decrementing rounds values correctly
-			widget.m_value.m_float = 3.14f;
-			handler.decrement(widget);
-			Assert::AreEqual(3.0f, widget.m_value.m_float, 0.01f);
+			widgetA.m_value.m_float = 3.14f;
+			handler.decrementer(widgetA)(widgetB);
+			Assert::AreEqual(3.0f, widgetA.m_value.m_float, 0.01f);
 
 			// Decrementing beyond minimum forces to nearest allowed value
-			widget.m_value.m_float = 0.0f;
-			handler.decrement(widget);
-			Assert::AreEqual(0.0f, widget.m_value.m_float, 0.01f);
+			widgetA.m_value.m_float = 0.0f;
+			handler.decrementer(widgetA)(widgetB);
+			Assert::AreEqual(0.0f, widgetA.m_value.m_float, 0.01f);
 		}
 
 		TEST_METHOD(HandlerSliderBar_processHorizontal)

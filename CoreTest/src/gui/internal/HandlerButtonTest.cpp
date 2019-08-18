@@ -20,7 +20,6 @@ namespace core::gui
 			HandlerButton handler{ [&counter](Widget &) { counter = 7; } };
 
 			handler.action(widget);
-			Assert::IsTrue(widget.m_value.m_bool);
 			Assert::AreEqual(7, counter);
 		}
 

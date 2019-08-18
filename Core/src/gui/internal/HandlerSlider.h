@@ -42,17 +42,19 @@ namespace core
 		// ...
 
 		/**
-			Increments the value in the given widget by one step.
+			Generates an incrementer callback which can be applied to the incrementer button for the
+			slider. Each invokation will increment the widget's value by one step.
 
-			@param widget The widget which will have its value incremented one step.
+			@param widget The widget the incrementer should operate on.
 		*/
-		void increment(Widget & widget);
+		Callback incrementer(Widget & widget);
 		/**
-			Decrements the value in the given widget by one step.
+			Generates a decrementer callback which can be applied to the incrementer button for the
+			slider. Each invokation will decrement the widget's value by one step.
 
-			@param widget The widget which will have its value decremented one step.
+			@param widget The widget the decrementer should operate on.
 		*/
-		void decrement(Widget & widget);
+		Callback decrementer(Widget & widget);
 
 	private:
 		Callback m_callback;

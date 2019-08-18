@@ -18,17 +18,23 @@ namespace
 
 // ...
 
-void core::HandlerSlider::increment(Widget & widget)
+core::Handler::Callback core::HandlerSlider::incrementer(Widget & widget)
 {
-	widget.m_value.m_float = util::min(m_data.m_max, widget.m_value.m_float + m_data.m_step);
-	widget.m_value.m_float = util::round(widget.m_value.m_float, m_data.m_step);
-	m_callback(widget);
+	return [this, &widget](Widget & other)
+	{
+		widget.m_value.m_float = util::min(m_data.m_max, widget.m_value.m_float + m_data.m_step);
+		widget.m_value.m_float = util::round(widget.m_value.m_float, m_data.m_step);
+		m_callback(widget);
+	};
 }
-void core::HandlerSlider::decrement(Widget & widget)
+core::Handler::Callback core::HandlerSlider::decrementer(Widget & widget)
 {
-	widget.m_value.m_float = util::max(m_data.m_min, widget.m_value.m_float - m_data.m_step);
-	widget.m_value.m_float = util::round(widget.m_value.m_float, m_data.m_step);
-	m_callback(widget);
+	return [this, &widget](Widget & other)
+	{
+		widget.m_value.m_float = util::max(m_data.m_min, widget.m_value.m_float - m_data.m_step);
+		widget.m_value.m_float = util::round(widget.m_value.m_float, m_data.m_step);
+		m_callback(widget);
+	};
 }
 
 // ...

@@ -5,7 +5,6 @@
 
 void core::HandlerButton::action(Widget & widget)
 {
-	widget.m_value.m_bool = true;
 	m_callback(widget);
 }
 
