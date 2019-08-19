@@ -27,9 +27,11 @@ namespace core
 		// ...
 
 		inline auto & getBus() { return m_bus; }
-		inline const auto & getBus() const { return m_bus; }
+		inline auto & getBus() const { return m_bus; }
 		inline auto & getScript() { return m_script; }
-		inline const auto & getScript() const { return m_script; }
+		inline auto & getScript() const { return m_script; }
+		inline auto & getRoot() { return m_root; }
+		inline auto & getRoot() const { return m_root; }
 
 	private:
 		/**

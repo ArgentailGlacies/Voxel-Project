@@ -20,7 +20,7 @@ namespace core::gui
 
 		TEST_METHOD(GuiRegistry_open)
 		{
-			GuiRegistry registry{ m_assets, m_bus, m_scene };
+			GuiRegistry registry{ m_assets, display(), m_bus, m_scene };
 
 			Assert::IsTrue(registry.open("test_files/guiA.xml"));
 			Assert::IsTrue(registry.open("test_files/guiB.xml"));
@@ -29,7 +29,7 @@ namespace core::gui
 		}
 		TEST_METHOD(GuiRegistry_close)
 		{
-			GuiRegistry registry{ m_assets, m_bus, m_scene };
+			GuiRegistry registry{ m_assets, display(), m_bus, m_scene };
 			registry.open("test_files/guiA.xml");
 
 			Assert::IsTrue(registry.close("test_files/guiA.xml"));

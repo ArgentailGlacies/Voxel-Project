@@ -6,6 +6,7 @@
 #include "io/File.h"
 #include "scene/Scene.h"
 
+#include <glm/vec2.hpp>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -23,7 +24,7 @@ namespace core
 	{
 	public:
 		GuiRegistry() = delete;
-		GuiRegistry(const AssetRegistry & assets, EventBus & bus, Scene & scene);
+		GuiRegistry(const AssetRegistry & assets, const Display & display, EventBus & bus, Scene & scene);
 
 		/**
 			Opens the gui stored in the specified file if it is not already open. If the gui has
@@ -48,11 +49,22 @@ namespace core
 		void process();
 
 	private:
+		/**
+			Resizes all guis to fill the given size.
+
+			@param size The size all guis should have after resizing.
+		*/
+		void resizeGuis(const glm::vec2 & size);
+
 		template<typename Event> void processEvent(Event & event);
 
+		// ...
+
 		const AssetRegistry & m_assets;
+		const Display & m_display;
 		Scene & m_scene;
 
+		Listener m_displayResize;
 		Listener m_mouseMove;
 		Listener m_mousePress;
 		Listener m_mouseRelease;

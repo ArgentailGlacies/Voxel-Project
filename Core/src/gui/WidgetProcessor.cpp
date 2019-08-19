@@ -17,8 +17,9 @@ void core::gui::updatePosition(Widget & widget)
 	// Positions inside of parents
 	else if (const auto * target = widget.m_family.m_parent)
 	{
+		const auto & size = widget.m_bbox.m_size;
 		const auto border = util::max(widget.m_border.m_outer, target->m_border.m_inner);
-		const auto offset = widget.m_link.m_ratio * (target->m_bbox.m_size - 2.0f * border) + border;
+		const auto offset = widget.m_link.m_ratio * (target->m_bbox.m_size - 2.0f * border - size) + border;
 		widget.m_bbox.m_pos = offset + target->m_bbox.m_pos;
 	}
 }

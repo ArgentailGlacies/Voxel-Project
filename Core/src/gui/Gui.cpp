@@ -26,15 +26,16 @@ void core::Gui::load(const util::File & file, const AssetRegistry & assets)
 
 void core::Gui::process(Widget & widget)
 {
-	// Move the widget to the correct location on-screen
-	gui::updatePosition(widget);
-	
+	// Move the widget to the correct location on-screen and assign the correct size to it
+	if (&m_root != &widget)
+	{
+		gui::updateSize(widget);
+		gui::updatePosition(widget);
+	}
+
 	// All child widgets may now be updated
 	for (auto & child : widget.m_family.m_children)
 		process(*child);
-
-	// Recalculate the size of the widget
-	gui::updateSize(widget);
 
 	// Perform all aspectes of this specific widget
 	if (widget.m_handler)

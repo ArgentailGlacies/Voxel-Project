@@ -97,7 +97,7 @@ void core::WidgetLoader::loadLink(const pugi::xml_node & node, Widget & widget)
 	const std::string target = node.attribute("target").as_string();
 
 	if (target.empty())
-		widget.m_link.m_target = widget.m_family.m_parent;
+		widget.m_link.m_target = nullptr;
 	else if (const auto it = m_widgets.find(target); it == m_widgets.end())
 		LOG_WARNING << "Cannot link to nonexisting widget " << target;
 	else
