@@ -16,6 +16,8 @@ core::HandlerLabel::HandlerLabel(const Callback & callback, EventBus & bus, Widg
 		{
 			if (event.m_codepoint == '\b')
 				pop(widget);
+			else if (event.m_codepoint == '\r')
+				push(widget, '\n');
 			else
 				push(widget, event.m_codepoint);
 			m_callback(widget);

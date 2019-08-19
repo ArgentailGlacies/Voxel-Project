@@ -24,7 +24,7 @@ namespace core::allegro
 			const auto tasks = split("Hello World!", 0, 60);
 
 			Assert::AreEqual(2u, tasks.size());
-			Assert::AreEqual({ 40, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 48, 8 }, tasks[0].m_size);
 			Assert::AreEqual({ 48, 8 }, tasks[1].m_size);
 		}
 		TEST_METHOD(ElementText_givenLinebreakCharacter_whenSplitting_thenSplitOnCharacter)
@@ -58,7 +58,7 @@ namespace core::allegro
 			const auto tasks = split("foo bar", 0, 25);
 
 			Assert::AreEqual(2u, tasks.size());
-			Assert::AreEqual({ 24, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 32, 8 }, tasks[0].m_size);
 			Assert::AreEqual({ 24, 8 }, tasks[1].m_size);
 		}
 		TEST_METHOD(ElementText_givenNewline_whenSplitting_thenMultipleLines)
@@ -66,7 +66,7 @@ namespace core::allegro
 			const auto tasks = split("foo\nbar", 0, std::numeric_limits<int>::max());
 
 			Assert::AreEqual(2u, tasks.size());
-			Assert::AreEqual({ 24, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 32, 8 }, tasks[0].m_size);
 			Assert::AreEqual({ 24, 8 }, tasks[1].m_size);
 		}
 		TEST_METHOD(ElementText_givenMultipleNewlines_whenSplitting_thenMultipleLines)
@@ -74,16 +74,32 @@ namespace core::allegro
 			const auto tasks = split("\n\n", 0, std::numeric_limits<int>::max());
 
 			Assert::AreEqual(2u, tasks.size());
-			Assert::AreEqual({ 0, 8 }, tasks[0].m_size);
-			Assert::AreEqual({ 0, 8 }, tasks[1].m_size);
+			Assert::AreEqual({ 8, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 8, 8 }, tasks[1].m_size);
 		}
-		TEST_METHOD(ElementText_givenStartingPosition_whenSplitting_thenCorrectLines)
+		TEST_METHOD(ElementText_givenStartingPosition_whenSplittingAtWhitespace_thenCorrectLines)
 		{
-			const auto tasks = split("Hi foo and bar", 80, 100);
+			const auto tasks = split("Hi foo and barry", 80, 150);
 
 			Assert::AreEqual(2u, tasks.size());
-			Assert::AreEqual({ 16, 8 }, tasks[0].m_size);
-			Assert::AreEqual({ 88, 8 }, tasks[1].m_size);
+			Assert::AreEqual({ 56, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 72, 8 }, tasks[1].m_size);
+		}
+		TEST_METHOD(ElementText_givenStartingPosition_whenSplittingAtCharacter_thenCorrectLines)
+		{
+			const auto tasks = split("String", 80, 100);
+
+			Assert::AreEqual(2u, tasks.size());
+			Assert::AreEqual({ 0, 0 }, tasks[0].m_size);
+			Assert::AreEqual({ 48, 8 }, tasks[1].m_size);
+		}
+		TEST_METHOD(ElementText_givenSpaceAndNewline_whenSplitting_thenCorrectLines)
+		{
+			const auto tasks = split("Some long\nstring", 0, std::numeric_limits<int>::max());
+
+			Assert::AreEqual(2u, tasks.size());
+			Assert::AreEqual({ 80, 8 }, tasks[0].m_size);
+			Assert::AreEqual({ 48, 8 }, tasks[1].m_size);
 		}
 
 		TEST_METHOD(ElementValue_givenInteger_whenSplitting_thenCorrectNumbers)

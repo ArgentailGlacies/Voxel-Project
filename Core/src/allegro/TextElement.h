@@ -32,7 +32,12 @@ namespace core
 		{
 			Renderer m_renderer;
 
-			glm::vec2 m_size;
+			glm::vec2 m_offset = {};
+			glm::vec2 m_size = {};
+
+			bool m_newline = false;
+			int m_index = 0;
+			int m_length = 0;
 		};
 
 		/**
@@ -83,11 +88,11 @@ namespace core
 			Draws a part of the text element at the given position, with relevant styles applied to
 			the text.
 
-			@param pos The position the text should be drawn at.
+			@param offset The position the text should be drawn at.
 			@param start The index of the first character to draw.
 			@param end The index after the last character to draw.
 		*/
-		void draw(const glm::vec2 & pos, int start, int end) const;
+		void draw(const glm::vec2 & offset, int start, int end) const;
 
 		// ...
 

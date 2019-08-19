@@ -17,9 +17,10 @@ namespace
 	}
 
 	/**
-		Checks if the given codepoint is considered whitespace.
+		Returns true iff the codepoint is considered a whitespace. Whitespaces are ignored when at
+		the end of a line, but also acts as a natural linebreaker.
 
-		@return True iff the codepoint is considered invisible.
+		@param codepoint The character which is being investigated.
 	*/
 	bool isWhitespace(int codepoint)
 	{
@@ -33,11 +34,12 @@ namespace
 		}
 	}
 	/**
-		Checks if the given codepoint is allowed to create a natural line break.
+		Returns true iff the codepoint is considered a natural linebreaker. The linebreaker will be
+		included in a line, if the line is broken at the linebreaker.
 
-		@return True iff the codepoint can be a natural line break.
+		@param codepoint The character which is being investigated.
 	*/
-	bool isLinebreak(int codepoint)
+	bool isBreak(int codepoint)
 	{
 		switch (codepoint)
 		{
@@ -56,128 +58,97 @@ namespace
 
 	// ...
 
-	/**
-		A token represents a small segment of text, and the space required to fully draw the text.
-	*/
-	struct Token
-	{
-		int m_index = 0;
-		int m_end = 0;
-
-		glm::ivec2 m_size{};
-	};
-
-	/**
-		The tokenizer accepts an Allegro font and text, then finds a series of tokens which can be
-		drawn sequentially to fit within a given bounding box.
-	*/
 	class Tokenizer
 	{
 	public:
-		Tokenizer(ALLEGRO_FONT * font, ALLEGRO_USTR * text, int position, int width)
-			: m_font(font), m_text(text), m_position(position), m_width(width)
-		{
-			m_length = al_ustr_length(m_text);
-		}
+		Tokenizer(ALLEGRO_USTR * text, ALLEGRO_FONT * font) : m_text(text), m_font(font) {}
 
-		/**
-			@return True iff more tokens can be extracted from the element.
-		*/
-		inline bool valid() const { return m_index < m_length; }
-		/**
-			Attempts to retrieve another token from the current index and the current position. The
-			index will be incremented by the length of the token, and the position will always be
-			reset to 0.
-		*/
-		Token next();
+		bool extract(core::ElementText::Task & task, int position, int width);
 
 	private:
-		/**
-			Checks how much more space is required to progress to the next character from the given
-			character in the text.
-
-			@param current The current codepoint being examined.
-			@param next The next codepoint in the text.
-			@return The advance to the next the glyph from the current glyph.
-		*/
-		glm::ivec2 getAdvance(int current, int next) const;
-
-		// ...
-
-		ALLEGRO_FONT * m_font;
 		ALLEGRO_USTR * m_text;
+		ALLEGRO_FONT * m_font;
 
-		int m_width;
-		int m_length;
-		int m_position;
-		int m_index = 0;
+		core::ElementText::Task m_current;
+		core::ElementText::Task m_snapshot;
+
+		bool m_first = true;
 	};
 
-	Token Tokenizer::next()
+	bool Tokenizer::extract(core::ElementText::Task & task, int position, int width)
 	{
-		Token token;
-		token.m_index = m_index;
-		token.m_end = m_length;
+		const int start = position;
+		const int length = al_ustr_length(m_text);
 
-		glm::ivec2 size{};
+		int index = m_snapshot.m_index + m_snapshot.m_length;
+		if (index >= length)
+			return false;
 
-		int index = m_index;
-		for (; index < m_length; ++index)
+		// Must reset the current task to defaults
+		m_current = {};
+		m_current.m_index = index;
+		m_snapshot = {};
+		m_snapshot.m_index = index;
+
+		// For as long as another character exists...
+		while (true)
 		{
-			const int curr = al_ustr_get(m_text, index);
-			const int next = al_ustr_get(m_text, index + 1);
-			const auto advance = getAdvance(curr, next);
-
-			// Must treat newlines in a special manner if they are the first character
-			if (curr == '\n')
-			{
-				size.y = getAdvance(curr, next).y;
-				index++;
-				break;
-			}
-			// If the next character cannot fit, break unless there are no characters added yet
-			if (m_position + advance.x > m_width && index != m_index)
+			const auto codepoint = al_ustr_get_next(m_text, &index);
+			if (codepoint < 0)
 				break;
 
-			m_position += advance.x;
-			size.x += advance.x;
-			size.y = util::max(size.y, advance.y);
+			// Calculate size of the codepoint
+			glm::ivec2 pos;
+			glm::ivec2 size;
+			al_get_glyph_dimensions(m_font, codepoint, &pos.x, &pos.y, &size.x, &size.y);
+			size.x = al_get_glyph_advance(m_font, codepoint, al_ustr_get(m_text, index));
 
-			// If the currect character is allowed to break a line, or is the last character...
-			if (isLinebreak(curr) || next == -1)
+			// If not enough space to fit character and no previous snapshot has been established
+			if (position + size.x >= width && m_snapshot.m_length == 0)
 			{
-				token.m_end = index + 1;
-				token.m_size = size;
+				// If not allowed to randomly inject a newline, generate a snapshot
+				if (start == 0)
+					m_snapshot = m_current;
+				// Otherwise, force an empty newline and start over
+				else if (codepoint != ' ')
+				{
+					task = {};
+					task.m_newline = true;
+					return true;
+				}
 			}
-			// If the next character is a whitespace, then it can be skipped if necessary
-			if (isWhitespace(next))
+
+			// Advance to the next character
+			m_current.m_length++;
+			m_current.m_size.x += size.x;
+			m_current.m_size.y = util::max(m_current.m_size.y, static_cast<float>(pos.y + size.y));
+
+			// If encountering a whitespace character, generate a snapshot
+			if (isWhitespace(codepoint))
+				m_snapshot = m_current;
+
+			// If not enough space for the current codepoint, restore snapshot and return
+			if ((position += size.x) >= width || codepoint == '\n')
 			{
-				token.m_end = index + 2;
-				token.m_size = size;
+				// If no previous snapshot were found, use whatever has been found
+				if (m_snapshot.m_length == 0)
+					m_snapshot = m_current;
+				
+				task = m_snapshot;
+				task.m_newline = true;
+				m_first = false;
+				return true;
 			}
+
+			// If encountering a natural point to insert a linebreak, generate a snapshot
+			if (isBreak(codepoint))
+				m_snapshot = m_current;
 		}
 
-		// If no size was assigned to the token, use whatever has been found thus far
-		if (token.m_size.x == 0)
-		{
-			token.m_size = size;
-			token.m_end = index;
-		}
-
-		// Must make sure to update the tokenizer state
-		m_index = token.m_end;
-		m_position = 0;
-		return token;
-	}
-
-	glm::ivec2 Tokenizer::getAdvance(int current, int next) const
-	{
-		const int advance = al_get_glyph_advance(m_font, current, next);
-
-		int bby, bbh, _;
-		al_get_glyph_dimensions(m_font, current, &_, &bby, &_, &bbh);
-
-		return glm::ivec2{ advance, bbh };
+		// Reaching this indicates that we extracted the last task, must terminate next iteration
+		task = m_current;
+		m_snapshot.m_index = length;
+		return true;
 	}
 }
 
@@ -197,14 +168,14 @@ core::ElementText::~ElementText()
 std::vector<core::Element::Task> core::ElementText::split(int position, int width) const
 {
 	std::vector<Task> tasks;
+	Tokenizer tokenizer{ m_text, m_style.m_font };
 
-	Tokenizer tokenizer{ m_style.m_font, m_text, position, width };
-	while (tokenizer.valid())
+	Task task;
+	while (tokenizer.extract(task, position, width))
 	{
-		const auto token = tokenizer.next();
-		const auto renderer = [this, token](auto & pos) { draw(pos, token.m_index, token.m_end); };
-
-		tasks.push_back(Task{ renderer, token.m_size });
+		task.m_renderer = [this, task](const glm::vec2 & pos) { draw(pos, task.m_index, task.m_index + task.m_length); };
+		tasks.push_back(task);
+		position = task.m_newline ? 0 : position + task.m_size.x;
 	}
 	return tasks;
 }

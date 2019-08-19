@@ -65,13 +65,14 @@ void core::Text::draw(const glm::vec2 & pos, const glm::vec2 & size) const
 	for (const auto & element : m_elements)
 	for (const auto & task : element->split(position, size.x))
 	{
-		if (position + task.m_size.x > size.x)
+		m_tasks.back().push_back(task);
+		if (task.m_newline)
 		{
 			m_tasks.push_back({});
 			position = 0;
 		}
-		position += task.m_size.x;
-		m_tasks.back().push_back(task);
+		else
+			position += task.m_size.x;
 	}
 
 	// All render tasks may now be performed
