@@ -24,7 +24,7 @@ namespace core
 
 		bool isFullscreen() const;
 
-		glm::uvec2 getSize() const;
+		glm::ivec2 getSize() const;
 		float getAspectRatio() const;
 
 	private:

@@ -107,7 +107,7 @@ bool util::File::write(const std::string & data) const
 }
 bool util::File::write(const unsigned char * data, unsigned int size) const
 {
-	std::ofstream stream{ m_path };
+	std::fstream stream{ m_path, std::ios::out | std::ios::binary };
 
 	if (stream.is_open())
 		stream.write(reinterpret_cast<const char *>(data), size);

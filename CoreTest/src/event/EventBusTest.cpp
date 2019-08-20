@@ -13,7 +13,7 @@ namespace core::event
 		TEST_METHOD(EventBus_add)
 		{
 			EventBus bus;
-			const auto listenerA = bus.add<int, 5>([](auto & event) {});
+			const auto listenerA = bus.add<int>(5, [](auto & event) {});
 			const auto listenerB = bus.add<int>([](auto & event) {});
 			const auto listenerC = bus.add<float>([](auto & event) {});
 
@@ -24,7 +24,7 @@ namespace core::event
 		TEST_METHOD(EventBus_remove)
 		{
 			EventBus bus;
-			{ const auto listener = bus.add<int, 5>([](auto & event) {}); }
+			{ const auto listener = bus.add<int>(5, [](auto & event) {}); }
 			{ const auto listener = bus.add<int>([](auto & event) {}); }
 			{ const auto listener = bus.add<float>([](auto & event) {}); }
 
@@ -38,8 +38,8 @@ namespace core::event
 
 			EventBus bus;
 			const auto listenerA = bus.add<int>([&monitor](auto & event) { monitor = event; });
-			const auto listenerB = bus.add<int, 4>([](auto & event) { event += 5; });
-			const auto listenerC = bus.add<int, 2>([](auto & event) { event *= 2; });
+			const auto listenerB = bus.add<int>(4, [](auto & event) { event += 5; });
+			const auto listenerC = bus.add<int>(2, [](auto & event) { event *= 2; });
 
 			const int result = bus.post(7);
 			Assert::AreEqual(19, result);

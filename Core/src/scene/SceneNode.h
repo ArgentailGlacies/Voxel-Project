@@ -130,6 +130,7 @@ namespace core
 		virtual void schedule(ScheduleContext & context) const override final;
 
 	private:
+		FullscreenLayer m_fullscreenLayer = FullscreenLayer::GAME;
 		ViewportLayer m_viewportLayer = ViewportLayer::WORLD;
 		Translucency m_translucency = Translucency::OPAQUE;
 

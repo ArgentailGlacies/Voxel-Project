@@ -17,6 +17,7 @@ namespace core
 
 		bool bind() const;
 		bool unbind() const;
+		static bool reset();
 
 		bool attach(const Shader & shader) const;
 		bool link() const;

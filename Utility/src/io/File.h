@@ -7,7 +7,7 @@ namespace util
 	class File
 	{
 	public:
-		File() = delete;
+		File() = default;
 		File(const char * path) : m_path(path) {}
 		File(const std::string & path) : m_path(path) {}
 
@@ -85,5 +85,14 @@ namespace util
 
 	private:
 		std::string m_path;
+	};
+}
+
+namespace std
+{
+	template<>
+	struct hash<util::File>
+	{
+		inline size_t operator()(const util::File & file) const { return hash<string>{}(file.path()); }
 	};
 }

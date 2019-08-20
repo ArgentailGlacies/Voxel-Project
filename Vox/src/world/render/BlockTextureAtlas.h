@@ -1,10 +1,10 @@
 #pragma once
 
+#include "allegro/Bitmap.h"
 #include "asset/AssetUtil.h"
 #include "io/File.h"
 #include "opengl/Texture.h"
 
-#include <allegro5/bitmap.h>
 #include <gsl/pointers>
 #include <memory>
 #include <string>
@@ -13,8 +13,6 @@
 
 namespace vox
 {
-	using Bitmap = gsl::not_null<ALLEGRO_BITMAP*>;
-
 	class BlockTextureAtlas : public core::Texture
 	{
 	public:
@@ -52,7 +50,7 @@ namespace vox
 			@param row True if the bitmap should be parsed as rows, false to be parsed as columns.
 			@return The index of the bitmap.
 		*/
-		unsigned int attach(Bitmap && bitmap, bool row = true);
+		unsigned int attach(core::Bitmap && bitmap, bool row = true);
 
 		/**
 			Builds the texture atlas from all provided bitmaps. No more bitmaps should be attached
@@ -67,9 +65,9 @@ namespace vox
 		unsigned int m_height = 0;
 		unsigned int m_depth = 0;
 
+		std::vector<core::Bitmap> m_frames;
+		std::vector<core::Bitmap> m_bitmaps;
 		std::unordered_map<std::string, unsigned int> m_handles;
-		std::vector<ALLEGRO_BITMAP*> m_bitmaps;
-		std::vector<ALLEGRO_BITMAP*> m_frames;
 	};
 
 	class BlockTextureAtlasBuilder : public core::Builder<BlockTextureAtlas>

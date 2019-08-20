@@ -68,12 +68,7 @@ void core::TransformNode::schedule(ScheduleContext & context) const
 void core::TransformNode::update(ScheduleContext & context) const
 {
 	// Must decompose the model-to-world matrix to be able to compute distance to current camera.
-	glm::vec3 translation;
-	glm::quat rotation;
-	glm::vec3 scale;
-	glm::vec3 skew;
-	glm::vec4 perspective;
-	glm::decompose(context.stack.top(), scale, rotation, translation, skew, perspective);
+	const glm::vec3 translation = context.stack.top()[3];
 
 	// Distance to camera is difference in world position of model and camera. Depth must not be
 	// zero and is thus offset by one, to ensure any system commands of depth zero are done first.
@@ -88,6 +83,7 @@ void core::RenderNode::schedule(ScheduleContext & context) const
 {
 	// By this point, transformation nodes have calculated the depth value. Rendering nodes must
 	// ensure that their viewport, translucency and material values are properly set.
+	context.key.setFullscreenLayer(m_fullscreenLayer);
 	context.key.setViewportLayer(m_viewportLayer);
 	context.key.setTranslucency(m_translucency);
 	context.key.setProgram(m_program.empty() ? 0 : m_program->handle());

@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<bitmap path="data/gfx/sprites/gui/generic/slider_horizontal.png" />
+<frames>
+	<left_inactive           pos="0, 0"  size="16, 16" />
+	<left_inactive_hovered   pos="0, 0"  size="16, 16" tint="0.8, 0.8, 0.8, 1.0" />
+	<left_inactive_clicked   pos="0, 0"  size="16, 16" tint="0.6, 0.6, 0.6, 1.0" />
+	<left_inactive_locked    pos="0, 0"  size="16, 16" tint="0.5, 0.5, 0.5, 0.5" />
+	<middle_inactive         pos="16, 0" size="16, 16" />
+	<middle_inactive_hovered pos="16, 0" size="16, 16" tint="0.8, 0.8, 0.8, 1.0" />
+	<middle_inactive_clicked pos="16, 0" size="16, 16" tint="0.6, 0.6, 0.6, 1.0" />
+	<middle_inactive_locked  pos="16, 0" size="16, 16" tint="0.5, 0.5, 0.5, 0.5" />
+	<right_inactive          pos="32, 0" size="16, 16" />
+	<right_inactive_hovered  pos="32, 0" size="16, 16" tint="0.8, 0.8, 0.8, 1.0" />
+	<right_inactive_clicked  pos="32, 0" size="16, 16" tint="0.6, 0.6, 0.6, 1.0" />
+	<right_inactive_locked   pos="32, 0" size="16, 16" tint="0.5, 0.5, 0.5, 0.5" />
+	<bar_inactive            pos="48, 0" size="4, 16" />
+	<bar_inactive_hovered    pos="48, 0" size="4, 16"  tint="0.8, 0.8, 0.8, 1.0" />
+	<bar_inactive_clicked    pos="48, 0" size="4, 16"  tint="0.6, 0.6, 0.6, 1.0" />
+	<bar_inactive_locked     pos="48, 0" size="4, 16"  tint="0.5, 0.5, 0.5, 0.5" />
+</frames>

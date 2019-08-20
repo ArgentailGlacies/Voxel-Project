@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<bitmap path="data/gfx/sprites/gui/generic/background.png" />
+<frames>
+	<top_left     pos="0,  0"  size="8, 8" />
+	<top          pos="8,  0"  size="8, 8" />
+	<top_right    pos="16, 0"  size="8, 8" />
+	<middle_left  pos="0,  8"  size="8, 8" />
+	<middle       pos="8,  8"  size="8, 8" />
+	<middle_right pos="16, 8"  size="8, 8" />
+	<bottom_left  pos="0,  16" size="8, 8" />
+	<bottom       pos="8,  16" size="8, 8" />
+	<bottom_right pos="16, 16" size="8, 8" />
+</frames>

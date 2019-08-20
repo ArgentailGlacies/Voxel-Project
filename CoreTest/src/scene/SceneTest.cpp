@@ -149,6 +149,33 @@ namespace core::scene
 
 			Assert::AreNotEqual(renderA, renderB);
 		}
+		TEST_METHOD(Scene_setTranslucency)
+		{
+			Scene scene{ m_assets, display(), m_ubos };
+			const auto render = scene.createRender("", "", []() {}, Scene::DEFAULT_ENTRY);
+			const auto node = scene.createNode(Scene::DEFAULT_ENTRY);
+
+			scene.setTranslucency(render, Translucency::OPAQUE);
+			Assert::ExpectException<std::invalid_argument>([&] { scene.setTranslucency(node, Translucency::OPAQUE); });
+		}
+		TEST_METHOD(Scene_setViewportLayer)
+		{
+			Scene scene{ m_assets, display(), m_ubos };
+			const auto render = scene.createRender("", "", []() {}, Scene::DEFAULT_ENTRY);
+			const auto node = scene.createNode(Scene::DEFAULT_ENTRY);
+
+			scene.setViewportLayer(render, ViewportLayer::WORLD);
+			Assert::ExpectException<std::invalid_argument>([&] { scene.setViewportLayer(node, ViewportLayer::WORLD); });
+		}
+		TEST_METHOD(Scene_setFullscreenLayer)
+		{
+			Scene scene{ m_assets, display(), m_ubos };
+			const auto render = scene.createRender("", "", []() {}, Scene::DEFAULT_ENTRY);
+			const auto node = scene.createNode(Scene::DEFAULT_ENTRY);
+
+			scene.setFullscreenLayer(render, FullscreenLayer::GAME);
+			Assert::ExpectException<std::invalid_argument>([&] { scene.setFullscreenLayer(node, FullscreenLayer::GAME); });
+		}
 
 	private:
 		AssetRegistry m_assets = mockAssetRegistry();

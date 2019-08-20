@@ -9,7 +9,6 @@
 #include "world/util/Limits.h"
 #include "world/util/Side.h"
 
-#include <allegro5/allegro.h>
 #include <glm/gtx/hash.hpp>
 #include <plog/Log.h>
 
@@ -140,16 +139,19 @@ void vox::BlockTextureLoader::loadTexture(const pugi::xml_node & texture)
 		m_texture.m_handle = m_atlas.attach(path, row);
 	else
 	{
+		// TODO: Rewrite this using the new bitmap wrapper
+		/*
 		LOG_INFO << "Building overlay from '" << overlay << "' to '" << path << "'";
 		auto base = gsl::make_not_null(al_load_bitmap(path.c_str()));
 		auto over = gsl::make_not_null(al_load_bitmap(overlay.c_str()));
-
+		
 		auto * target = al_get_target_bitmap();
 		al_set_target_bitmap(base);
 		al_draw_bitmap(over, 0.0f, 0.0f, 0);
 		al_set_target_bitmap(target);
 		al_destroy_bitmap(over);
 		m_texture.m_handle = m_atlas.attach(std::move(base), row);
+		*/
 	}
 }
 

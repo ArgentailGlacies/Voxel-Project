@@ -3,6 +3,14 @@
 #include "event/EventListener.h"
 #include "state/State.h"
 
+#include <glm/vec2.hpp>
+
+namespace core
+{
+	class Camera;
+	class Display;
+}
+
 namespace game
 {
 	class StateEntry : public core::State
@@ -12,6 +20,20 @@ namespace game
 		virtual void process() override final;
 
 	private:
-		core::Listener m_listener;
+		core::Camera * m_camera = nullptr;
+		core::Display * m_display = nullptr;
+
+		core::Listener m_displayCloseListener;
+		core::Listener m_mouseMoveListener;
+		core::Listener m_keyPressListener;
+		core::Listener m_keyReleaseListener;
+
+		bool m_keyForward = false;
+		bool m_keyBack = false;
+		bool m_keyLeft = false;
+		bool m_keyRight = false;
+		bool m_keyBoost = false;
+
+		glm::vec2 m_mouseDelta = {};
 	};
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<font>
+  <style size="18" type="regular"     path="data/gfx/fonts/overlock.ttf" />
+  <style size="18" type="bold"        path="data/gfx/fonts/overlock-bold.ttf" />
+  <style size="18" type="bold-italic" path="data/gfx/fonts/overlock-bold-italic.ttf" />
+  <style size="18" type="italic"      path="data/gfx/fonts/overlock-italic.ttf" />
+</font>

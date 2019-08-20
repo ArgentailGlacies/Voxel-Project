@@ -3,8 +3,6 @@
 
 #include "event/EventBus.h"
 
-core::Listener::Listener() noexcept : m_type(typeid(void))
-{}
 core::Listener::Listener(
 	EventBus & bus, const std::type_index & type,
 	unsigned int id, int priority, bool monitor
@@ -16,7 +14,7 @@ core::Listener::Listener(Listener && other) noexcept
 {
 	*this = std::move(other);
 }
-core::Listener::~Listener()
+core::Listener::~Listener() noexcept
 {
 	if (m_bus != nullptr)
 		m_bus->remove(*this);

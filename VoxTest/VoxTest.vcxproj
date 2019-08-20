@@ -30,14 +30,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
@@ -81,8 +81,7 @@
     <Allegro_AddonImage>true</Allegro_AddonImage>
     <Allegro_LibraryType>DynamicDebug</Allegro_LibraryType>
     <Allegro_AddonTTF>true</Allegro_AddonTTF>
-    <Allegro_AddonPrimitives>
-    </Allegro_AddonPrimitives>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
     <Allegro_AddonAudio>true</Allegro_AddonAudio>
     <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
     <Allegro_AddonFont>true</Allegro_AddonFont>
@@ -95,8 +94,7 @@
     <IncludePath>$(SolutionDir)\VoxTest\src;$(SolutionDir)\Vox\src;$(SolutionDir)\UtilityTest\src;$(SolutionDir)\Utility\src;$(SolutionDir)\Dependencies\src;$(SolutionDir)\Core\src;$(SolutionDir)\CoreTest\src;$(IncludePath)</IncludePath>
     <Allegro_AddonImage>true</Allegro_AddonImage>
     <Allegro_AddonTTF>true</Allegro_AddonTTF>
-    <Allegro_AddonPrimitives>
-    </Allegro_AddonPrimitives>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
     <Allegro_AddonAudio>true</Allegro_AddonAudio>
     <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
     <Allegro_AddonFont>true</Allegro_AddonFont>
@@ -114,11 +112,16 @@
       <UseFullPaths>true</UseFullPaths>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeaderFile />
+      <BrowseInformation>false</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -218,10 +221,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ClInclude Include="src\mock\MockBlockRegistry.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\mock\MockBlockRegistry.h" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

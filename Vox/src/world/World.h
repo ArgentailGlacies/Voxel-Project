@@ -59,7 +59,7 @@ namespace vox
 			guarantee that a write operation is finished before reading from the world. This will
 			also wait until all read operations are done.
 		*/
-		void finish();
+		void finish() const;
 
 		// ...
 

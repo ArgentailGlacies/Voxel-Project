@@ -33,11 +33,11 @@ bool core::Display::isFullscreen() const
 		return false;
 	return al_get_display_flags(m_handle) & (ALLEGRO_FULLSCREEN | ALLEGRO_FULLSCREEN_WINDOW);
 }
-glm::uvec2 core::Display::getSize() const
+glm::ivec2 core::Display::getSize() const
 {
 	if (m_handle == nullptr)
 		return {};
-	glm::uvec2 size;
+	glm::ivec2 size;
 	size.x = al_get_display_width(m_handle);
 	size.y = al_get_display_height(m_handle);
 	return size;

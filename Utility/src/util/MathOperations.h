@@ -177,6 +177,10 @@ namespace util
 	{
 		return { round(v.x), round(v.y), round(v.z), round(v.w) };
 	}
+	template<typename T> constexpr T round(const T & v, const T & r)
+	{
+		return r == T{ 0 } ? v : r * round(v / r);
+	}
 
 	template<typename T> constexpr int ceil(const T & v)
 	{

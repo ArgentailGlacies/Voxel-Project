@@ -7,8 +7,10 @@
 namespace core
 {
 	class AssetRegistry;
+	class Display;
 	class ECS;
 	class EventBus;
+	class GuiRegistry;
 	class Scene;
 	class StateManager;
 	class UBORegistry;
@@ -40,8 +42,10 @@ namespace core
 		util::Folder getDataFolder() const;
 
 		AssetRegistry & getAssets();
+		Display & getDisplay();
 		ECS & getECS();
 		EventBus & getEventBus();
+		GuiRegistry & getGuiRegistry();
 		Scene & getScene();
 		StateManager & getStates();
 		UBORegistry & getUBOs();

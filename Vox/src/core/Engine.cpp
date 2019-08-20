@@ -2,6 +2,7 @@
 #include "Engine.h"
 
 #include "allegro/Allegro.h"
+#include "allegro/EventSource.h"
 #include "asset/AssetRegistry.h"
 #include "core/MainLoop.h"
 #include "core/Resources.h"
@@ -9,6 +10,7 @@
 #include "ecs/ECS.h"
 #include "event/EventBus.h"
 #include "event/EventQueue.h"
+#include "gui/GuiRegistry.h"
 #include "opengl/UBORegistry.h"
 #include "scene/Scene.h"
 #include "script/ModuleRegistry.h"
@@ -16,8 +18,6 @@
 #include "ui/Display.h"
 
 #include "world/Universe.h"
-
-#include <allegro5/allegro.h>
 
 #include "world/Query.h"
 
@@ -46,6 +46,7 @@ struct core::Engine::Impl
 	StateManager m_states;
 	ECS m_ecs;
 	Scene m_scene;
+	GuiRegistry m_guis;
 
 	vox::Universe m_universe;
 };
@@ -62,11 +63,12 @@ core::Engine::Impl::Impl(Engine & engine) :
 	m_states(engine),
 	m_ecs(),
 	m_scene(m_assets, m_display, m_ubos),
+	m_guis(m_assets, m_display, m_bus, m_scene),
 	m_universe(engine.getDataFolder().folder(res::path::UNIVERSE), m_scene)
 {
-	m_queue.add(gsl::make_not_null(al_get_display_event_source(m_display.handle())));
-	m_queue.add(gsl::make_not_null(al_get_keyboard_event_source()));
-	m_queue.add(gsl::make_not_null(al_get_mouse_event_source()));
+	m_queue.add(getDisplayEventSource(m_display));
+	m_queue.add(getKeyboardEventSource());
+	m_queue.add(getMouseEventSource());
 }
 
 // ...
@@ -99,6 +101,7 @@ void core::Engine::process(double t, double dt)
 	m_impl->m_states.process();
 	m_impl->m_ecs.process(t, dt);
 	m_impl->m_universe.process();
+	m_impl->m_guis.process();
 }
 void core::Engine::render(float pf)
 {
@@ -108,8 +111,10 @@ void core::Engine::render(float pf)
 util::Folder core::Engine::getDataFolder() const { return "data"; }
 
 core::AssetRegistry & core::Engine::getAssets() { return m_impl->m_assets; }
+core::Display & core::Engine::getDisplay() { return m_impl->m_display; }
 core::ECS & core::Engine::getECS() { return m_impl->m_ecs; }
 core::EventBus & core::Engine::getEventBus() { return m_impl->m_bus; }
+core::GuiRegistry & core::Engine::getGuiRegistry() { return m_impl->m_guis; }
 core::Scene & core::Engine::getScene() { return m_impl->m_scene; }
 core::StateManager & core::Engine::getStates() { return m_impl->m_states; }
 core::UBORegistry & core::Engine::getUBOs() { return m_impl->m_ubos; }

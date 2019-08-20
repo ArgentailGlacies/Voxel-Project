@@ -49,3 +49,8 @@ bool core::VAO::unbind() const
 	std::lock_guard guard{ mutex };
 	return setBoundHandle(0u);
 }
+bool core::VAO::reset()
+{
+	std::lock_guard guard{ mutex };
+	return setBoundHandle(0u);
+}

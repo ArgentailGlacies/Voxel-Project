@@ -343,7 +343,7 @@ vox::World::~World() = default;
 
 void vox::World::read(WorldQuery & query) const { m_impl->read(query); }
 void vox::World::write(WorldQuery && query) { m_impl->write(std::move(query)); }
-void vox::World::finish() { m_impl->finish(); }
+void vox::World::finish() const { m_impl->finish(); }
 
 vox::BlockRegion vox::World::readChunkMeshData(const glm::ivec3 & cpos) const
 {

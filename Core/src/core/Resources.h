@@ -10,6 +10,7 @@ namespace core
 	*/
 	namespace res::path
 	{
+		const std::string FONTS = "fonts";
 		const std::string SHADERS = "shaders";
 		const std::string SPRITES = "sprites";
 		const std::string UNIVERSE = "universe";

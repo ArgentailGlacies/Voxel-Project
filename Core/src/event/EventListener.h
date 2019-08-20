@@ -2,6 +2,7 @@
 
 #include <limits>
 #include <typeindex>
+#include <typeinfo>
 
 namespace core
 {
@@ -10,14 +11,14 @@ namespace core
 	class Listener
 	{
 	public:
-		Listener() noexcept;
+		Listener() = default;
 		Listener(
 			EventBus & bus, const std::type_index & type,
 			unsigned int id, int priority, bool monitor
 		) noexcept;
 		Listener(const Listener &) = delete;
 		Listener(Listener && other) noexcept;
-		~Listener();
+		~Listener() noexcept;
 
 		Listener & operator=(const Listener &) = delete;
 		Listener & operator=(Listener && other) noexcept;
@@ -30,9 +31,9 @@ namespace core
 	private:
 		EventBus * m_bus = nullptr;
 
-		std::type_index m_type;
-		unsigned int m_id;
-		int m_priority;
-		bool m_monitor;
+		std::type_index m_type = typeid(void);
+		unsigned int m_id = 0;
+		int m_priority = 0;
+		bool m_monitor = false;
 	};
 }

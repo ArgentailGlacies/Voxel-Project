@@ -162,7 +162,7 @@ namespace core
 		);
 		/**
 			Changes the translucency of the specified entry to the provided rendering node. If the
-			node is not a renderer, this method does nothing.
+			node is not a renderer, this method throws std::invalid_argument.
 
 			@param entry The node which should be updated.
 			@param translucency The new tranclucency of the node.
@@ -170,12 +170,20 @@ namespace core
 		void setTranslucency(SceneEntry entry, Translucency translucency);
 		/**
 			Changes the viewport layer of the specified entry to the provided rendering node. If the
-			node is not a renderer, this method does nothing.
+			node is not a renderer, this method throws std::invalid_argument.
 
 			@param entry The node which should be updated.
 			@param layer The new viewport layer of the node.
 		*/
 		void setViewportLayer(SceneEntry entry, ViewportLayer layer);
+		/**
+			Changes the fullscreen layer of the specified entry to the provided rendering node. If
+			the node is not a renderer, this method throws std::invalid_argument.
+
+			@param entry The node which should be updated.
+			@param layer The new viewport layer of the node.
+		*/
+		void setFullscreenLayer(SceneEntry entry, FullscreenLayer layer);
 
 	private:
 		template<typename Type>
@@ -203,7 +211,7 @@ namespace core
 			throw std::invalid_argument("Entry " + std::to_string(entry) + " does not exist");
 		auto * node = dynamic_cast<Type *>(m_nodes[entry].get());
 		if (node == nullptr)
-			throw std::invalid_argument("Entry " + std::to_string(entry) + " is has wrong type");
+			throw std::invalid_argument("Entry " + std::to_string(entry) + " has wrong type");
 		return *node;
 	}
 }

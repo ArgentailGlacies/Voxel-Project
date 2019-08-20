@@ -2,6 +2,7 @@
 #include "Context.h"
 
 #include "allegro/Allegro.h"
+#include "io/File.h"
 #include "ui/Display.h"
 
 #include <plog/Log.h>
@@ -15,7 +16,9 @@ std::unique_ptr<core::Display> DISPLAY;
 
 TEST_MODULE_INITIALIZE(CoreInitialize)
 {
-	plog::init(plog::debug, "unit_test.log");
+	const util::File logFile{ "unit_test_core.log" };
+	logFile.erase();
+	plog::init(plog::debug, logFile.path().c_str());
 
 	ALLEGRO = std::make_unique<core::Allegro>();
 	DISPLAY = std::make_unique<core::Display>(glm::uvec2{ 320u, 240u }, false);

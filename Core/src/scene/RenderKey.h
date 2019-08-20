@@ -9,6 +9,7 @@ namespace core
 	public:
 		using Data = unsigned long long;
 
+		inline void setFullscreenLayer(FullscreenLayer layer) { m_fullscreenLayer = layer; }
 		inline void setViewportLayer(ViewportLayer layer) { m_viewportLayer = layer; }
 		inline void setTranslucency(Translucency translucency) { m_translucency = translucency; }
 		inline void setViewport(unsigned int viewport) { m_viewport = viewport; }
@@ -16,6 +17,7 @@ namespace core
 		inline void setTexture(unsigned int texture) { m_texture = texture; }
 		inline void setDepth(unsigned int depth) { m_depth = depth; }
 
+		inline auto getFullscreenLayer() const { return m_fullscreenLayer; }
 		inline auto getViewportLayer() const { return m_viewportLayer; }
 		inline auto getTranslucency() const { return m_translucency; }
 		inline auto getViewport() const { return m_viewport; }
@@ -35,6 +37,7 @@ namespace core
 		Data compile() const;
 
 	private:
+		FullscreenLayer m_fullscreenLayer = FullscreenLayer::GAME;
 		ViewportLayer m_viewportLayer = ViewportLayer::WORLD;
 		Translucency m_translucency = Translucency::OPAQUE;
 		unsigned int m_viewport = 0;

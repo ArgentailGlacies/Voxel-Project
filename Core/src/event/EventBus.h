@@ -10,8 +10,6 @@ namespace core
 
 	class EventBus
 	{
-		friend Listener::~Listener();
-
 	public:
 		EventBus() = default;
 		EventBus(const EventBus &) = delete;
@@ -44,10 +42,11 @@ namespace core
 			lower priority is invoked first, and higher priorities invoked last. In the case where
 			callbacks have the same priority, the last registered callback is invoked last.
 
+			@param priority The priority of the listener.
 			@param callback The callback to register under the specified event.
 			@return The listener associated with the callback.
 		*/
-		template<typename Event, int priority> Listener add(const Callback<Event> & callback);
+		template<typename Event> Listener add(int priority, const Callback<Event> & callback);
 		/**
 			Registers a new callback on the bus, which will be invoked whenever an event of the
 			specified type is posted. Callbacks registered without a priority will always be
@@ -58,6 +57,13 @@ namespace core
 			@return The listener associated with the callback.
 		*/
 		template<typename Event> Listener add(const CallbackConst<Event> & callback);
+		/**
+			Removes the given listener from the bus, preventing the callback pointed to by the
+			listener from being invoked whenever an event is posted.
+
+			@param listener The listener to remove from the bus.
+		*/
+		void remove(const Listener & listener);
 
 		// ...
 
@@ -75,8 +81,6 @@ namespace core
 		template<typename Event> using Container = CallbackContainer<Callback<Event>>;
 		template<typename Event> using ContainerConst = CallbackContainer<CallbackConst<Event>>;
 
-		void remove(const Listener & listener);
-
 		std::unordered_map<std::type_index, CallbackContainerPtr> m_containers;
 		std::unordered_map<std::type_index, CallbackContainerPtr> m_containersConst;
 	};
@@ -92,15 +96,15 @@ namespace core
 		{
 			const auto & maps = static_cast<Container<Event>*>(it->second.get())->maps();
 			for (const auto &[_, callbacks] : maps)
-				for (const auto &[_, callback] : callbacks)
-					callback(event);
+			for (const auto &[_, callback] : callbacks)
+				callback(event);
 		}
 		if (const auto it = m_containersConst.find(type); it != m_containersConst.end())
 		{
 			const auto & maps = static_cast<ContainerConst<Event>*>(it->second.get())->maps();
 			for (const auto &[_, callbacks] : maps)
-				for (const auto &[_, callback] : callbacks)
-					callback(event);
+			for (const auto &[_, callback] : callbacks)
+				callback(event);
 		}
 		return event;
 	}
@@ -110,8 +114,8 @@ namespace core
 		return std::move(post(event));
 	}
 
-	template<typename Event, int priority>
-	inline Listener EventBus::add(const Callback<Event> & callback)
+	template<typename Event>
+	inline Listener EventBus::add(int priority, const Callback<Event> & callback)
 	{
 		const auto type = std::type_index{ typeid(Event) };
 		auto it = m_containers.find(type);

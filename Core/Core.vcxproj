@@ -28,8 +28,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\allegro\Allegro.cpp" />
+    <ClCompile Include="src\allegro\Bitmap.cpp" />
+    <ClCompile Include="src\allegro\EventSource.cpp" />
+    <ClCompile Include="src\allegro\Font.cpp" />
+    <ClCompile Include="src\allegro\FontFactory.cpp" />
     <ClCompile Include="src\allegro\Sprite.cpp" />
     <ClCompile Include="src\allegro\SpriteFactory.cpp" />
+    <ClCompile Include="src\allegro\Text.cpp" />
+    <ClCompile Include="src\allegro\TextElement.cpp" />
     <ClCompile Include="src\asset\AssetUtil.cpp" />
     <ClCompile Include="src\core\MainLoop.cpp" />
     <ClCompile Include="src\ecs\EntityRegistry.cpp" />
@@ -37,6 +43,18 @@
     <ClCompile Include="src\event\EventBus.cpp" />
     <ClCompile Include="src\event\EventListener.cpp" />
     <ClCompile Include="src\event\EventQueue.cpp" />
+    <ClCompile Include="src\gui\Gui.cpp" />
+    <ClCompile Include="src\gui\GuiRegistry.cpp" />
+    <ClCompile Include="src\gui\internal\HandlerButton.cpp" />
+    <ClCompile Include="src\gui\internal\HandlerLabel.cpp" />
+    <ClCompile Include="src\gui\internal\HandlerSlider.cpp" />
+    <ClCompile Include="src\gui\internal\Processor.cpp" />
+    <ClCompile Include="src\gui\internal\RendererButton.cpp" />
+    <ClCompile Include="src\gui\internal\RendererLabel.cpp" />
+    <ClCompile Include="src\gui\internal\RendererPanel.cpp" />
+    <ClCompile Include="src\gui\internal\RendererSlider.cpp" />
+    <ClCompile Include="src\gui\WidgetLoader.cpp" />
+    <ClCompile Include="src\gui\WidgetProcessor.cpp" />
     <ClCompile Include="src\opengl\Attribute.cpp" />
     <ClCompile Include="src\opengl\Mesh.cpp" />
     <ClCompile Include="src\opengl\OpenGL.cpp" />
@@ -58,11 +76,18 @@
     <ClCompile Include="src\script\Script.cpp" />
     <ClCompile Include="src\state\StateManager.cpp" />
     <ClCompile Include="src\ui\Display.cpp" />
+    <ClCompile Include="src\ui\Mouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\allegro\Allegro.h" />
+    <ClInclude Include="src\allegro\Bitmap.h" />
+    <ClInclude Include="src\allegro\EventSource.h" />
+    <ClInclude Include="src\allegro\Font.h" />
+    <ClInclude Include="src\allegro\FontFactory.h" />
     <ClInclude Include="src\allegro\Sprite.h" />
     <ClInclude Include="src\allegro\SpriteFactory.h" />
+    <ClInclude Include="src\allegro\Text.h" />
+    <ClInclude Include="src\allegro\TextElement.h" />
     <ClInclude Include="src\asset\Asset.h" />
     <ClInclude Include="src\asset\AssetRegistry.h" />
     <ClInclude Include="src\asset\AssetUtil.h" />
@@ -81,7 +106,23 @@
     <ClInclude Include="src\event\EventListener.h" />
     <ClInclude Include="src\event\EventQueue.h" />
     <ClInclude Include="src\event\Events.h" />
+    <ClInclude Include="src\gui\Gui.h" />
+    <ClInclude Include="src\gui\GuiRegistry.h" />
+    <ClInclude Include="src\gui\internal\Handler.h" />
+    <ClInclude Include="src\gui\internal\HandlerButton.h" />
+    <ClInclude Include="src\gui\internal\HandlerLabel.h" />
+    <ClInclude Include="src\gui\internal\HandlerSlider.h" />
+    <ClInclude Include="src\gui\internal\Processor.h" />
+    <ClInclude Include="src\gui\internal\Renderer.h" />
+    <ClInclude Include="src\gui\internal\RendererButton.h" />
+    <ClInclude Include="src\gui\internal\RendererLabel.h" />
+    <ClInclude Include="src\gui\internal\RendererPanel.h" />
+    <ClInclude Include="src\gui\internal\RendererSlider.h" />
+    <ClInclude Include="src\gui\internal\RendererTextTest.h" />
+    <ClInclude Include="src\gui\WidgetProcessor.h" />
     <ClInclude Include="src\gui\Widget.h" />
+    <ClInclude Include="src\gui\WidgetLoader.h" />
+    <ClInclude Include="src\gui\WidgetType.h" />
     <ClInclude Include="src\opengl\Attribute.h" />
     <ClInclude Include="src\opengl\Enums.h" />
     <ClInclude Include="src\opengl\Mesh.h" />
@@ -110,6 +151,7 @@
     <ClInclude Include="src\state\State.h" />
     <ClInclude Include="src\state\StateManager.h" />
     <ClInclude Include="src\ui\Display.h" />
+    <ClInclude Include="src\ui\Keyboard.h" />
     <ClInclude Include="src\ui\Mouse.h" />
   </ItemGroup>
   <ItemGroup>
@@ -126,13 +168,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -176,6 +219,7 @@
     <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_LibraryType>DynamicDebug</Allegro_LibraryType>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -195,6 +239,7 @@
     <Allegro_AddonAudio>true</Allegro_AddonAudio>
     <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
     <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -216,6 +261,7 @@
       <PrecompiledHeaderFile />
       <AdditionalIncludeDirectories>$(SolutionDir)\Utility\src;$(SolutionDir)\Dependencies\src;$(SolutionDir)\Core\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <BrowseInformation>false</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -224,6 +270,9 @@
     <Lib>
       <AdditionalDependencies>OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

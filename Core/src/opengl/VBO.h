@@ -18,6 +18,7 @@ namespace core
 
 		bool bind() const;
 		bool unbind() const;
+		static bool reset(BufferType type);
 
 		bool reserve(unsigned int bytes, const void * data = nullptr) const;
 		bool write(unsigned int bytes, const void * data, unsigned int offset = 0u) const;

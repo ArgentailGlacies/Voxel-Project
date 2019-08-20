@@ -5,8 +5,53 @@
 #include "scene/ScheduleContext.h"
 #include "ui/Display.h"
 
+#include "opengl/VAO.h"
+#include "opengl/VBO.h"
 #include "opengl/OpenGL.h"
+#include "opengl/Program.h"
 #include <allegro5/allegro.h>
+
+namespace
+{
+	core::RenderKey key2D()
+	{
+		core::RenderKey key;
+		key.setFullscreenLayer(core::FullscreenLayer::GUI);
+		return key;
+	}
+	core::RenderKey key3D()
+	{
+		core::RenderKey key;
+		return key;
+	}
+
+	/**
+		Prepares for rendering 2D objects.
+	*/
+	void begin2D()
+	{
+		core::Program::reset();
+		core::VAO::reset();
+		core::VBO::reset(core::BufferType::ARRAY_BUFFER);
+
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
+	}
+	/**
+		Prepares for rendering 3D objects.
+	*/
+	void begin3D()
+	{
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
+		glDepthMask(GL_TRUE);
+		glDepthFunc(GL_LESS);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
+	}
+}
 
 core::Scene::Scene(const AssetRegistry & assets, const Display & display, const UBORegistry & ubos)
 	: m_assets(assets), m_display(display), m_ubos(ubos)
@@ -24,18 +69,14 @@ void core::Scene::process()
 }
 void core::Scene::render(float pf) const
 {
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-	glDepthFunc(GL_LESS);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 	glClearColor(0.0f, 0.5f, 1.0f, 1.0f);
 	glClearDepth(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	ScheduleContext context{ m_ubos, pf };
 	m_nodes[ROOT_ENTRY]->schedule(context);
+	context.queue.add(key2D(), begin2D);
+	context.queue.add(key3D(), begin3D);
 	context.queue.sort();
 	context.queue.render();
 
@@ -147,7 +188,13 @@ core::SceneEntry core::Scene::createRender(
 }
 void core::Scene::setTranslucency(SceneEntry entry, Translucency translucency)
 {
+	getNode<RenderNode>(entry).m_translucency = translucency;
 }
 void core::Scene::setViewportLayer(SceneEntry entry, ViewportLayer layer)
 {
+	getNode<RenderNode>(entry).m_viewportLayer = layer;
+}
+void core::Scene::setFullscreenLayer(SceneEntry entry, FullscreenLayer layer)
+{
+	getNode<RenderNode>(entry).m_fullscreenLayer = layer;
 }
