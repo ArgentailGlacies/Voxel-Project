@@ -80,15 +80,19 @@ void core::Text::draw(const glm::vec2 & pos, const glm::vec2 & size) const
 	for (const auto & row : m_tasks)
 	{
 		// Must know the height of the full row before drawing it
-		float height = 0.0f;
+		int height = 0;
+		int span = 0;
 		for (const auto & task : row)
-			height = util::max(height, task.m_size.y);
+		{
+			height = util::max(height, task.m_lineHeight);
+			span = util::max(span, task.m_lineSpan);
+		}
 
 		// Must track where along the row the tasks should be rendered
 		float x = 0.0f;
 		for (const auto & task : row)
 		{
-			task.m_renderer(pos + glm::vec2{ x, y + height - task.m_size.y });
+			task.m_renderer(pos + glm::vec2{ x, y - task.m_pos.y + span - task.m_lineSpan });
 			x += task.m_size.x;
 		}
 		y += height;

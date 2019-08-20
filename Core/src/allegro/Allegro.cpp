@@ -47,6 +47,7 @@ core::Allegro::Allegro()
 		m_errors |= install(al_install_mouse, "Initialized mouse", "Failed to initialize mouse");
 		m_errors |= install(al_install_audio, "Initialized audio", "Failed to initialize audio");
 		m_errors |= install(al_init_acodec_addon, "Initialized audio codec addon", "Failed to initialize audio codec addon");
+		m_errors |= install(al_init_primitives_addon, "Initialized primitives addon", "Failed to initialize primitives addon");
 		m_errors |= install(al_init_image_addon, "Initialized image addon", "Failed to initialize image addon");
 		m_errors |= install(al_init_font_addon, "Initialized font addon");
 		m_errors |= install(al_init_ttf_addon, "Initialized truetype font addon", "Failed to initialize truetype font addon");
@@ -59,9 +60,10 @@ core::Allegro::~Allegro()
 		return;
 	LOG_INFO << "Shutting down Allegro...";
 
+	al_shutdown_ttf_addon();
 	al_shutdown_font_addon();
 	al_shutdown_image_addon();
-	al_shutdown_ttf_addon();
+	al_shutdown_primitives_addon();
 	al_uninstall_joystick();
 	al_uninstall_keyboard();
 	al_uninstall_mouse();

@@ -32,12 +32,15 @@ namespace core
 		{
 			Renderer m_renderer;
 
-			glm::vec2 m_offset = {};
+			glm::vec2 m_pos = {};
 			glm::vec2 m_size = {};
 
 			bool m_newline = false;
 			int m_index = 0;
 			int m_length = 0;
+
+			int m_lineHeight = 0;
+			int m_lineSpan = 0;
 		};
 
 		/**

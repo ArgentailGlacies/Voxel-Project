@@ -81,8 +81,7 @@
     <Allegro_AddonImage>true</Allegro_AddonImage>
     <Allegro_LibraryType>DynamicDebug</Allegro_LibraryType>
     <Allegro_AddonTTF>true</Allegro_AddonTTF>
-    <Allegro_AddonPrimitives>
-    </Allegro_AddonPrimitives>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
     <Allegro_AddonAudio>true</Allegro_AddonAudio>
     <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
     <Allegro_AddonFont>true</Allegro_AddonFont>
@@ -95,8 +94,7 @@
     <IncludePath>$(SolutionDir)\VoxTest\src;$(SolutionDir)\Vox\src;$(SolutionDir)\UtilityTest\src;$(SolutionDir)\Utility\src;$(SolutionDir)\Dependencies\src;$(SolutionDir)\Core\src;$(SolutionDir)\CoreTest\src;$(IncludePath)</IncludePath>
     <Allegro_AddonImage>true</Allegro_AddonImage>
     <Allegro_AddonTTF>true</Allegro_AddonTTF>
-    <Allegro_AddonPrimitives>
-    </Allegro_AddonPrimitives>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
     <Allegro_AddonAudio>true</Allegro_AddonAudio>
     <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
     <Allegro_AddonFont>true</Allegro_AddonFont>

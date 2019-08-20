@@ -87,6 +87,7 @@ namespace
 		// Must reset the current task to defaults
 		m_current = {};
 		m_current.m_index = index;
+		m_current.m_pos = { 0, std::numeric_limits<float>::max() };
 		m_snapshot = {};
 		m_snapshot.m_index = index;
 
@@ -121,7 +122,8 @@ namespace
 			// Advance to the next character
 			m_current.m_length++;
 			m_current.m_size.x += size.x;
-			m_current.m_size.y = util::max(m_current.m_size.y, static_cast<float>(pos.y + size.y));
+			m_current.m_size.y = util::max(m_current.m_size.y, static_cast<float>(size.y));
+			m_current.m_pos.y = util::min(m_current.m_pos.y, static_cast<float>(pos.y));
 
 			// If encountering a whitespace character, generate a snapshot
 			if (isWhitespace(codepoint))
@@ -174,6 +176,8 @@ std::vector<core::Element::Task> core::ElementText::split(int position, int widt
 	while (tokenizer.extract(task, position, width))
 	{
 		task.m_renderer = [this, task](const glm::vec2 & pos) { draw(pos, task.m_index, task.m_index + task.m_length); };
+		task.m_lineHeight = al_get_font_line_height(m_style.m_font) - task.m_pos.y;
+		task.m_lineSpan = al_get_font_ascent(m_style.m_font) - task.m_pos.y;
 		tasks.push_back(task);
 		position = task.m_newline ? 0 : position + task.m_size.x;
 	}
