@@ -203,5 +203,8 @@
     <ClInclude Include="src\world\render\WorldRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\editor\util\CameraHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
