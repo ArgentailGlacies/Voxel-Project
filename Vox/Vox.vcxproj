@@ -62,6 +62,7 @@
   <ItemGroup>
     <ClInclude Include="src\core\Engine.h" />
     <ClInclude Include="src\core\Setup.h" />
+    <ClInclude Include="src\editor\EditorWorld.h" />
     <ClInclude Include="src\editor\util\Cursor.h" />
     <ClInclude Include="src\world\event\ChunkEvents.h" />
     <ClInclude Include="src\world\data\BlockLoader.h" />
