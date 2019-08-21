@@ -21,14 +21,6 @@ namespace vox
 			@param position The new position of the cursor.
 		*/
 		void setPosition(const glm::ivec3 & position);
-		/**
-			Assigns whether the cursor's position should be considered valid, i.e. exist withing the
-			world space. If the position is considered invalid, no callbacks will be invoked when
-			any action is performed by the cursor.
-
-			@param valid Whether the position of the cursor is valid or not.
-		*/
-		void setPositionValidity(bool valid);
 
 		/**
 			Retrieves the position which was locked in place. If no position is locked, then the
@@ -43,6 +35,25 @@ namespace vox
 			@return The current position of the cursor.
 		*/
 		glm::ivec3 getCurrentPosition() const;
+
+		// ...
+
+		/**
+			Assigns whether the cursor's position should be considered valid, i.e. exist withing the
+			world space. If the position is considered invalid, no callbacks will be invoked when
+			any action is performed by the cursor.
+
+			@param valid Whether the position of the cursor is valid or not.
+		*/
+		void setPositionValidity(bool valid) { m_validPosition = valid; }
+
+		/**
+			Retrieves whether the cusor position is considered valid or not. If the position is
+			invalid, that should be interpreted as the cursor not being part of the world at all.
+
+			@return Whether the cursor is part of the world space or not.
+		*/
+		bool getPositionValidity() const { return m_validPosition; }
 
 		// ...
 
