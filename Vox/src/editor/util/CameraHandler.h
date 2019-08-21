@@ -41,7 +41,7 @@ namespace vox
 
 			@param sensitivity The sensitivity of the camera handler.
 		*/
-		void setSensitivity(float sensitivity);
+		void setSensitivity(float sensitivity) { m_sensitivity = sensitivity; }
 
 		/**
 			Moves the camera along the axis of motion, depending on which mode is currently active.

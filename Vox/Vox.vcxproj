@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\core\Engine.cpp" />
     <ClCompile Include="src\core\Setup.cpp" />
+    <ClCompile Include="src\editor\util\CameraHandler.cpp" />
     <ClCompile Include="src\world\render\BlockRenderLoader.cpp" />
     <ClCompile Include="src\world\render\BlockRenderRegistry.cpp" />
     <ClCompile Include="src\world\render\ChunkRenderStorage.cpp" />

@@ -96,6 +96,9 @@
     <ClCompile Include="src\world\render\WorldRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\editor\util\CameraHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\world\data\BlockData.h">
