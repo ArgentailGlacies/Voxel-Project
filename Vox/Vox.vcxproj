@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\core\Engine.cpp" />
     <ClCompile Include="src\core\Setup.cpp" />
+    <ClCompile Include="src\editor\util\CameraHandler.cpp" />
     <ClCompile Include="src\world\render\BlockRenderLoader.cpp" />
     <ClCompile Include="src\world\render\BlockRenderRegistry.cpp" />
     <ClCompile Include="src\world\render\ChunkRenderStorage.cpp" />
@@ -61,6 +62,7 @@
   <ItemGroup>
     <ClInclude Include="src\core\Engine.h" />
     <ClInclude Include="src\core\Setup.h" />
+    <ClInclude Include="src\editor\util\CameraHandler.h" />
     <ClInclude Include="src\world\event\ChunkEvents.h" />
     <ClInclude Include="src\world\data\BlockLoader.h" />
     <ClInclude Include="src\world\BlockRegistry.h" />

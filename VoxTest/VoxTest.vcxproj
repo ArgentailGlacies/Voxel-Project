@@ -176,6 +176,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\editor\CameraHandlerTest.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\world\render\BlockRenderLoaderTest.cpp" />
     <ClCompile Include="src\world\render\BlockRenderRegistryTest.cpp" />
