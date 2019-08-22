@@ -112,7 +112,9 @@ void core::WidgetLoader::loadGroup(const pugi::xml_node & node, Widget & widget)
 	else
 	{
 		widget.m_group.m_leader = it->second;
-		widget.m_group.m_leader->m_group.m_members.push_back(&widget);
+		for (auto * member : widget.m_group.m_members)
+			it->second->m_group.m_members.push_back(member);
+		widget.m_group.m_members.clear();
 	}
 }
 void core::WidgetLoader::loadState(const pugi::xml_node & node, Widget & widget)

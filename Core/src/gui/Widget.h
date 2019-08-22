@@ -116,7 +116,7 @@ namespace core
 		BoundingBox m_bbox;
 		Border m_border;
 		Family m_family;
-		Group m_group;
+		Group m_group{ this, { this } };
 		Link m_link;
 		State m_state;
 		Value m_value;
