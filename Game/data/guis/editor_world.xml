@@ -1,0 +1,109 @@
+<?xml version="1.0" ?>
+
+<widgets>
+  
+  <!-- The toolbox contains the widget definition for all tools available in the editor -->
+  <widget name="tools">
+    <border inner="3" outer="3" />
+    <panel>
+      <renderer background="gui/generic/background" />
+    </panel>
+    
+    <widget name="tool_brush">
+      <bbox size="32, 32" />
+      <border outer="3" />
+      <button type="radio">
+        <renderer button="gui/editor_world/tools/brush" />
+      </button>
+    </widget>
+    <widget name="tool_delete">
+      <bbox size="32, 32" />
+      <border outer="3" />
+      <link target="tool_brush" ratio="1, 0.5" />
+      <button>
+        <renderer button="gui/editor_world/tools/delete" />
+      </button>
+    </widget>
+	<widget name="tool_pull">
+      <bbox size="32, 32" />
+      <border outer="3" />
+	  <group leader="tool_brush" />
+      <link target="tool_delete" ratio="1, 0.5" />
+      <button type="radio">
+        <renderer button="gui/editor_world/tools/pull" />
+      </button>
+    </widget>
+	<widget name="tool_replace">
+      <bbox size="32, 32" />
+      <border outer="3" />
+	  <group leader="tool_brush" />
+      <link target="tool_pull" ratio="1, 0.5" />
+      <button type="radio">
+        <renderer button="gui/editor_world/tools/replace" />
+      </button>
+    </widget>
+	<widget name="tool_smooth">
+      <bbox size="32, 32" />
+      <border outer="3" />
+	  <group leader="tool_brush" />
+      <link target="tool_replace" ratio="1, 0.5" />
+      <button type="radio">
+        <renderer button="gui/editor_world/tools/smooth" />
+      </button>
+    </widget>
+  </widget>
+  
+  <!-- The shapebox contains the widget definitions for all shapes available in the editor -->
+  <widget name="shapes">
+    <border inner="3" outer="3" />
+    <link ratio="1, 0" />
+    <panel>
+      <renderer background="gui/generic/background" />
+    </panel>
+
+    <widget name="shape_rectangle">
+      <bbox size="32, 32" />
+      <border outer="3" />
+      <button type="radio">
+        <renderer button="gui/editor_world/shapes/box" />
+      </button>
+    </widget>
+    <widget name="shape_cylinder">
+      <bbox size="32, 32" />
+      <border outer="3" />
+	  <group leader="shape_rectangle" />
+      <link target="shape_rectangle" ratio="1, 0.5" />
+      <button type="radio">
+        <renderer button="gui/editor_world/shapes/cylinder" />
+      </button>
+    </widget>
+	<widget name="shape_ellipse">
+      <bbox size="32, 32" />
+      <border outer="3" />
+	  <group leader="shape_rectangle" />
+      <link target="shape_cylinder" ratio="1, 0.5" />
+      <button type="radio">
+        <renderer button="gui/editor_world/shapes/ellipse" />
+      </button>
+    </widget>
+	<widget name="shape_line">
+      <bbox size="32, 32" />
+      <border outer="3" />
+	  <group leader="shape_rectangle" />
+      <link target="shape_ellipse" ratio="1, 0.5" />
+      <button type="radio">
+        <renderer button="gui/editor_world/shapes/line" />
+      </button>
+    </widget>
+	<widget name="shape_point">
+      <bbox size="32, 32" />
+      <border outer="3" />
+	  <group leader="shape_rectangle" />
+      <link target="shape_line" ratio="1, 0.5" />
+      <button type="radio">
+        <renderer button="gui/editor_world/shapes/point" />
+      </button>
+    </widget>
+  </widget>
+  
+</widgets>
