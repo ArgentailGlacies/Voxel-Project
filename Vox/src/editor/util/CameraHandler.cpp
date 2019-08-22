@@ -21,6 +21,30 @@ namespace
 vox::CameraHandlerOrbital::CameraHandlerOrbital(core::Camera & camera, core::EventBus & bus)
 	: CameraHandler(camera)
 {
+	m_mouseMove = bus.add<core::MouseMove>([this](auto & event)
+	{
+		if (m_holdMouse)
+		{
+			if (m_holdPrimary)
+				handleMovement(event.m_positionDelta);
+			else
+				handleRotation(event.m_positionDelta);
+		}
+		else
+			handleDistance(event.m_scrollDelta.x);
+	});
+
+	m_mousePress = bus.add<core::MousePress>([this](auto & event)
+	{
+		if (event.m_button == core::MouseButton::MIDDLE)
+			m_holdMouse = true;
+	});
+	m_mousePress = bus.add<core::MouseRelease>([this](auto & event)
+	{
+		if (event.m_button == core::MouseButton::MIDDLE)
+			m_holdMouse = false;
+	});
+	
 	m_keyPress = bus.add<core::KeyPress>([this](auto & event)
 	{
 		if (event.m_key == core::KeyboardKey::LSHIFT)
@@ -43,7 +67,7 @@ void vox::CameraHandlerOrbital::handleMovement(const glm::vec2 & delta)
 	const auto rotation = m_camera.getRotation();
 
 	auto position = m_camera.getPosition();
-	if (m_holdPrimary)
+	if (m_holdSecondary)
 	{
 		position += sensitivity * delta.x * util::cartesian(rotation.x + 90.0f, 0.0f);
 		position += sensitivity * delta.y * util::cartesian(rotation.x, rotation.y);
