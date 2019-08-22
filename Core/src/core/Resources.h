@@ -33,6 +33,7 @@ namespace core
 	*/
 	namespace res::asset
 	{
+		const std::string WIREFRAME_SHADER_PROGRAM = "wireframe";
 		const std::string WORLD_SHADER_PROGRAM = "world";
 
 		const std::string BLOCK_TEXTURE_ATLAS = "block_texture_atlas";

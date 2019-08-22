@@ -2,6 +2,7 @@
 #include "StateEntry.h"
 
 #include "core/Engine.h"
+#include "editor/util/Grid.h"
 #include "event/EventBus.h"
 #include "event/Events.h"
 #include "gui/GuiRegistry.h"
@@ -17,12 +18,18 @@
 #include "world/BlockRegistry.h"
 #include "world/Query.h"
 
+game::StateEntry::StateEntry() = default;
+game::StateEntry::~StateEntry() = default;
+
 void game::StateEntry::initialize(core::Engine & engine)
 {
 	m_display = &engine.getDisplay();
 
 	// Create a test gui
 	engine.getGuiRegistry().open(engine.getDataFolder().file("guis/test.xml"));
+
+	// Create a test grid
+	m_grid = std::make_unique<vox::Grid>(engine.getScene());
 
 	// Move camera into sensible starting location
 	m_camera = &engine.getScene().getCamera(core::Scene::DEFAULT_CAMERA);
