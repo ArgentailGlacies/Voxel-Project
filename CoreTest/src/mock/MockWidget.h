@@ -30,15 +30,4 @@ namespace core
 		ptr->m_bbox.m_size = size;
 		return *ptr;
 	}
-	/**
-		Creates a simple widget with a specified position and size. Does not assign the minimum size
-		of the widget. The widget will be attached to the target as a link.
-	*/
-	inline auto mockWidget(const Widget & target, const glm::vec2 & ratio, const glm::vec2 & pos, const glm::vec2 & size)
-	{
-		auto widget = mockWidget(pos, size);
-		widget.m_link.m_target = &target;
-		widget.m_link.m_ratio = ratio;
-		return widget;
-	}
 }
