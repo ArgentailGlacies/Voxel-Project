@@ -105,5 +105,101 @@
       </button>
     </widget>
   </widget>
+
+  <!-- The config widget contains widget definitions for the brush tool -->
+  <widget name="settings_tool_brush">
+    <border inner="3" outer="3" />
+    <link target="tools" ratio="0.5, 1" />
+    <panel>
+      <renderer background="gui/generic/background" />
+    </panel>
+
+    <widget>
+      <bbox size="160, 16" />
+    </widget>
+  </widget>
+
+  <!-- The config widget contains widget definitions for the rectangle shape -->
+  <widget name="settings_shape_rectangle">
+    <border inner="3" outer="3" />
+    <link target="shapes" ratio="0.5, 1" />
+    <panel>
+      <renderer background="gui/generic/background" />
+    </panel>
+
+    <widget name="shape_rectangle_dynamic_size">
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
+    </widget>
+    <widget>
+      <bbox size="141, 16" />
+      <link target="shape_rectangle_dynamic_size" ratio="1, 0.5" />
+      <label>
+        <renderer pretext="Use fixed brush size" font="overlock" />
+      </label>
+    </widget>
+    <widget name="shape_rectangle_size_x">
+      <bbox size="160, 16" />
+      <border outer="3" />
+      <link target="shape_rectangle_dynamic_size" ratio="0.5, 1" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+    <widget name="shape_rectangle_size_y">
+      <bbox size="160, 16" />
+      <border outer="3" />
+      <link target="shape_rectangle_size_x" ratio="0.5, 1" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+    <widget name="shape_rectangle_size_z">
+      <bbox size="160, 16" />
+      <border outer="3" />
+      <link target="shape_rectangle_size_y" ratio="0.5, 1" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+    <widget name="shape_rectangle_hollow">
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_rectangle_size_z" ratio="0.5, 1" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
+    </widget>
+    <widget>
+      <bbox size="141, 16" />
+      <link target="shape_rectangle_hollow" ratio="1, 0.5" />
+      <label>
+        <renderer pretext="Use hollow brush" font="overlock" />
+      </label>
+    </widget>
+    <widget name="shape_rectangle_thickness">
+      <bbox size="160, 16" />
+      <border outer="3" />
+      <link target="shape_rectangle_hollow" ratio="0.5, 1" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+  </widget>
   
 </widgets>
