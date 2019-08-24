@@ -216,10 +216,10 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	const auto horizontal = type == "horizontal";
 
 	// Load children
-	auto & decrement = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 	auto & bar = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
-	auto & label = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 	auto & increment = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
+	auto & decrement = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
+	auto & label = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 
 	increment.m_family.m_parent = &widget;
 	decrement.m_family.m_parent = &widget;
@@ -234,22 +234,24 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	if (horizontal)
 	{
 		bar.m_bbox.m_minSize = { max - 2.0f * min, min };
+		label.m_bbox.m_minSize = bar.m_bbox.m_minSize;
 
-		bar.m_link.m_target = &decrement;
-		bar.m_link.m_ratio = { 2.0f, 0.5f };
-		increment.m_link.m_target = &bar;
 		increment.m_link.m_ratio = { 2.0f, 0.5f };
+		decrement.m_link.m_ratio = { -1.0f, 0.5f };
 	}
 	else
 	{
 		bar.m_bbox.m_minSize = { min, max - 2.0f * min };
+		label.m_bbox.m_minSize = bar.m_bbox.m_minSize;
 
-		bar.m_link.m_target = &increment;
-		bar.m_link.m_ratio = { 0.5f, 2.0f };
-		decrement.m_link.m_target = &bar;
+		increment.m_link.m_ratio = { 0.5f, -1.0f };
 		decrement.m_link.m_ratio = { 0.5f, 2.0f };
 	}
-	label.m_bbox.m_minSize = bar.m_bbox.m_minSize;
+
+	bar.m_link.m_target = &widget;
+	bar.m_link.m_ratio = { 0.5f, 0.5f };
+	increment.m_link.m_target = &bar;
+	decrement.m_link.m_target = &bar;
 	label.m_link.m_target = &bar;
 	label.m_link.m_ratio = { 0.5f, 0.5f };
 
