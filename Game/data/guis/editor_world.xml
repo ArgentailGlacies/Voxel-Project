@@ -131,7 +131,7 @@
     <!-- Size settings -->
     <widget name="shape_rectangle_dynamic_size">
       <bbox size="141, 16" />
-      <state visible="false" />
+      <border outer="3" />
       <label>
         <renderer pretext="Fixed size" font="overlock" />
       </label>
@@ -144,6 +144,7 @@
         <renderer button="gui/generic/checkbox" />
       </button>
     </widget>
+    
     <widget name="shape_rectangle_size_x">
       <bbox size="160, 16" />
       <border outer="3" />
@@ -180,10 +181,29 @@
                   button_increment="gui/generic/arrow_right" />
       </slider>
     </widget>
+
+    <widget name="shape_rectangle_center">
+      <bbox size="141, 16" />
+      <border outer="3" />
+      <link target="shape_rectangle_size_z" ratio="0, 2" />
+      <label>
+        <renderer pretext="Expand from center" font="overlock" />
+      </label>
+    </widget>
+    <widget>
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_rectangle_center" ratio="2, 0" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
+    </widget>
+    
     <!-- Hollow settings -->
     <widget name="shape_rectangle_hollow">
       <bbox size="141, 16" />
-      <link target="shape_rectangle_size_z" ratio="0, 2" />
+      <border outer="3" />
+      <link target="shape_rectangle_center" ratio="0, 2" />
       <label>
         <renderer pretext="Hollow brush" font="overlock" />
       </label>
@@ -207,6 +227,313 @@
                   button_bar="gui/generic/slider_horizontal"
                   button_increment="gui/generic/arrow_right" />
       </slider>
+    </widget>
+  </widget>
+
+  <!-- The config widget contains widget definitions for the cylinder shape -->
+  <widget name="settings_shape_cylinder">
+    <border inner="3" outer="3" />
+    <link target="shapes" ratio="1, 2" />
+    <state visible="false" />
+    <panel>
+      <renderer background="gui/generic/background" />
+    </panel>
+
+    <!-- Axis settings -->
+    <widget name="shape_cylinder_axis">
+      <bbox size="103, 16" />
+      <border outer="3" />
+      <label>
+        <renderer pretext="Axis" font="overlock" />
+      </label>
+    </widget>
+    <widget name="shape_cylinder_axis_x">
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_cylinder_axis" ratio="2, 0" />
+      <button type="radio">
+        <renderer button="gui/editor_world/util/axis_x" />
+      </button>
+    </widget>
+    <widget name="shape_cylinder_axis_y">
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <group leader="shape_cylinder_axis_x" />
+      <link target="shape_cylinder_axis_x" ratio="2, 0" />
+      <button type="radio">
+        <renderer button="gui/editor_world/util/axis_y" />
+      </button>
+    </widget>
+    <widget name="shape_cylinder_axis_z">
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <group leader="shape_cylinder_axis_x" />
+      <link target="shape_cylinder_axis_y" ratio="2, 0" />
+      <button type="radio">
+        <renderer button="gui/editor_world/util/axis_z" />
+      </button>
+    </widget>
+    
+    <!-- Size settings -->
+    <widget name="shape_cylinder_dynamic_size">
+      <bbox size="141, 16" />
+      <border outer="3" />
+      <link target="shape_cylinder_axis" ratio="0, 2" />
+      <label>
+        <renderer pretext="Fixed size" font="overlock" />
+      </label>
+    </widget>
+    <widget>
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_cylinder_dynamic_size" ratio="2, 0" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
+    </widget>
+    
+    <widget name="shape_cylinder_size_x">
+      <bbox size="160, 16" />
+      <border outer="3" />
+      <link target="shape_cylinder_dynamic_size" ratio="0, 2" />
+      <state locked="true" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+    <widget name="shape_cylinder_size_y">
+      <bbox size="160, 16" />
+      <border outer="3" />
+      <link target="shape_cylinder_size_x" ratio="0, 2" />
+      <state locked="true" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+    <widget name="shape_cylinder_size_z">
+      <bbox size="160, 16" />
+      <border outer="3" />
+      <link target="shape_cylinder_size_y" ratio="0, 2" />
+      <state locked="true" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+
+    <widget name="shape_cylinder_center">
+      <bbox size="141, 16" />
+      <border outer="3" />
+      <link target="shape_cylinder_size_z" ratio="0, 2" />
+      <label>
+        <renderer pretext="Expand from center" font="overlock" />
+      </label>
+    </widget>
+    <widget>
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_cylinder_center" ratio="2, 0" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
+    </widget>
+  </widget>
+
+  <!-- The config widget contains widget definitions for the ellipse shape -->
+  <widget name="settings_shape_ellipse">
+    <border inner="3" outer="3" />
+    <link target="shapes" ratio="1, 2" />
+    <state visible="false" />
+    <panel>
+      <renderer background="gui/generic/background" />
+    </panel>
+
+    <!-- Size settings -->
+    <widget name="shape_ellipse_dynamic_size">
+      <bbox size="141, 16" />
+      <border outer="3" />
+      <label>
+        <renderer pretext="Fixed size" font="overlock" />
+      </label>
+    </widget>
+    <widget>
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_ellipse_dynamic_size" ratio="2, 0" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
+    </widget>
+    
+    <widget name="shape_ellipse_size_x">
+      <bbox size="160, 16" />
+      <border outer="3" />
+      <link target="shape_ellipse_dynamic_size" ratio="0, 2" />
+      <state locked="true" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+    <widget name="shape_ellipse_size_y">
+      <bbox size="160, 16" />
+      <border outer="3" />
+      <link target="shape_ellipse_size_x" ratio="0, 2" />
+      <state locked="true" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+    <widget name="shape_ellipse_size_z">
+      <bbox size="160, 16" />
+      <border outer="3" />
+      <link target="shape_ellipse_size_y" ratio="0, 2" />
+      <state locked="true" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+
+    <widget name="shape_ellipse_center">
+      <bbox size="141, 16" />
+      <border outer="3" />
+      <link target="shape_ellipse_size_z" ratio="0, 2" />
+      <label>
+        <renderer pretext="Expand from center" font="overlock" />
+      </label>
+    </widget>
+    <widget>
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_ellipse_center" ratio="2, 0" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
+    </widget>
+    
+  </widget>
+
+  <!-- The config widget contains widget definitions for the line shape -->
+  <widget name="settings_shape_line">
+    <border inner="3" outer="3" />
+    <link target="shapes" ratio="1, 2" />
+    <state visible="false" />
+    <panel>
+      <renderer background="gui/generic/background" />
+    </panel>
+
+    <!-- Size settings -->
+    <widget name="shape_line_dynamic_size">
+      <bbox size="141, 16" />
+      <border outer="3" />
+      <label>
+        <renderer pretext="Fixed size" font="overlock" />
+      </label>
+    </widget>
+    <widget>
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_line_dynamic_size" ratio="2, 0" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
+    </widget>
+
+    <widget name="shape_line_size_x">
+      <bbox size="141, 16" />
+      <border outer="3" />
+      <link target="shape_line_dynamic_size" ratio="0, 2" />
+      <state locked="true" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+    <widget name="shape_line_size_x_invert">
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_line_size_x" ratio="2, 0" />
+      <state locked="true" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
+    </widget>
+    <widget name="shape_line_size_y">
+      <bbox size="141, 16" />
+      <border outer="3" />
+      <link target="shape_line_size_x" ratio="0, 2" />
+      <state locked="true" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+    <widget name="shape_line_size_y_invert">
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_line_size_y" ratio="2, 0" />
+      <state locked="true" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
+    </widget>
+    <widget name="shape_line_size_z">
+      <bbox size="141, 16" />
+      <border outer="3" />
+      <link target="shape_line_size_y" ratio="0, 2" />
+      <state locked="true" />
+      <slider type="horizontal">
+        <data min="1" max="100" center="15" step="1" />
+        <renderer button_decrement="gui/generic/arrow_left"
+                  button_bar="gui/generic/slider_horizontal"
+                  button_increment="gui/generic/arrow_right" />
+      </slider>
+    </widget>
+    <widget name="shape_line_size_z_invert">
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_line_size_z" ratio="2, 0" />
+      <state locked="true" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
+    </widget>
+
+    <widget name="shape_line_center">
+      <bbox size="141, 16" />
+      <border outer="3" />
+      <link target="shape_line_size_z" ratio="0, 2" />
+      <label>
+        <renderer pretext="Expand from center" font="overlock" />
+      </label>
+    </widget>
+    <widget>
+      <bbox size="16, 16" />
+      <border outer="3" />
+      <link target="shape_line_center" ratio="2, 0" />
+      <button type="checkbox">
+        <renderer button="gui/generic/checkbox" />
+      </button>
     </widget>
   </widget>
   
