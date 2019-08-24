@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <widgets>
-  
+
   <!-- The toolbox contains the widget definition for all tools available in the editor -->
   <widget name="tools">
     <border inner="3" outer="3" />
@@ -52,7 +52,7 @@
       </button>
     </widget>
   </widget>
-  
+
   <!-- The shapebox contains the widget definitions for all shapes available in the editor -->
   <widget name="shapes">
     <border inner="3" outer="3" />
@@ -71,34 +71,34 @@
     <widget name="shape_cylinder">
       <bbox size="32, 32" />
       <border outer="3" />
-	  <group leader="shape_rectangle" />
+      <group leader="shape_rectangle" />
       <link target="shape_rectangle" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/shapes/cylinder" />
       </button>
     </widget>
-	<widget name="shape_ellipse">
+    <widget name="shape_ellipse">
       <bbox size="32, 32" />
       <border outer="3" />
-	  <group leader="shape_rectangle" />
+      <group leader="shape_rectangle" />
       <link target="shape_cylinder" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/shapes/ellipse" />
       </button>
     </widget>
-	<widget name="shape_line">
+    <widget name="shape_line">
       <bbox size="32, 32" />
       <border outer="3" />
-	  <group leader="shape_rectangle" />
+      <group leader="shape_rectangle" />
       <link target="shape_ellipse" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/shapes/line" />
       </button>
     </widget>
-	<widget name="shape_point">
+    <widget name="shape_point">
       <bbox size="32, 32" />
       <border outer="3" />
-	  <group leader="shape_rectangle" />
+      <group leader="shape_rectangle" />
       <link target="shape_line" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/shapes/point" />
@@ -144,7 +144,7 @@
         <renderer button="gui/generic/checkbox" />
       </button>
     </widget>
-    
+
     <widget name="shape_rectangle_size_x">
       <bbox size="160, 16" />
       <border outer="3" />
@@ -198,7 +198,7 @@
         <renderer button="gui/generic/checkbox" />
       </button>
     </widget>
-    
+
     <!-- Hollow settings -->
     <widget name="shape_rectangle_hollow">
       <bbox size="141, 16" />
@@ -273,7 +273,7 @@
         <renderer button="gui/editor_world/util/axis_z" />
       </button>
     </widget>
-    
+
     <!-- Size settings -->
     <widget name="shape_cylinder_dynamic_size">
       <bbox size="141, 16" />
@@ -291,7 +291,7 @@
         <renderer button="gui/generic/checkbox" />
       </button>
     </widget>
-    
+
     <widget name="shape_cylinder_size_x">
       <bbox size="160, 16" />
       <border outer="3" />
@@ -372,7 +372,7 @@
         <renderer button="gui/generic/checkbox" />
       </button>
     </widget>
-    
+
     <widget name="shape_ellipse_size_x">
       <bbox size="160, 16" />
       <border outer="3" />
@@ -426,7 +426,7 @@
         <renderer button="gui/generic/checkbox" />
       </button>
     </widget>
-    
+
   </widget>
 
   <!-- The config widget contains widget definitions for the line shape -->
@@ -536,5 +536,5 @@
       </button>
     </widget>
   </widget>
-  
+
 </widgets>
