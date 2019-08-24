@@ -19,7 +19,7 @@
     <widget name="tool_delete">
       <bbox size="32, 32" />
       <border outer="3" />
-      <link target="tool_brush" ratio="1, 0.5" />
+      <link target="tool_brush" ratio="2, 0" />
       <button>
         <renderer button="gui/editor_world/tools/delete" />
       </button>
@@ -28,7 +28,7 @@
       <bbox size="32, 32" />
       <border outer="3" />
 	  <group leader="tool_brush" />
-      <link target="tool_delete" ratio="1, 0.5" />
+      <link target="tool_delete" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/tools/pull" />
       </button>
@@ -37,7 +37,7 @@
       <bbox size="32, 32" />
       <border outer="3" />
 	  <group leader="tool_brush" />
-      <link target="tool_pull" ratio="1, 0.5" />
+      <link target="tool_pull" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/tools/replace" />
       </button>
@@ -46,7 +46,7 @@
       <bbox size="32, 32" />
       <border outer="3" />
 	  <group leader="tool_brush" />
-      <link target="tool_replace" ratio="1, 0.5" />
+      <link target="tool_replace" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/tools/smooth" />
       </button>
@@ -72,7 +72,7 @@
       <bbox size="32, 32" />
       <border outer="3" />
 	  <group leader="shape_rectangle" />
-      <link target="shape_rectangle" ratio="1, 0.5" />
+      <link target="shape_rectangle" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/shapes/cylinder" />
       </button>
@@ -81,7 +81,7 @@
       <bbox size="32, 32" />
       <border outer="3" />
 	  <group leader="shape_rectangle" />
-      <link target="shape_cylinder" ratio="1, 0.5" />
+      <link target="shape_cylinder" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/shapes/ellipse" />
       </button>
@@ -90,7 +90,7 @@
       <bbox size="32, 32" />
       <border outer="3" />
 	  <group leader="shape_rectangle" />
-      <link target="shape_ellipse" ratio="1, 0.5" />
+      <link target="shape_ellipse" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/shapes/line" />
       </button>
@@ -99,7 +99,7 @@
       <bbox size="32, 32" />
       <border outer="3" />
 	  <group leader="shape_rectangle" />
-      <link target="shape_line" ratio="1, 0.5" />
+      <link target="shape_line" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/shapes/point" />
       </button>
@@ -109,7 +109,7 @@
   <!-- The config widget contains widget definitions for the brush tool -->
   <widget name="settings_tool_brush">
     <border inner="3" outer="3" />
-    <link target="tools" ratio="0.5, 1" />
+    <link target="tools" ratio="0, 2" />
     <panel>
       <renderer background="gui/generic/background" />
     </panel>
@@ -122,7 +122,7 @@
   <!-- The config widget contains widget definitions for the rectangle shape -->
   <widget name="settings_shape_rectangle">
     <border inner="3" outer="3" />
-    <link target="shapes" ratio="0.5, 1" />
+    <link target="shapes" ratio="1, 2" />
     <panel>
       <renderer background="gui/generic/background" />
     </panel>
@@ -136,7 +136,7 @@
     </widget>
     <widget>
       <bbox size="141, 16" />
-      <link target="shape_rectangle_dynamic_size" ratio="1, 0.5" />
+      <link target="shape_rectangle_dynamic_size" ratio="2, 0" />
       <label>
         <renderer pretext="Use fixed brush size" font="overlock" />
       </label>
@@ -144,7 +144,7 @@
     <widget name="shape_rectangle_size_x">
       <bbox size="160, 16" />
       <border outer="3" />
-      <link target="shape_rectangle_dynamic_size" ratio="0.5, 1" />
+      <link target="shape_rectangle_dynamic_size" ratio="0, 2" />
       <slider type="horizontal">
         <data min="1" max="100" center="15" step="1" />
         <renderer button_decrement="gui/generic/arrow_left"
@@ -155,7 +155,7 @@
     <widget name="shape_rectangle_size_y">
       <bbox size="160, 16" />
       <border outer="3" />
-      <link target="shape_rectangle_size_x" ratio="0.5, 1" />
+      <link target="shape_rectangle_size_x" ratio="0, 2" />
       <slider type="horizontal">
         <data min="1" max="100" center="15" step="1" />
         <renderer button_decrement="gui/generic/arrow_left"
@@ -166,7 +166,7 @@
     <widget name="shape_rectangle_size_z">
       <bbox size="160, 16" />
       <border outer="3" />
-      <link target="shape_rectangle_size_y" ratio="0.5, 1" />
+      <link target="shape_rectangle_size_y" ratio="0, 2" />
       <slider type="horizontal">
         <data min="1" max="100" center="15" step="1" />
         <renderer button_decrement="gui/generic/arrow_left"
@@ -177,14 +177,14 @@
     <widget name="shape_rectangle_hollow">
       <bbox size="16, 16" />
       <border outer="3" />
-      <link target="shape_rectangle_size_z" ratio="0.5, 1" />
+      <link target="shape_rectangle_size_z" ratio="0, 2" />
       <button type="checkbox">
         <renderer button="gui/generic/checkbox" />
       </button>
     </widget>
     <widget>
       <bbox size="141, 16" />
-      <link target="shape_rectangle_hollow" ratio="1, 0.5" />
+      <link target="shape_rectangle_hollow" ratio="2, 0" />
       <label>
         <renderer pretext="Use hollow brush" font="overlock" />
       </label>
@@ -192,7 +192,7 @@
     <widget name="shape_rectangle_thickness">
       <bbox size="160, 16" />
       <border outer="3" />
-      <link target="shape_rectangle_hollow" ratio="0.5, 1" />
+      <link target="shape_rectangle_hollow" ratio="0, 2" />
       <slider type="horizontal">
         <data min="1" max="100" center="15" step="1" />
         <renderer button_decrement="gui/generic/arrow_left"
