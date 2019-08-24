@@ -123,12 +123,15 @@
   <widget name="settings_shape_rectangle">
     <border inner="3" outer="3" />
     <link target="shapes" ratio="1, 2" />
+    <state visible="false" />
     <panel>
       <renderer background="gui/generic/background" />
     </panel>
 
+    <!-- Size settings -->
     <widget name="shape_rectangle_dynamic_size">
       <bbox size="141, 16" />
+      <state visible="false" />
       <label>
         <renderer pretext="Fixed size" font="overlock" />
       </label>
@@ -177,6 +180,7 @@
                   button_increment="gui/generic/arrow_right" />
       </slider>
     </widget>
+    <!-- Hollow settings -->
     <widget name="shape_rectangle_hollow">
       <bbox size="141, 16" />
       <link target="shape_rectangle_size_z" ratio="0, 2" />

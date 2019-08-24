@@ -28,7 +28,7 @@ core::Processor::Processor(Widget & widget, EventBus & bus)
 
 void core::Processor::mouseMove(MouseMove & event, Widget & widget)
 {
-	widget.m_state.m_hovered = isInside(event.m_position, widget.m_bbox);
+	widget.m_state.m_hovered = isInside(event.m_position, widget.m_bbox) && gui::isVisible(widget);
 }
 void core::Processor::mousePress(MousePress & event, Widget & widget)
 {

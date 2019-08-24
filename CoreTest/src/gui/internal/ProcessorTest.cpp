@@ -55,6 +55,14 @@ namespace core::gui
 			Assert::IsFalse(m_parent.m_state.m_hovered);
 			Assert::IsFalse(m_widgetA.m_state.m_hovered);
 			Assert::IsFalse(m_widgetB.m_state.m_hovered);
+
+			// Cannot hover invisible widgets
+			m_parent.m_state.m_visible = false;
+
+			simulateMouseMove({ 27.0f, 15.0f });
+			Assert::IsFalse(m_parent.m_state.m_hovered);
+			Assert::IsFalse(m_widgetA.m_state.m_hovered);
+			Assert::IsFalse(m_widgetB.m_state.m_hovered);
 		}
 
 		TEST_METHOD(Processor_mousePress)
