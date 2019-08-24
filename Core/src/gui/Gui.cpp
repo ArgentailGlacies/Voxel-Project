@@ -43,6 +43,10 @@ void core::Gui::process(Widget & widget)
 }
 void core::Gui::render(const Widget & widget, const glm::vec2 & offset) const
 {
+	// Do not render invisible widgets
+	if (!widget.m_state.m_visible)
+		return;
+
 	// Render all aspects of this specific widget
 	if (widget.m_renderer)
 		widget.m_renderer->render(widget, offset);
