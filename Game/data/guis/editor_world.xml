@@ -128,23 +128,24 @@
     </panel>
 
     <widget name="shape_rectangle_dynamic_size">
+      <bbox size="141, 16" />
+      <label>
+        <renderer pretext="Fixed size" font="overlock" />
+      </label>
+    </widget>
+    <widget>
       <bbox size="16, 16" />
       <border outer="3" />
+      <link target="shape_rectangle_dynamic_size" ratio="2, 0" />
       <button type="checkbox">
         <renderer button="gui/generic/checkbox" />
       </button>
-    </widget>
-    <widget>
-      <bbox size="141, 16" />
-      <link target="shape_rectangle_dynamic_size" ratio="2, 0" />
-      <label>
-        <renderer pretext="Use fixed brush size" font="overlock" />
-      </label>
     </widget>
     <widget name="shape_rectangle_size_x">
       <bbox size="160, 16" />
       <border outer="3" />
       <link target="shape_rectangle_dynamic_size" ratio="0, 2" />
+      <state locked="true" />
       <slider type="horizontal">
         <data min="1" max="100" center="15" step="1" />
         <renderer button_decrement="gui/generic/arrow_left"
@@ -156,6 +157,7 @@
       <bbox size="160, 16" />
       <border outer="3" />
       <link target="shape_rectangle_size_x" ratio="0, 2" />
+      <state locked="true" />
       <slider type="horizontal">
         <data min="1" max="100" center="15" step="1" />
         <renderer button_decrement="gui/generic/arrow_left"
@@ -167,6 +169,7 @@
       <bbox size="160, 16" />
       <border outer="3" />
       <link target="shape_rectangle_size_y" ratio="0, 2" />
+      <state locked="true" />
       <slider type="horizontal">
         <data min="1" max="100" center="15" step="1" />
         <renderer button_decrement="gui/generic/arrow_left"
@@ -175,24 +178,25 @@
       </slider>
     </widget>
     <widget name="shape_rectangle_hollow">
+      <bbox size="141, 16" />
+      <link target="shape_rectangle_size_z" ratio="0, 2" />
+      <label>
+        <renderer pretext="Hollow brush" font="overlock" />
+      </label>
+    </widget>
+    <widget>
       <bbox size="16, 16" />
       <border outer="3" />
-      <link target="shape_rectangle_size_z" ratio="0, 2" />
+      <link target="shape_rectangle_hollow" ratio="2, 0" />
       <button type="checkbox">
         <renderer button="gui/generic/checkbox" />
       </button>
-    </widget>
-    <widget>
-      <bbox size="141, 16" />
-      <link target="shape_rectangle_hollow" ratio="2, 0" />
-      <label>
-        <renderer pretext="Use hollow brush" font="overlock" />
-      </label>
     </widget>
     <widget name="shape_rectangle_thickness">
       <bbox size="160, 16" />
       <border outer="3" />
       <link target="shape_rectangle_hollow" ratio="0, 2" />
+      <state locked="true" />
       <slider type="horizontal">
         <data min="1" max="100" center="15" step="1" />
         <renderer button_decrement="gui/generic/arrow_left"

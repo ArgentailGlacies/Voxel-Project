@@ -106,6 +106,12 @@ namespace core::gui
 			// Nothing is activated
 			simulateMouseRelease({ 60.0f, 40.0f });
 			Assert::AreEqual({ 1, 1, 1 }, counter);
+
+			// Cannot activate locked widgets
+			m_widgetA.m_state.m_locked = true;
+
+			simulateMouseRelease({ 20.0f, 15.0f });
+			Assert::AreEqual({ 1, 1, 1 }, counter);
 		}
 
 	private:

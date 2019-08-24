@@ -53,6 +53,7 @@
     <ClCompile Include="src\gui\internal\RendererLabel.cpp" />
     <ClCompile Include="src\gui\internal\RendererPanel.cpp" />
     <ClCompile Include="src\gui\internal\RendererSlider.cpp" />
+    <ClCompile Include="src\gui\WidgetHelper.cpp" />
     <ClCompile Include="src\gui\WidgetLoader.cpp" />
     <ClCompile Include="src\gui\WidgetProcessor.cpp" />
     <ClCompile Include="src\opengl\Attribute.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="src\gui\internal\RendererPanel.h" />
     <ClInclude Include="src\gui\internal\RendererSlider.h" />
     <ClInclude Include="src\gui\internal\RendererTextTest.h" />
+    <ClInclude Include="src\gui\WidgetHelper.h" />
     <ClInclude Include="src\gui\WidgetProcessor.h" />
     <ClInclude Include="src\gui\Widget.h" />
     <ClInclude Include="src\gui\WidgetLoader.h" />

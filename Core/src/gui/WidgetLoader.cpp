@@ -218,8 +218,8 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	// Load children
 	auto & decrement = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 	auto & bar = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
-	auto & increment = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 	auto & label = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
+	auto & increment = *widget.m_family.m_children.emplace_back(std::make_unique<Widget>());
 
 	increment.m_family.m_parent = &widget;
 	decrement.m_family.m_parent = &widget;

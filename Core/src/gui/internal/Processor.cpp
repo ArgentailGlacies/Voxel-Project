@@ -3,6 +3,7 @@
 
 #include "event/EventBus.h"
 #include "gui/Widget.h"
+#include "gui/WidgetHelper.h"
 
 namespace
 {
@@ -37,7 +38,7 @@ void core::Processor::mouseRelease(MouseRelease & event, Widget & widget)
 {
 	if (widget.m_state.m_selected && isInside(event.m_position, widget.m_bbox) && event.consume())
 	{
-		if (widget.m_handler)
+		if (widget.m_handler && !gui::isLocked(widget))
 			widget.m_handler->action(widget);
 	}
 	widget.m_state.m_selected = false;
