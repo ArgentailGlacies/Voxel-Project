@@ -8,7 +8,7 @@
     <panel>
       <renderer background="gui/generic/background" />
     </panel>
-    
+
     <widget name="tool_brush">
       <bbox size="32, 32" />
       <border outer="3" />
@@ -24,28 +24,28 @@
         <renderer button="gui/editor_world/tools/delete" />
       </button>
     </widget>
-	<widget name="tool_pull">
+    <widget name="tool_pull">
       <bbox size="32, 32" />
       <border outer="3" />
-	  <group leader="tool_brush" />
+      <group leader="tool_brush" />
       <link target="tool_delete" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/tools/pull" />
       </button>
     </widget>
-	<widget name="tool_replace">
+    <widget name="tool_replace">
       <bbox size="32, 32" />
       <border outer="3" />
-	  <group leader="tool_brush" />
+      <group leader="tool_brush" />
       <link target="tool_pull" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/tools/replace" />
       </button>
     </widget>
-	<widget name="tool_smooth">
+    <widget name="tool_smooth">
       <bbox size="32, 32" />
       <border outer="3" />
-	  <group leader="tool_brush" />
+      <group leader="tool_brush" />
       <link target="tool_replace" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/tools/smooth" />
