@@ -2,6 +2,205 @@
 
 <widgets>
 
+  <!-- The utilities panel contain the tools allowing the editor to be more usable -->
+  <widget name="utils">
+    <border inner="3" />
+    <link ratio="1, 1" />
+    
+    <!-- All widgets related to reach settings are located in the reach tab -->
+    <widget name="reach">
+      <panel>
+        <renderer background="gui/generic/background" />
+      </panel>
+      
+      <widget name="reach_label">
+        <bbox size="160, 16" />
+        <border outer="3" />
+        <label>
+          <renderer pretext="Reach distance" font="overlock" />
+        </label>
+      </widget>
+      <widget name="reach_distance">
+        <bbox size="160, 16" />
+        <border outer="3" />
+        <link target="reach_label" ratio="0, 2" />
+        <slider>
+          <data min="1" max="2500" center="100" step="1" />
+          <renderer button_decrement="gui/generic/arrow_left"
+                    button_bar="gui/generic/slider_horizontal"
+                    button_increment="gui/generic/arrow_right" />
+        </slider>
+      </widget>
+      
+      <widget name="reach_hit_blocks">
+        <bbox size="16, 16" />
+        <border outer="3" />
+        <link target="reach_distance" ratio="0, 2" />
+        <button type="checkbox">
+          <renderer button="gui/generic/checkbox" />
+        </button>
+      </widget>
+      <widget>
+        <bbox size="141, 16" />
+        <border outer="3" />
+        <link target="reach_hit_blocks" ratio="2, 0" />
+        <label>
+          <renderer pretext="Intersect blocks" font="overlock" />
+        </label>
+      </widget>
+      <widget name="reach_hit_last">
+        <bbox size="16, 16" />
+        <border outer="3" />
+        <link target="reach_hit_blocks" ratio="0, 2" />
+        <button type="checkbox">
+          <renderer button="gui/generic/checkbox" />
+        </button>
+      </widget>
+      <widget>
+        <bbox size="141, 16" />
+        <border outer="3" />
+        <link target="reach_hit_last" ratio="2, 0" />
+        <label>
+          <renderer pretext="Select last air block" font="overlock" />
+        </label>
+      </widget>
+      <widget name="reach_hit_grid">
+        <bbox size="16, 16" />
+        <border outer="3" />
+        <link target="reach_hit_last" ratio="0, 2" />
+        <button type="checkbox">
+          <renderer button="gui/generic/checkbox" />
+        </button>
+      </widget>
+      <widget>
+        <bbox size="141, 16" />
+        <border outer="3" />
+        <link target="reach_hit_grid" ratio="2, 0" />
+        <label>
+          <renderer pretext="Intersect grid" font="overlock" />
+        </label>
+      </widget>
+    </widget>
+
+    <!-- All widgets related to the camera settings are located in the camera tab -->
+    <widget name="camera">
+      <link target="reach" ratio="0, 2" />
+      <panel>
+        <renderer background="gui/generic/background" />
+      </panel>
+      
+      <widget name="camera_label">
+        <bbox size="160, 16" />
+        <border outer="3" />
+        <label>
+          <renderer pretext="Camera sensitivity" font="overlock" />
+        </label>
+      </widget>
+      <widget name="camera_sensitivity">
+        <bbox size="160, 16" />
+        <border outer="3" />
+        <link target="camera_label" ratio="0, 2" />
+        <slider>
+          <data min="0.1" max="2.5" center="1" step="0.1" />
+          <renderer button_decrement="gui/generic/arrow_left"
+                    button_bar="gui/generic/slider_horizontal"
+                    button_increment="gui/generic/arrow_right" />
+        </slider>
+      </widget>
+    </widget>
+
+    <!-- All widgets related to the grid settings are located in the grid tab -->
+    <widget name="grid">
+      <link target="camera" ratio="-1, 1" />
+      <panel>
+        <renderer background="gui/generic/background" />
+      </panel>
+
+      <widget name="grid_label">
+        <bbox size="160, 16" />
+        <border outer="3" />
+        <label>
+          <renderer pretext="Grid height" font="overlock" />
+        </label>
+      </widget>
+      <widget name="grid_height">
+        <bbox size="160, 16" />
+        <border outer="3" />
+        <link target="grid_label" ratio="0, 2" />
+        <slider>
+          <data min="-100" max="100" center="0" step="1" />
+          <renderer button_decrement="gui/generic/arrow_left"
+                    button_bar="gui/generic/slider_horizontal"
+                    button_increment="gui/generic/arrow_right" />
+        </slider>
+      </widget>
+      <widget name="grid_offset_camera">
+        <bbox size="16, 16" />
+        <border outer="3" />
+        <link target="grid_height" ratio="0, 2" />
+        <button type="checkbox">
+          <renderer button="gui/generic/checkbox" />
+        </button>
+      </widget>
+      <widget>
+        <bbox size="141, 16" />
+        <border outer="3" />
+        <link target="grid_offset_camera" ratio="2, 0" />
+        <label>
+          <renderer pretext="Offset from camera" font="overlock" />
+        </label>
+      </widget>
+
+      <widget name="grid_visible">
+        <bbox size="16, 16" />
+        <border outer="3" />
+        <link target="grid_offset_camera" ratio="0, 2" />
+        <button type="checkbox">
+          <renderer button="gui/generic/checkbox" />
+        </button>
+      </widget>
+      <widget>
+        <bbox size="141, 16" />
+        <border outer="3" />
+        <link target="grid_visible" ratio="2, 0" />
+        <label>
+          <renderer pretext="Grid visibility" font="overlock" />
+        </label>
+      </widget>
+
+      <widget name="grid_size_label">
+        <bbox size="160, 16" />
+        <border outer="3" />
+        <link target="grid_visible" ratio="0, 2" />
+        <label>
+          <renderer pretext="Cell count/size" font="overlock" />
+        </label>
+      </widget>
+      <widget name="grid_size">
+        <bbox size="160, 16" />
+        <border outer="3" />
+        <link target="grid_size_label" ratio="0, 2" />
+        <slider>
+          <data min="1" max="50" center="25" step="1" />
+          <renderer button_decrement="gui/generic/arrow_left"
+                    button_bar="gui/generic/slider_horizontal"
+                    button_increment="gui/generic/arrow_right" />
+        </slider>
+      </widget>
+      <widget name="grid_spacing">
+        <bbox size="160, 16" />
+        <border outer="3" />
+        <link target="grid_size" ratio="0, 2" />
+        <slider>
+          <data min="1" max="10" center="5" step="1" />
+          <renderer button_decrement="gui/generic/arrow_left"
+                    button_bar="gui/generic/slider_horizontal"
+                    button_increment="gui/generic/arrow_right" />
+        </slider>
+      </widget>
+    </widget>
+  </widget>
+  
   <!-- The toolbox contains the widget definition for all tools available in the editor -->
   <widget name="tools">
     <border inner="3" outer="3" />
@@ -234,7 +433,7 @@
   <widget name="settings_shape_cylinder">
     <border inner="3" outer="3" />
     <link target="shapes" ratio="1, 2" />
-    <state visible="false" />
+    <state visible="true" />
     <panel>
       <renderer background="gui/generic/background" />
     </panel>
