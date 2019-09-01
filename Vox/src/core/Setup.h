@@ -8,6 +8,7 @@ namespace core
 {
 	class AssetRegistry;
 	class ECS;
+	class Engine;
 	class ModuleRegistry;
 	class UBORegistry;
 
@@ -53,6 +54,7 @@ namespace core
 		Sets up the different script modules which adds various functionality to scripts.
 
 		@param modules The module registry which should contain all script modules in the system.
+		@param engine The game engine itself.
 	*/
-	void setupModules(ModuleRegistry & modules);
+	void setupModules(ModuleRegistry & modules, Engine & engine);
 }

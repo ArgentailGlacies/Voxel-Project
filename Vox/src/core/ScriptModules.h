@@ -2,6 +2,7 @@
 
 namespace core
 {
+	class Engine;
 	class Script;
 
 	/**
@@ -16,7 +17,8 @@ namespace core
 			functionality which directly applies to the engine itself.
 
 			@param script The script which should be initialized with the module.
+			@param engine The game engine itself.
 		*/
-		void initializeEngine(Script & script);
+		void initializeEngine(Script & script, Engine & engine);
 	}
 }

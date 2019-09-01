@@ -25,7 +25,8 @@ void core::MainLoop::start(double ups, double fps)
 	
 		while (accumulator >= dt)
 		{
-			m_processor(t, dt);
+			if (m_running)
+				m_processor(t, dt);
 			accumulator -= dt;
 			t += dt;
 		}

@@ -82,7 +82,7 @@ void core::Engine::initialize()
 	setupComponents(getECS());
 	setupSystems(getECS());
 	setupUBOs(getUBOs());
-	setupModules(getModules());
+	setupModules(getModules(), *this);
 
 	m_impl->m_universe.prepare(getAssets());
 }

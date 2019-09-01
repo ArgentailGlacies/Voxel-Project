@@ -43,7 +43,7 @@ void core::setupUBOs(UBORegistry & ubos)
 	ubos.build(res::ubo::MATRICES);
 }
 
-void core::setupModules(ModuleRegistry & modules)
+void core::setupModules(ModuleRegistry & modules, Engine & engine)
 {
-	modules.add(res::script::ENGINE, script::initializeEngine);
+	modules.add(res::script::ENGINE, [&engine](auto & script) { script::initializeEngine(script, engine); });
 }

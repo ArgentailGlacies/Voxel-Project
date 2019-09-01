@@ -94,12 +94,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\util\CursorTest.cpp">
-	  <Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\util\CameraHandlerTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\util\GridTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\ScriptModuleTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
