@@ -220,6 +220,7 @@
     <ClCompile Include="src\gui\internal\HandlerLabelTest.cpp" />
     <ClCompile Include="src\gui\internal\HandlerSliderTest.cpp" />
     <ClCompile Include="src\gui\internal\ProcessorTest.cpp" />
+    <ClCompile Include="src\gui\WidgetHelperTest.cpp" />
     <ClCompile Include="src\gui\WidgetLoaderTest.cpp" />
     <ClCompile Include="src\gui\WidgetProcessorTest.cpp" />
     <ClCompile Include="src\Main.cpp" />

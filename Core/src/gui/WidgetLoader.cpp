@@ -112,7 +112,9 @@ void core::WidgetLoader::loadGroup(const pugi::xml_node & node, Widget & widget)
 	else
 	{
 		widget.m_group.m_leader = it->second;
-		widget.m_group.m_leader->m_group.m_members.push_back(&widget);
+		for (auto * member : widget.m_group.m_members)
+			it->second->m_group.m_members.push_back(member);
+		widget.m_group.m_members.clear();
 	}
 }
 void core::WidgetLoader::loadState(const pugi::xml_node & node, Widget & widget)
@@ -232,22 +234,24 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	if (horizontal)
 	{
 		bar.m_bbox.m_minSize = { max - 2.0f * min, min };
+		label.m_bbox.m_minSize = bar.m_bbox.m_minSize;
 
-		bar.m_link.m_target = &decrement;
-		bar.m_link.m_ratio = { 1.0f, 0.5f };
-		increment.m_link.m_target = &bar;
-		increment.m_link.m_ratio = { 1.0f, 0.5f };
+		increment.m_link.m_ratio = { 2.0f, 0.5f };
+		decrement.m_link.m_ratio = { -1.0f, 0.5f };
 	}
 	else
 	{
 		bar.m_bbox.m_minSize = { min, max - 2.0f * min };
+		label.m_bbox.m_minSize = bar.m_bbox.m_minSize;
 
-		bar.m_link.m_target = &increment;
-		bar.m_link.m_ratio = { 0.5f, 1.0f };
-		decrement.m_link.m_target = &bar;
-		decrement.m_link.m_ratio = { 0.5f, 1.0f };
+		increment.m_link.m_ratio = { 0.5f, -1.0f };
+		decrement.m_link.m_ratio = { 0.5f, 2.0f };
 	}
-	label.m_bbox.m_minSize = bar.m_bbox.m_minSize;
+
+	bar.m_link.m_target = &widget;
+	bar.m_link.m_ratio = { 0.5f, 0.5f };
+	increment.m_link.m_target = &bar;
+	decrement.m_link.m_target = &bar;
 	label.m_link.m_target = &bar;
 	label.m_link.m_ratio = { 0.5f, 0.5f };
 
