@@ -5,10 +5,12 @@
 #include "allegro/SpriteFactory.h"
 #include "asset/AssetUtil.h"
 #include "core/Resources.h"
+#include "core/ScriptModules.h"
 #include "ecs/ECS.h"
 #include "opengl/ProgramFactory.h"
 #include "opengl/UBORegistry.h"
 #include "scene/RenderComponent.h"
+#include "script/ModuleRegistry.h"
 #include "world/render/BlockTextureAtlas.h"
 
 #include <glm/mat4x4.hpp>
@@ -39,4 +41,9 @@ void core::setupUBOs(UBORegistry & ubos)
 	ubos.add<glm::mat4>(res::ubo::MATRICES, res::ubo::VIEW);
 	ubos.add<glm::mat4>(res::ubo::MATRICES, res::ubo::MODEL);
 	ubos.build(res::ubo::MATRICES);
+}
+
+void core::setupModules(ModuleRegistry & modules)
+{
+	modules.add(res::script::ENGINE, script::initializeEngine);
 }

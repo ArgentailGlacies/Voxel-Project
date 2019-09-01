@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Engine.cpp" />
+    <ClCompile Include="src\core\ScriptModules.cpp" />
     <ClCompile Include="src\core\Setup.cpp" />
     <ClCompile Include="src\editor\util\Cursor.cpp" />
     <ClCompile Include="src\editor\util\CameraHandler.cpp" />
@@ -63,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Engine.h" />
+    <ClInclude Include="src\core\ScriptModules.h" />
     <ClInclude Include="src\core\Setup.h" />
     <ClInclude Include="src\editor\EditorWorld.h" />
     <ClInclude Include="src\editor\util\Cursor.h" />
