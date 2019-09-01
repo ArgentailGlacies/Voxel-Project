@@ -3,6 +3,7 @@
 
 #include "event/EventBus.h"
 #include "gui/Widget.h"
+#include "gui/WidgetHelper.h"
 
 namespace
 {
@@ -27,7 +28,7 @@ core::Processor::Processor(Widget & widget, EventBus & bus)
 
 void core::Processor::mouseMove(MouseMove & event, Widget & widget)
 {
-	widget.m_state.m_hovered = isInside(event.m_position, widget.m_bbox);
+	widget.m_state.m_hovered = isInside(event.m_position, widget.m_bbox) && gui::isVisible(widget);
 }
 void core::Processor::mousePress(MousePress & event, Widget & widget)
 {
@@ -37,7 +38,7 @@ void core::Processor::mouseRelease(MouseRelease & event, Widget & widget)
 {
 	if (widget.m_state.m_selected && isInside(event.m_position, widget.m_bbox) && event.consume())
 	{
-		if (widget.m_handler)
+		if (widget.m_handler && !gui::isLocked(widget))
 			widget.m_handler->action(widget);
 	}
 	widget.m_state.m_selected = false;

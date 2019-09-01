@@ -48,9 +48,9 @@ namespace core::gui
 			m_loader.loadGroup(addGroup(m_doc, "leader"), widget);
 
 			Assert::IsTrue(&leader == widget.m_group.m_leader);
+			Assert::IsTrue(&leader == leader.m_group.m_leader);
 			Assert::AreEqual(0u, widget.m_group.m_members.size());
-			Assert::IsNull(leader.m_link.m_target);
-			Assert::AreEqual(1u, leader.m_group.m_members.size());
+			Assert::AreEqual(2u, leader.m_group.m_members.size());
 		}
 		TEST_METHOD(WidgetLoader_loadLink)
 		{
@@ -91,7 +91,7 @@ namespace core::gui
 			Assert::AreEqual({ 0.0f, 0.0f }, widget.m_bbox.m_minSize);
 			Assert::IsNull(widget.m_link.m_target);
 			Assert::AreEqual({ 0.0f, 0.0f }, widget.m_link.m_ratio);
-			Assert::IsNull(widget.m_group.m_leader);
+			Assert::IsTrue(&widget == widget.m_group.m_leader);
 			Assert::IsTrue(widget.m_state.m_visible);
 			Assert::IsFalse(widget.m_state.m_locked);
 		}

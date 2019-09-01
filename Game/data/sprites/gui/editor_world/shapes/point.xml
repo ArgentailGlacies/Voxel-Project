@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<file>data/gfx/sprites/gui/editor_world/shapes/point.png</file>
+<bitmap path="data/gfx/sprites/gui/editor_world/shapes/point.png" />
 <frames>
 	<inactive         pos="0, 0"  size="32, 32" />
 	<inactive_hovered pos="0, 0"  size="32, 32" tint="0.8, 0.8, 0.8, 1.0" />

@@ -2,6 +2,7 @@
 #include "RendererSlider.h"
 
 #include "gui/internal/HandlerSlider.h"
+#include "gui/WidgetHelper.h"
 #include "util/MathOperations.h"
 
 namespace
@@ -16,7 +17,7 @@ namespace
 	{
 		if (widget.m_value.m_bool)
 		{
-			if (widget.m_state.m_locked)
+			if (core::gui::isLocked(widget))
 				return "active_locked";
 			else if (widget.m_state.m_selected)
 				return "active_clicked";
@@ -27,7 +28,7 @@ namespace
 		}
 		else
 		{
-			if (widget.m_state.m_locked)
+			if (core::gui::isLocked(widget))
 				return "inactive_locked";
 			else if (widget.m_state.m_selected)
 				return "inactive_clicked";
