@@ -11,6 +11,7 @@ namespace core
 	class ECS;
 	class EventBus;
 	class GuiRegistry;
+	class ModuleRegistry;
 	class Scene;
 	class StateManager;
 	class UBORegistry;
@@ -46,6 +47,7 @@ namespace core
 		ECS & getECS();
 		EventBus & getEventBus();
 		GuiRegistry & getGuiRegistry();
+		ModuleRegistry & getModules();
 		Scene & getScene();
 		StateManager & getStates();
 		UBORegistry & getUBOs();

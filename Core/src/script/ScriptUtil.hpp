@@ -37,7 +37,7 @@ namespace core::util
 	template<typename Type>
 	void addGlobalVariable(Script & script, Type && variable, const std::string & name)
 	{
-		script.handle().add_global(chaiscript::const_var(variable), name);
+		script.handle().add_global(chaiscript::var(variable), name);
 	}
 	template<typename Type>
 	void addGlobalConstant(Script & script, const Type & variable, const std::string & name)
