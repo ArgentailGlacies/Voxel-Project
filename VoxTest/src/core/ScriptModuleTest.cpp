@@ -2,12 +2,16 @@
 #include "core/ScriptModules.h"
 
 #include "core/Engine.h"
+#include "gui/GuiRegistry.h"
+#include "mock/MockAssetRegistry.h"
+#include "mock/MockUBORegistry.h"
 #include "script/Script.h"
 #include "state/State.h"
 #include "state/StateManager.h"
 
 #include <functional>
 
+#include "Context.h"
 #include "CppUnitTest.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -50,7 +54,32 @@ namespace core::setup
 			engine.start();
 		}
 
+		TEST_METHOD(ScriptModule_initializeGui)
+		{
+			GuiRegistry guis{ m_assets, display(), m_bus, m_scene };
+
+			script::initializeGui(m_script, guis);
+			script::initializeFileSystem(m_script);
+
+			Assert::IsTrue(m_script.execute(R"( GUI_REGISTRY.open(File("foobar")) )"));
+			Assert::IsTrue(m_script.execute(R"( GUI_REGISTRY.close(File("foobar")) )"));
+		}
+
+		TEST_METHOD(ScriptModule_initializeFileSystem)
+		{
+			script::initializeFileSystem(m_script);
+
+			Assert::IsTrue(m_script.execute(R"( var fileA = File() )"));
+			Assert::IsTrue(m_script.execute(R"( var fileB = File("foobar") )"));
+			Assert::IsTrue(m_script.execute(R"( var folder = Folder("foobar") )"));
+		}
+
 	private:
+		AssetRegistry m_assets = mockAssetRegistry();
+		UBORegistry m_ubos = mockUBORegistry();
+		EventBus m_bus;
+		Scene m_scene{ m_assets, display(), m_ubos };
+
 		Script m_script{ "script" };
 	};
 }
