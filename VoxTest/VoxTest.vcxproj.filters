@@ -93,6 +93,9 @@
     <ClCompile Include="src\world\UniverseTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\editor\util\CursorTest.cpp">
+	  <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\editor\util\CameraHandlerTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

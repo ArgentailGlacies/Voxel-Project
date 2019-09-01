@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\core\Engine.cpp" />
     <ClCompile Include="src\core\Setup.cpp" />
+    <ClCompile Include="src\editor\util\Cursor.cpp" />
     <ClCompile Include="src\editor\util\CameraHandler.cpp" />
     <ClCompile Include="src\editor\util\Grid.cpp" />
     <ClCompile Include="src\world\render\BlockRenderLoader.cpp" />
@@ -63,6 +64,8 @@
   <ItemGroup>
     <ClInclude Include="src\core\Engine.h" />
     <ClInclude Include="src\core\Setup.h" />
+    <ClInclude Include="src\editor\EditorWorld.h" />
+    <ClInclude Include="src\editor\util\Cursor.h" />
     <ClInclude Include="src\editor\util\CameraHandler.h" />
     <ClInclude Include="src\editor\util\Grid.h" />
     <ClInclude Include="src\world\event\ChunkEvents.h" />

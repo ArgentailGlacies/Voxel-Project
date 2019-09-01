@@ -96,6 +96,9 @@
     <ClCompile Include="src\world\render\WorldRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\editor\util\Cursor.cpp">
+	  <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\editor\util\CameraHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -206,7 +209,13 @@
     <ClInclude Include="src\world\Universe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+	<ClInclude Include="src\editor\EditorWorld.h">
+	  <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\world\render\WorldRender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\editor\util\Cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\editor\util\CameraHandler.h">
