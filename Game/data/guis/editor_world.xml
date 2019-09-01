@@ -13,9 +13,42 @@
         <renderer background="gui/generic/background" />
       </panel>
       
+      <widget name="reach_axis">
+        <bbox size="103, 16" />
+        <border outer="3" />
+        <label>
+          <renderer pretext="Locked axis" font="overlock" />
+        </label>
+      </widget>
+      <widget name="reach_lock_x">
+        <bbox size="16, 16" />
+        <border outer="3" />
+        <link target="reach_axis" ratio="2, 0" />
+        <button type="checkbox">
+          <renderer button="gui/editor_world/util/axis_x" />
+        </button>
+      </widget>
+      <widget name="reach_lock_y">
+        <bbox size="16, 16" />
+        <border outer="3" />
+        <link target="reach_lock_x" ratio="2, 0" />
+        <button type="checkbox">
+          <renderer button="gui/editor_world/util/axis_y" />
+        </button>
+      </widget>
+      <widget name="reach_lock_z">
+        <bbox size="16, 16" />
+        <border outer="3" />
+        <link target="reach_lock_y" ratio="2, 0" />
+        <button type="checkbox">
+          <renderer button="gui/editor_world/util/axis_z" />
+        </button>
+      </widget>
+      
       <widget name="reach_label">
         <bbox size="160, 16" />
         <border outer="3" />
+        <link target="reach_axis" ratio="0, 2" />
         <label>
           <renderer pretext="Reach distance" font="overlock" />
         </label>
