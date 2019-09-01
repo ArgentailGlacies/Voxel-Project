@@ -1,5 +1,5 @@
-<?xml version="1.0" ?>
-<file>data/gfx/sprites/gui/editor_world/utils/lock_z.png</file>
+<?xml version="1.0"?>
+<bitmap path="data/gfx/sprites/gui/editor_world/util/grid.png" />
 <frames>
 	<inactive         pos="0, 0"  size="16, 16" />
 	<inactive_hovered pos="0, 0"  size="16, 16" tint="0.8, 0.8, 0.8, 1.0" />

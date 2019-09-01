@@ -26,7 +26,7 @@ void game::StateEntry::initialize(core::Engine & engine)
 	m_display = &engine.getDisplay();
 
 	// Create a test gui
-	engine.getGuiRegistry().open(engine.getDataFolder().file("guis/test.xml"));
+	engine.getGuiRegistry().open(engine.getDataFolder().file("guis/editor_world.xml"));
 
 	// Create a test grid
 	m_grid = std::make_unique<vox::Grid>(engine.getScene());
