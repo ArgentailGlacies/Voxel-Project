@@ -34,6 +34,8 @@ namespace core
 	namespace res::script
 	{
 		const std::string ENGINE = "engine";
+		const std::string GUI = "gui";
+		const std::string GUI_REGISTRY = "gui_registry";
 	}
 
 	/**
