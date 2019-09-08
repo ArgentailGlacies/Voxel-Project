@@ -5,6 +5,7 @@
 #include "gui/GuiRegistry.h"
 #include "mock/MockAssetRegistry.h"
 #include "mock/MockUBORegistry.h"
+#include "script/ModuleRegistry.h"
 #include "script/Script.h"
 #include "state/State.h"
 #include "state/StateManager.h"
@@ -56,9 +57,22 @@ namespace core::setup
 
 		TEST_METHOD(ScriptModule_initializeGui)
 		{
-			GuiRegistry guis{ m_assets, display(), m_bus, m_scene };
+			Gui gui{ m_assets, m_modules, "" };
 
-			script::initializeGui(m_script, guis);
+			script::initializeGui(m_script);
+			script::detail::bindGui(m_script, gui);
+
+			Assert::IsTrue(m_script.execute(R"( GUI.has("widget") )"));
+			Assert::IsTrue(m_script.execute(R"( GUI.isVisible("widget") )"));
+			Assert::IsTrue(m_script.execute(R"( GUI.setVisible("widget", true) )"));
+			Assert::IsTrue(m_script.execute(R"( GUI.isLocked("widget") )"));
+			Assert::IsTrue(m_script.execute(R"( GUI.setLocked("widget", true) )"));
+		}
+		TEST_METHOD(ScriptModule_initializeGuiRegistry)
+		{
+			GuiRegistry guis{ m_assets, m_modules, display(), m_bus, m_scene };
+
+			script::initializeGuiRegistry(m_script, guis);
 			script::initializeFileSystem(m_script);
 
 			Assert::IsTrue(m_script.execute(R"( GUI_REGISTRY.open(File("foobar")) )"));
@@ -76,6 +90,7 @@ namespace core::setup
 
 	private:
 		AssetRegistry m_assets = mockAssetRegistry();
+		ModuleRegistry m_modules;
 		UBORegistry m_ubos = mockUBORegistry();
 		EventBus m_bus;
 		Scene m_scene{ m_assets, display(), m_ubos };

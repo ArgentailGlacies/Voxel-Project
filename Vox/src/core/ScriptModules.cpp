@@ -15,21 +15,39 @@ void core::script::initializeEngine(Script & script, Engine & engine)
 	util::addMethod(script, &Engine::stop, "stop");
 }
 
-void core::script::initializeGui(Script & script, GuiRegistry & guis)
+void core::script::initializeGui(Script & script)
+{
+	util::addMethod(script, &Gui::has, "has");
+	util::addMethod(script, &Gui::isVisible, "isVisible");
+	util::addMethod(script, &Gui::setVisible, "setVisible");
+	util::addMethod(script, &Gui::isLocked, "isLocked");
+	util::addMethod(script, &Gui::setLocked, "setLocked");
+}
+void core::script::initializeGuiRegistry(Script & script, GuiRegistry & guis)
 {
 	util::addGlobalVariable(script, &guis, "GUI_REGISTRY");
 	util::addMethod(script, &GuiRegistry::open, "open");
 	util::addMethod(script, &GuiRegistry::close, "close");
 }
 
+void core::script::detail::bindGui(Script & script, Gui & gui)
+{
+	util::addGlobalVariable(script, &gui, "GUI");
+}
+
+// ...
+
 void core::script::initializeFileSystem(Script & script)
 {
-	util::addType<::util::File>(script, "File");
-	util::addCtor<::util::File()>(script, "File");
-	util::addCtor<::util::File(const char *)>(script, "File");
-	util::addCtor<::util::File(const std::string)>(script, "File");
+	using ::util::File;
+	using ::util::Folder;
 
-	util::addType<::util::Folder>(script, "Folder");
-	util::addCtor<::util::Folder(const char *)>(script, "Folder");
-	util::addCtor<::util::Folder(const std::string)>(script, "Folder");
+	util::addType<File>(script, "File");
+	util::addCtor<File()>(script, "File");
+	util::addCtor<File(const char *)>(script, "File");
+	util::addCtor<File(const std::string &)>(script, "File");
+
+	util::addType<Folder>(script, "Folder");
+	util::addCtor<Folder(const char *)>(script, "Folder");
+	util::addCtor<Folder(const std::string &)>(script, "Folder");
 }

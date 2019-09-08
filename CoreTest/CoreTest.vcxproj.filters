@@ -168,6 +168,9 @@
     <ClCompile Include="src\gui\WidgetHelperTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\GuiTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Context.h">
@@ -192,9 +195,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\mock\MockWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mock\MockGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\mock\MockFont.h">

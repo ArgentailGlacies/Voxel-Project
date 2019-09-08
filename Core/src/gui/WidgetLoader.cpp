@@ -46,7 +46,7 @@ void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 	// Can only store widgets with unique names
 	const std::string name = node.attribute("name").as_string();
 	if (name.empty())
-		LOG_WARNING << "Cannot load widget without a name";
+		LOG_WARNING << "Loading widget without a name";
 	else if (const auto it = m_widgets.find(name); it != m_widgets.end())
 		LOG_WARNING << "Cannot overwrite existing widget " << name;
 	else

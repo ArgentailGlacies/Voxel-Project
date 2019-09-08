@@ -15,11 +15,11 @@ namespace core
 	public:
 		ModuleRegistry() = default;
 		ModuleRegistry(const ModuleRegistry &) = delete;
-		ModuleRegistry(ModuleRegistry &&) = delete;
+		ModuleRegistry(ModuleRegistry &&) = default;
 		~ModuleRegistry() = default;
 
 		ModuleRegistry & operator=(const ModuleRegistry &) = delete;
-		ModuleRegistry & operator=(ModuleRegistry &&) = delete;
+		ModuleRegistry & operator=(ModuleRegistry &&) = default;
 
 		/**
 			Checks if the module with the given identifier exists within the registry.

@@ -5,15 +5,19 @@
 #include "io/File.h"
 #include "script/Script.h"
 
+#include <string>
+#include <unordered_map>
+
 namespace core
 {
 	class AssetRegistry;
+	class ModuleRegistry;
 
 	class Gui
 	{
 	public:
 		Gui() = delete;
-		Gui(const util::File & file, const AssetRegistry & assets);
+		Gui(const AssetRegistry & assets, const ModuleRegistry & modules, const util::File & file);
 
 		/**
 			Performs one tick on all widgets in the gui.
@@ -26,12 +30,63 @@ namespace core
 
 		// ...
 
+		/**
+			Resizes the gui to fit the new given size. Should typically not be used, as whenever the
+			user changes the size of the display, all gui sizes will automatically be updated.
+
+			@param size The new size of the gui.
+		*/
+		void resize(const glm::vec2 & size);
+
+		// ...
+
+		/**
+			Checks whether the gui contains a widget named the same as the given widget name.
+
+			@param widget The name of the widget to check if exists in the gui.
+			@return True iff the gui has a widget matching the given name exactly.
+		*/
+		bool has(const std::string & widget) const;
+
+		/**
+			Checks whether the given widget is visible or not. If the widget does not exist, false
+			is returned.
+
+			@param widget The widget which should be checked if it is visible or not.
+			@return True iff the widget exists and is visible.
+		*/
+		bool isVisible(const std::string & widget) const;
+		/**
+			Assigns the visibility state of the given widget, if it exists.
+
+			@param widget The widget which should be updated.
+			@param visible Whether the widget should be visible or not.
+		*/
+		void setVisible(const std::string & widget, bool visible);
+
+		/**
+			Checks whether the given widget is locked or not. If the widget does not exist, true
+			is returned.
+
+			@param widget The widget which should be checked if it is locked or not.
+			@return True iff the widget does not exist or is locked.
+		*/
+		bool isLocked(const std::string & widget) const;
+		/**
+			Assigns the locked state of the given widget, if it exists.
+
+			@param widget The widget which should be updated.
+			@param locked Whether the widget should be locked or not.
+		*/
+		void setLocked(const std::string & widget, bool locked);
+
+		// ...
+
+		// TODO: Attempt to elliminate these methods, internal data should not leak
 		inline auto & getBus() { return m_bus; }
 		inline auto & getBus() const { return m_bus; }
 		inline auto & getScript() { return m_script; }
 		inline auto & getScript() const { return m_script; }
-		inline auto & getRoot() { return m_root; }
-		inline auto & getRoot() const { return m_root; }
 
 	private:
 		/**
@@ -61,5 +116,7 @@ namespace core
 		EventBus m_bus;
 		Script m_script;
 		Widget m_root;
+
+		std::unordered_map<std::string, Widget *> m_widgets;
 	};
 }

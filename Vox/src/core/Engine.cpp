@@ -63,7 +63,7 @@ core::Engine::Impl::Impl(Engine & engine) :
 	m_states(engine),
 	m_ecs(),
 	m_scene(m_assets, m_display, m_ubos),
-	m_guis(m_assets, m_display, m_bus, m_scene),
+	m_guis(m_assets, m_modules, m_display, m_bus, m_scene),
 	m_universe(engine.getDataFolder().folder(res::path::UNIVERSE), m_scene)
 {
 	m_queue.add(getDisplayEventSource(m_display));

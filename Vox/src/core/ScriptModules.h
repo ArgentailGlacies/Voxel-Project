@@ -3,6 +3,7 @@
 namespace core
 {
 	class Engine;
+	class Gui;
 	class GuiRegistry;
 	class Script;
 
@@ -24,13 +25,19 @@ namespace core
 
 		/**
 			Initializes the gui module of the scripting system. The gui module contains
-			functionality which allows opening and closing guis, as well as read gui and widget
-			data.
+			functionality which allows reading gui and widget data, as well as modifying the state.
+
+			@param script The script which should be initialized with the module.
+		*/
+		void initializeGui(Script & script);
+		/**
+			Initializes the gui regsitry module of the scripting system. The module contains
+			functionality which allows opening and closing guis.
 
 			@param script The script which should be initialized with the module.
 			@param guis The gui registry which is responsible for all guis.
 		*/
-		void initializeGui(Script & script, GuiRegistry & guis);
+		void initializeGuiRegistry(Script & script, GuiRegistry & guis);
 
 		// ...
 
@@ -41,5 +48,19 @@ namespace core
 			@param script The script which should be initialized with the module.
 		*/
 		void initializeFileSystem(Script & script);
+
+		// ...
+
+		namespace detail
+		{
+			/**
+				Binds the given script and gui together, such that the script is aware that there is
+				a gui which is accessible to it.
+
+				@param script The script which should be updated to contain the gui.
+				@param gui The gui which should be made accessible to the script.
+			*/
+			void bindGui(Script & script, Gui & gui);
+		}
 	}
 }
