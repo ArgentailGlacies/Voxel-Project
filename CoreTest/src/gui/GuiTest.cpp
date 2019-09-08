@@ -1,10 +1,12 @@
 
 #include "gui/Gui.h"
 
+#include "core/Resources.h"
 #include "io/File.h"
 #include "io/Folder.h"
 #include "mock/MockAssetRegistry.h"
 #include "script/ModuleRegistry.h"
+#include "script/Script.h"
 
 #include "CppUnitTest.h"
 
@@ -53,6 +55,17 @@ namespace core::gui
 			Assert::IsTrue(gui.isLocked("whatever"));
 		}
 
+		// ...
+
+		TEST_METHOD(Gui_scriptIntegration)
+		{
+			Gui gui{ m_assets, m_modules, file };
+
+			Assert::IsTrue(gui.executeScript(R"( GUI )")); // TODO: See #29
+			Assert::IsTrue(gui.executeScript("foo()"));
+			Assert::IsTrue(gui.executeScript("bar()"));
+		}
+
 	private:
 		void initialize()
 		{
@@ -63,6 +76,9 @@ namespace core::gui
 					<widget name="bar" />
 				</widgets>
 			)");
+
+			m_modules.add(res::script::GUI, [](auto & script) { script.execute("def foo(){}"); });
+			m_modules.add(res::script::GUI_REGISTRY, [](auto & script) { script.execute("def bar(){}"); });
 		}
 		void deinitialize()
 		{

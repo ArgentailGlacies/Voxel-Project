@@ -12,7 +12,7 @@ void core::ModuleRegistry::add(const std::string & identifier, const Module & mo
 	m_modules[identifier] = module;
 }
 
-void core::ModuleRegistry::apply(const std::string & identifier, Script & script)
+void core::ModuleRegistry::apply(const std::string & identifier, Script & script) const
 {
 	if (const auto it = m_modules.find(identifier); it != m_modules.end())
 		it->second(script);

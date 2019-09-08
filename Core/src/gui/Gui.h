@@ -17,7 +17,7 @@ namespace core
 	{
 	public:
 		Gui() = delete;
-		Gui(const AssetRegistry & assets, const ModuleRegistry & modules, const util::File & file);
+		Gui(const AssetRegistry & assets, const ModuleRegistry & modules, const ::util::File & file);
 
 		/**
 			Performs one tick on all widgets in the gui.
@@ -37,6 +37,15 @@ namespace core
 			@param size The new size of the gui.
 		*/
 		void resize(const glm::vec2 & size);
+
+		/**
+			Executes some arbitrary script within the gui. Should typically not be used, although
+			in rare cases the developer may need to execute a script rather than use actual code.
+
+			@param code The script which should be executed within the gui.
+			@return True iff the script was executed without errors.
+		*/
+		inline bool executeScript(const std::string & code) { return m_script.execute(code); }
 
 		// ...
 
@@ -95,7 +104,7 @@ namespace core
 			@param file The file containing all data to load.
 			@param assets All assets registered within the system.
 		*/
-		void load(const util::File & file, const AssetRegistry & assets);
+		void load(const ::util::File & file, const AssetRegistry & assets);
 		/**
 			Updates the widget and all its underlying children. The widget's position and size will
 			be recalculated based on the position and size of the parent and children.

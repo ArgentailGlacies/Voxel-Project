@@ -43,7 +43,7 @@ namespace core
 			@param identifier The identifier for the module to apply to the script.
 			@param script The script the module should be applied to.
 		*/
-		void apply(const std::string & identifier, Script & script);
+		void apply(const std::string & identifier, Script & script) const;
 
 	private:
 		std::unordered_map<std::string, Module> m_modules;
