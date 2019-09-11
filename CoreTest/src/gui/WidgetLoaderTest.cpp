@@ -23,6 +23,7 @@ namespace core::gui
 			auto childA = addWidget(parent, "childA", "panel");
 			auto childB = addWidget(parent, "childB", "button");
 			auto childC = addWidget(childA, "childC", "button");
+			addWidget(m_root, "", "button");
 
 			Widget root;
 			m_loader.load(m_root, root);
@@ -31,11 +32,13 @@ namespace core::gui
 			auto & a = p->m_family.m_children[0];
 			auto & b = p->m_family.m_children[1];
 			auto & c = a->m_family.m_children[0];
+			auto & nameless = root.m_family.m_children[1];
 
 			Assert::AreEqual({ "root.parent" }, p->m_name);
 			Assert::AreEqual({ "root.parent.childA" }, a->m_name);
 			Assert::AreEqual({ "root.parent.childB" }, b->m_name);
 			Assert::AreEqual({ "root.parent.childA.childC" }, c->m_name);
+			Assert::AreEqual({ "__widget_5" }, nameless->m_name);
 		}
 
 		TEST_METHOD(WidgetLoader_loadBorder)
@@ -269,8 +272,10 @@ namespace core::gui
 		pugi::xml_node addWidget(pugi::xml_node & widget, const std::string & name, const std::string & type)
 		{
 			auto node = widget.append_child("widget");
-			node.append_attribute("name").set_value(name.c_str());
-			node.append_attribute("type").set_value(type.c_str());
+			if (!name.empty())
+				node.append_attribute("name").set_value(name.c_str());
+			if (!type.empty())
+				node.append_attribute("type").set_value(type.c_str());
 			return node;
 		}
 		
