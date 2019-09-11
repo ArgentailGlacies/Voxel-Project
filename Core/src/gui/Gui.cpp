@@ -19,7 +19,10 @@ void core::Gui::load(const util::File & file, const AssetRegistry & assets)
 
 	const auto result = doc.load_file(file.path().c_str());
 	if (result.status == pugi::xml_parse_status::status_ok)
+	{
+		doc.child("widgets").append_attribute("name").set_value("root");
 		WidgetLoader{ assets, m_script, m_bus }.load(doc.child("widgets"), m_root);
+	}
 	else
 		LOG_WARNING << "Failed to load gui " << file.path();
 }

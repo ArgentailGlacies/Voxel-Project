@@ -109,7 +109,7 @@ namespace core
 
 		// ...
 
-		std::string m_name = "root";
+		std::string m_name;
 
 		std::unique_ptr<Handler> m_handler;
 		std::unique_ptr<Renderer> m_renderer;
