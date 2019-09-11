@@ -56,13 +56,15 @@ core::Widget * core::WidgetLoader::getWidget(const std::string & name, const Wid
 
 void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 {
+	// Must ensure a unique name for all widgets
 	const std::string name = node.attribute("name").as_string();
-
+	if (name.empty())
+		widget.m_name = "__widget_" + std::to_string(m_widgets.size());
+	else
+		widget.m_name = getFullName(name, widget.m_family.m_parent);
+	
 	// Can only store widgets with unique names
-	widget.m_name = getFullName(name, widget.m_family.m_parent);
-	if (widget.m_name.empty())
-		LOG_WARNING << "Cannot load widget without a name";
-	else if (const auto it = m_widgets.find(widget.m_name); it != m_widgets.end())
+	if (const auto it = m_widgets.find(widget.m_name); it != m_widgets.end())
 		LOG_WARNING << "Cannot overwrite existing widget " << widget.m_name;
 	else
 	{
