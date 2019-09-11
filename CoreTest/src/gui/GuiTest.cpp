@@ -90,6 +90,7 @@ namespace core::gui
 			Gui gui{ m_assets, m_modules, file };
 
 			Assert::IsTrue(gui.executeScript(R"( GUI )")); // TODO: See #29
+			Assert::IsTrue(gui.executeScript(R"( WIDGET )")); // TODO: See #29
 			Assert::IsTrue(gui.executeScript("foo()"));
 			Assert::IsTrue(gui.executeScript("bar()"));
 		}

@@ -39,6 +39,7 @@ void core::script::initializeGuiRegistry(Script & script, GuiRegistry & guis)
 void core::script::detail::bindGui(Script & script, Gui & gui)
 {
 	util::addGlobalVariable(script, &gui, "GUI");
+	util::addGlobalVariable(script, "", "WIDGET");
 }
 
 // ...

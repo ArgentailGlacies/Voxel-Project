@@ -16,6 +16,7 @@ core::Gui::Gui(const AssetRegistry & assets, const ModuleRegistry & modules, con
 	modules.apply(res::script::GUI, m_script);
 	modules.apply(res::script::GUI_REGISTRY, m_script);
 	util::addGlobalVariable(m_script, this, "GUI"); // TODO: See #29
+	util::addGlobalVariable(m_script, "", "WIDGET"); // TODO: See #29
 
 	load(file, assets);
 }
