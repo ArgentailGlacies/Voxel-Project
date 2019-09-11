@@ -109,6 +109,8 @@ namespace core
 
 		// ...
 
+		std::string m_name = "root";
+
 		std::unique_ptr<Handler> m_handler;
 		std::unique_ptr<Renderer> m_renderer;
 		std::unique_ptr<Processor> m_processor;
@@ -116,7 +118,7 @@ namespace core
 		BoundingBox m_bbox;
 		Border m_border;
 		Family m_family;
-		Group m_group{ this, { this } };
+		Group m_group = { this, { this } };
 		Link m_link;
 		State m_state;
 		Value m_value;
