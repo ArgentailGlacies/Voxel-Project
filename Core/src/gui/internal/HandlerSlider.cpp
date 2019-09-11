@@ -71,7 +71,7 @@ core::Handler::Callback core::HandlerSlider::translator(Widget & widget)
 {
 	return [this, &widget](Widget & other)
 	{
-		widget.m_value.m_float = util::Parser<float>{}.parse(widget.m_value.m_string);
+		widget.m_value.m_float = util::Parser<float>{}.parse(widget.m_value.m_string, widget.m_value.m_float);
 
 		m_callback(widget);
 	};
