@@ -77,31 +77,72 @@ void core::Gui::resize(const glm::vec2 & size)
 
 // ...
 
+core::Widget * core::Gui::getWidget(const std::string & name) const
+{
+	const auto it = m_widgets.find(name);
+	return it == m_widgets.end() ? nullptr : it->second;
+}
+
 bool core::Gui::has(const std::string & widget) const
 {
-	return m_widgets.find(widget) != m_widgets.end();
+	return getWidget(widget) != nullptr;
 }
 
 bool core::Gui::isVisible(const std::string & widget) const
 {
-	if (const auto it = m_widgets.find(widget); it != m_widgets.end())
-		return it->second->m_state.m_visible;
+	if (const auto * w = getWidget(widget))
+		return w->m_state.m_visible;
 	return false;
 }
 void core::Gui::setVisible(const std::string & widget, bool visible)
 {
-	if (const auto it = m_widgets.find(widget); it != m_widgets.end())
-		it->second->m_state.m_visible = visible;
+	if (auto * w = getWidget(widget))
+		w->m_state.m_visible = visible;
 }
 
 bool core::Gui::isLocked(const std::string & widget) const
 {
-	if (const auto it = m_widgets.find(widget); it != m_widgets.end())
-		return it->second->m_state.m_locked;
+	if (const auto * w = getWidget(widget))
+		return w->m_state.m_locked;
 	return true;
 }
 void core::Gui::setLocked(const std::string & widget, bool locked)
 {
-	if (const auto it = m_widgets.find(widget); it != m_widgets.end())
-		it->second->m_state.m_locked = locked;
+	if (auto * w = getWidget(widget))
+		w->m_state.m_locked = locked;
+}
+
+void core::Gui::setBool(const std::string & widget, bool value)
+{
+	if (auto * w = getWidget(widget))
+		w->m_value.m_bool = value;
+}
+void core::Gui::setFloat(const std::string & widget, float value)
+{
+	if (auto * w = getWidget(widget))
+		w->m_value.m_float = value;
+}
+void core::Gui::setString(const std::string & widget, const std::string & value)
+{
+	if (auto * w = getWidget(widget))
+		w->m_value.m_string = value;
+}
+
+bool core::Gui::getBool(const std::string & widget) const
+{
+	if (const auto * w = getWidget(widget))
+		return w->m_value.m_bool;
+	return false;
+}
+float core::Gui::getFloat(const std::string & widget) const
+{
+	if (const auto * w = getWidget(widget))
+		return w->m_value.m_float;
+	return 0.0f;
+}
+std::string core::Gui::getString(const std::string & widget) const
+{
+	if (const auto * w = getWidget(widget))
+		return w->m_value.m_string;
+	return "";
 }

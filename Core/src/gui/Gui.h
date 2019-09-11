@@ -89,13 +89,32 @@ namespace core
 		*/
 		void setLocked(const std::string & widget, bool locked);
 
+		/**
+			Assigns a value to the speified widget, overwriting any previously specified value. If
+			the widget does not exist, the method does nothing.
+
+			@param widget The widget which should be updated.
+			@param value The value which should be stored in the widget.
+		*/
+		void setBool(const std::string & widget, bool value);
+		void setFloat(const std::string & widget, float value);
+		void setString(const std::string & widget, const std::string & value);
+		/**
+			Attempts to read a value from the given widget, if it exists. If a value could not be
+			retrieved, the default value false, 0.0f, or "", is returned instead.
+
+			@param widget The widget the data should be retrieved from.
+			@return The widget's value, or the default value if the widget could not be found.
+		*/
+		bool getBool(const std::string & widget) const;
+		float getFloat(const std::string & widget) const;
+		std::string getString(const std::string & widget) const;
+
 		// ...
 
 		// TODO: Attempt to elliminate these methods, internal data should not leak
 		inline auto & getBus() { return m_bus; }
 		inline auto & getBus() const { return m_bus; }
-		inline auto & getScript() { return m_script; }
-		inline auto & getScript() const { return m_script; }
 
 	private:
 		/**
@@ -121,6 +140,19 @@ namespace core
 			@param offset The offset the widget should be rendered with.
 		*/
 		void render(const Widget & widget, const glm::vec2 & offset) const;
+
+		// ...
+
+		/**
+			Retrieves a widget with the given name. If no such widget exists, nullptr is returned
+			instead.
+
+			@param name The name of the widget to retrieve.
+			@return The widget, or nullptr if the widget could not be found.
+		*/
+		Widget * getWidget(const std::string & name) const;
+
+		// ...
 
 		EventBus m_bus;
 		Script m_script;

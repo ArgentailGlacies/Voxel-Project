@@ -63,10 +63,18 @@ namespace core::setup
 			script::detail::bindGui(m_script, gui);
 
 			Assert::IsTrue(m_script.execute(R"( GUI.has("widget") )"));
+
 			Assert::IsTrue(m_script.execute(R"( GUI.isVisible("widget") )"));
-			Assert::IsTrue(m_script.execute(R"( GUI.setVisible("widget", true) )"));
 			Assert::IsTrue(m_script.execute(R"( GUI.isLocked("widget") )"));
+			Assert::IsTrue(m_script.execute(R"( GUI.setVisible("widget", true) )"));
 			Assert::IsTrue(m_script.execute(R"( GUI.setLocked("widget", true) )"));
+
+			Assert::IsTrue(m_script.execute(R"( GUI.getBool("widget") )"));
+			Assert::IsTrue(m_script.execute(R"( GUI.getFloat("widget") )"));
+			Assert::IsTrue(m_script.execute(R"( GUI.getString("widget") )"));
+			Assert::IsTrue(m_script.execute(R"( GUI.setBool("widget", true) )"));
+			Assert::IsTrue(m_script.execute(R"( GUI.setFloat("widget", 0.0f) )"));
+			Assert::IsTrue(m_script.execute(R"( GUI.setString("widget", "") )"));
 		}
 		TEST_METHOD(ScriptModule_initializeGuiRegistry)
 		{

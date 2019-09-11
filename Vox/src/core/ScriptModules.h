@@ -31,7 +31,7 @@ namespace core
 		*/
 		void initializeGui(Script & script);
 		/**
-			Initializes the gui regsitry module of the scripting system. The module contains
+			Initializes the gui registry module of the scripting system. The module contains
 			functionality which allows opening and closing guis.
 
 			@param script The script which should be initialized with the module.

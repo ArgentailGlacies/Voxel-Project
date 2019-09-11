@@ -55,6 +55,34 @@ namespace core::gui
 			Assert::IsTrue(gui.isLocked("whatever"));
 		}
 
+		TEST_METHOD(Gui_setBool)
+		{
+			Gui gui{ m_assets, m_modules, file };
+			gui.setBool("foo", true);
+			gui.setBool("whatever", true);
+
+			Assert::AreEqual(true, gui.getBool("foo"));
+			Assert::AreEqual(false, gui.getBool("whatever"));
+		}
+		TEST_METHOD(Gui_setFloat)
+		{
+			Gui gui{ m_assets, m_modules, file };
+			gui.setFloat("foo", 3.14f);
+			gui.setFloat("whatever", 4.0f);
+
+			Assert::AreEqual(3.14f, gui.getFloat("foo"), 0.0f);
+			Assert::AreEqual(0.0f, gui.getFloat("whatever"), 0.0f);
+		}
+		TEST_METHOD(Gui_setString)
+		{
+			Gui gui{ m_assets, m_modules, file };
+			gui.setString("foo", "bar");
+			gui.setString("whatever", "world");
+
+			Assert::AreEqual({ "bar" }, gui.getString("foo"));
+			Assert::AreEqual({ "" }, gui.getString("whatever"));
+		}
+
 		// ...
 
 		TEST_METHOD(Gui_scriptIntegration)

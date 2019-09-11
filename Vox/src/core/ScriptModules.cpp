@@ -22,6 +22,12 @@ void core::script::initializeGui(Script & script)
 	util::addMethod(script, &Gui::setVisible, "setVisible");
 	util::addMethod(script, &Gui::isLocked, "isLocked");
 	util::addMethod(script, &Gui::setLocked, "setLocked");
+	util::addMethod(script, &Gui::getBool, "getBool");
+	util::addMethod(script, &Gui::getFloat, "getFloat");
+	util::addMethod(script, &Gui::getString, "getString");
+	util::addMethod(script, &Gui::setBool, "setBool");
+	util::addMethod(script, &Gui::setFloat, "setFloat");
+	util::addMethod(script, &Gui::setString, "setString");
 }
 void core::script::initializeGuiRegistry(Script & script, GuiRegistry & guis)
 {
