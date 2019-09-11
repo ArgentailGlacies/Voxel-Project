@@ -65,7 +65,10 @@ void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 	else if (const auto it = m_widgets.find(widget.m_name); it != m_widgets.end())
 		LOG_WARNING << "Cannot overwrite existing widget " << widget.m_name;
 	else
+	{
 		m_widgets[widget.m_name] = &widget;
+		LOG_DEBUG << "Loading widget '" << widget.m_name << "'...";
+	}
 
 	// Must load normal data and specialization before children
 	if (const auto data = node.child("border"))
