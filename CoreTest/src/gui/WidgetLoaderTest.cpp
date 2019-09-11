@@ -17,6 +17,27 @@ namespace core::gui
 	TEST_CLASS(WidgetLoaderTest)
 	{
 	public:
+		TEST_METHOD(WidgetLoader_loadName)
+		{
+			auto parent = addWidget(m_root, "parent", "panel");
+			auto childA = addWidget(parent, "childA", "panel");
+			auto childB = addWidget(parent, "childB", "button");
+			auto childC = addWidget(childA, "childC", "button");
+
+			Widget root;
+			m_loader.load(m_root, root);
+			
+			auto & p = root.m_family.m_children[0];
+			auto & a = p->m_family.m_children[0];
+			auto & b = p->m_family.m_children[1];
+			auto & c = a->m_family.m_children[0];
+
+			Assert::AreEqual({ "root.parent" }, p->m_name);
+			Assert::AreEqual({ "root.parent.childA" }, a->m_name);
+			Assert::AreEqual({ "root.parent.childB" }, b->m_name);
+			Assert::AreEqual({ "root.parent.childA.childC" }, c->m_name);
+		}
+
 		TEST_METHOD(WidgetLoader_loadBorder)
 		{
 			Widget::Border border;
@@ -43,8 +64,13 @@ namespace core::gui
 		}
 		TEST_METHOD(WidgetLoader_loadGroup)
 		{
-			Widget widget, leader;
-			m_loader.load(addWidget(m_doc, "leader", "panel"), leader);
+			Widget root;
+			addWidget(m_root, "leader", "panel");
+			addWidget(m_root, "widget", "panel");
+			m_loader.load(m_root, root);
+
+			auto & leader = *root.m_family.m_children[0];
+			auto & widget = *root.m_family.m_children[1];
 			m_loader.loadGroup(addGroup(m_doc, "leader"), widget);
 
 			Assert::IsTrue(&leader == widget.m_group.m_leader);
@@ -54,14 +80,19 @@ namespace core::gui
 		}
 		TEST_METHOD(WidgetLoader_loadLink)
 		{
+			Widget root;
+			addWidget(m_root, "target", "panel");
+			addWidget(m_root, "widget", "panel");
+			m_loader.load(m_root, root);
+
 			Widget::Link link;
+			link.m_target = root.m_family.m_children[0].get();
 			link.m_ratio = { 0.75f, 1.0f };
 
-			Widget widget, target;
-			m_loader.load(addWidget(m_doc, "target", "panel"), target);
+			auto & widget = *root.m_family.m_children[1];
 			m_loader.loadLink(addLink(m_doc, "target", link.m_ratio), widget);
 
-			Assert::IsTrue(&target == widget.m_link.m_target);
+			Assert::IsTrue(link.m_target == widget.m_link.m_target);
 			Assert::AreEqual(link.m_ratio, widget.m_link.m_ratio);
 		}
 		TEST_METHOD(WidgetLoader_loadState)
@@ -121,17 +152,11 @@ namespace core::gui
 
 		TEST_METHOD(WidgetLoader_loadChild)
 		{
-			// Multiple children can be loaded simultanously, cannot overwrite earlier widgets
-			auto childA = m_doc.append_child("widget");
-			childA.append_attribute("name").set_value("childA");
-			childA.append_child("state").append_attribute("active").set_value(true);
-
-			auto childB = m_doc.append_child("widget");
-			childB.append_attribute("name").set_value("childB");
-			childB.append_child("state").append_attribute("active").set_value(false);
+			addWidget(m_root, "childA", "panel");
+			addWidget(m_root, "childB", "panel");
 
 			Widget widget;
-			m_loader.loadChildren(m_doc, widget);
+			m_loader.loadChildren(m_root, widget);
 
 			Assert::AreEqual(2u, widget.m_family.m_children.size());
 		}
@@ -271,6 +296,7 @@ namespace core::gui
 		// ...
 
 		pugi::xml_document m_doc;
+		pugi::xml_node m_root = addWidget(m_doc, "root", "panel");
 
 		AssetRegistry m_assets = mockAssetRegistry();
 		EventBus m_bus;
