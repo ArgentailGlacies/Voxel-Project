@@ -23,10 +23,12 @@ namespace core::gui
 			auto childA = addWidget(parent, "childA", "panel");
 			auto childB = addWidget(parent, "childB", "button");
 			auto childC = addWidget(childA, "childC", "button");
-			addWidget(m_root, "", "button");
+			addWidget(m_root, "", "button"); // Uses default name when no name is specified
+			addWidget(m_root, "parent", "button"); // Cannot load duplicated names
 
 			Widget root;
 			m_loader.load(m_root, root);
+			Assert::AreEqual(2u, root.m_family.m_children.size());
 			
 			auto & p = root.m_family.m_children[0];
 			auto & a = p->m_family.m_children[0];
