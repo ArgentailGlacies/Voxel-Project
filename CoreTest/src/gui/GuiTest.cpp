@@ -30,7 +30,7 @@ namespace core::gui
 		{
 			Gui gui{ m_assets, m_modules, file };
 
-			Assert::IsTrue(gui.has("foo"));
+			Assert::IsTrue(gui.has("root.foo"));
 			Assert::IsFalse(gui.has("whatever"));
 		}
 
@@ -38,9 +38,9 @@ namespace core::gui
 		{
 			Gui gui{ m_assets, m_modules, file };
 
-			Assert::IsTrue(gui.isVisible("foo"));
-			gui.setVisible("foo", false);
-			Assert::IsFalse(gui.isVisible("foo"));
+			Assert::IsTrue(gui.isVisible("root.foo"));
+			gui.setVisible("root.foo", false);
+			Assert::IsFalse(gui.isVisible("root.foo"));
 
 			Assert::IsFalse(gui.isVisible("whatever"));
 		}
@@ -48,9 +48,9 @@ namespace core::gui
 		{
 			Gui gui{ m_assets, m_modules, file };
 
-			Assert::IsFalse(gui.isLocked("foo"));
-			gui.setLocked("foo", true);
-			Assert::IsTrue(gui.isLocked("foo"));
+			Assert::IsFalse(gui.isLocked("root.foo"));
+			gui.setLocked("root.foo", true);
+			Assert::IsTrue(gui.isLocked("root.foo"));
 
 			Assert::IsTrue(gui.isLocked("whatever"));
 		}
@@ -58,28 +58,28 @@ namespace core::gui
 		TEST_METHOD(Gui_setBool)
 		{
 			Gui gui{ m_assets, m_modules, file };
-			gui.setBool("foo", true);
+			gui.setBool("root.foo", true);
 			gui.setBool("whatever", true);
 
-			Assert::AreEqual(true, gui.getBool("foo"));
+			Assert::AreEqual(true, gui.getBool("root.foo"));
 			Assert::AreEqual(false, gui.getBool("whatever"));
 		}
 		TEST_METHOD(Gui_setFloat)
 		{
 			Gui gui{ m_assets, m_modules, file };
-			gui.setFloat("foo", 3.14f);
+			gui.setFloat("root.foo", 3.14f);
 			gui.setFloat("whatever", 4.0f);
 
-			Assert::AreEqual(3.14f, gui.getFloat("foo"), 0.0f);
+			Assert::AreEqual(3.14f, gui.getFloat("root.foo"), 0.0f);
 			Assert::AreEqual(0.0f, gui.getFloat("whatever"), 0.0f);
 		}
 		TEST_METHOD(Gui_setString)
 		{
 			Gui gui{ m_assets, m_modules, file };
-			gui.setString("foo", "bar");
+			gui.setString("root.foo", "some text");
 			gui.setString("whatever", "world");
 
-			Assert::AreEqual({ "bar" }, gui.getString("foo"));
+			Assert::AreEqual({ "some text" }, gui.getString("root.foo"));
 			Assert::AreEqual({ "" }, gui.getString("whatever"));
 		}
 
