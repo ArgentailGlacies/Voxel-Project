@@ -83,7 +83,7 @@ namespace vox::editor
 
 			Assert::AreEqual({}, m_camera.getPosition());
 			Assert::AreEqual(0.0f, m_camera.getRotation().x, 0.001f);
-			Assert::IsTrue(m_camera.getRotation().y < 0.0f);
+			Assert::IsTrue(m_camera.getRotation().y > 0.0f);
 
 			// ...
 
@@ -107,7 +107,7 @@ namespace vox::editor
 
 			Assert::AreNotEqual({}, m_camera.getPosition());
 			Assert::AreEqual(0.0f, m_camera.getRotation().x, 0.001f);
-			Assert::IsTrue(m_camera.getRotation().y > 0.0f);
+			Assert::IsTrue(m_camera.getRotation().y < 0.0f);
 		}
 
 		TEST_METHOD(CameraHandlerOrbital_handleDistance)
@@ -156,9 +156,9 @@ namespace vox::editor
 
 			Assert::IsTrue(m_camera.getPosition().x > 0.0f);
 			Assert::AreEqual(0.0f, m_camera.getPosition().y, 0.001f);
-			Assert::IsTrue(m_camera.getPosition().z < 0.0f);
+			Assert::IsTrue(m_camera.getPosition().z > 0.0f);
 			Assert::AreEqual(0.0f, m_camera.getRotation().x, 0.001f);
-			Assert::IsTrue(m_camera.getRotation().y > 0.0f);
+			Assert::IsTrue(m_camera.getRotation().y < 0.0f);
 
 			// Moving mouse while holding mouse button and primary moves camera
 			m_camera.setPosition({});
@@ -181,7 +181,7 @@ namespace vox::editor
 
 			Assert::AreEqual({}, m_camera.getPosition());
 			Assert::IsTrue(m_camera.getRotation().x < 0.0f);
-			Assert::IsTrue(m_camera.getRotation().y < 0.0f);
+			Assert::IsTrue(m_camera.getRotation().y > 0.0f);
 
 			// Moving mouse while holding mouse button, primary and secondary moves camera
 			m_camera.setPosition({});

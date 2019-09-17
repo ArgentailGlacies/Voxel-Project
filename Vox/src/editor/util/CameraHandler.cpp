@@ -86,10 +86,10 @@ void vox::CameraHandlerOrbital::handleRotation(const glm::vec2 & delta)
 	auto position = m_camera.getPosition();
 	auto rotation = m_camera.getRotation();
 	if (m_holdSecondary)
-		rotation += sensitivity * glm::vec2{ delta.x, -delta.y };
+		rotation += sensitivity * delta;
 	else
 	{
-		rotation -= sensitivity * glm::vec2{ delta.x, -delta.y };
+		rotation -= sensitivity * delta;
 		position += m_distance * (util::cartesian(m_camera.getRotation()) - util::cartesian(rotation));
 	}
 	rotation.y = util::max(-PITCH_LIMIT, util::min(PITCH_LIMIT, rotation.y));
