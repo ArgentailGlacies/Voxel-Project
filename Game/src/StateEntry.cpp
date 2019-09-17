@@ -2,10 +2,11 @@
 #include "StateEntry.h"
 
 #include "core/Engine.h"
-#include "editor/EditorWorld.h"
 #include "event/EventBus.h"
 #include "event/Events.h"
 #include "gui/GuiRegistry.h"
+
+#include "editor/EditorWorld.h"
 #include "world/Universe.h"
 #include "world/World.h"
 #include "world/BlockRegistry.h"
