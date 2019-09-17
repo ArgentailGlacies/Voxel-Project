@@ -9,6 +9,13 @@
 #include "io/File.h"
 #include "io/Folder.h"
 
+#include <string>
+
+namespace
+{
+	std::string WIDGET;
+}
+
 void core::script::initializeEngine(Script & script, Engine & engine)
 {
 	util::addGlobalVariable(script, &engine, "ENGINE");
@@ -39,7 +46,7 @@ void core::script::initializeGuiRegistry(Script & script, GuiRegistry & guis)
 void core::script::detail::bindGui(Script & script, Gui & gui)
 {
 	util::addGlobalVariable(script, &gui, "GUI");
-	util::addGlobalVariable(script, "", "WIDGET");
+	util::addGlobalVariable(script, &WIDGET, "WIDGET");
 }
 
 // ...
