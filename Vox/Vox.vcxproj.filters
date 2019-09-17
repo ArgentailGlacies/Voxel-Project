@@ -108,6 +108,9 @@
     <ClCompile Include="src\core\ScriptModules.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\editor\EditorWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\world\data\BlockData.h">
@@ -212,9 +215,6 @@
     <ClInclude Include="src\world\Universe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\editor\EditorWorld.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\world\render\WorldRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -228,6 +228,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\ScriptModules.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\editor\EditorWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

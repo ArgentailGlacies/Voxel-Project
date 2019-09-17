@@ -1,6 +1,14 @@
 #pragma once
 
+#include "editor/util/CameraHandler.h"
 #include "editor/util/Cursor.h"
+#include "editor/util/Grid.h"
+
+namespace core
+{
+	class EventBus;
+	class Scene;
+}
 
 namespace vox
 {
@@ -12,9 +20,11 @@ namespace vox
 	class EditorWorld
 	{
 	public:
-
+		EditorWorld(core::Scene & scene, core::EventBus & bus);
 
 	private:
+		CameraHandlerOrbital m_handler;
 		Cursor m_cursor;
+		Grid m_grid;
 	};
 }
