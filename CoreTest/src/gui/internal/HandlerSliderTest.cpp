@@ -90,10 +90,11 @@ namespace core::gui
 			handler.translator(widgetA)(widgetB);
 			Assert::AreEqual(4.2f, widgetA.m_value.m_float, 0.01f);
 
-			// Translating valid values work correctly
+			// Translating invalid valid values uses current value
 			widgetA.m_value.m_string = "invalid-value";
+			widgetA.m_value.m_float = 3.1f;
 			handler.translator(widgetA)(widgetB);
-			Assert::AreEqual(0.0f, widgetA.m_value.m_float, 0.01f);
+			Assert::AreEqual(3.1f, widgetA.m_value.m_float, 0.01f);
 		}
 
 		TEST_METHOD(HandlerSliderBar_callback)

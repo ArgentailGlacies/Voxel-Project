@@ -63,7 +63,7 @@ core::Engine::Impl::Impl(Engine & engine) :
 	m_states(engine),
 	m_ecs(),
 	m_scene(m_assets, m_display, m_ubos),
-	m_guis(m_assets, m_display, m_bus, m_scene),
+	m_guis(m_assets, m_modules, m_display, m_bus, m_scene),
 	m_universe(engine.getDataFolder().folder(res::path::UNIVERSE), m_scene)
 {
 	m_queue.add(getDisplayEventSource(m_display));
@@ -82,6 +82,7 @@ void core::Engine::initialize()
 	setupComponents(getECS());
 	setupSystems(getECS());
 	setupUBOs(getUBOs());
+	setupModules(getModules(), *this);
 
 	m_impl->m_universe.prepare(getAssets());
 }
@@ -115,6 +116,7 @@ core::Display & core::Engine::getDisplay() { return m_impl->m_display; }
 core::ECS & core::Engine::getECS() { return m_impl->m_ecs; }
 core::EventBus & core::Engine::getEventBus() { return m_impl->m_bus; }
 core::GuiRegistry & core::Engine::getGuiRegistry() { return m_impl->m_guis; }
+core::ModuleRegistry & core::Engine::getModules() { return m_impl->m_modules; }
 core::Scene & core::Engine::getScene() { return m_impl->m_scene; }
 core::StateManager & core::Engine::getStates() { return m_impl->m_states; }
 core::UBORegistry & core::Engine::getUBOs() { return m_impl->m_ubos; }

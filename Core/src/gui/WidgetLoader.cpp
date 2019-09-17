@@ -31,7 +31,11 @@ namespace
 	public:
 		ScriptExecutor(const core::Script & script, const std::string & code) : m_script(script), m_code(code) {}
 
-		inline void operator()(core::Widget & widget) const { m_script.execute(m_code); }
+		inline void operator()(core::Widget & widget) const
+		{
+			m_script.execute("WIDGET = \"" + widget.m_name + "\"");
+			m_script.execute(m_code);
+		}
 
 	private:
 		const core::Script & m_script;

@@ -97,12 +97,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\util\Cursor.cpp">
-	  <Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\util\CameraHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\util\Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\ScriptModules.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -209,8 +212,8 @@
     <ClInclude Include="src\world\Universe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-	<ClInclude Include="src\editor\EditorWorld.h">
-	  <Filter>Header Files</Filter>
+    <ClInclude Include="src\editor\EditorWorld.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\world\render\WorldRender.h">
       <Filter>Header Files</Filter>
@@ -222,6 +225,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\editor\util\Grid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\ScriptModules.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

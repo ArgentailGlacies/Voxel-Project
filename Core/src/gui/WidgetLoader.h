@@ -1,6 +1,7 @@
 #pragma once
 
 #include <pugixml/pugixml.hpp>
+#include <string>
 #include <unordered_map>
 
 namespace core
@@ -99,6 +100,13 @@ namespace core
 		void loadLabel(const pugi::xml_node & node, Widget & widget);
 		void loadPanel(const pugi::xml_node & node, Widget & widget);
 		void loadSlider(const pugi::xml_node & node, Widget & widget);
+
+		// ...
+
+		/**
+			@return The map of all named widgets that have been loaded.
+		*/
+		inline auto getWidgets() const { return m_widgets; }
 
 	private:
 		/**
