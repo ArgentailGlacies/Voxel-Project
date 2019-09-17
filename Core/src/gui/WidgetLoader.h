@@ -1,6 +1,7 @@
 #pragma once
 
 #include <pugixml/pugixml.hpp>
+#include <string>
 #include <unordered_map>
 
 namespace core
@@ -100,7 +101,38 @@ namespace core
 		void loadPanel(const pugi::xml_node & node, Widget & widget);
 		void loadSlider(const pugi::xml_node & node, Widget & widget);
 
+		// ...
+
+		/**
+			@return The map of all named widgets that have been loaded.
+		*/
+		inline auto getWidgets() const { return m_widgets; }
+
 	private:
+		/**
+			Retrieves the fully qualified name for a widget with the given name and, if present, the
+			given parent. The fully qualified name will be the name of the parent concatenated with
+			the name of the child widget, seperated by a period character.
+
+			@param name The name of the child widget. Must not contain any periods.
+			@param parent The parent of the child widget, if it has any parents.
+			@return The fully qualified name of the widget, on the form "parent.child".
+		*/
+		std::string getFullName(const std::string & name, const Widget * parent) const;
+
+		/**
+			Attempts to locate the widget with the given name. The name must not be a fully
+			qualified name. If the parent is specified, the widget will be a child of the parent
+			with the given name.
+
+			@param name The name of the widget to located.
+			@param parent The parent of the widget to locate.
+			@return The widget, or nullptr if it could not be located.
+		*/
+		Widget * getWidget(const std::string & name, const Widget * parent) const;
+
+		// ...
+
 		const AssetRegistry & m_assets;
 		const Script & m_script;
 		EventBus & m_bus;

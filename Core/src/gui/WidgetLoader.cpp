@@ -31,7 +31,11 @@ namespace
 	public:
 		ScriptExecutor(const core::Script & script, const std::string & code) : m_script(script), m_code(code) {}
 
-		inline void operator()(core::Widget & widget) const { m_script.execute(m_code); }
+		inline void operator()(core::Widget & widget) const
+		{
+			m_script.execute("WIDGET = \"" + widget.m_name + "\"");
+			m_script.execute(m_code);
+		}
 
 	private:
 		const core::Script & m_script;
@@ -41,16 +45,40 @@ namespace
 
 // ...
 
+std::string core::WidgetLoader::getFullName(const std::string & name, const Widget * parent) const
+{
+	return parent == nullptr ? name : parent->m_name + "." + name;
+}
+
+core::Widget * core::WidgetLoader::getWidget(const std::string & name, const Widget * parent) const
+{
+	const auto it = m_widgets.find(getFullName(name, parent));
+	return it == m_widgets.end() ? nullptr : it->second;
+}
+
+// ...
+
 void core::WidgetLoader::load(const pugi::xml_node & node, Widget & widget)
 {
-	// Can only store widgets with unique names
+	// Must ensure a unique name for all widgets
 	const std::string name = node.attribute("name").as_string();
 	if (name.empty())
-		LOG_WARNING << "Cannot load widget without a name";
-	else if (const auto it = m_widgets.find(name); it != m_widgets.end())
-		LOG_WARNING << "Cannot overwrite existing widget " << name;
+		widget.m_name = "__widget_" + std::to_string(m_widgets.size());
 	else
-		m_widgets[name] = &widget;
+		widget.m_name = getFullName(name, widget.m_family.m_parent);
+	
+	// Can only store widgets with unique names
+	if (const auto it = m_widgets.find(widget.m_name); it != m_widgets.end())
+	{
+		LOG_WARNING << "Cannot overwrite existing widget " << widget.m_name;
+	
+		// Kill child if it does not have a unique name
+		if (widget.m_family.m_parent != nullptr)
+			widget.m_family.m_parent->m_family.m_children.pop_back();
+		return;
+	}
+	LOG_DEBUG << "Loading widget '" << widget.m_name << "'...";
+	m_widgets[widget.m_name] = &widget;
 
 	// Must load normal data and specialization before children
 	if (const auto data = node.child("border"))
@@ -94,28 +122,28 @@ void core::WidgetLoader::loadBoundingBox(const pugi::xml_node & node, Widget & w
 void core::WidgetLoader::loadLink(const pugi::xml_node & node, Widget & widget)
 {
 	const util::Parser<glm::vec2> parser;
-	const std::string target = node.attribute("target").as_string();
+	const std::string name = node.attribute("target").as_string();
 
-	if (target.empty())
+	if (name.empty())
 		widget.m_link.m_target = nullptr;
-	else if (const auto it = m_widgets.find(target); it == m_widgets.end())
-		LOG_WARNING << "Cannot link to nonexisting widget " << target;
+	else if (const auto * target = getWidget(name, widget.m_family.m_parent))
+		widget.m_link.m_target = target;
 	else
-		widget.m_link.m_target = it->second;
+		LOG_WARNING << "Cannot link to nonexisting widget '" << name << "'";
 	widget.m_link.m_ratio = parser.parse(node.attribute("ratio").as_string());
 }
 void core::WidgetLoader::loadGroup(const pugi::xml_node & node, Widget & widget)
 {
-	const auto leader = node.attribute("leader").as_string();
-	if (const auto it = m_widgets.find(leader); it == m_widgets.end())
-		LOG_WARNING << "Cannot form group with nonexisting widget " << leader;
-	else
+	const auto name = node.attribute("leader").as_string();
+	if (auto * target = getWidget(name, widget.m_family.m_parent))
 	{
-		widget.m_group.m_leader = it->second;
+		widget.m_group.m_leader = target;
 		for (auto * member : widget.m_group.m_members)
-			it->second->m_group.m_members.push_back(member);
+			target->m_group.m_members.push_back(member);
 		widget.m_group.m_members.clear();
 	}
+	else
+		LOG_WARNING << "Cannot form group with nonexisting widget '" << name << "'";
 }
 void core::WidgetLoader::loadState(const pugi::xml_node & node, Widget & widget)
 {
@@ -276,3 +304,4 @@ void core::WidgetLoader::loadSlider(const pugi::xml_node & node, Widget & widget
 	decrement.m_processor = std::make_unique<Processor>(decrement, m_bus);
 	label.m_processor = std::make_unique<Processor>(label, m_bus);
 }
+

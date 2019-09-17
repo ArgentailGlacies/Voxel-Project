@@ -6,8 +6,10 @@
 
 #include <limits>
 
-core::GuiRegistry::GuiRegistry(const AssetRegistry & assets, const Display & display, EventBus & bus, Scene & scene)
-	: m_assets(assets), m_display(display), m_scene(scene)
+core::GuiRegistry::GuiRegistry(
+	const AssetRegistry & assets, const ModuleRegistry & modules, const Display & display, 
+	EventBus & bus, Scene & scene
+) : m_assets(assets), m_modules(modules), m_display(display), m_scene(scene)
 {
 	constexpr auto priority = std::numeric_limits<int>::min();
 	m_displayResize = bus.add<DisplayResize>([this](auto & event) { resizeGuis(event.m_size); });
@@ -26,8 +28,8 @@ bool core::GuiRegistry::open(const util::File & file)
 	if (!file.exists() || m_guis.find(file) != m_guis.end())
 		return false;
 
-	auto gui = std::make_unique<Gui>(file, m_assets);
-	gui->getRoot().m_bbox.m_minSize = gui->getRoot().m_bbox.m_size = m_display.getSize();
+	auto gui = std::make_unique<Gui>(m_assets, m_modules, file);
+	gui->resize(m_display.getSize());
 	auto node = m_scene.createRender("", "", [gui = gui.get()]() { gui->render(); }, m_root);
 	m_scene.setFullscreenLayer(node, FullscreenLayer::GUI);
 
@@ -56,5 +58,5 @@ void core::GuiRegistry::process()
 void core::GuiRegistry::resizeGuis(const glm::vec2 & size)
 {
 	for (auto & [_, gui] : m_guis)
-		gui->getRoot().m_bbox.m_minSize = gui->getRoot().m_bbox.m_size = size;
+		gui->resize(size);
 }

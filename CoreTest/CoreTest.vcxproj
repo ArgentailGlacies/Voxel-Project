@@ -216,6 +216,7 @@
     <ClCompile Include="src\event\EventQueueTest.cpp" />
     <ClCompile Include="src\event\EventTest.cpp" />
     <ClCompile Include="src\gui\GuiRegistryTest.cpp" />
+    <ClCompile Include="src\gui\GuiTest.cpp" />
     <ClCompile Include="src\gui\internal\HandlerButtonTest.cpp" />
     <ClCompile Include="src\gui\internal\HandlerLabelTest.cpp" />
     <ClCompile Include="src\gui\internal\HandlerSliderTest.cpp" />
@@ -266,7 +267,6 @@
     <ClInclude Include="src\mock\MockComponent.h" />
     <ClInclude Include="src\mock\MockComponentRegistry.h" />
     <ClInclude Include="src\mock\MockFont.h" />
-    <ClInclude Include="src\mock\MockGui.h" />
     <ClInclude Include="src\mock\MockSystem.h" />
     <ClInclude Include="src\mock\MockUBORegistry.h" />
     <ClInclude Include="src\mock\MockWidget.h" />

@@ -15,11 +15,11 @@ namespace core
 	public:
 		ModuleRegistry() = default;
 		ModuleRegistry(const ModuleRegistry &) = delete;
-		ModuleRegistry(ModuleRegistry &&) = delete;
+		ModuleRegistry(ModuleRegistry &&) = default;
 		~ModuleRegistry() = default;
 
 		ModuleRegistry & operator=(const ModuleRegistry &) = delete;
-		ModuleRegistry & operator=(ModuleRegistry &&) = delete;
+		ModuleRegistry & operator=(ModuleRegistry &&) = default;
 
 		/**
 			Checks if the module with the given identifier exists within the registry.
@@ -43,7 +43,7 @@ namespace core
 			@param identifier The identifier for the module to apply to the script.
 			@param script The script the module should be applied to.
 		*/
-		void apply(const std::string & identifier, Script & script);
+		void apply(const std::string & identifier, Script & script) const;
 
 	private:
 		std::unordered_map<std::string, Module> m_modules;

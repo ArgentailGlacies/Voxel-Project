@@ -1,9 +1,11 @@
+
 #include "gui/GuiRegistry.h"
 
 #include "io/File.h"
 #include "io/Folder.h"
 #include "mock/MockAssetRegistry.h"
 #include "mock/MockUBORegistry.h"
+#include "script/ModuleRegistry.h"
 
 #include "Context.h"
 #include "Common.h"
@@ -20,7 +22,7 @@ namespace core::gui
 
 		TEST_METHOD(GuiRegistry_open)
 		{
-			GuiRegistry registry{ m_assets, display(), m_bus, m_scene };
+			GuiRegistry registry{ m_assets, m_modules, display(), m_bus, m_scene };
 
 			Assert::IsTrue(registry.open("test_files/guiA.xml"));
 			Assert::IsTrue(registry.open("test_files/guiB.xml"));
@@ -29,7 +31,7 @@ namespace core::gui
 		}
 		TEST_METHOD(GuiRegistry_close)
 		{
-			GuiRegistry registry{ m_assets, display(), m_bus, m_scene };
+			GuiRegistry registry{ m_assets, m_modules, display(), m_bus, m_scene };
 			registry.open("test_files/guiA.xml");
 
 			Assert::IsTrue(registry.close("test_files/guiA.xml"));
@@ -58,6 +60,7 @@ namespace core::gui
 		}
 
 		AssetRegistry m_assets = mockAssetRegistry();
+		ModuleRegistry m_modules;
 		UBORegistry m_ubos = mockUBORegistry();
 		Scene m_scene{ m_assets, display(), m_ubos };
 		EventBus m_bus;

@@ -18,6 +18,7 @@ namespace core
 		unloaded when they are no longer needed.
 
 		Assets which are loaded:
+		- Fonts (/fonts/*.xml)
 		- Shader programs (/shaders/*.xml)
 		- Sprites (/sprites/*.xml)
 

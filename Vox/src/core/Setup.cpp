@@ -4,6 +4,7 @@
 #include "allegro/FontFactory.h"
 #include "allegro/SpriteFactory.h"
 #include "asset/AssetUtil.h"
+#include "core/Engine.h"
 #include "core/Resources.h"
 #include "core/ScriptModules.h"
 #include "ecs/ECS.h"
@@ -45,5 +46,12 @@ void core::setupUBOs(UBORegistry & ubos)
 
 void core::setupModules(ModuleRegistry & modules, Engine & engine)
 {
-	modules.add(res::script::ENGINE, [&engine](auto & script) { script::initializeEngine(script, engine); });
+	modules.add(res::script::ENGINE,
+		[&engine](auto & script) { script::initializeEngine(script, engine); }
+	);
+
+	modules.add(res::script::GUI, script::initializeGui);
+	modules.add(res::script::GUI_REGISTRY,
+		[&engine](auto & script) { script::initializeGuiRegistry(script, engine.getGuiRegistry()); }
+	);
 }
