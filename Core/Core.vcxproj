@@ -146,6 +146,7 @@
     <ClInclude Include="src\scene\SceneNode.h" />
     <ClInclude Include="src\scene\ScheduleContext.h" />
     <ClInclude Include="src\scene\TransformationStack.h" />
+    <ClInclude Include="src\script\Module.h" />
     <ClInclude Include="src\script\Script.h" />
     <ClInclude Include="src\script\ModuleRegistry.h" />
     <ClInclude Include="src\script\ScriptUtil.h" />
