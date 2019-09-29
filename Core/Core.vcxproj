@@ -73,6 +73,7 @@
     <ClCompile Include="src\scene\Scene.cpp" />
     <ClCompile Include="src\scene\SceneNode.cpp" />
     <ClCompile Include="src\scene\TransformationStack.cpp" />
+    <ClCompile Include="src\script\Module.cpp" />
     <ClCompile Include="src\script\ModuleRegistry.cpp" />
     <ClCompile Include="src\script\Script.cpp" />
     <ClCompile Include="src\state\StateManager.cpp" />
