@@ -171,9 +171,6 @@
     <ClCompile Include="src\gui\GuiTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\script\ModuleTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\script\CoreModulesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
