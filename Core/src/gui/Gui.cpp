@@ -4,26 +4,14 @@
 #include "core/Resources.h"
 #include "gui/WidgetLoader.h"
 #include "gui/WidgetProcessor.h"
-#include "script/ModuleRegistry.h"
-#include "script/ScriptUtil.h"
 
 #include <plog/Log.h>
 #include <pugixml/pugixml.hpp>
 #include <string>
 
-namespace
-{
-	std::string WIDGET;
-}
-
-core::Gui::Gui(const AssetRegistry & assets, const ModuleRegistry & modules, const ::util::File & file)
+core::Gui::Gui(const AssetRegistry & assets, const util::File & file)
 	: m_script(file.path())
 {
-	modules.apply(res::script::GUI, m_script);
-	modules.apply(res::script::GUI_REGISTRY, m_script);
-	util::addGlobalVariable(m_script, this, "GUI"); // TODO: See #29
-	util::addGlobalVariable(m_script, &WIDGET, "WIDGET"); // TODO: See #29
-
 	load(file, assets);
 }
 

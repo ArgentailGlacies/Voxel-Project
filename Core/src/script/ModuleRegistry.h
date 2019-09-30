@@ -8,8 +8,6 @@
 
 namespace core
 {
-	using Module = std::function<void(Script &)>;
-
 	class ModuleRegistry
 	{
 	public:
@@ -35,7 +33,7 @@ namespace core
 			@param identifier The identifier to register the module under.
 			@param module The module to register.
 		*/
-		void add(const std::string & identifier, const Module & module);
+		void add(const std::string & identifier, const std::function<void(Script &)> & module);
 
 		/**
 			Applies the module under the given identifier to the given script.
@@ -46,6 +44,6 @@ namespace core
 		void apply(const std::string & identifier, Script & script) const;
 
 	private:
-		std::unordered_map<std::string, Module> m_modules;
+		std::unordered_map<std::string, std::function<void(Script &)>> m_modules;
 	};
 }

@@ -14,7 +14,6 @@
 namespace core
 {
 	class AssetRegistry;
-	class ModuleRegistry;
 
 	/**
 		The gui registry is responsible for creating, closing and generally managing the different
@@ -25,10 +24,7 @@ namespace core
 	{
 	public:
 		GuiRegistry() = delete;
-		GuiRegistry(
-			const AssetRegistry & assets, const ModuleRegistry & modules, const Display & display, 
-			EventBus & bus, Scene & scene
-		);
+		GuiRegistry(const AssetRegistry & assets, const Display & display,  EventBus & bus, Scene & scene);
 
 		/**
 			Opens the gui stored in the specified file if it is not already open. If the gui has
@@ -65,7 +61,6 @@ namespace core
 		// ...
 
 		const AssetRegistry & m_assets;
-		const ModuleRegistry & m_modules;
 		const Display & m_display;
 		Scene & m_scene;
 

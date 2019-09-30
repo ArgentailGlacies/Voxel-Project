@@ -16,7 +16,7 @@ namespace core
 	*/
 	class ModuleFileSystem : public Module<>
 	{
-	private:
+	public:
 		virtual void bind(Script & script) const override final;
 	};
 
@@ -28,7 +28,7 @@ namespace core
 	*/
 	class ModuleGui : public Module<GuiRegistry &, Gui &>
 	{
-	private:
-		virtual void bind(Script & script, GuiRegistry & registry, Gui & gui) const override final;
+	public:
+		virtual void bind(Script & script, GuiRegistry & guis, Gui & gui) const override final;
 	};
 }

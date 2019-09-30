@@ -241,6 +241,7 @@
     <ClCompile Include="src\scene\SceneTest.cpp" />
     <ClCompile Include="src\scene\TransformationStackTest.cpp" />
     <ClCompile Include="src\script\ModuleRegistryTest.cpp" />
+    <ClCompile Include="src\script\ModulesTest.cpp" />
     <ClCompile Include="src\script\ModuleTest.cpp" />
     <ClCompile Include="src\script\ScriptTest.cpp" />
     <ClCompile Include="src\script\ScriptUtilTest.cpp" />

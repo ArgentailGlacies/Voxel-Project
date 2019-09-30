@@ -11,13 +11,12 @@
 namespace core
 {
 	class AssetRegistry;
-	class ModuleRegistry;
 
 	class Gui
 	{
 	public:
 		Gui() = delete;
-		Gui(const AssetRegistry & assets, const ModuleRegistry & modules, const ::util::File & file);
+		Gui(const AssetRegistry & assets, const util::File & file);
 
 		/**
 			Performs one tick on all widgets in the gui.
@@ -123,7 +122,7 @@ namespace core
 			@param file The file containing all data to load.
 			@param assets All assets registered within the system.
 		*/
-		void load(const ::util::File & file, const AssetRegistry & assets);
+		void load(const util::File & file, const AssetRegistry & assets);
 		/**
 			Updates the widget and all its underlying children. The widget's position and size will
 			be recalculated based on the position and size of the parent and children.

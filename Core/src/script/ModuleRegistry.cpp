@@ -7,7 +7,7 @@ bool core::ModuleRegistry::has(const std::string & identifier) const
 {
 	return m_modules.find(identifier) != m_modules.end();
 }
-void core::ModuleRegistry::add(const std::string & identifier, const Module & module)
+void core::ModuleRegistry::add(const std::string & identifier, const std::function<void(Script &)> & module)
 {
 	m_modules[identifier] = module;
 }

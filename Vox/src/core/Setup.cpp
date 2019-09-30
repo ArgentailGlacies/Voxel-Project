@@ -49,9 +49,4 @@ void core::setupModules(ModuleRegistry & modules, Engine & engine)
 	modules.add(res::script::ENGINE,
 		[&engine](auto & script) { script::initializeEngine(script, engine); }
 	);
-
-	modules.add(res::script::GUI, script::initializeGui);
-	modules.add(res::script::GUI_REGISTRY,
-		[&engine](auto & script) { script::initializeGuiRegistry(script, engine.getGuiRegistry()); }
-	);
 }
