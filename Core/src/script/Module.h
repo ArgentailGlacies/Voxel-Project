@@ -1,15 +1,5 @@
 #pragma once
 
-#include <functional>
-#include <string>
-
-namespace chaiscript
-{
-	namespace dispatch { class Dynamic_Object; }
-
-	using Namespace = dispatch::Dynamic_Object;
-}
-
 namespace core
 {
 	class Script;
@@ -26,54 +16,17 @@ namespace core
 		virtual ~Module() = default;
 
 		/**
-			Applies the module to the specified script, binding the module with the provided
-			parameters. The module will be bound to the script as the given name. If a module with
-			the given name has already been registered, the old module will be overwritten.
-
-			@param script The script the module should be applied to.
-			@param name The name of the module when bound to the script.
-			@param params The additional parameters which should be used when applying the module.
-		*/
-		void apply(Script & script, const std::string & name, const Params & ...params);
-
-	protected:
-		/**
 			Populates a domain (namespace) with a series of functions, variables, and other
 			constructs of relevance. All functionality which should be exposed in a script must be
 			defined in one initialize block such as this.
 
-			@param domain The namespace the functionality should be registered under.
-			@param params The parameters which should be used when initializing the module.
+			The functionality does not need to be scoped to a namespace; free-standing functions
+			and class functions may also be added. The exact details of the module is defined by the
+			module providing the functionality.
+
+			@param script The script which should have the module applied to itself.
+			@param params The parameters which should be used when binding the module.
 		*/
-		virtual void initialize(chaiscript::Namespace & domain, const Params & ...params) const = 0;
+		virtual void bind(Script & script, Params && ...params) const = 0;
 	};
-
-	// ...
-
-	namespace detail
-	{
-		using Initializer = std::function<void(chaiscript::Namespace &)>;
-
-		/**
-			Stores the given ChaiScript namespace initializer in the script, such that the script is
-			capable of using the namespace. This function acts as a compilation firewall, such that
-			compile times do not explode whenever this file is included.
-
-			@param script The script the initializer should operate on.
-			@param name The name of the namespace which will be available in the script.
-			@param init The initializer which defines what the namespace will contain.
-		*/
-		void store(Script & script, const std::string & name, const Initializer & init);
-	}
-}
-
-// ...
-
-namespace core
-{
-	template<typename ...Params>
-	inline void Module<Params...>::apply(Script & script, const std::string & name, const Params & ...params)
-	{
-		detail::store(script, name, [this, &params...](chaiscript::Namespace & domain) { initialize(domain, params...); });
-	}
 }

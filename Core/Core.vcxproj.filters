@@ -168,7 +168,7 @@
     <ClCompile Include="src\gui\WidgetHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\script\Module.cpp">
+    <ClCompile Include="src\script\Modules.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -399,6 +399,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\script\Module.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\script\Modules.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

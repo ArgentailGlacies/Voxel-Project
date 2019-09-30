@@ -13,10 +13,13 @@ namespace
 {
 	class MockModule : public core::Module<int>
 	{
-	private:
-		virtual void initialize(chaiscript::Namespace & domain, const int & param) const override final
+	public:
+		virtual void bind(core::Script & script, int && param) const override final
 		{
-			domain["param"] = chaiscript::var(param);
+			script.handle().register_namespace([&param](auto & domain)
+			{
+				domain["param"] = chaiscript::var(param);
+			}, "module");
 		}
 	};
 }
@@ -29,7 +32,7 @@ namespace core::script
 		TEST_METHOD(Module_apply)
 		{
 			Script script{ "script" };
-			MockModule{}.apply(script, "module", 42);
+			MockModule{}.bind(script, 42);
 
 			Assert::IsTrue(script.execute(R"(
 				import("module")
