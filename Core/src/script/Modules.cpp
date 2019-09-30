@@ -9,7 +9,6 @@
 #include "io/File.h"
 #include "io/Folder.h"
 
-#include <chaiscript/chaiscript.hpp>
 #include <string>
 
 namespace

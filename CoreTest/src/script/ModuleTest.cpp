@@ -14,9 +14,9 @@ namespace
 	class MockModule : public core::Module<int>
 	{
 	public:
-		virtual void bind(core::Script & script, int && param) const override final
+		virtual void bind(core::Script & script, int param) const override final
 		{
-			script.handle().register_namespace([&param](auto & domain)
+			script.handle().register_namespace([param](auto & domain)
 			{
 				domain["param"] = chaiscript::var(param);
 			}, "module");

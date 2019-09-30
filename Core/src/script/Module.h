@@ -27,6 +27,6 @@ namespace core
 			@param script The script which should have the module applied to itself.
 			@param params The parameters which should be used when binding the module.
 		*/
-		virtual void bind(Script & script, Params && ...params) const = 0;
+		virtual void bind(Script & script, Params ...params) const = 0;
 	};
 }
