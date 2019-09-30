@@ -42,6 +42,13 @@ namespace core::script
 			ModuleGui{}.bind(m_script, guis, gui);
 
 			// Ensure that global variables have been added to correct namespace
+			Assert::IsTrue(m_script.execute(R"( GUI_REGISTRY )"));
+			Assert::IsTrue(m_script.execute(R"( GUI )"));
+			Assert::IsTrue(m_script.execute(R"( WIDGET )"));
+
+			// Ensure that gui registry functionality has been added correctly
+			Assert::IsTrue(m_script.execute(R"( GUI_REGISTRY.open(File("foobar")) )"));
+			Assert::IsTrue(m_script.execute(R"( GUI_REGISTRY.close(File("foobar")) )"));
 
 			// Ensure that gui functionality has been added correctly
 			Assert::IsTrue(m_script.execute(R"( GUI.has("widget") )"));
@@ -57,10 +64,6 @@ namespace core::script
 			Assert::IsTrue(m_script.execute(R"( GUI.setBool("widget", true) )"));
 			Assert::IsTrue(m_script.execute(R"( GUI.setFloat("widget", 0.0f) )"));
 			Assert::IsTrue(m_script.execute(R"( GUI.setString("widget", "") )"));
-
-			// Ensure that gui registry functionality has been added correctly
-			Assert::IsTrue(m_script.execute(R"( GUI_REGISTRY.open(File("foobar")) )"));
-			Assert::IsTrue(m_script.execute(R"( GUI_REGISTRY.close(File("foobar")) )"));
 		}
 
 	private:
