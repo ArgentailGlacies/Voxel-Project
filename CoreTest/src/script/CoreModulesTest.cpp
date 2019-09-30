@@ -1,10 +1,9 @@
 
-#include "script/Module.h"
+#include "script/CoreModules.h"
 
 #include "gui/GuiRegistry.h"
 #include "mock/MockAssetRegistry.h"
 #include "mock/MockUBORegistry.h"
-#include "script/Modules.h"
 #include "script/Script.h"
 
 #include "Context.h"
@@ -14,7 +13,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace core::script
 {
-	TEST_CLASS(ModulesTest)
+	TEST_CLASS(CoreModulesTest)
 	{
 	public:
 		TEST_METHOD(ModuleFileSystem_bind)

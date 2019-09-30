@@ -174,7 +174,7 @@
     <ClCompile Include="src\script\ModuleTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\script\ModulesTest.cpp">
+    <ClCompile Include="src\script\CoreModulesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

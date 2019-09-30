@@ -74,7 +74,7 @@
     <ClCompile Include="src\scene\SceneNode.cpp" />
     <ClCompile Include="src\scene\TransformationStack.cpp" />
     <ClCompile Include="src\script\ModuleRegistry.cpp" />
-    <ClCompile Include="src\script\Modules.cpp" />
+    <ClCompile Include="src\script\CoreModules.cpp" />
     <ClCompile Include="src\script\Script.cpp" />
     <ClCompile Include="src\state\StateManager.cpp" />
     <ClCompile Include="src\ui\Display.cpp" />
@@ -148,7 +148,7 @@
     <ClInclude Include="src\scene\ScheduleContext.h" />
     <ClInclude Include="src\scene\TransformationStack.h" />
     <ClInclude Include="src\script\Module.h" />
-    <ClInclude Include="src\script\Modules.h" />
+    <ClInclude Include="src\script\CoreModules.h" />
     <ClInclude Include="src\script\Script.h" />
     <ClInclude Include="src\script\ModuleRegistry.h" />
     <ClInclude Include="src\script\ScriptUtil.h" />
