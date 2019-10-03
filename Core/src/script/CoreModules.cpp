@@ -9,11 +9,78 @@
 #include "io/File.h"
 #include "io/Folder.h"
 
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
 #include <string>
 
-namespace
+namespace core
 {
 	std::string WIDGET;
+
+	// ...
+
+	template<int L, typename T>
+	void bindVec(Script & script, const std::string & name)
+	{
+		addType<glm::vec<L, T>>(script, name);
+		addCtor<glm::vec<L, T>()>(script, name);
+		addCtor<glm::vec<L, T>(glm::vec<L, T>)>(script, name);
+
+		addFunction(script, [](glm::vec<L, T> & v1, const glm::vec<L, T> & v2) { return v1 += v2; }, "+=");
+		addFunction(script, [](glm::vec<L, T> & v1, const glm::vec<L, T> & v2) { return v1 -= v2; }, "-=");
+		addFunction(script, [](glm::vec<L, T> & v1, const glm::vec<L, T> & v2) { return v1 *= v2; }, "*=");
+		addFunction(script, [](glm::vec<L, T> & v1, const glm::vec<L, T> & v2) { return v1 /= v2; }, "/=");
+		addFunction(script, [](glm::vec<L, T> & v, T scalar) { return v += scalar; }, "+=");
+		addFunction(script, [](glm::vec<L, T> & v, T scalar) { return v -= scalar; }, "-=");
+		addFunction(script, [](glm::vec<L, T> & v, T scalar) { return v *= scalar; }, "*=");
+		addFunction(script, [](glm::vec<L, T> & v, T scalar) { return v /= scalar; }, "/=");
+		addFunction(script, [](const glm::vec<L, T> & v1, const glm::vec<L, T> & v2) { return v1 + v2; }, "+");
+		addFunction(script, [](const glm::vec<L, T> & v1, const glm::vec<L, T> & v2) { return v1 - v2; }, "-");
+		addFunction(script, [](const glm::vec<L, T> & v1, const glm::vec<L, T> & v2) { return v1 * v2; }, "*");
+		addFunction(script, [](const glm::vec<L, T> & v1, const glm::vec<L, T> & v2) { return v1 / v2; }, "/");
+		addFunction(script, [](const glm::vec<L, T> & v, T scalar) { return v + scalar; }, "+");
+		addFunction(script, [](const glm::vec<L, T> & v, T scalar) { return v - scalar; }, "-");
+		addFunction(script, [](const glm::vec<L, T> & v, T scalar) { return v * scalar; }, "*");
+		addFunction(script, [](const glm::vec<L, T> & v, T scalar) { return v / scalar; }, "/");
+		addFunction(script, [](T scalar, const glm::vec<L, T> & v) { return scalar + v; }, "+");
+		addFunction(script, [](T scalar, const glm::vec<L, T> & v) { return scalar - v; }, "-");
+		addFunction(script, [](T scalar, const glm::vec<L, T> & v) { return scalar * v; }, "*");
+		addFunction(script, [](T scalar, const glm::vec<L, T> & v) { return scalar / v; }, "/");
+	}
+	template<typename T>
+	void bindVec2(Script & script, const std::string & name)
+	{
+		bindVec<2, T>(script, name);
+		addCtor<glm::tvec2<T>(T, T)>(script, name);
+	}
+	template<typename T>
+	void bindVec3(Script & script, const std::string & name)
+	{
+		bindVec<3, T>(script, name);
+		addCtor<glm::tvec3<T>(T, T, T)>(script, name);
+	}
+	template<typename T>
+	void bindVec4(Script & script, const std::string & name)
+	{
+		bindVec<4, T>(script, name);
+		addCtor<glm::tvec4<T>(T, T, T, T)>(script, name);
+	}
+}
+
+// ...
+
+void core::ModuleGlm::bind(Script & script) const
+{
+	bindVec2<float>(script, "vec2");
+	bindVec3<float>(script, "vec3");
+	bindVec4<float>(script, "vec4");
+	bindVec2<int>(script, "ivec2");
+	bindVec3<int>(script, "ivec3");
+	bindVec4<int>(script, "ivec4");
+	bindVec2<unsigned int>(script, "uvec2");
+	bindVec3<unsigned int>(script, "uvec3");
+	bindVec4<unsigned int>(script, "uvec4");
 }
 
 void core::ModuleFileSystem::bind(Script & script) const

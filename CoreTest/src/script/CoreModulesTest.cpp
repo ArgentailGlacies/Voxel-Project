@@ -16,6 +16,30 @@ namespace core::script
 	TEST_CLASS(CoreModulesTest)
 	{
 	public:
+		TEST_METHOD(ModuleGlm_bind)
+		{
+			ModuleGlm{}.bind(m_script);
+
+			// Ensure that vector functionality has been added correctly
+			Assert::IsTrue(m_script.execute(R"( var vecA = vec2() )"));
+			Assert::IsTrue(m_script.execute(R"( var vecB = vec2(2.5f, -2) )"));
+			Assert::IsTrue(m_script.execute(R"( var vecC = ivec3(0, 1, 2) )"));
+			Assert::IsTrue(m_script.execute(R"( var vecD = vec4(-0.1f, 3, 1, 0) )"));
+
+			Assert::IsTrue(m_script.execute(
+				"vecA + vecB;"
+				"vecA - vecB;"
+				"vecA * vecB;"
+				"vecA / vecB;"
+			));
+			Assert::IsTrue(m_script.execute(
+				"vecA += 1;"
+				"vecA -= vecB;"
+				"vecA *= 0;"
+				"vecA /= 2.0f;"
+			));
+		}
+
 		TEST_METHOD(ModuleFileSystem_bind)
 		{
 			ModuleFileSystem{}.bind(m_script);

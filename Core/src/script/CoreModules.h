@@ -10,6 +10,17 @@ namespace core
 	// ...
 
 	/**
+		The glm namespace is by default not exposed to scripts. By including this module, the glm
+		containing vectors will be exposed. Only certain common functionality will be exposed, such
+		as the different types of vectors.
+	*/
+	class ModuleGlm : public Module<>
+	{
+	public:
+		virtual void bind(Script & script) const override final;
+	};
+
+	/**
 		The file system script module allows a script to import various filesystem operations. The
 		module contains features such as file and folder processing, locating files, and seeing if
 		files exists, etc.
