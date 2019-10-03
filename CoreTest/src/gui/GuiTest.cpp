@@ -5,7 +5,6 @@
 #include "io/File.h"
 #include "io/Folder.h"
 #include "mock/MockAssetRegistry.h"
-#include "script/ModuleRegistry.h"
 #include "script/Script.h"
 
 #include "CppUnitTest.h"

@@ -13,13 +13,10 @@
 #include "gui/GuiRegistry.h"
 #include "opengl/UBORegistry.h"
 #include "scene/Scene.h"
-#include "script/ModuleRegistry.h"
 #include "state/StateManager.h"
 #include "ui/Display.h"
 
 #include "world/Universe.h"
-
-#include "world/Query.h"
 
 struct core::Engine::Impl
 {
@@ -42,7 +39,6 @@ struct core::Engine::Impl
 	MainLoop m_loop;
 	EventBus m_bus;
 	EventQueue m_queue;
-	ModuleRegistry m_modules;
 	StateManager m_states;
 	ECS m_ecs;
 	Scene m_scene;
@@ -59,7 +55,6 @@ core::Engine::Impl::Impl(Engine & engine) :
 	m_loop([&](auto t, auto dt) { engine.process(t, dt); }, [&](float pf) { engine.render(pf); }),
 	m_bus(),
 	m_queue(m_bus),
-	m_modules(),
 	m_states(engine),
 	m_ecs(),
 	m_scene(m_assets, m_display, m_ubos),
@@ -82,7 +77,6 @@ void core::Engine::initialize()
 	setupComponents(getECS());
 	setupSystems(getECS());
 	setupUBOs(getUBOs());
-	setupModules(getModules(), *this);
 
 	m_impl->m_universe.prepare(getAssets());
 }
@@ -116,7 +110,6 @@ core::Display & core::Engine::getDisplay() { return m_impl->m_display; }
 core::ECS & core::Engine::getECS() { return m_impl->m_ecs; }
 core::EventBus & core::Engine::getEventBus() { return m_impl->m_bus; }
 core::GuiRegistry & core::Engine::getGuiRegistry() { return m_impl->m_guis; }
-core::ModuleRegistry & core::Engine::getModules() { return m_impl->m_modules; }
 core::Scene & core::Engine::getScene() { return m_impl->m_scene; }
 core::StateManager & core::Engine::getStates() { return m_impl->m_states; }
 core::UBORegistry & core::Engine::getUBOs() { return m_impl->m_ubos; }

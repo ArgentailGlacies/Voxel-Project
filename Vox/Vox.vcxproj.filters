@@ -105,9 +105,6 @@
     <ClCompile Include="src\editor\util\Grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\ScriptModules.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\editor\EditorWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -228,9 +225,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\editor\util\Grid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\ScriptModules.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\editor\EditorWorld.h">
