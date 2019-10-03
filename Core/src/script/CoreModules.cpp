@@ -18,37 +18,34 @@ namespace
 
 void core::ModuleFileSystem::bind(Script & script) const
 {
-	using ::util::File;
-	using ::util::Folder;
+	addType<util::File>(script, "File");
+	addCtor<util::File()>(script, "File");
+	addCtor<util::File(const char *)>(script, "File");
+	addCtor<util::File(const std::string &)>(script, "File");
 
-	util::addType<File>(script, "File");
-	util::addCtor<File()>(script, "File");
-	util::addCtor<File(const char *)>(script, "File");
-	util::addCtor<File(const std::string &)>(script, "File");
-
-	util::addType<Folder>(script, "Folder");
-	util::addCtor<Folder(const char *)>(script, "Folder");
-	util::addCtor<Folder(const std::string &)>(script, "Folder");
+	addType<util::Folder>(script, "Folder");
+	addCtor<util::Folder(const char *)>(script, "Folder");
+	addCtor<util::Folder(const std::string &)>(script, "Folder");
 }
 
 void core::ModuleGui::bind(Script & script, GuiRegistry & guis, Gui & gui) const
 {
-	util::addGlobalVariable(script, &guis, "GUI_REGISTRY");
-	util::addGlobalVariable(script, &gui, "GUI");
-	util::addGlobalVariable(script, &WIDGET, "WIDGET");
+	addGlobalVariable(script, &guis, "GUI_REGISTRY");
+	addGlobalVariable(script, &gui, "GUI");
+	addGlobalVariable(script, &WIDGET, "WIDGET");
 
-	util::addMethod(script, &Gui::has, "has");
-	util::addMethod(script, &Gui::isVisible, "isVisible");
-	util::addMethod(script, &Gui::setVisible, "setVisible");
-	util::addMethod(script, &Gui::isLocked, "isLocked");
-	util::addMethod(script, &Gui::setLocked, "setLocked");
-	util::addMethod(script, &Gui::getBool, "getBool");
-	util::addMethod(script, &Gui::getFloat, "getFloat");
-	util::addMethod(script, &Gui::getString, "getString");
-	util::addMethod(script, &Gui::setBool, "setBool");
-	util::addMethod(script, &Gui::setFloat, "setFloat");
-	util::addMethod(script, &Gui::setString, "setString");
+	addMethod(script, &Gui::has, "has");
+	addMethod(script, &Gui::isVisible, "isVisible");
+	addMethod(script, &Gui::setVisible, "setVisible");
+	addMethod(script, &Gui::isLocked, "isLocked");
+	addMethod(script, &Gui::setLocked, "setLocked");
+	addMethod(script, &Gui::getBool, "getBool");
+	addMethod(script, &Gui::getFloat, "getFloat");
+	addMethod(script, &Gui::getString, "getString");
+	addMethod(script, &Gui::setBool, "setBool");
+	addMethod(script, &Gui::setFloat, "setFloat");
+	addMethod(script, &Gui::setString, "setString");
 
-	util::addMethod(script, &GuiRegistry::open, "open");
-	util::addMethod(script, &GuiRegistry::close, "close");
+	addMethod(script, &GuiRegistry::open, "open");
+	addMethod(script, &GuiRegistry::close, "close");
 }

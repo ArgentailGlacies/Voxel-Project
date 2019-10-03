@@ -3,14 +3,40 @@
 
 #include "core/Engine.h"
 #include "script/ScriptUtil.h"
+#include "world/Query.h"
+#include "world/Universe.h"
 
 void vox::ModuleEngine::bind(core::Script & script, core::Engine & engine) const
 {
-	core::util::addGlobalVariable(script, &engine, "ENGINE");
+	core::addGlobalVariable(script, &engine, "ENGINE");
 
-	core::util::addMethod(script, &core::Engine::stop, "stop");
+	core::addMethod(script, &core::Engine::stop, "stop");
 }
 
 void vox::ModuleUniverse::bind(core::Script & script, Universe & universe) const
 {
+	core::addGlobalVariable(script, &universe, "UNIVERSE");
+
+	core::addMethod(script, &Universe::getBlockRegistry, "getBlockRegistry");
+	core::addMethod(script, &Universe::createWorld, "createWorld");
+	core::addMethod(script, &Universe::destroyWorld, "destroyWorld");
+	core::addMethod(script, &Universe::hasWorld, "hasWorld");
+	core::addMethod(script, &Universe::getWorld, "getWorld");
+
+	core::addMethod(script, &World::read, "read");
+	core::addMethod(script, &World::write, "write");
+	core::addMethod(script, &World::finish, "finish");
+
+	core::addFunction(script, &readBlock, "readBlock");
+	core::addFunction(script, &readCylinder, "readCylinder");
+	core::addFunction(script, &readEllipse, "readEllipse");
+	core::addFunction(script, &readRectangle, "readRectangle");
+	core::addFunction(script, &readLine, "readLine");
+	core::addFunction(script, &readSphere, "readSphere");
+	core::addFunction(script, &writeBlock, "writeBlock");
+	core::addFunction(script, &writeCylinder, "writeCylinder");
+	core::addFunction(script, &writeEllipse, "writeEllipse");
+	core::addFunction(script, &writeRectangle, "writeRectangle");
+	core::addFunction(script, &writeLine, "writeLine");
+	core::addFunction(script, &writeSphere, "writeSphere");
 }

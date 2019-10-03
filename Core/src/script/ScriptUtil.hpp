@@ -2,7 +2,7 @@
 
 #include "ScriptUtil.h"
 
-namespace core::util
+namespace core
 {
 	template<typename Enum>
 	void addEnum(Script & script, const std::string & name,
