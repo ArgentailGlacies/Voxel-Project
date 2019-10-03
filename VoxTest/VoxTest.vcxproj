@@ -181,6 +181,7 @@
     <ClCompile Include="src\editor\util\CameraHandlerTest.cpp" />
     <ClCompile Include="src\editor\util\GridTest.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\script\VoxModulesTest.cpp" />
     <ClCompile Include="src\world\render\BlockRenderLoaderTest.cpp" />
     <ClCompile Include="src\world\render\BlockRenderRegistryTest.cpp" />
     <ClCompile Include="src\world\render\ChunkRenderStorageTest.cpp" />

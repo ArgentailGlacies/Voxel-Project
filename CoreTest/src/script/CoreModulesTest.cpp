@@ -37,6 +37,8 @@ namespace core::script
 			GuiRegistry guis{ assets, display(), bus, scene };
 			Gui gui{ assets, "" };
 
+			// ...
+
 			ModuleFileSystem{}.bind(m_script);
 			ModuleGui{}.bind(m_script, guis, gui);
 

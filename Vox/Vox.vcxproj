@@ -26,6 +26,7 @@
     <ClCompile Include="src\editor\util\Cursor.cpp" />
     <ClCompile Include="src\editor\util\CameraHandler.cpp" />
     <ClCompile Include="src\editor\util\Grid.cpp" />
+    <ClCompile Include="src\script\VoxModules.cpp" />
     <ClCompile Include="src\world\render\BlockRenderLoader.cpp" />
     <ClCompile Include="src\world\render\BlockRenderRegistry.cpp" />
     <ClCompile Include="src\world\render\ChunkRenderStorage.cpp" />
@@ -71,6 +72,7 @@
     <ClInclude Include="src\editor\util\Cursor.h" />
     <ClInclude Include="src\editor\util\CameraHandler.h" />
     <ClInclude Include="src\editor\util\Grid.h" />
+    <ClInclude Include="src\script\VoxModules.h" />
     <ClInclude Include="src\world\event\ChunkEvents.h" />
     <ClInclude Include="src\world\data\BlockLoader.h" />
     <ClInclude Include="src\world\BlockRegistry.h" />
