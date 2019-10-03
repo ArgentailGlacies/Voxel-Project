@@ -27,6 +27,9 @@ void vox::ModuleUniverse::bind(core::Script & script, Universe & universe) const
 	core::addMethod(script, &World::write, "write");
 	core::addMethod(script, &World::finish, "finish");
 
+	core::addFunction(script, [](const BlockRegistry & registry, int id) { return registry[id]; }, "[]");
+	core::addFunction(script, [](const BlockRegistry & registry, const std::string & name) { return registry[name]; }, "[]");
+
 	core::addFunction(script, &readBlock, "readBlock");
 	core::addFunction(script, &readCylinder, "readCylinder");
 	core::addFunction(script, &readEllipse, "readEllipse");

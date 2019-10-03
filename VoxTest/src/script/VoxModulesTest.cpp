@@ -5,6 +5,7 @@
 #include "io/Folder.h"
 #include "mock/MockAssetRegistry.h"
 #include "mock/MockUBORegistry.h"
+#include "script/CoreModules.h"
 #include "script/Script.h"
 #include "scene/Scene.h"
 #include "world/Universe.h"
@@ -43,6 +44,7 @@ namespace vox::script
 
 			// ...
 
+			core::ModuleGlm{}.bind(m_script);
 			ModuleUniverse{}.bind(m_script, universe);
 
 			// Ensure that global variables have been added to correct namespace
@@ -58,28 +60,29 @@ namespace vox::script
 
 			// Ensure that world functionality has been added correctly
 			m_script.execute(
-				R"( var WORLD := UNIVERSE.createWorld("world", false) )"
-				R"( var QUERY = readBlock(...) )"
+				R"( var WORLD := UNIVERSE.createWorld("world", false); )"
+				R"( var QUERY = readBlock(ivec3()); )"
+				R"( var BLOCK = UNIVERSE.getBlockRegistry()["air"]; )"
 			);
 
 			Assert::IsTrue(m_script.execute(R"( WORLD.read(QUERY) )"));
-			Assert::IsTrue(m_script.execute(R"( WORLD.write(writeBlock(...)) )"));
+			Assert::IsTrue(m_script.execute(R"( WORLD.write(writeBlock(BLOCK, ivec3())) )"));
 			Assert::IsTrue(m_script.execute(R"( WORLD.finish() )"));
 
 			// Ensure that query functionality has been added correctly
-			Assert::IsTrue(m_script.execute(R"( readBlock(...) )"));
-			Assert::IsTrue(m_script.execute(R"( readCylinder(...) )"));
-			Assert::IsTrue(m_script.execute(R"( readEllipse(...) )"));
-			Assert::IsTrue(m_script.execute(R"( readRectangle(...) )"));
-			Assert::IsTrue(m_script.execute(R"( readLine(...) )"));
-			Assert::IsTrue(m_script.execute(R"( readSphere(...) )"));
+			Assert::IsTrue(m_script.execute(R"( readBlock(ivec3()) )"));
+			//Assert::IsTrue(m_script.execute(R"( readCylinder(ivec3(), ivec3(), ...) )")); // TODO: Cylinder axis has not been exposed
+			Assert::IsTrue(m_script.execute(R"( readEllipse(ivec3(), ivec3()) )"));
+			Assert::IsTrue(m_script.execute(R"( readRectangle(ivec3(), ivec3()) )"));
+			Assert::IsTrue(m_script.execute(R"( readLine(ivec3(), ivec3()) )"));
+			Assert::IsTrue(m_script.execute(R"( readSphere(ivec3(), 1) )"));
 
-			Assert::IsTrue(m_script.execute(R"( writeBlock(...) )"));
-			Assert::IsTrue(m_script.execute(R"( writeCylinder(...) )"));
-			Assert::IsTrue(m_script.execute(R"( writeEllipse(...) )"));
-			Assert::IsTrue(m_script.execute(R"( writeRectangle(...) )"));
-			Assert::IsTrue(m_script.execute(R"( writeLine(...) )"));
-			Assert::IsTrue(m_script.execute(R"( writeSphere(...) )"));
+			Assert::IsTrue(m_script.execute(R"( writeBlock(BLOCK, ivec3()) )"));
+			//Assert::IsTrue(m_script.execute(R"( writeCylinder(BLOCK, ivec3(), ivec3(), ...) )")); // TODO: Cylinder axis has not been exposed
+			Assert::IsTrue(m_script.execute(R"( writeEllipse(BLOCK, ivec3(), ivec3()) )"));
+			Assert::IsTrue(m_script.execute(R"( writeRectangle(BLOCK, ivec3(), ivec3()) )"));
+			Assert::IsTrue(m_script.execute(R"( writeLine(BLOCK, ivec3(), ivec3()) )"));
+			Assert::IsTrue(m_script.execute(R"( writeSphere(BLOCK, ivec3(), 1) )"));
 		}
 
 	private:
