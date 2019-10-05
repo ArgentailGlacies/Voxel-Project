@@ -13,6 +13,8 @@
 
 namespace
 {
+	static int initCounter = 0;
+
 	bool install(const std::function<void()> & func, const std::string & succeeded)
 	{
 		func();
@@ -36,6 +38,8 @@ namespace
 
 core::Allegro::Allegro()
 {
+	if (initCounter++ != 0)
+		return;
 	LOG_INFO << "Initializing Allegro...";
 
 	if (!al_init())
@@ -56,6 +60,8 @@ core::Allegro::Allegro()
 }
 core::Allegro::~Allegro()
 {
+	if (--initCounter != 0)
+		return;
 	if (!m_initialized)
 		return;
 	LOG_INFO << "Shutting down Allegro...";

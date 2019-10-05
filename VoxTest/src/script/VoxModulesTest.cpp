@@ -22,7 +22,7 @@ namespace vox::script
 	public:
 		TEST_METHOD(ModuleEngine_bind)
 		{
-			core::Engine engine; // TODO: Starting the engine like this causes other tests to fail
+			core::Engine engine;
 
 			// ...
 
