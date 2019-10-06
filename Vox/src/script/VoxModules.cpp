@@ -42,4 +42,10 @@ void vox::ModuleUniverse::bind(core::Script & script, Universe & universe) const
 	core::addFunction(script, &writeRectangle, "writeRectangle");
 	core::addFunction(script, &writeLine, "writeLine");
 	core::addFunction(script, &writeSphere, "writeSphere");
+
+	core::addType<WorldQuery>(script, "WorldQuery");
+	core::addCtor<WorldQuery()>(script, "WorldQuery");
+	core::addFunction(script, &WorldQuery::count, "count");
+	core::addFunction(script, &WorldQuery::empty, "empty");
+	core::addFunction(script, &WorldQuery::has, "has");
 }

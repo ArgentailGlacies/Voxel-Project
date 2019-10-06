@@ -57,7 +57,7 @@ namespace vox
 		inline auto end() const { return m_data.end(); }
 
 		/**
-			Checks if the query contains the block at the specified position. The positoin is in
+			Checks if the query contains the block at the specified position. The position is in
 			world coordinates.
 
 			@return True iff the query contains the specified chunk.

@@ -83,6 +83,12 @@ namespace vox::script
 			Assert::IsTrue(m_script.execute(R"( writeRectangle(BLOCK, ivec3(), ivec3()) )"));
 			Assert::IsTrue(m_script.execute(R"( writeLine(BLOCK, ivec3(), ivec3()) )"));
 			Assert::IsTrue(m_script.execute(R"( writeSphere(BLOCK, ivec3(), 1) )"));
+
+			// Ensure that world query functionality has been added correctly
+			Assert::IsTrue(m_script.execute(R"( var WORLD_QUERY = WorldQuery() )"));
+			Assert::IsTrue(m_script.execute(R"( WORLD_QUERY.count() )"));
+			Assert::IsTrue(m_script.execute(R"( WORLD_QUERY.empty() )"));
+			Assert::IsTrue(m_script.execute(R"( WORLD_QUERY.has(ivec3()) )"));
 		}
 
 	private:
