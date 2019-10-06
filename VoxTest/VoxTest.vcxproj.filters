@@ -102,7 +102,7 @@
     <ClCompile Include="src\editor\util\GridTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\ScriptModuleTest.cpp">
+    <ClCompile Include="src\script\VoxModulesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

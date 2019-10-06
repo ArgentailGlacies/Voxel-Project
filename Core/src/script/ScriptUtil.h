@@ -5,7 +5,13 @@
 #include <chaiscript/chaiscript.hpp>
 #include <string>
 
-namespace core::util
+// ... because somebody decided that defining these was a good idea...
+#undef min
+#undef max
+#undef OPAQUE
+#undef TRANSPARENT
+
+namespace core
 {
 	/**
 		Adds an enum to the given script. The enum values will leak out into global namespace, ie.

@@ -5,7 +5,6 @@
 #include "io/File.h"
 #include "io/Folder.h"
 #include "mock/MockAssetRegistry.h"
-#include "script/ModuleRegistry.h"
 #include "script/Script.h"
 
 #include "CppUnitTest.h"
@@ -28,7 +27,7 @@ namespace core::gui
 
 		TEST_METHOD(Gui_ctor)
 		{
-			Gui gui{ m_assets, m_modules, file };
+			Gui gui{ m_assets, file };
 
 			Assert::IsTrue(gui.has("root.foo"));
 			Assert::IsFalse(gui.has("whatever"));
@@ -36,28 +35,26 @@ namespace core::gui
 
 		TEST_METHOD(Gui_setVisible)
 		{
-			Gui gui{ m_assets, m_modules, file };
-
-			Assert::IsTrue(gui.isVisible("root.foo"));
+			Gui gui{ m_assets, file };
 			gui.setVisible("root.foo", false);
-			Assert::IsFalse(gui.isVisible("root.foo"));
 
+			Assert::IsFalse(gui.isVisible("root.foo"));
+			Assert::IsTrue(gui.isVisible("root.bar"));
 			Assert::IsFalse(gui.isVisible("whatever"));
 		}
 		TEST_METHOD(Gui_setLocked)
 		{
-			Gui gui{ m_assets, m_modules, file };
-
-			Assert::IsFalse(gui.isLocked("root.foo"));
+			Gui gui{ m_assets, file };
 			gui.setLocked("root.foo", true);
-			Assert::IsTrue(gui.isLocked("root.foo"));
 
+			Assert::IsTrue(gui.isLocked("root.foo"));
+			Assert::IsFalse(gui.isLocked("root.bar"));
 			Assert::IsTrue(gui.isLocked("whatever"));
 		}
 
 		TEST_METHOD(Gui_setBool)
 		{
-			Gui gui{ m_assets, m_modules, file };
+			Gui gui{ m_assets, file };
 			gui.setBool("root.foo", true);
 			gui.setBool("whatever", true);
 
@@ -66,7 +63,7 @@ namespace core::gui
 		}
 		TEST_METHOD(Gui_setFloat)
 		{
-			Gui gui{ m_assets, m_modules, file };
+			Gui gui{ m_assets, file };
 			gui.setFloat("root.foo", 3.14f);
 			gui.setFloat("whatever", 4.0f);
 
@@ -75,24 +72,12 @@ namespace core::gui
 		}
 		TEST_METHOD(Gui_setString)
 		{
-			Gui gui{ m_assets, m_modules, file };
+			Gui gui{ m_assets, file };
 			gui.setString("root.foo", "some text");
 			gui.setString("whatever", "world");
 
 			Assert::AreEqual({ "some text" }, gui.getString("root.foo"));
 			Assert::AreEqual({ "" }, gui.getString("whatever"));
-		}
-
-		// ...
-
-		TEST_METHOD(Gui_scriptIntegration)
-		{
-			Gui gui{ m_assets, m_modules, file };
-
-			Assert::IsTrue(gui.executeScript("GUI")); // TODO: See #29
-			Assert::IsTrue(gui.executeScript("WIDGET")); // TODO: See #29
-			Assert::IsTrue(gui.executeScript("foo()"));
-			Assert::IsTrue(gui.executeScript("bar()"));
 		}
 
 	private:
@@ -105,9 +90,6 @@ namespace core::gui
 					<widget name="bar" />
 				</widgets>
 			)");
-
-			m_modules.add(res::script::GUI, [](auto & script) { script.execute("def foo(){}"); });
-			m_modules.add(res::script::GUI_REGISTRY, [](auto & script) { script.execute("def bar(){}"); });
 		}
 		void deinitialize()
 		{
@@ -115,6 +97,5 @@ namespace core::gui
 		}
 
 		AssetRegistry m_assets = mockAssetRegistry();
-		ModuleRegistry m_modules;
 	};
 }

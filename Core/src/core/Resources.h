@@ -29,16 +29,6 @@ namespace core
 	}
 
 	/**
-		All script modules are specified in this namespace.
-	*/
-	namespace res::script
-	{
-		const std::string ENGINE = "engine";
-		const std::string GUI = "gui";
-		const std::string GUI_REGISTRY = "gui_registry";
-	}
-
-	/**
 		All special assets which should receive special names.
 	*/
 	namespace res::asset

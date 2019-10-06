@@ -9,7 +9,6 @@ namespace core
 	class AssetRegistry;
 	class ECS;
 	class Engine;
-	class ModuleRegistry;
 	class UBORegistry;
 
 	/**
@@ -50,12 +49,4 @@ namespace core
 		@param ubos The registry containing all uniform buffer objects.
 	*/
 	void setupUBOs(UBORegistry & ubos);
-
-	/**
-		Sets up the different script modules which adds various functionality to scripts.
-
-		@param modules The module registry which should contain all script modules in the system.
-		@param engine The game engine itself.
-	*/
-	void setupModules(ModuleRegistry & modules, Engine & engine);
 }

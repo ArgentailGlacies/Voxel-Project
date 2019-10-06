@@ -45,9 +45,6 @@
     <ClCompile Include="src\script\ScriptUtilTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\script\ModuleRegistryTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\script\ScriptTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -169,6 +166,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\GuiTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\script\CoreModulesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

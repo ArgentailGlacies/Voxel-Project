@@ -30,24 +30,19 @@ bool core::Script::execute(const std::function<void()>& shell) const
 		shell();
 		return true;
 	}
+	catch (const chaiscript::exception::eval_error & e)
+	{
+		LOG_WARNING << "Error in '" << name() << "':" << std::endl << e.pretty_print();
+	}
 	catch (const std::exception & e)
 	{
 		LOG_WARNING << "Error in '" << name() << "':" << std::endl << e.what();
-		return false;
 	}
+	return false;
 }
 bool core::Script::execute(const std::string & code) const
 {
-	try
-	{
-		m_impl->m_chaiscript.eval(code);
-		return true;
-	}
-	catch (const std::exception & e)
-	{
-		LOG_WARNING << "Error in '" << name() << "':" << std::endl << e.what();
-		return false;
-	}
+	return execute([&]() { handle().eval(code); });
 }
 
 chaiscript::ChaiScript & core::Script::handle() const

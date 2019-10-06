@@ -6,12 +6,10 @@
 #include "asset/AssetUtil.h"
 #include "core/Engine.h"
 #include "core/Resources.h"
-#include "core/ScriptModules.h"
 #include "ecs/ECS.h"
 #include "opengl/ProgramFactory.h"
 #include "opengl/UBORegistry.h"
 #include "scene/RenderComponent.h"
-#include "script/ModuleRegistry.h"
 #include "world/render/BlockTextureAtlas.h"
 
 #include <glm/mat4x4.hpp>
@@ -42,16 +40,4 @@ void core::setupUBOs(UBORegistry & ubos)
 	ubos.add<glm::mat4>(res::ubo::MATRICES, res::ubo::VIEW);
 	ubos.add<glm::mat4>(res::ubo::MATRICES, res::ubo::MODEL);
 	ubos.build(res::ubo::MATRICES);
-}
-
-void core::setupModules(ModuleRegistry & modules, Engine & engine)
-{
-	modules.add(res::script::ENGINE,
-		[&engine](auto & script) { script::initializeEngine(script, engine); }
-	);
-
-	modules.add(res::script::GUI, script::initializeGui);
-	modules.add(res::script::GUI_REGISTRY,
-		[&engine](auto & script) { script::initializeGuiRegistry(script, engine.getGuiRegistry()); }
-	);
 }
