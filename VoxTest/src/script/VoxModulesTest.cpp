@@ -94,14 +94,15 @@ namespace vox::script
 
 			// Ensure that global variables have been added to correct namespace
 			Assert::IsTrue(m_script.execute(R"( EDITOR )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.grid )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.cursor )"));
 
-			// Ensure that editor functionality has been added correctly
-			Assert::IsTrue(m_script.execute(R"( EDITOR.setCameraSensitivity(1.2f) )"));
+			// Ensure that grid functionality has been added correctly
+			Assert::IsTrue(m_script.execute(R"( EDITOR.grid.setSize(4, 2) )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.grid.setVisible(true) )"));
 
-			Assert::IsTrue(m_script.execute(R"( EDITOR.setGridSize(4, 2) )"));
-			Assert::IsTrue(m_script.execute(R"( EDITOR.setGridVisible(true) )"));
-
-			Assert::IsTrue(m_script.execute(R"( EDITOR.lockCursorAxis(AXIS_X, true) )"));
+			// Ensure that cursor functionality has been added correctly
+			Assert::IsTrue(m_script.execute(R"( EDITOR.cursor.lockAxis(AXIS_X, true) )"));
 		}
 
 	private:

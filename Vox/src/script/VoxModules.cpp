@@ -56,9 +56,12 @@ void vox::ModuleUniverse::bind(core::Script & script, Universe & universe) const
 void vox::ModuleWorldEditor::bind(core::Script & script, EditorWorld & editor) const
 {
 	core::addGlobalVariable(script, &editor, "EDITOR");
-	
-	core::addMethod(script, &EditorWorld::setCameraSensitivity, "setCameraSensitivity");
-	core::addMethod(script, &EditorWorld::setGridSize, "setGridSize");
-	core::addMethod(script, &EditorWorld::setGridVisible, "setGridVisible");
-	core::addMethod(script, &EditorWorld::lockCursorAxis, "lockCursorAxis");
+
+	core::addAttribute(script, &EditorWorld::m_grid, "grid");
+	core::addAttribute(script, &EditorWorld::m_cursor, "cursor");
+
+	core::addMethod(script, &Grid::setSize, "setSize");
+	core::addMethod(script, &Grid::setVisible, "setVisible");
+
+	core::addMethod(script, &Cursor::lockAxis, "lockAxis");
 }
