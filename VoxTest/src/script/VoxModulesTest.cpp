@@ -2,6 +2,8 @@
 #include "script/VoxModules.h"
 
 #include "core/Engine.h"
+#include "editor/EditorWorld.h"
+#include "event/EventBus.h"
 #include "io/Folder.h"
 #include "mock/MockAssetRegistry.h"
 #include "mock/MockUBORegistry.h"
@@ -24,8 +26,6 @@ namespace vox::script
 		{
 			core::Engine engine;
 
-			// ...
-
 			ModuleEngine{}.bind(m_script, engine);
 
 			// Ensure that global variables have been added to correct namespace
@@ -37,12 +37,7 @@ namespace vox::script
 
 		TEST_METHOD(ModuleUniverse_bind)
 		{
-			core::AssetRegistry assets = core::mockAssetRegistry();
-			core::UBORegistry ubos = core::mockUBORegistry();
-			core::Scene scene{ assets, display(), ubos };
-			Universe universe{ "test", scene };
-
-			// ...
+			Universe universe{ "test", m_scene };
 
 			core::ModuleGlm{}.bind(m_script);
 			ModuleUniverse{}.bind(m_script, universe);
@@ -91,7 +86,30 @@ namespace vox::script
 			Assert::IsTrue(m_script.execute(R"( WORLD_QUERY.has(ivec3()) )"));
 		}
 
+		TEST_METHOD(ModuleWorldEditor_bind)
+		{
+			EditorWorld editor{ m_scene, m_bus };
+
+			ModuleWorldEditor{}.bind(m_script, editor);
+
+			// Ensure that global variables have been added to correct namespace
+			Assert::IsTrue(m_script.execute(R"( EDITOR )"));
+
+			// Ensure that editor functionality has been added correctly
+			Assert::IsTrue(m_script.execute(R"( EDITOR.setCameraSensitivity(1.2f) )"));
+
+			Assert::IsTrue(m_script.execute(R"( EDITOR.setGridSize(4, 2) )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.setGridVisible(true) )"));
+
+			Assert::IsTrue(m_script.execute(R"( EDITOR.lockCursorAxis(AXIS_X, true) )"));
+		}
+
 	private:
+		core::AssetRegistry m_assets = core::mockAssetRegistry();
+		core::UBORegistry m_ubos = core::mockUBORegistry();
+		core::Scene m_scene{ m_assets, display(), m_ubos };
+		core::EventBus m_bus;
+
 		core::Script m_script{ "script" };
 	};
 }

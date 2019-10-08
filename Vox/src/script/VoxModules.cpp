@@ -2,6 +2,7 @@
 #include "VoxModules.h"
 
 #include "core/Engine.h"
+#include "editor/EditorWorld.h"
 #include "script/ScriptUtil.h"
 #include "world/Query.h"
 #include "world/Universe.h"
@@ -48,4 +49,16 @@ void vox::ModuleUniverse::bind(core::Script & script, Universe & universe) const
 	core::addFunction(script, &WorldQuery::count, "count");
 	core::addFunction(script, &WorldQuery::empty, "empty");
 	core::addFunction(script, &WorldQuery::has, "has");
+}
+
+// ...
+
+void vox::ModuleWorldEditor::bind(core::Script & script, EditorWorld & editor) const
+{
+	core::addGlobalVariable(script, &editor, "EDITOR");
+	
+	core::addMethod(script, &EditorWorld::setCameraSensitivity, "setCameraSensitivity");
+	core::addMethod(script, &EditorWorld::setGridSize, "setGridSize");
+	core::addMethod(script, &EditorWorld::setGridVisible, "setGridVisible");
+	core::addMethod(script, &EditorWorld::lockCursorAxis, "lockCursorAxis");
 }

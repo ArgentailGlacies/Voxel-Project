@@ -22,6 +22,15 @@ namespace vox
 	public:
 		EditorWorld(core::Scene & scene, core::EventBus & bus);
 
+		// ...
+
+		inline void setCameraSensitivity(float sensitivity) { m_handler.setSensitivity(sensitivity); }
+
+		inline void lockCursorAxis(util::Axis axis, bool locked) { m_cursor.lockAxis(axis, locked); }
+
+		inline void setGridSize(int size, int spacing) { m_grid.setSize(size, spacing); }
+		inline void setGridVisible(bool visible) { m_grid.setVisible(visible); }
+
 	private:
 		CameraHandlerOrbital m_handler;
 		Cursor m_cursor;
