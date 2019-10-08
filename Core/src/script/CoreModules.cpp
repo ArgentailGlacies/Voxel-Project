@@ -4,10 +4,11 @@
 #include "gui/Gui.h"
 #include "gui/GuiRegistry.h"
 #include "gui/Widget.h"
-#include "script/Script.h"
-#include "script/ScriptUtil.h"
 #include "io/File.h"
 #include "io/Folder.h"
+#include "script/Script.h"
+#include "script/ScriptUtil.h"
+#include "util/MathTemporaryFile.h"
 
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
@@ -70,8 +71,12 @@ namespace core
 
 // ...
 
-void core::ModuleGlm::bind(Script & script) const
+void core::ModuleMath::bind(Script & script) const
 {
+	addGlobalConstant(script, util::Axis::X, "AXIS_X");
+	addGlobalConstant(script, util::Axis::Y, "AXIS_Y");
+	addGlobalConstant(script, util::Axis::Z, "AXIS_Z");
+
 	bindVec2<float>(script, "vec2");
 	bindVec3<float>(script, "vec3");
 	bindVec4<float>(script, "vec4");

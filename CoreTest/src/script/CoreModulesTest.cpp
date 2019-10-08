@@ -16,9 +16,12 @@ namespace core::script
 	TEST_CLASS(CoreModulesTest)
 	{
 	public:
-		TEST_METHOD(ModuleGlm_bind)
+		TEST_METHOD(ModuleMath_bind)
 		{
-			ModuleGlm{}.bind(m_script);
+			ModuleMath{}.bind(m_script);
+
+			// Ensure that utilities have been added correctly
+			Assert::IsTrue(m_script.execute(R"( AXIS_X; AXIS_Y; AXIS_Z )"));
 
 			// Ensure that vector functionality has been added correctly
 			Assert::IsTrue(m_script.execute(R"( var vecA = vec2() )"));

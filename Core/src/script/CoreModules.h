@@ -13,8 +13,10 @@ namespace core
 		The glm namespace is by default not exposed to scripts. By including this module, the glm
 		containing vectors will be exposed. Only certain common functionality will be exposed, such
 		as the different types of vectors.
+
+		Other functionality which will be exposed include various math utilities.
 	*/
-	class ModuleGlm : public Module<>
+	class ModuleMath : public Module<>
 	{
 	public:
 		virtual void bind(Script & script) const override final;

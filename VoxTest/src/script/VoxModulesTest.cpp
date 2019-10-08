@@ -39,7 +39,7 @@ namespace vox::script
 		{
 			Universe universe{ "test", m_scene };
 
-			core::ModuleGlm{}.bind(m_script);
+			core::ModuleMath{}.bind(m_script);
 			ModuleUniverse{}.bind(m_script, universe);
 
 			// Ensure that global variables have been added to correct namespace
@@ -66,14 +66,14 @@ namespace vox::script
 
 			// Ensure that query functionality has been added correctly
 			Assert::IsTrue(m_script.execute(R"( readBlock(ivec3()) )"));
-			//Assert::IsTrue(m_script.execute(R"( readCylinder(ivec3(), ivec3(), ...) )")); // TODO: Cylinder axis has not been exposed
+			Assert::IsTrue(m_script.execute(R"( readCylinder(ivec3(), ivec3(), AXIS_X) )"));
 			Assert::IsTrue(m_script.execute(R"( readEllipse(ivec3(), ivec3()) )"));
 			Assert::IsTrue(m_script.execute(R"( readRectangle(ivec3(), ivec3()) )"));
 			Assert::IsTrue(m_script.execute(R"( readLine(ivec3(), ivec3()) )"));
 			Assert::IsTrue(m_script.execute(R"( readSphere(ivec3(), 1) )"));
 
 			Assert::IsTrue(m_script.execute(R"( writeBlock(BLOCK, ivec3()) )"));
-			//Assert::IsTrue(m_script.execute(R"( writeCylinder(BLOCK, ivec3(), ivec3(), ...) )")); // TODO: Cylinder axis has not been exposed
+			Assert::IsTrue(m_script.execute(R"( writeCylinder(BLOCK, ivec3(), ivec3(), AXIS_X) )"));
 			Assert::IsTrue(m_script.execute(R"( writeEllipse(BLOCK, ivec3(), ivec3()) )"));
 			Assert::IsTrue(m_script.execute(R"( writeRectangle(BLOCK, ivec3(), ivec3()) )"));
 			Assert::IsTrue(m_script.execute(R"( writeLine(BLOCK, ivec3(), ivec3()) )"));
@@ -90,6 +90,7 @@ namespace vox::script
 		{
 			EditorWorld editor{ m_scene, m_bus };
 
+			core::ModuleMath{}.bind(m_script);
 			ModuleWorldEditor{}.bind(m_script, editor);
 
 			// Ensure that global variables have been added to correct namespace
