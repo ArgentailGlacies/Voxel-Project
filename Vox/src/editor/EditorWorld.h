@@ -1,5 +1,6 @@
 #pragma once
 
+#include "editor/shape/Shape.h"
 #include "editor/util/CameraHandler.h"
 #include "editor/util/Cursor.h"
 #include "editor/util/Grid.h"
@@ -28,5 +29,8 @@ namespace vox
 		CameraHandlerOrbital m_handler;
 		Cursor m_cursor;
 		Grid m_grid;
+
+		Shape m_shapePoint;
+		Shape m_shapeRectangle;
 	};
 }
