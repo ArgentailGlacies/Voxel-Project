@@ -22,4 +22,13 @@ namespace vox
 		@param to The coordinate of the point which should be meshed.
 	*/
 	ShapeMeshPtr meshPoint(const glm::ivec3 & from, const glm::ivec3 & to);
+	/**
+		Creates a shape mesh representing a rectangular volume. The volume spans from the from
+		coordinate to the to coordinate. The ordering of the coordinates does not matter; the entire
+		volume will be included in the mesh.
+
+		@param from The first corner forming the rectangle to mesh.
+		@param to The second coordinate forming the rectangle to mesh.
+	*/
+	ShapeMeshPtr meshRectangle(const glm::ivec3 & from, const glm::ivec3 & to);
 }

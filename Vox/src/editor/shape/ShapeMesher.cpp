@@ -36,7 +36,7 @@ namespace
 
 		const auto count = vertices.size();
 		const auto min = util::min(from, to);
-		const auto max = util::max(from, to);
+		const auto max = util::max(from, to) + 1;
 
 		// Add eight corner vertices
 		vertices.emplace_back(min.x, min.y, min.z);
@@ -80,8 +80,12 @@ namespace
 
 vox::ShapeMeshPtr vox::meshPoint(const glm::ivec3 & from, const glm::ivec3 & to)
 {
+	return meshRectangle(to, to);
+}
+vox::ShapeMeshPtr vox::meshRectangle(const glm::ivec3 & from, const glm::ivec3 & to)
+{
 	ShapeMeshPtr mesh = std::make_unique<ShapeMesh>();
-	addBox(*mesh, to, to);
+	addBox(*mesh, from, to);
 	build(*mesh);
 	return mesh;
 }

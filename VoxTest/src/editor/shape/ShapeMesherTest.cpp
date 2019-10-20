@@ -17,5 +17,12 @@ namespace vox::editor
 
 			Assert::AreEqual(24u, mesh->indices().size());
 		}
+
+		TEST_METHOD(ShapeMesher_meshRectangle)
+		{
+			auto mesh = meshRectangle({ -1, -2, -3 }, { 1, 2, 3 });
+
+			Assert::AreEqual(24u, mesh->indices().size());
+		}
 	};
 }

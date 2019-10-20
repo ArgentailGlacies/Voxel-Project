@@ -31,7 +31,7 @@ namespace vox
 			@param from The position the shape should start at.
 			@param to The position the shape should end at.
 		*/
-		inline void stretch(const glm::ivec3 & from, const glm::ivec3 & to) { m_mesh = m_mesher(from, to); }
+		void stretch(const glm::ivec3 & from, const glm::ivec3 & to);
 		
 		/**
 			Specifies whether the shape should be visible or not. If the shape is visible, the shape
@@ -50,10 +50,11 @@ namespace vox
 		// ...
 
 		core::Scene & m_scene;
+		core::SceneEntry m_transform = 0;
 		core::SceneEntry m_renderer = 0;
 
 		ShapeMesher m_mesher;
 		ShapeMeshPtr m_mesh;
-		bool m_visible = true;
+		bool m_visible = false;
 	};
 }
