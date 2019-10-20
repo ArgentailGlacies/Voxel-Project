@@ -8,8 +8,9 @@
 
 namespace vox
 {
-	using ShapeMesh = std::unique_ptr<core::Mesh<glm::vec3>>;
-	using ShapeMesher = std::function<ShapeMesh(const glm::ivec3 &, const glm::ivec3 &)>;
+	using ShapeMesh = core::Mesh<glm::vec3>;
+	using ShapeMeshPtr = std::unique_ptr<ShapeMesh>;
+	using ShapeMesher = std::function<ShapeMeshPtr(const glm::ivec3 &, const glm::ivec3 &)>;
 
 	// ...
 
@@ -20,5 +21,5 @@ namespace vox
 		@param from Ignored, not used in the point mesher.
 		@param to The coordinate of the point which should be meshed.
 	*/
-	ShapeMesh meshPoint(const glm::ivec3 & from, const glm::ivec3 & to);
+	ShapeMeshPtr meshPoint(const glm::ivec3 & from, const glm::ivec3 & to);
 }

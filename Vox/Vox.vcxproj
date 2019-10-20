@@ -23,6 +23,7 @@
     <ClCompile Include="src\core\Setup.cpp" />
     <ClCompile Include="src\editor\EditorWorld.cpp" />
     <ClCompile Include="src\editor\shape\Shape.cpp" />
+    <ClCompile Include="src\editor\shape\ShapeMesher.cpp" />
     <ClCompile Include="src\editor\util\Cursor.cpp" />
     <ClCompile Include="src\editor\util\CameraHandler.cpp" />
     <ClCompile Include="src\editor\util\Grid.cpp" />

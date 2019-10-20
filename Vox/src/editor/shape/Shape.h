@@ -53,7 +53,7 @@ namespace vox
 		core::SceneEntry m_renderer = 0;
 
 		ShapeMesher m_mesher;
-		ShapeMesh m_mesh;
+		ShapeMeshPtr m_mesh;
 		bool m_visible = true;
 	};
 }
