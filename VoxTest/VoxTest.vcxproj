@@ -176,6 +176,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\editor\shape\ShapeTest.cpp" />
     <ClCompile Include="src\editor\util\CursorTest.cpp" />
     <ClCompile Include="src\editor\util\CameraHandlerTest.cpp" />
     <ClCompile Include="src\editor\util\GridTest.cpp" />

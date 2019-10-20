@@ -105,6 +105,9 @@
     <ClCompile Include="src\script\VoxModulesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\editor\shape\ShapeTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\mock\MockBlockRegistry.h">

@@ -21,7 +21,7 @@ namespace vox
 	{
 	public:
 		Shape(core::Scene & scene, ShapeMesher mesher);
-		virtual ~Shape() = default;
+		~Shape();
 
 		/**
 			Assigns the shape and position of the shape. The actual shape will be remeshed such that
@@ -31,7 +31,7 @@ namespace vox
 			@param from The position the shape should start at.
 			@param to The position the shape should end at.
 		*/
-		void stretch(const glm::ivec3 & from, const glm::ivec3 & to);
+		inline void stretch(const glm::ivec3 & from, const glm::ivec3 & to) { m_mesh = m_mesher(from, to); }
 		
 		/**
 			Specifies whether the shape should be visible or not. If the shape is visible, the shape
@@ -39,9 +39,16 @@ namespace vox
 
 			@param visible Whether the shape should be considered visible or not.
 		*/
-		void setVisible(bool visible);
+		inline void setVisible(bool visible) { m_visible = visible; }
 
 	private:
+		/**
+			Renders the shape mesh, if it is set to be visible.
+		*/
+		void render() const;
+
+		// ...
+
 		core::Scene & m_scene;
 		core::SceneEntry m_renderer = 0;
 
