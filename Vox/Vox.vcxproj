@@ -67,6 +67,8 @@
     <ClInclude Include="src\core\Engine.h" />
     <ClInclude Include="src\core\Setup.h" />
     <ClInclude Include="src\editor\EditorWorld.h" />
+    <ClInclude Include="src\editor\shape\Shape.h" />
+    <ClInclude Include="src\editor\shape\ShapeMesher.h" />
     <ClInclude Include="src\editor\util\Cursor.h" />
     <ClInclude Include="src\editor\util\CameraHandler.h" />
     <ClInclude Include="src\editor\util\Grid.h" />
