@@ -78,9 +78,9 @@ namespace
 	}
 }
 
-vox::ShapeMeshPtr vox::meshPoint(const glm::ivec3 & from, const glm::ivec3 & to)
+vox::ShapeMeshPtr vox::meshPoint(const glm::ivec3 & pos)
 {
-	return meshRectangle(to, to);
+	return meshRectangle(pos, pos);
 }
 vox::ShapeMeshPtr vox::meshRectangle(const glm::ivec3 & from, const glm::ivec3 & to)
 {

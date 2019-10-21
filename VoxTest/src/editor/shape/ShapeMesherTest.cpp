@@ -13,7 +13,7 @@ namespace vox::editor
 	public:
 		TEST_METHOD(ShapeMesher_meshPoint)
 		{
-			auto mesh = meshPoint({ -1, -2, -3 }, { 1, 2, 3 });
+			auto mesh = meshPoint({ 1, 2, 3 });
 
 			Assert::AreEqual(24u, mesh->indices().size());
 		}

@@ -24,30 +24,6 @@ namespace vox
 	public:
 		Shape(core::Scene & scene);
 		virtual ~Shape();
-
-		/**
-			Obtains a query for reading from any world, containing the entire volume spanned out by
-			the shape.
-
-			@param from The first corner specifying the volume the shape fills.
-			@param to The second corner specifying the volume the shape fills.
-		*/
-		inline WorldQuery read(const glm::ivec3 & from, const glm::ivec3 & to) const
-		{
-			return query(from, to, {});
-		}
-		/**
-			Obtains a query for writing to any world, containing the entire volume spanned out by
-			the shape. The query will be filled with the provided block.
-
-			@param block The block which should fill the entire volume spanned by the shape.
-			@param from The first corner specifying the volume the shape fills.
-			@param to The second corner specifying the volume the shape fills.
-		*/
-		inline WorldQuery write(const Block & block, const glm::ivec3 & from, const glm::ivec3 & to) const
-		{
-			return query(from, to, block);
-		}
 		
 		/**
 			Assigns the shape and position of the shape. The actual shape will be remeshed such that
@@ -58,6 +34,19 @@ namespace vox
 			@param to The position the shape should end at.
 		*/
 		void stretch(const glm::ivec3 & from, const glm::ivec3 & to);
+
+		/**
+			Obtains a query for reading from any world, containing the entire volume spanned out by
+			the shape.
+		*/
+		inline WorldQuery read() const { return query(m_from, m_to, {}); }
+		/**
+			Obtains a query for writing to any world, containing the entire volume spanned out by
+			the shape. The query will be filled with the provided block.
+
+			@param block The block which should fill the entire volume spanned by the shape.
+		*/
+		inline WorldQuery write(const Block & block) const { return query(m_from, m_to, block); }
 		
 		/**
 			Specifies whether the shape should be visible or not. If the shape is visible, the shape
@@ -100,6 +89,9 @@ namespace vox
 
 		ShapeMeshPtr m_mesh;
 		bool m_visible = false;
+
+		glm::ivec3 m_from = {};
+		glm::ivec3 m_to = {};
 	};
 
 	// ...
@@ -111,7 +103,7 @@ namespace vox
 	class ShapePoint : public Shape
 	{
 	public:
-		ShapePoint(core::Scene & scene);
+		ShapePoint(core::Scene & scene) : Shape(scene) {}
 
 	private:
 		virtual WorldQuery query(const glm::ivec3 & from, const glm::ivec3 & to, const Block & block) const override final;
@@ -125,7 +117,7 @@ namespace vox
 	class ShapeRectangle : public Shape
 	{
 	public:
-		ShapeRectangle(core::Scene & scene);
+		ShapeRectangle(core::Scene & scene) : Shape(scene) {}
 
 	private:
 		virtual WorldQuery query(const glm::ivec3 & from, const glm::ivec3 & to, const Block & block) const override final;

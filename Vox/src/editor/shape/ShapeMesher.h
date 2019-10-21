@@ -17,10 +17,9 @@ namespace vox
 		Creates a shape mesh representing a single block. The from coordinate is ignored; the mesh
 		will only occupy the block at the to coordinate.
 
-		@param from Ignored, not used in the point mesher.
-		@param to The coordinate of the point which should be meshed.
+		@param pos The coordinate of the point which should be meshed.
 	*/
-	ShapeMeshPtr meshPoint(const glm::ivec3 & from, const glm::ivec3 & to);
+	ShapeMeshPtr meshPoint(const glm::ivec3 & pos);
 	/**
 		Creates a shape mesh representing a rectangular volume. The volume spans from the from
 		coordinate to the to coordinate. The ordering of the coordinates does not matter; the entire
