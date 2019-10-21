@@ -57,11 +57,22 @@ void vox::ModuleWorldEditor::bind(core::Script & script, EditorWorld & editor) c
 {
 	core::addGlobalVariable(script, &editor, "EDITOR");
 
-	core::addAttribute(script, &EditorWorld::m_grid, "grid");
+	core::addMethod(script, &EditorWorld::setShape, "setShape");
 	core::addAttribute(script, &EditorWorld::m_cursor, "cursor");
+	core::addAttribute(script, &EditorWorld::m_grid, "grid");
+	core::addAttribute(script, &EditorWorld::m_shape, "shape");
+	core::addAttribute(script, &EditorWorld::m_shapePoint, "SHAPE_POINT");
+	core::addAttribute(script, &EditorWorld::m_shapeRectangle, "SHAPE_RECTANGLE");
+
+	core::addMethod(script, &Cursor::lockAxis, "lockAxis");
 
 	core::addMethod(script, &Grid::setSize, "setSize");
 	core::addMethod(script, &Grid::setVisible, "setVisible");
 
-	core::addMethod(script, &Cursor::lockAxis, "lockAxis");
+	core::addRelation<Shape, ShapePoint>(script);
+	core::addRelation<Shape, ShapeRectangle>(script);
+	core::addMethod(script, &Shape::stretch, "stretch");
+	core::addMethod(script, &Shape::read, "read");
+	core::addMethod(script, &Shape::write, "write");
+	core::addMethod(script, &Shape::setVisible, "setVisible");
 }

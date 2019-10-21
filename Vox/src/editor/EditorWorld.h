@@ -25,11 +25,20 @@ namespace vox
 	public:
 		EditorWorld(core::Scene & scene, core::EventBus & bus);
 
+		/**
+			Assigns the currently active shape in the editor. If nullptr is passed in, the currently
+			selected shape is deselected.
+
+			@param shape The shape which should be selected, or nullptr to deselect all shapes.
+		*/
+		inline void setShape(Shape * shape) { m_shape = shape; }
+
 	private:
 		CameraHandlerOrbital m_handler;
 		Cursor m_cursor;
 		Grid m_grid;
 
+		Shape * m_shape = nullptr;
 		ShapePoint m_shapePoint;
 		ShapeRectangle m_shapeRectangle;
 	};

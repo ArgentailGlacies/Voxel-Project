@@ -89,21 +89,36 @@ namespace vox::script
 		TEST_METHOD(ModuleWorldEditor_bind)
 		{
 			EditorWorld editor{ m_scene, m_bus };
+			Universe universe{ "test", m_scene };
 
 			core::ModuleMath{}.bind(m_script);
+			ModuleUniverse{}.bind(m_script, universe);
 			ModuleWorldEditor{}.bind(m_script, editor);
 
 			// Ensure that global variables have been added to correct namespace
 			Assert::IsTrue(m_script.execute(R"( EDITOR )"));
 			Assert::IsTrue(m_script.execute(R"( EDITOR.grid )"));
 			Assert::IsTrue(m_script.execute(R"( EDITOR.cursor )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.shape )"));
+
+			Assert::IsTrue(m_script.execute(R"( EDITOR.SHAPE_POINT )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.SHAPE_RECTANGLE )"));
+
+			// Ensure that cursor functionality has been added correctly
+			Assert::IsTrue(m_script.execute(R"( EDITOR.cursor.lockAxis(AXIS_X, true) )"));
 
 			// Ensure that grid functionality has been added correctly
 			Assert::IsTrue(m_script.execute(R"( EDITOR.grid.setSize(4, 2) )"));
 			Assert::IsTrue(m_script.execute(R"( EDITOR.grid.setVisible(true) )"));
 
-			// Ensure that cursor functionality has been added correctly
-			Assert::IsTrue(m_script.execute(R"( EDITOR.cursor.lockAxis(AXIS_X, true) )"));
+			// Ensure that shape functionality has been added correctly
+			m_script.execute(R"( EDITOR.setShape(EDITOR.SHAPE_RECTANGLE) )");
+			m_script.execute(R"( var block := UNIVERSE.getBlockRegistry()[0]; )");
+
+			Assert::IsTrue(m_script.execute(R"( EDITOR.shape.stretch(ivec3(), ivec3()) )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.shape.read() )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.shape.write(block) )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.shape.setVisible(true) )"));
 		}
 
 	private:
