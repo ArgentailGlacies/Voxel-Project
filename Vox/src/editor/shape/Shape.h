@@ -2,6 +2,8 @@
 
 #include "editor/shape/ShapeMesher.h"
 #include "scene/SceneNode.h"
+#include "world/Block.h"
+#include "world/Query.h"
 
 #include <glm/vec3.hpp>
 
@@ -20,9 +22,33 @@ namespace vox
 	class Shape
 	{
 	public:
-		Shape(core::Scene & scene, ShapeMesher mesher);
-		~Shape();
+		Shape(core::Scene & scene);
+		virtual ~Shape();
 
+		/**
+			Obtains a query for reading from any world, containing the entire volume spanned out by
+			the shape.
+
+			@param from The first corner specifying the volume the shape fills.
+			@param to The second corner specifying the volume the shape fills.
+		*/
+		inline WorldQuery read(const glm::ivec3 & from, const glm::ivec3 & to) const
+		{
+			return query(from, to, {});
+		}
+		/**
+			Obtains a query for writing to any world, containing the entire volume spanned out by
+			the shape. The query will be filled with the provided block.
+
+			@param block The block which should fill the entire volume spanned by the shape.
+			@param from The first corner specifying the volume the shape fills.
+			@param to The second corner specifying the volume the shape fills.
+		*/
+		inline WorldQuery write(const Block & block, const glm::ivec3 & from, const glm::ivec3 & to) const
+		{
+			return query(from, to, block);
+		}
+		
 		/**
 			Assigns the shape and position of the shape. The actual shape will be remeshed such that
 			it span from the from location to the to location. The actual shape of the mesh will be
@@ -41,6 +67,25 @@ namespace vox
 		*/
 		inline void setVisible(bool visible) { m_visible = visible; }
 
+	protected:
+		/**
+			Retrieves a world query which exactly match the volume spanned out by the shape. The
+			query can be used to read from and/or write to any world.
+
+			@param from The first corner specifying the volume the shape fills.
+			@param to The second corner specifying the volume the shape fills.
+			@param block The block which should fill the query; does not matter if reading blocks.
+		*/
+		virtual WorldQuery query(const glm::ivec3 & from, const glm::ivec3 & to, const Block & block) const = 0;
+		/**
+			Generates a mesh which represents the overall volume spanned out by the shape. The shape
+			does not need to be convex, nor does it need to be a single, connected volume.
+
+			@param from The first corner specifying the volume the mesh should fill.
+			@param to The second corner specifying the volume the mesh should fill.
+		*/
+		virtual ShapeMeshPtr mesh(const glm::ivec3 & from, const glm::ivec3 & to) const = 0;
+
 	private:
 		/**
 			Renders the shape mesh, if it is set to be visible.
@@ -53,8 +98,37 @@ namespace vox
 		core::SceneEntry m_transform = 0;
 		core::SceneEntry m_renderer = 0;
 
-		ShapeMesher m_mesher;
 		ShapeMeshPtr m_mesh;
 		bool m_visible = false;
+	};
+
+	// ...
+
+	/**
+		The point shape represents a single block volume. The volume will never be larger than a
+		single block.
+	*/
+	class ShapePoint : public Shape
+	{
+	public:
+		ShapePoint(core::Scene & scene);
+
+	private:
+		virtual WorldQuery query(const glm::ivec3 & from, const glm::ivec3 & to, const Block & block) const override final;
+		virtual ShapeMeshPtr mesh(const glm::ivec3 & from, const glm::ivec3 & to) const override final;
+	};
+
+	/**
+		The rectangle class represents a volume which is rectangular in shape. The volume may be
+		hollow, where the walls have a varying thickness.
+	*/
+	class ShapeRectangle : public Shape
+	{
+	public:
+		ShapeRectangle(core::Scene & scene);
+
+	private:
+		virtual WorldQuery query(const glm::ivec3 & from, const glm::ivec3 & to, const Block & block) const override final;
+		virtual ShapeMeshPtr mesh(const glm::ivec3 & from, const glm::ivec3 & to) const override final;
 	};
 }

@@ -10,7 +10,6 @@ namespace vox
 {
 	using ShapeMesh = core::Mesh<glm::vec3>;
 	using ShapeMeshPtr = std::unique_ptr<ShapeMesh>;
-	using ShapeMesher = std::function<ShapeMeshPtr(const glm::ivec3 &, const glm::ivec3 &)>;
 
 	// ...
 
