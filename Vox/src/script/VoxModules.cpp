@@ -58,6 +58,7 @@ void vox::ModuleWorldEditor::bind(core::Script & script, EditorWorld & editor) c
 	core::addGlobalVariable(script, &editor, "EDITOR");
 
 	core::addMethod(script, &EditorWorld::setShape, "setShape");
+	core::addMethod(script, &EditorWorld::getShape, "getShape");
 	core::addAttribute(script, &EditorWorld::m_cursor, "cursor");
 	core::addAttribute(script, &EditorWorld::m_grid, "grid");
 	core::addAttribute(script, &EditorWorld::m_shapePoint, "SHAPE_POINT");

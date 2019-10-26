@@ -18,6 +18,7 @@ namespace core::scene
 		TEST_METHOD(Camera_calculateMatrices)
 		{
 			Camera camera{ display() };
+			camera.setFieldOfView(70.0f, true);
 			camera.setPosition({ 3.0f, 1.0f, 4.0f }, true);
 			camera.setRotation({ 0.0f, 0.0f }, true);
 

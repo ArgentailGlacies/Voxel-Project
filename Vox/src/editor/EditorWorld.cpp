@@ -13,4 +13,11 @@ vox::EditorWorld::EditorWorld(core::Scene & scene, core::EventBus & bus) :
 
 void vox::EditorWorld::setShape(Shape * shape)
 {
+	if (m_shape != nullptr)
+		m_shape->setVisible(false);
+
+	m_shape = shape;
+
+	if (m_shape != nullptr)
+		m_shape->setVisible(true);
 }

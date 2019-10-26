@@ -99,7 +99,6 @@ namespace vox::script
 			Assert::IsTrue(m_script.execute(R"( EDITOR )"));
 			Assert::IsTrue(m_script.execute(R"( EDITOR.grid )"));
 			Assert::IsTrue(m_script.execute(R"( EDITOR.cursor )"));
-			Assert::IsTrue(m_script.execute(R"( EDITOR.shape )"));
 
 			Assert::IsTrue(m_script.execute(R"( EDITOR.SHAPE_POINT )"));
 			Assert::IsTrue(m_script.execute(R"( EDITOR.SHAPE_RECTANGLE )"));
@@ -115,10 +114,10 @@ namespace vox::script
 			m_script.execute(R"( EDITOR.setShape(EDITOR.SHAPE_RECTANGLE) )");
 			m_script.execute(R"( var block := UNIVERSE.getBlockRegistry()[0]; )");
 
-			Assert::IsTrue(m_script.execute(R"( EDITOR.shape.stretch(ivec3(), ivec3()) )"));
-			Assert::IsTrue(m_script.execute(R"( EDITOR.shape.read() )"));
-			Assert::IsTrue(m_script.execute(R"( EDITOR.shape.write(block) )"));
-			Assert::IsTrue(m_script.execute(R"( EDITOR.shape.setVisible(true) )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.getShape().stretch(ivec3(), ivec3()) )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.getShape().read() )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.getShape().write(block) )"));
+			Assert::IsTrue(m_script.execute(R"( EDITOR.getShape().setVisible(true) )"));
 		}
 
 	private:
