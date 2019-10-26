@@ -103,7 +103,7 @@ namespace core
 		glm::vec2 m_rot{ 0.0f, 0.0f }, m_oldRot{ m_rot };
 		glm::vec3 m_up{ 0.0f, 0.0f, 1.0f }, m_oldUp{ m_up };
 
-		float m_fov = 70.0f, m_oldFov = m_fov;
+		float m_fov = 45.0f, m_oldFov = m_fov;
 		float m_znear = 0.1f;
 		float m_zfar = 15000.0f;
 	};

@@ -25,7 +25,7 @@ namespace
 		is irrelevant in which order the coordinates are specified, as long as they form a valid
 		volume.
 
-		@oaram mesh The mesh the box should be added to.
+		@param mesh The mesh the box should be added to.
 		@param from The starting coordinate of the box to add.
 		@param to The ending coordinate of the box to add.
 	*/

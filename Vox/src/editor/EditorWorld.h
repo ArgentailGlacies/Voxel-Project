@@ -27,11 +27,17 @@ namespace vox
 
 		/**
 			Assigns the currently active shape in the editor. If nullptr is passed in, the currently
-			selected shape is deselected.
+			selected shape is deselected. Will also hide the previous tool and show the new, if
+			applicable.
 
 			@param shape The shape which should be selected, or nullptr to deselect all shapes.
 		*/
-		inline void setShape(Shape * shape) { m_shape = shape; }
+		void setShape(Shape * shape);
+
+		// ...
+
+		ShapePoint m_shapePoint;
+		ShapeRectangle m_shapeRectangle;
 
 	private:
 		CameraHandlerOrbital m_handler;
@@ -39,7 +45,5 @@ namespace vox
 		Grid m_grid;
 
 		Shape * m_shape = nullptr;
-		ShapePoint m_shapePoint;
-		ShapeRectangle m_shapeRectangle;
 	};
 }

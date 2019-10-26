@@ -10,3 +10,7 @@ vox::EditorWorld::EditorWorld(core::Scene & scene, core::EventBus & bus) :
 	m_shapePoint(scene),
 	m_shapeRectangle(scene)
 {}
+
+void vox::EditorWorld::setShape(Shape * shape)
+{
+}

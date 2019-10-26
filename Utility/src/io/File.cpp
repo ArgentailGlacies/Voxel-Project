@@ -47,7 +47,7 @@ namespace
 
 bool util::File::exists() const
 {
-	return std::experimental::filesystem::is_regular_file(m_path);
+	return std::filesystem::is_regular_file(m_path);
 }
 bool util::File::erase() const
 {
