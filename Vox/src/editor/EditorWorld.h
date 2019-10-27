@@ -33,6 +33,7 @@ namespace vox
 			@param shape The shape which should be selected, or nullptr to deselect all shapes.
 		*/
 		void setShape(Shape * shape);
+
 		/**
 			@return The current shape of the editor, or nullptr if no shape has been selected.
 		*/
