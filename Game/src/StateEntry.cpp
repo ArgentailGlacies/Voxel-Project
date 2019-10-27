@@ -5,8 +5,10 @@
 #include "event/EventBus.h"
 #include "event/Events.h"
 #include "gui/GuiRegistry.h"
+#include "scene/Scene.h"
 
 #include "editor/EditorWorld.h"
+#include "script/VoxModules.h"
 #include "world/Universe.h"
 #include "world/World.h"
 #include "world/BlockRegistry.h"
@@ -32,7 +34,11 @@ void game::StateEntry::initialize(core::Engine & engine)
 	m_editor = std::make_unique<vox::EditorWorld>(scene, engine.getEventBus());
 
 	// Create a test gui
-	engine.getGuiRegistry().open(engine.getDataFolder().file("guis/editor_world.xml"));
+	auto file = engine.getDataFolder().file("guis/editor_world.xml");
+	engine.getGuiRegistry().open(file);
+	engine.getGuiRegistry().registerModule(file,
+		[this](auto & script) { vox::ModuleWorldEditor{}.bind(script, *m_editor); }
+	);
 
 	// Write a simple test world and the editor
 	auto & blocks = engine.getUniverse().getBlockRegistry();

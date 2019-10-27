@@ -114,6 +114,8 @@ namespace core
 		// TODO: Attempt to elliminate these methods, internal data should not leak
 		inline auto & getBus() { return m_bus; }
 		inline auto & getBus() const { return m_bus; }
+		inline auto & getScript() { return m_script; }
+		inline auto & getScript() const { return m_script; }
 
 	private:
 		/**

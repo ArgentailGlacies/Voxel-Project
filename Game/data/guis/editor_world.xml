@@ -298,6 +298,7 @@
       <border outer="3" />
       <button type="radio">
         <renderer button="gui/editor_world/shapes/box" />
+        <script action="EDITOR.setShape(EDITOR.SHAPE_RECTANGLE)" />
       </button>
     </widget>
     <widget name="cylinder">
@@ -334,6 +335,7 @@
       <link target="line" ratio="2, 0" />
       <button type="radio">
         <renderer button="gui/editor_world/shapes/point" />
+        <script action="EDITOR.setShape(EDITOR.SHAPE_POINT)" />
       </button>
     </widget>
   </widget>

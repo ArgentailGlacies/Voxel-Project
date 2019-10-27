@@ -4,7 +4,7 @@
 #include "event/EventListener.h"
 #include "gui/Gui.h"
 #include "io/File.h"
-#include "scene/Scene.h"
+#include "scene/SceneNode.h"
 
 #include <glm/vec2.hpp>
 #include <memory>
@@ -14,6 +14,9 @@
 namespace core
 {
 	class AssetRegistry;
+	class Display;
+	class Scene;
+	class Script;
 
 	/**
 		The gui registry is responsible for creating, closing and generally managing the different
@@ -24,7 +27,12 @@ namespace core
 	{
 	public:
 		GuiRegistry() = delete;
-		GuiRegistry(const AssetRegistry & assets, const Display & display,  EventBus & bus, Scene & scene);
+		GuiRegistry(const AssetRegistry & assets, const Display & display, EventBus & bus, Scene & scene);
+
+		/**
+			Performs an update on all guis that have been opened thus far.
+		*/
+		void process();
 
 		/**
 			Opens the gui stored in the specified file if it is not already open. If the gui has
@@ -43,10 +51,17 @@ namespace core
 		*/
 		bool close(const util::File & file);
 
+		// ...
+
 		/**
-			Performs an update on all guis that have been opened thus far.
+			Registers a script module into the gui with the given file if it has been loaded. The
+			registration of the module is performed in the function parameter.
+
+			@param file The gui which should have the module registered to it.
+			@param func The function which specifies how the module will be registered.
+			@return true iff the module was registered to the file.
 		*/
-		void process();
+		bool registerModule(const util::File & file, const std::function<void(Script &)> & func);
 
 	private:
 		/**

@@ -2,6 +2,8 @@
 #include "GuiRegistry.h"
 
 #include "event/Events.h"
+#include "scene/Scene.h"
+#include "script/CoreModules.h"
 #include "ui/Display.h"
 
 #include <limits>
@@ -21,6 +23,22 @@ core::GuiRegistry::GuiRegistry(const AssetRegistry & assets, const Display & dis
 	m_root = m_scene.createNode(Scene::DEFAULT_CAMERA);
 }
 
+// ...
+
+void core::GuiRegistry::process()
+{
+	for (auto & [_, gui] : m_guis)
+		gui->process();
+}
+
+void core::GuiRegistry::resizeGuis(const glm::vec2 & size)
+{
+	for (auto & [_, gui] : m_guis)
+		gui->resize(size);
+}
+
+// ...
+
 bool core::GuiRegistry::open(const util::File & file)
 {
 	if (!file.exists() || m_guis.find(file) != m_guis.end())
@@ -30,6 +48,8 @@ bool core::GuiRegistry::open(const util::File & file)
 	gui->resize(m_display.getSize());
 	auto node = m_scene.createRender("", "", [gui = gui.get()]() { gui->render(); }, m_root);
 	m_scene.setFullscreenLayer(node, FullscreenLayer::GUI);
+
+	ModuleGui{}.bind(gui->getScript(), *this, *gui);
 
 	m_guis[file] = std::move(gui);
 	m_nodes[file] = node;
@@ -47,14 +67,15 @@ bool core::GuiRegistry::close(const util::File & file)
 	return true;
 }
 
-void core::GuiRegistry::process()
+// ...
+
+bool core::GuiRegistry::registerModule(const util::File & file, const std::function<void(Script &)> & func)
 {
-	for (auto & [_, gui] : m_guis)
-		gui->process();
+	auto it = m_guis.find(file);
+	if (it == m_guis.end())
+		return false;
+
+	func(it->second->getScript());
+	return true;
 }
 
-void core::GuiRegistry::resizeGuis(const glm::vec2 & size)
-{
-	for (auto & [_, gui] : m_guis)
-		gui->resize(size);
-}

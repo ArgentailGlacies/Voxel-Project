@@ -1,5 +1,6 @@
 #pragma once
 
+#include "event/EventListener.h"
 #include "editor/shape/Shape.h"
 #include "editor/util/CameraHandler.h"
 #include "editor/util/Cursor.h"
@@ -7,6 +8,7 @@
 
 namespace core
 {
+	class Camera;
 	class EventBus;
 	class Scene;
 }
@@ -39,16 +41,16 @@ namespace vox
 		*/
 		inline Shape * getShape() { return m_shape; }
 
-		// ...
-
-		ShapePoint m_shapePoint;
-		ShapeRectangle m_shapeRectangle;
-
 	private:
+		core::Camera & m_camera;
+		core::Listener m_mouseMove;
+
 		CameraHandlerOrbital m_handler;
 		Cursor m_cursor;
 		Grid m_grid;
 
+		ShapePoint m_shapePoint;
+		ShapeRectangle m_shapeRectangle;
 		Shape * m_shape = nullptr;
 	};
 }

@@ -11,6 +11,19 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+namespace
+{
+	class MockShape : public vox::Shape
+	{
+	public:
+		MockShape(core::Scene & scene) : Shape(scene) {}
+
+	private:
+		virtual vox::WorldQuery query(const glm::ivec3 & from, const glm::ivec3 & to, const vox::Block & block) const override final { return {}; }
+		virtual vox::ShapeMeshPtr mesh(const glm::ivec3 & from, const glm::ivec3 & to) const override final { return nullptr; }
+	};
+}
+
 namespace vox::editor
 {
 	TEST_CLASS(EditorWorldTest)
@@ -18,10 +31,11 @@ namespace vox::editor
 	public:
 		TEST_METHOD(EditorWorld_setShape)
 		{
+			MockShape shape{ m_scene };
 			EditorWorld editor{ m_scene, m_bus };
 			
 			Assert::IsNull(editor.getShape());
-			editor.setShape(&editor.m_shapePoint);
+			editor.setShape(&shape);
 			Assert::IsNotNull(editor.getShape());
 			editor.setShape(nullptr);
 			Assert::IsNull(editor.getShape());

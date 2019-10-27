@@ -4,6 +4,7 @@
 #include "gui/GuiRegistry.h"
 #include "mock/MockAssetRegistry.h"
 #include "mock/MockUBORegistry.h"
+#include "scene/Scene.h"
 #include "script/Script.h"
 
 #include "Context.h"
