@@ -2,6 +2,7 @@
 
 #include "event/EventListener.h"
 #include "state/State.h"
+#include "script/Script.h"
 
 #include <memory>
 
@@ -25,5 +26,6 @@ namespace game
 		std::unique_ptr<vox::EditorWorld> m_editor;
 
 		core::Listener m_displayCloseListener;
+		core::Script m_script{ "script" };
 	};
 }

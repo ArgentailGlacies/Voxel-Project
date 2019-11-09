@@ -2,6 +2,7 @@
 #include "gui/Gui.h"
 
 #include "core/Resources.h"
+#include "event/EventBus.h"
 #include "io/File.h"
 #include "io/Folder.h"
 #include "mock/MockAssetRegistry.h"
@@ -27,7 +28,7 @@ namespace core::gui
 
 		TEST_METHOD(Gui_ctor)
 		{
-			Gui gui{ m_assets, file };
+			Gui gui{ m_assets, file, m_bus, m_script };
 
 			Assert::IsTrue(gui.has("root.foo"));
 			Assert::IsFalse(gui.has("whatever"));
@@ -35,7 +36,7 @@ namespace core::gui
 
 		TEST_METHOD(Gui_setVisible)
 		{
-			Gui gui{ m_assets, file };
+			Gui gui{ m_assets, file, m_bus, m_script };
 			gui.setVisible("root.foo", false);
 
 			Assert::IsFalse(gui.isVisible("root.foo"));
@@ -44,7 +45,7 @@ namespace core::gui
 		}
 		TEST_METHOD(Gui_setLocked)
 		{
-			Gui gui{ m_assets, file };
+			Gui gui{ m_assets, file, m_bus, m_script };
 			gui.setLocked("root.foo", true);
 
 			Assert::IsTrue(gui.isLocked("root.foo"));
@@ -54,7 +55,7 @@ namespace core::gui
 
 		TEST_METHOD(Gui_setBool)
 		{
-			Gui gui{ m_assets, file };
+			Gui gui{ m_assets, file, m_bus, m_script };
 			gui.setBool("root.foo", true);
 			gui.setBool("whatever", true);
 
@@ -63,7 +64,7 @@ namespace core::gui
 		}
 		TEST_METHOD(Gui_setFloat)
 		{
-			Gui gui{ m_assets, file };
+			Gui gui{ m_assets, file, m_bus, m_script };
 			gui.setFloat("root.foo", 3.14f);
 			gui.setFloat("whatever", 4.0f);
 
@@ -72,7 +73,7 @@ namespace core::gui
 		}
 		TEST_METHOD(Gui_setString)
 		{
-			Gui gui{ m_assets, file };
+			Gui gui{ m_assets, file, m_bus, m_script };
 			gui.setString("root.foo", "some text");
 			gui.setString("whatever", "world");
 
@@ -97,5 +98,7 @@ namespace core::gui
 		}
 
 		AssetRegistry m_assets = mockAssetRegistry();
+		EventBus m_bus;
+		Script m_script{ "script" };
 	};
 }

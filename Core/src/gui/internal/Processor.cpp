@@ -7,6 +7,8 @@
 
 namespace
 {
+	constexpr auto priority = std::numeric_limits<int>::min();
+
 	inline bool isInside(const glm::vec2 & pos, const core::Widget::BoundingBox & bbox)
 	{
 		return
@@ -21,9 +23,9 @@ namespace
 core::Processor::Processor(Widget & widget, EventBus & bus)
 	: m_widget(widget)
 {
-	m_mouseMove = bus.add<MouseMove>(0, [this](auto & event) { mouseMove(event, m_widget); });
-	m_mousePress = bus.add<MousePress>(0, [this](auto & event) { mousePress(event, m_widget); });
-	m_mouseRelease = bus.add<MouseRelease>(0, [this](auto & event) { mouseRelease(event, m_widget); });
+	m_mouseMove = bus.add<MouseMove>(priority, [this](auto & event) { mouseMove(event, m_widget); });
+	m_mousePress = bus.add<MousePress>(priority, [this](auto & event) { mousePress(event, m_widget); });
+	m_mouseRelease = bus.add<MouseRelease>(priority, [this](auto & event) { mouseRelease(event, m_widget); });
 }
 
 void core::Processor::mouseMove(MouseMove & event, Widget & widget)

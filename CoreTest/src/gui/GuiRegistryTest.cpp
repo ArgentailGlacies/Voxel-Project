@@ -6,6 +6,7 @@
 #include "mock/MockAssetRegistry.h"
 #include "mock/MockUBORegistry.h"
 #include "scene/Scene.h"
+#include "script/Script.h"
 
 #include "Context.h"
 #include "Common.h"
@@ -22,35 +23,24 @@ namespace core::gui
 
 		TEST_METHOD(GuiRegistry_open)
 		{
+			Script scriptA{ "scriptA" };
+			Script scriptB{ "scriptB" };
 			GuiRegistry registry{ m_assets, display(), m_bus, m_scene };
 
-			Assert::IsTrue(registry.open("test_files/guiA.xml"));
-			Assert::IsTrue(registry.open("test_files/guiB.xml"));
-			Assert::IsFalse(registry.open("test_files/guiA.xml"));
-			Assert::IsFalse(registry.open("test_files/guiC.xml"));
+			Assert::IsTrue(registry.open("test_files/guiA.xml", scriptA));
+			Assert::IsTrue(registry.open("test_files/guiB.xml", scriptB));
+			Assert::IsFalse(registry.open("test_files/guiA.xml", scriptB));
+			Assert::IsFalse(registry.open("test_files/guiC.xml", scriptB));
 		}
 		TEST_METHOD(GuiRegistry_close)
 		{
+			Script script{ "script" };
 			GuiRegistry registry{ m_assets, display(), m_bus, m_scene };
-			registry.open("test_files/guiA.xml");
+			registry.open("test_files/guiA.xml", script);
 
 			Assert::IsTrue(registry.close("test_files/guiA.xml"));
 			Assert::IsFalse(registry.close("test_files/guiB.xml"));
 			Assert::IsFalse(registry.close("test_files/guiA.xml"));
-		}
-
-		TEST_METHOD(GuiRegistry_registerModule)
-		{
-			bool moduleA = false;
-			bool moduleB = false;
-
-			GuiRegistry registry{ m_assets, display(), m_bus, m_scene };
-			registry.open("test_files/guiA.xml");
-			
-			Assert::IsTrue(registry.registerModule("test_files/guiA.xml", [&](auto &) { moduleA = true; }));
-			Assert::IsFalse(registry.registerModule("test_files/guiB.xml", [&](auto &) { moduleB = true; }));
-			Assert::IsTrue(moduleA);
-			Assert::IsFalse(moduleB);
 		}
 
 	private:

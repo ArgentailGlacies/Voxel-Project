@@ -7,10 +7,15 @@
 
 #include <allegro5/allegro.h>
 
+namespace
+{
+	constexpr auto priority = std::numeric_limits<int>::min();
+}
+
 core::HandlerLabel::HandlerLabel(const Callback & callback, EventBus & bus, Widget & widget)
 	: m_callback(callback)
 {
-	m_unichar = bus.add<KeyUnichar>(0, [this, &widget](auto & event)
+	m_unichar = bus.add<KeyUnichar>(priority, [this, &widget](auto & event)
 	{
 		if (m_active && event.consume())
 		{
@@ -23,7 +28,7 @@ core::HandlerLabel::HandlerLabel(const Callback & callback, EventBus & bus, Widg
 			m_callback(widget);
 		}
 	});
-	m_keyPress = bus.add<KeyPress>(0, [this, &widget](auto & event)
+	m_keyPress = bus.add<KeyPress>([this, &widget](auto & event)
 	{
 		if (event.m_key == KeyboardKey::ESCAPE)
 			m_active = false;

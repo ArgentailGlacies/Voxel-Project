@@ -1,9 +1,7 @@
 #pragma once
 
-#include "event/EventBus.h"
 #include "gui/Widget.h"
 #include "io/File.h"
-#include "script/Script.h"
 
 #include <string>
 #include <unordered_map>
@@ -11,12 +9,14 @@
 namespace core
 {
 	class AssetRegistry;
+	class EventBus;
+	class Script;
 
 	class Gui
 	{
 	public:
 		Gui() = delete;
-		Gui(const AssetRegistry & assets, const util::File & file);
+		Gui(const AssetRegistry & assets, const util::File & file, EventBus & bus, Script & script);
 
 		/**
 			Performs one tick on all widgets in the gui.
@@ -36,15 +36,6 @@ namespace core
 			@param size The new size of the gui.
 		*/
 		void resize(const glm::vec2 & size);
-
-		/**
-			Executes some arbitrary script within the gui. Should typically not be used, although
-			in rare cases the developer may need to execute a script rather than use actual code.
-
-			@param code The script which should be executed within the gui.
-			@return True iff the script was executed without errors.
-		*/
-		inline bool executeScript(const std::string & code) { return m_script.execute(code); }
 
 		// ...
 
@@ -109,22 +100,16 @@ namespace core
 		float getFloat(const std::string & widget) const;
 		std::string getString(const std::string & widget) const;
 
-		// ...
-
-		// TODO: Attempt to elliminate these methods, internal data should not leak
-		inline auto & getBus() { return m_bus; }
-		inline auto & getBus() const { return m_bus; }
-		inline auto & getScript() { return m_script; }
-		inline auto & getScript() const { return m_script; }
-
 	private:
 		/**
 			Loads the graphical interface data which is stored in the provided file.
 
 			@param file The file containing all data to load.
 			@param assets All assets registered within the system.
+			@param bus The event bus the gui should publish events on.
+			@param script The script which sthe gui should integrate with.
 		*/
-		void load(const util::File & file, const AssetRegistry & assets);
+		void load(const util::File & file, const AssetRegistry & assets, EventBus & bus, Script & script);
 		/**
 			Updates the widget and all its underlying children. The widget's position and size will
 			be recalculated based on the position and size of the parent and children.
@@ -155,8 +140,6 @@ namespace core
 
 		// ...
 
-		EventBus m_bus;
-		Script m_script;
 		Widget m_root;
 
 		std::unordered_map<std::string, Widget *> m_widgets;

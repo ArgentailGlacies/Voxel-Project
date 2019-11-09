@@ -1,6 +1,7 @@
 
 #include "script/CoreModules.h"
 
+#include "event/EventBus.h"
 #include "gui/GuiRegistry.h"
 #include "mock/MockAssetRegistry.h"
 #include "mock/MockUBORegistry.h"
@@ -63,7 +64,7 @@ namespace core::script
 			EventBus bus;
 			Scene scene{ assets, display(), ubos };
 			GuiRegistry guis{ assets, display(), bus, scene };
-			Gui gui{ assets, "" };
+			Gui gui{ assets, "", bus, m_script };
 
 			// ...
 

@@ -2,20 +2,21 @@
 #include "Gui.h"
 
 #include "core/Resources.h"
+#include "event/EventBus.h"
 #include "gui/WidgetLoader.h"
 #include "gui/WidgetProcessor.h"
+#include "script/Script.h"
 
 #include <plog/Log.h>
 #include <pugixml/pugixml.hpp>
 #include <string>
 
-core::Gui::Gui(const AssetRegistry & assets, const util::File & file)
-	: m_script(file.path())
+core::Gui::Gui(const AssetRegistry & assets, const util::File & file, EventBus & bus, Script & script)
 {
-	load(file, assets);
+	load(file, assets, bus, script);
 }
 
-void core::Gui::load(const ::util::File & file, const AssetRegistry & assets)
+void core::Gui::load(const ::util::File & file, const AssetRegistry & assets, EventBus & bus, Script & script)
 {
 	pugi::xml_document doc;
 
@@ -23,7 +24,7 @@ void core::Gui::load(const ::util::File & file, const AssetRegistry & assets)
 	if (result.status == pugi::xml_parse_status::status_ok)
 	{
 		doc.child("widgets").append_attribute("name").set_value("root");
-		WidgetLoader loader{ assets, m_script, m_bus };
+		WidgetLoader loader{ assets, script, bus };
 		loader.load(doc.child("widgets"), m_root);
 		m_widgets = loader.getWidgets();
 	}

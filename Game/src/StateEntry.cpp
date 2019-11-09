@@ -35,7 +35,7 @@ void game::StateEntry::initialize(core::Engine & engine)
 
 	// Create a test gui
 	auto file = engine.getDataFolder().file("guis/editor_world.xml");
-	engine.getGuiRegistry().open(file);
+	engine.getGuiRegistry().open(file, m_script);
 	//engine.getGuiRegistry().registerModule(file,
 	//	[this](auto & script) { vox::ModuleWorldEditor{}.bind(script, *m_editor); }
 	//);
