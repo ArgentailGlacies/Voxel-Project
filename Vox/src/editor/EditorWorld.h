@@ -8,6 +8,7 @@ namespace core
 {
 	class EventBus;
 	class Scene;
+	class Script;
 }
 
 namespace vox
@@ -22,7 +23,7 @@ namespace vox
 		friend class ModuleWorldEditor;
 
 	public:
-		EditorWorld(core::Scene & scene, core::EventBus & bus);
+		EditorWorld(core::Scene & scene, core::EventBus & bus, core::Script & script);
 		~EditorWorld();
 
 		/**

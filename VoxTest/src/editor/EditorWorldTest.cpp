@@ -5,6 +5,7 @@
 #include "mock/MockAssetRegistry.h"
 #include "mock/MockUBORegistry.h"
 #include "scene/Scene.h"
+#include "script/Script.h"
 
 #include "Context.h"
 #include "CppUnitTest.h"
@@ -32,7 +33,7 @@ namespace vox::editor
 		TEST_METHOD(EditorWorld_setShape)
 		{
 			MockShape shape{ m_scene };
-			EditorWorld editor{ m_scene, m_bus };
+			EditorWorld editor{ m_scene, m_bus, m_script };
 			
 			Assert::IsNull(editor.getShape());
 			editor.setShape(&shape);
@@ -46,5 +47,6 @@ namespace vox::editor
 		core::AssetRegistry m_assets = core::mockAssetRegistry();
 		core::UBORegistry m_ubos = core::mockUBORegistry();
 		core::Scene m_scene{ m_assets, display(), m_ubos };
+		core::Script m_script{ "script" };
 	};
 }

@@ -9,17 +9,19 @@
 #include "editor/util/Cursor.h"
 #include "editor/util/Grid.h"
 #include "scene/Scene.h"
+#include "script/Script.h"
 
 class vox::EditorWorld::Impl
 {
 public:
-	Impl(core::Scene & scene, core::EventBus & bus);
+	Impl(core::Scene & scene, core::EventBus & bus, core::Script & script);
 
 	void setShape(Shape * shape);
 	inline Shape * getShape() const { return m_shape; }
 
 private:
 	core::Camera & m_camera;
+	core::Script & m_script;
 	core::Listener m_mouseMove;
 
 	CameraHandlerOrbital m_handler;
@@ -29,8 +31,9 @@ private:
 	Shape * m_shape = nullptr;
 };
 
-vox::EditorWorld::Impl::Impl(core::Scene & scene, core::EventBus & bus) : 
+vox::EditorWorld::Impl::Impl(core::Scene & scene, core::EventBus & bus, core::Script & script) :
 	m_camera(scene.getCamera(core::Scene::DEFAULT_CAMERA)),
+	m_script(script),
 	m_handler(m_camera, bus),
 	m_grid(scene)
 {
@@ -50,8 +53,8 @@ void vox::EditorWorld::Impl::setShape(Shape * shape)
 
 // ...
 
-vox::EditorWorld::EditorWorld(core::Scene & scene, core::EventBus & bus) :
-	m_impl(std::make_unique<Impl>(scene, bus)),
+vox::EditorWorld::EditorWorld(core::Scene & scene, core::EventBus & bus, core::Script & script) :
+	m_impl(std::make_unique<Impl>(scene, bus, script)),
 	m_shapePoint(scene),
 	m_shapeRectangle(scene)
 {}

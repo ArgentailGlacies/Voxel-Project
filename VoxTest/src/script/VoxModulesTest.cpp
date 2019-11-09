@@ -88,7 +88,7 @@ namespace vox::script
 
 		TEST_METHOD(ModuleWorldEditor_bind)
 		{
-			EditorWorld editor{ m_scene, m_bus };
+			EditorWorld editor{ m_scene, m_bus, m_script };
 			Universe universe{ "test", m_scene };
 
 			core::ModuleMath{}.bind(m_script);
