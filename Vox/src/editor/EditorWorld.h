@@ -1,14 +1,11 @@
 #pragma once
 
-#include "event/EventListener.h"
 #include "editor/shape/Shape.h"
-#include "editor/util/CameraHandler.h"
-#include "editor/util/Cursor.h"
-#include "editor/util/Grid.h"
+
+#include <memory>
 
 namespace core
 {
-	class Camera;
 	class EventBus;
 	class Scene;
 }
@@ -26,6 +23,7 @@ namespace vox
 
 	public:
 		EditorWorld(core::Scene & scene, core::EventBus & bus);
+		~EditorWorld();
 
 		/**
 			Assigns the currently active shape in the editor. If nullptr is passed in, the currently
@@ -39,18 +37,13 @@ namespace vox
 		/**
 			@return The current shape of the editor, or nullptr if no shape has been selected.
 		*/
-		inline Shape * getShape() { return m_shape; }
+		Shape * getShape();
 
 	private:
-		core::Camera & m_camera;
-		core::Listener m_mouseMove;
-
-		CameraHandlerOrbital m_handler;
-		Cursor m_cursor;
-		Grid m_grid;
+		class Impl;
+		std::unique_ptr<Impl> m_impl;
 
 		ShapePoint m_shapePoint;
 		ShapeRectangle m_shapeRectangle;
-		Shape * m_shape = nullptr;
 	};
 }

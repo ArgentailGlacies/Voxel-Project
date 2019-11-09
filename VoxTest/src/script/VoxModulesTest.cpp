@@ -97,18 +97,8 @@ namespace vox::script
 
 			// Ensure that global variables have been added to correct namespace
 			Assert::IsTrue(m_script.execute(R"( EDITOR )"));
-			Assert::IsTrue(m_script.execute(R"( EDITOR.grid )"));
-			Assert::IsTrue(m_script.execute(R"( EDITOR.cursor )"));
-
 			Assert::IsTrue(m_script.execute(R"( EDITOR.SHAPE_POINT )"));
 			Assert::IsTrue(m_script.execute(R"( EDITOR.SHAPE_RECTANGLE )"));
-
-			// Ensure that cursor functionality has been added correctly
-			Assert::IsTrue(m_script.execute(R"( EDITOR.cursor.lockAxis(AXIS_X, true) )"));
-
-			// Ensure that grid functionality has been added correctly
-			Assert::IsTrue(m_script.execute(R"( EDITOR.grid.setSize(4, 2) )"));
-			Assert::IsTrue(m_script.execute(R"( EDITOR.grid.setVisible(true) )"));
 
 			// Ensure that shape functionality has been added correctly
 			m_script.execute(R"( EDITOR.setShape(EDITOR.SHAPE_RECTANGLE) )");
