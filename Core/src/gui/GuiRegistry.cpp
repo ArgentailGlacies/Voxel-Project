@@ -11,6 +11,8 @@
 core::GuiRegistry::GuiRegistry(const AssetRegistry & assets, const Display & display, EventBus & bus, Scene & scene)
 	: m_assets(assets), m_display(display), m_bus(bus), m_scene(scene)
 {
+	m_displayResize = bus.add<DisplayResize>([this](auto & event) { resizeGuis(event.m_size); });
+
 	m_root = m_scene.createNode(Scene::DEFAULT_CAMERA);
 }
 

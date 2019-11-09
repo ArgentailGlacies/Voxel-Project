@@ -68,6 +68,7 @@ namespace core
 		EventBus & m_bus;
 		Scene & m_scene;
 
+		Listener m_displayResize;
 		SceneEntry m_root;
 
 		std::unordered_map<util::File, std::unique_ptr<Gui>> m_guis;

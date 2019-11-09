@@ -31,14 +31,14 @@ void game::StateEntry::initialize(core::Engine & engine)
 	camera.setPosition({ -14.43f, -14.43f, 14.43f });
 	camera.lookTowards({ 0.0f, 0.0f, 0.0f });
 
-	//m_editor = std::make_unique<vox::EditorWorld>(scene, engine.getEventBus());
-
 	// Create a test gui
 	auto file = engine.getDataFolder().file("guis/editor_world.xml");
 	engine.getGuiRegistry().open(file, m_script);
-	//engine.getGuiRegistry().registerModule(file,
-	//	[this](auto & script) { vox::ModuleWorldEditor{}.bind(script, *m_editor); }
-	//);
+
+	// Perpare world editor
+	m_editor = std::make_unique<vox::EditorWorld>(scene, engine.getEventBus(), m_script);
+
+	vox::ModuleWorldEditor{}.bind(m_script, *m_editor);
 
 	// Write a simple test world and the editor
 	auto & blocks = engine.getUniverse().getBlockRegistry();
